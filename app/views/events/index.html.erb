@@ -1,0 +1,32 @@
+<div class="white-background" >
+<h3>Studio Classes</h3>
+
+	 <p> This is the list of events that belong to this studio. </p>
+
+      <%= link_to 'Create an Event', new_event_path(), class: 'btn btn-mini'  %>
+
+
+<table class="table table-condensed">
+
+    <thead>
+        <tr>
+          <th>Start Time</th>
+          <th>Title</th>
+          <th>Instructor</th>
+          <th>Location</th>
+          <th>Duration</th>
+        </tr>       
+    </thead>
+    <tbody>
+        <% @events.each do |event| %>
+          <tr>
+            <td><%=link_to event.start_time, event %></td>
+        		<td><%=link_to event.title, event %></td>
+            <td><%=link_to event.instructor, event %></td>
+          </tr>
+        <% end %>
+    </tbody>
+</table>
+
+
+</div>

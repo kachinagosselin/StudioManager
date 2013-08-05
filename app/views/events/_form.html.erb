@@ -1,0 +1,25 @@
+<script>
+  $(document).ready(function(){
+});
+</script>
+
+<%= simple_form_for(@event, :html => {:class => 'form-vertical', :multipart => true }) do |f| %>
+  <%= f.error_notification %>
+  <div class="form-inputs">   
+    <div class="row">
+  	<div class="span5"> 
+    <%= f.input :title, :as => :string, :input_html => { :style => 'width: 330px'} %>
+    <%= f.input :description, :as => :text, :input_html => { :style => 'width: 330px', :rows => 15 }%>
+    </div>
+
+    <div class="span5">
+    <%= f.input :start_time %>
+    <%= f.input :end_time %>
+    <%= f.input :instructor%>
+
+    </div>
+  </div>
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

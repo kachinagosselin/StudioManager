@@ -35,3 +35,15 @@ ul.nav li {
   background-color: #FCC;
   border: solid 1px #C66;
 }
+
+.white-background {
+-webkit-box-shadow: 0px 1px 3px #424641;
+-moz-box-shadow: 0px 1px 3px #424641;
+box-shadow: 0px 1px 3px #424641;
+-webkit-border-radius: 5px;
+-moz-border-radius: 5px;
+border-radius: 5px;
+background-color: white;
+padding: 40px;
+margin-top: 60px;
+}

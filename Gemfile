@@ -12,6 +12,15 @@ gem 'devise'
 gem 'figaro'
 gem 'thin'
 gem 'heroku'
+gem 'bootstrap-sass' 
+gem 'simple_form'
+gem "rolify"
+gem "paperclip", "~> 3.0"
+gem "rmagick", "2.12.0", :require => 'RMagick'
+gem 'stripe'
+gem "meta_search"
+gem 'will_paginate', "~> 3.0"
+gem 'will_paginate-bootstrap'
 
 group :development do
   gem 'better_errors'

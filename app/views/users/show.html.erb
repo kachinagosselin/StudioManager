@@ -1,3 +1,9 @@
+<% if user.has_role? :instructor %>
+
+<% else %>
+This user has not been assigned a role ...
 <h3>User</h3>
 <p>User: <%= @user.name %></p>
 <p>Email: <%= @user.email if @user.email %></p>
+
+<% end %>
