@@ -20,9 +20,9 @@
     <tbody>
         <% @events.each do |event| %>
           <tr>
-            <td><%=link_to event.start_time, event %></td>
+            <td><%=link_to event.start_at, event %></td>
         		<td><%=link_to event.title, event %></td>
-            <td><%=link_to event.instructor, event %></td>
+            <td><%=link_to event.instructor, user_path(User.where(:name => event.instructor).first.id) %></td>
           </tr>
         <% end %>
     </tbody>

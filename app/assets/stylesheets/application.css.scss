@@ -10,6 +10,8 @@
  *
  *= require_self
  *= require_tree .
+ *= require fullcalendar
+ *= require fullcalendar.print
 */
 .brand {
   float: left;
@@ -45,5 +47,4 @@ box-shadow: 0px 1px 3px #424641;
 border-radius: 5px;
 background-color: white;
 padding: 40px;
-margin-top: 60px;
 }

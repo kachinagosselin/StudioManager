@@ -1,4 +1,16 @@
-<h3>Home</h3>
+<div class="white-background">
+	<h3>Welcome to your online yoga center!</h3>
+
+<p> We offer you a place to view all classes in the area! </p>
+
+<%= link_to 'Find New Courses', calendar_path(), class: 'btn btn-mini' %>
+
 <% @users.each do |user| %>
   <p>User: <%=link_to user.name, user %></p>
 <% end %>
+
+<% if current_user.present? %>
+      <%= link_to 'Add a Studio Account', new_user_account_path(current_user), class: 'btn btn-mini'  %>
+
+<% end %>
+</div>

@@ -11,16 +11,42 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130804232055) do
+ActiveRecord::Schema.define(:version => 20130806003630) do
+
+  create_table "accounts", :force => true do |t|
+    t.integer  "plan_id"
+    t.integer  "user_id"
+    t.string   "stripe_customer_token"
+    t.string   "email"
+    t.boolean  "is_active"
+    t.datetime "created_at",            :null => false
+    t.datetime "updated_at",            :null => false
+  end
+
+  create_table "customers", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "stripe_customer_token"
+    t.string   "last_4_digits"
+    t.datetime "created_at",            :null => false
+    t.datetime "updated_at",            :null => false
+  end
 
   create_table "events", :force => true do |t|
-    t.datetime "start_time"
-    t.datetime "end_time"
+    t.datetime "start_at"
+    t.datetime "end_at"
     t.string   "instructor"
     t.text     "description"
     t.string   "title"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+  end
+
+  create_table "plans", :force => true do |t|
+    t.string   "name"
+    t.decimal  "price"
+    t.integer  "limit"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "roles", :force => true do |t|

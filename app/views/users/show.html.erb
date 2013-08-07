@@ -1,4 +1,13 @@
-<% if user.has_role? :instructor %>
+<% if @user.has_role? :instructor %>
+<p>Here is where we add the instructor image</p>
+
+<p>User: <%= @user.name %></p>
+<p>Email: <%= @user.email if @user.email %></p>
+ 
+<p>Here is where we add the instructors description.</p>
+
+<p>Create a box that contains information about the instructors list of classes for that week.</p>
+
 
 <% else %>
 This user has not been assigned a role ...

@@ -1,0 +1,34 @@
+<!-- Probably move the stylesheet to you layout. Also make sure you include the javascript. -->
+<!-- <%= stylesheet_link_tag "event_calendar" %> -->
+
+<link rel='stylesheet' type='text/css' href='fullcalendar.css' />
+<script type='text/javascript' src='jquery.js'></script>
+<script type='text/javascript' src='fullcalendar.js'></script>
+
+<script> 
+$(document).ready(function() {
+
+    // page is now ready, initialize the calendar...
+
+$('#calendar').fullCalendar({
+	header: {
+  	left: 'prev,next today',
+  	center: 'title',
+  	right: 'month,agendaWeek,agendaDay'
+	},
+});
+
+});
+</script>
+
+<div class="white-background">
+<h1>Calendar</h1>
+
+<h3> Full Calendar </h3>
+<div id='calendar'></div>
+
+
+<h3> Event Calendar </h3>
+<%= raw(event_calendar) %>
+
+</div>
