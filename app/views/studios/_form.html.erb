@@ -1,0 +1,22 @@
+
+<%= simple_form_for(@studio, :html => {:class => 'form-vertical', :multipart => true }) do |f| %>
+  <%= f.error_notification %>
+  <div class="form-inputs">   
+    <div class="row">
+    <div class="span5"> 
+    <%=h f.input :name, :input_html => { :style => 'width: 330px'} %>
+    <%=h f.input :address, :input_html => { :style => 'width: 330px', :rows => 15 }%>
+    <%=h f.input :city %>
+    <%= f.input :state, :as => :select, :collection => STATES %>
+    </div>
+
+    <div class="span5">
+    <%=h f.input :main_phone %>
+    <%=h f.input :website %>
+
+    </div>
+  </div>
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

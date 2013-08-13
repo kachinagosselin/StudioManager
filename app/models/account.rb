@@ -2,6 +2,7 @@ class Account < ActiveRecord::Base
     belongs_to :user 
     belongs_to :plan
     
+    has_one :studio
     
     validates_presence_of :plan_id
     validates_presence_of :user_id

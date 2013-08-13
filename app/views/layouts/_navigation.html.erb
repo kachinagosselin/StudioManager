@@ -1,15 +1,38 @@
+<script> 
+$(document).ready(function() {
+
+    // page is now ready, initialize the calendar...
+$('.dropdown-toggle').dropdown()
+
+});
+</script>
+
 <%= link_to "Studiomanager", root_path, :class => 'brand' %>
-<ul class="nav">
+<ul class="">
   <% if user_signed_in? %>
-    <li>
-      <%= link_to 'All Events', events_path() %>
-    </li>
-    <li>
-    <%= link_to 'Logout', destroy_user_session_path, :method=>'delete' %>
-    </li>
-    <li>
-    <%= link_to 'Edit account', edit_user_registration_path %>
-    </li>
+
+      <li class="dropdown pull-right">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= current_user.name %>  <b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                  <% if current_user.has_role? :instructor, :any %>
+                  <li><%= link_to 'View Profile', user_path(current_user) %></li>
+                  <% end %>
+                  <% if current_user.has_role? :student, :any %>
+                  <li><a>View History</a></li>
+                  <% end %>
+                  <% if current_user.has_role? :admin, :any %>
+                    <% if current_user.has_role? :owner %>
+                    <% @studio = Account.where(:user_id == current_user.id).first.studio %>
+                  <li><%= link_to 'Edit Studio', edit_studio_path(@studio) %> </li>
+                  <% end %>
+                  <% end %>
+                  <li><%= link_to 'Edit Account', edit_user_registration_path %></li>
+                  <div class="divider"></div>
+                  <li><%= link_to 'Logout', destroy_user_session_path, :method=>'delete' %></li>
+                </ul>
+              </li>
+
+
   <% else %>
     <li>
     <%= link_to 'Login', new_user_session_path %>

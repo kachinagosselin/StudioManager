@@ -21,10 +21,14 @@ $('#calendar').fullCalendar({
 });
 </script>
 
-<div class="white-background">
-<h1>Calendar</h1>
+	<div class="col-lg-2 leftspan" style="margin-top: 10px;">
+		<%= render 'layouts/sidebar' %>
+	</div>
 
-<h3> Full Calendar </h3>
+  <div class="col-lg-8 rightspan">
+  	<div class="pull-right">
+  		<h3>Create Events</h3>
+  	</div>
 <div id='calendar'></div>
 
 

@@ -1,16 +1,157 @@
-<div class="white-background">
-	<h3>Welcome to your online yoga center!</h3>
 
-<p> We offer you a place to view all classes in the area! </p>
+<link rel='stylesheet' type='text/css' href='fullcalendar.css' />
+<script type='text/javascript' src='jquery.js'></script>
+<script type='text/javascript' src='fullcalendar.js'></script>
 
-<%= link_to 'Find New Courses', calendar_path(), class: 'btn btn-mini' %>
+<script> 
+$(document).ready(function() {
 
-<% @users.each do |user| %>
-  <p>User: <%=link_to user.name, user %></p>
-<% end %>
+    // page is now ready, initialize the calendar...
 
-<% if current_user.present? %>
-      <%= link_to 'Add a Studio Account', new_user_account_path(current_user), class: 'btn btn-mini'  %>
+$('#calendar').fullCalendar({
+	defaultView: 'agendaWeek',
+	header: {
+  	left: 'prev,next today',
+  	center: 'title',
+  	right: 'month,agendaWeek,agendaDay'
+  	},
+});
 
-<% end %>
+});
+</script>
+
+<div class="row">
+
+	<% if current_user.present? %>
+	<div class="col-lg-2 leftspan" style="margin-top: 10px;">
+		<%= render 'layouts/sidebar' %>
+	</div>
+	<% end %>
+
+	<% if current_user.present? %>
+
+	<% if current_user.has_role? :owner %>
+	<!-- admin will have to add a studio to their account - can add more than one
+	-->
+  <div class="col-lg-8 rightspan">
+	<h3>Welcome to your online studio manager!</h3>
+
+	<% if current_user.customer.present? %>
+
+		<% if Account.where(:user_id == current_user.id).first.studio.present? %>
+		<% else %>
+		<%= link_to 'Add a Studio', new_studio_path(), class: 'btn btn-mini'  %>
+		<% end %>
+
+	<% else %>
+	<p> To be able to use our full suite of services please </p>
+	<%= link_to 'Add an Account', new_user_account_path(current_user), class: 'btn btn-mini'  %>
+	<% end %>
+
+	<!-- admin will have a tab to see the list of their students
+	-->	
+	<%= link_to 'View Students', users_path(), class: 'btn btn-mini' %>
+	<% @studio = Account.where(:user_id == current_user.id).first.studio %>
+	<% @students = User.with_role(:student, @studio) %>
+
+		<table class="table table-condensed">
+		    <thead>
+		        <tr>
+		          <th>Name</th>
+		          <th>Email</th>                               
+		        </tr>
+		    </thead>
+		    <tbody>
+		        <% @students.each do |user| %>
+		        	<tr>
+		        		<td><%=link_to user.name, user %></td>
+		        		<td><%=link_to user.email, user %></td>
+		        	</tr>
+		        <% end %>
+		    </tbody>
+		</table>
+
+	<!-- admin will have a tab to see the list of their instructors and other staff
+	-->
+	<%= link_to 'View Staff', '/studios/instructors', class: 'btn btn-mini' %>
+	</div>
+	<% else %>
+	 <!-- students will want to have a map the first time they log in
+	 they can search the map for their studio
+	 they will see a calendar with the schedule of their studios
+	 -->
+	<div class="col-lg-8">
+	<% if current_user.has_role? :student, :any %>
+	<h3>Welcome! Search for your studio on the map and start getting organized.</h3> 
+	<p> If you can't find yours send an invitation so that they can sign up for our services. <a> Send Invite </a> </p>
+	
+	<% end %>
+
+	 	<%= gmaps(:map_options => {:do_clustering => false}, :markers => {:data => @json}) %>
+
+	</br>
+	<div class="panel panel-primary" >
+		<div class="panel-heading">
+	        <h5 class="panel-title">List of Classes for <%= current_user.name %> </h5>
+	    </div>
+
+		<div id='calendar'></div>
+	</br>
+
+		<!-- TO DO: Update calendar with the events for the studio selected (show in muted color). When a class is selected show the payment options in the section below. Have the payment options link to a purchase form. When the student purchases a payment plan this section is only displayed if the payment plan doesn't apply. Otherwise button shows [Register Class] and changes color of event.
+		-->
+
+		<div class="row">
+  		<div class="col-lg-6" style="padding-right:30px;">
+  			<h3> Offers for Studio One </h3>
+  			<p> Look through the offered payment options for the classes that you have selected </p>
+  		</div>
+	  	<div class="col-lg-5" style="margin-top:25px;">
+			<div class="panel panel-primary" >
+				<div class="panel-heading">
+	        		<h5 class="panel-title">Studio Offerings </h5>
+	    		</div>
+			<ul class="list-group" style="list-style-type:none;">
+			  <li><a href="#" class="list-group-item ">
+			    <p class="list-group-item-heading">Monthly Membership</p>
+			    <!--<p class="list-group-item-text">...</p>--></a></li>
+			    <li><a href="#" class="list-group-item">
+			    <p class="list-group-item-heading">Drop-In Class</p>
+			    <!--<p class="list-group-item-text">...</p>--></a></li>
+			</ul>
+			</div>
+		</div>
+		</div>
+	</div>
+
+	<% if !current_user.has_role? :owner, :any %>
+		<p style="margin-left:100px;"><b>Are you a studio owner?</b> To be able to use our full suite of services please:
+		<%= link_to 'Add an Account', new_user_account_path(current_user), class: 'btn btn-mini', style: 'margin-top:-3px;'  %></p>
+
+	<% end %>
+	<% end %>
+
+	</div>
+
+
+	<% else %>
+	<!-- This is the landing page that everyone first sees -->
+
+		<h3> Online Studio Management </h3>
+		
+		<ul>
+			<li> track students and attendance </li>
+			<li> search local instructors </li>
+			<li> offer discounts and promotions </li>
+		</ul>
+
+		<%= link_to 'Try Free', root_path(), class: 'btn btn-mini' %>
+
+		<h3>Have peace of mind off the mat</h3>
+
+		Studio Manager's software has everything you need to run a thriving studio space. Keep track of your schedule of classes, streamlined assignment of subs, inventory of instructors in the area.  An appointment scheduler on your website and Facebook page is like having a virtual receptionist 24/7 - no more missed calls, phone tag or lost leads.
+
+
+		<% end %>
+  	</div>
 </div>

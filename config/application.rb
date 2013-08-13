@@ -22,6 +22,16 @@ module StudioManager
       g.view_specs false
       g.helper_specs false
     end
+    
+    config.action_mailer.smtp_settings = {
+        :address => 'smtp.mandrillapp.com',
+        :port => '2525',
+        :domain => 'heroku.com',
+        :user_name => ENV['MANDRILL_USERNAME'],
+        :password => ENV['MANDRILL_APIKEY']
+    }
+    
+    ActionMailer::Base.delivery_method = :smtp
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers

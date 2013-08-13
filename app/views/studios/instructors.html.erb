@@ -1,0 +1,46 @@
+
+
+	<div class="col-lg-2 leftspan" style="margin-top: 10px;">
+		<%= render 'layouts/sidebar' %>
+	</div>
+
+  <div class="col-lg-8 rightspan">
+<h3> Instructors and Staff for <%= @studio.name %></h3>
+
+<p>Form to add new instructors </p>
+
+<% if @instructors.present? %>
+		<table class="table table-condensed">
+		    <thead>
+		        <tr>
+		          <th>Name</th>
+		          <th>Email</th>  
+		          <th>Phone</th>
+		          <th>Date Joined?</th>                             
+		        </tr>
+		    </thead>
+		    <tbody>
+		        <% @instructors.each do |user| %>
+		        	<tr>
+		        		<td><%=link_to user.name, user %></td>
+		        		<td><%=link_to user.email, user %></td>
+		        		<td><%= user.email if false %></td>
+						<% if user.invitation_accepted_at.present? %>
+		        		<td><%= user.invitation_accepted_at %></td>
+		        		<% else %>
+		        		<td>Outstanding invitation</td>
+		        		<% end %>
+		        	</tr>
+		        <% end %>
+		    </tbody>
+		</table>
+
+<% else %>
+
+	<p> Looks like you don't have any instructors signed up! </p>
+
+	<p> Search our database of users to find your instructors,</p>
+	<p> or send an invitation for them to join the site. </p>
+	<%= link_to 'Send Invitation', new_user_invitation_path() %>
+<% end %>
+</div>

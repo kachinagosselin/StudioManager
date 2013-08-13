@@ -1,13 +1,26 @@
-<% if @user.has_role? :instructor %>
-<p>Here is where we add the instructor image</p>
 
-<p>User: <%= @user.name %></p>
-<p>Email: <%= @user.email if @user.email %></p>
- 
-<p>Here is where we add the instructors description.</p>
+<% if @user.has_role? :instructor, :any %>
+<div class="row show-grid">
+	<div class="col-6 col-lg-4">
+	<p>Here is where we add the instructor image</p>
 
-<p>Create a box that contains information about the instructors list of classes for that week.</p>
+	<p>User: <%= @user.name %></p>
+	<p>Email: <%= @user.email if @user.email %></p>
+	 
+	<p>Here is where we add the instructors description.</p>
 
+	</div>
+	<div class="col-4">
+		<div class="panel panel-primary">
+
+		<p>Create a box that contains information about the instructors list of classes for that week.</p>
+		</div>
+	</div>
+</div>
+
+<div class="panel">
+  Basic panel example
+</div>
 
 <% else %>
 This user has not been assigned a role ...
@@ -16,3 +29,5 @@ This user has not been assigned a role ...
 <p>Email: <%= @user.email if @user.email %></p>
 
 <% end %>
+
+</div>

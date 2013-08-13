@@ -1,0 +1,14 @@
+<% if current_user.has_role? :admin %>
+	<%= link_to 'Dashboard', root_path()%>
+		<div class="divider-horizontal"></div>
+	<%= link_to 'Calendar', calendar_path()%>
+		<div class="divider-horizontal"></div>
+	<%= link_to 'Instructors', studio_instructors_path(Studio.find(1))%>
+		<div class="divider-horizontal"></div>
+	<%= link_to 'Students', studio_students_path(Studio.find(1))%>
+		<div class="divider-horizontal"></div>
+	<%= link_to 'Coupons', root_path()%>
+		<div class="divider-horizontal"></div>
+	<%= link_to 'Reports', root_path()%>
+		<div class="divider-horizontal"></div>
+<% end %>

@@ -1,0 +1,5 @@
+<% @studios.each do |studio| %>
+<div class="studio">
+  <h4><%= link_to studio.name, details_studio_path(:id => studio.id), :remote => true %></h4>
+</div>
+<% end %>

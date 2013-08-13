@@ -8,11 +8,10 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 gem 'jquery-rails'
-gem 'devise'
+gem 'devise', '>= 2.0.0'
 gem 'figaro'
 gem 'thin'
 gem 'heroku'
-gem 'bootstrap-sass' 
 gem 'simple_form'
 gem "rolify"
 gem "paperclip", "~> 3.0"
@@ -26,6 +25,8 @@ gem "geocoder"
 gem 'event-calendar', :require => 'event_calendar'
 gem "watu_table_builder", :require => "table_builder"
 gem 'fullcalendar-rails'
+gem 'mandrill-api'
+gem 'devise_invitable', '~> 1.1.0'
 
 group :development do
   gem 'better_errors'
@@ -43,22 +44,4 @@ group :test do
   gem 'email_spec'
   gem 'launchy'
 end
-gem 'devise'
-gem 'figaro'
-gem 'thin'
-group :development do
-  gem 'better_errors'
-  gem 'binding_of_caller', :platforms=>[:mri_19, :rbx]
-  gem 'quiet_assets'
-end
-group :development, :test do
-  gem 'factory_girl_rails'
-  gem 'rspec-rails'
-end
-group :test do
-  gem 'capybara'
-  gem 'cucumber-rails', :require=>false
-  gem 'database_cleaner'
-  gem 'email_spec'
-  gem 'launchy'
-end
+
