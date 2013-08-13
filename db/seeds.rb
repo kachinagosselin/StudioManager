@@ -23,7 +23,7 @@ user.add_role :admin
 user.save
 
 puts 'SETTING UP DEFAULT ACCOUNT'
-account = ACCOUNT.create! :plan_id => 1000, :user_id = 1, :stripe_customer_token => "cus_2LhxTeT79mll1r", :email => "kachina@alum.mit.edu", :is_active => true
+account = Account.create! :plan_id => 1000, :user_id => 1, :stripe_customer_token => "cus_2LhxTeT79mll1r", :email => "kachina@alum.mit.edu", :is_active => true
 
 puts 'SETTING UP DEFAULT STUDIO'
-studio = STUDIO.create! :name => "Test Studio", :location = "29 Rausch Street San Francisco CA 94103", :address => "29 Rausch Street", :city => "San Francisco", :state => "CA"
+studio = Studio.create! :name => "Test Studio", :location => "29 Rausch Street San Francisco CA 94103", :address => "29 Rausch Street", :city => "San Francisco", :state => "CA"
