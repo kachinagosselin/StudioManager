@@ -65,3 +65,12 @@ margin: 10px 0px 10px -40px;
 background-color: gainsboro;
 border-right: 1px solid white;
 }
+
+
+.divider-horizontal-regular {
+height: 1px;
+width: 120%;
+margin: 20px 0px 10px -15px;
+background-color: gainsboro;
+border-right: 1px solid white;
+}

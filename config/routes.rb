@@ -13,7 +13,6 @@ StudioManager::Application.routes.draw do
 
     match '/studios/:studio_id/students(/:id)' => 'studios#students', :controller => 'studios', :action => 'studio_students', :via => [:get], :as => 'studio_students'
 
-    match '/studios/:studio_id/students(/:id)' => 'users#studio_students', :via => [:get]
     devise_for :users, :controllers => { :invitations => 'users/invitations' }
 
     resources :users do
@@ -23,11 +22,11 @@ StudioManager::Application.routes.draw do
     
     resources :studios do
         resources :events
+        resources :memberships
+        resources :customers
+        resources :subscriptions
         resources :coupons
         resources :reports
-        member do
-            get 'details'
-        end
     end
     
 

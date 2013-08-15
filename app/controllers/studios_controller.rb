@@ -17,6 +17,7 @@ class StudiosController < ApplicationController
         
         respond_to do |format|
             if @studio.save
+                @user.add_role :owner
                 format.html { redirect_to root_path(), notice: 'studio was successfully created.' }
                 format.json { head :no_content }
                 else

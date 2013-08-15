@@ -33,12 +33,10 @@ class AccountsController < ApplicationController
         if @account.save
             @customer.save
             @account.update_attribute(:is_active, true)
-            @user.add_role :owner
-            @user.save
 
-            redirect_to user_path(current_user), :notice => "Thank you for activating your studio account!"
+            redirect_to new_studio_path(), :notice => "Thank you for registering your credit card."
             else
-            redirect_to :back, :alert => "Failed to activate studio account"
+            redirect_to :back, :alert => "Failed to register your credit card."
         end
     end
     
