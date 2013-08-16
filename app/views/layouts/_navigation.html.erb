@@ -22,7 +22,7 @@ $('.dropdown-toggle').dropdown()
                   <% end %>
                   <% if current_user.has_role? :admin, :any %>
                     <% if current_user.has_role? :owner %>
-                    <% @studio = Account.where(:user_id == current_user.id).first.studio %>
+                    <% @studio = Studio.first %>
                   <li><%= link_to 'Edit Studio', edit_studio_path(@studio) %> </li>
                   <% end %>
                   <% end %>

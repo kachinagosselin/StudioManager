@@ -6,7 +6,14 @@
 <script> 
 $(document).ready(function() {
 
-    // page is now ready, initialize the calendar...
+    //NOTE that I am selecting on a class here
+    $('#toggle').click(function(e) {
+        //You also need to prevent the default behaviour of 
+        e.preventDefault();
+
+        $("#map-container").toggle();
+    });
+
 
 $('#calendar').fullCalendar({
 	defaultView: 'agendaWeek',
@@ -36,6 +43,7 @@ $('#calendar').fullCalendar({
 		<!-- This is the content for the studio owner dashboard!
 		-->
 
+<a href="https://connect.stripe.com/oauth/authorize?response_type=code&amp;scope=read_write&amp;stripe_landing=login&amp;client_id=ca_2Ksr3KRSkcnkhLjwUQPbFNKuAptJ5sSw" class="stripe-connect"><span>Connect with Stripe</span></a>
 
 	</div>
 
@@ -50,9 +58,12 @@ $('#calendar').fullCalendar({
 	
 	<% end %>
 
-	 	<%= gmaps(:map_options => {:do_clustering => false}, :markers => {:data => @json}) %>
+    <%= link_to 'Map view', '', class: 'button', id: "toggle" %>
 
-	</br>
+    <div id="map-container">
+	 	<%= gmaps(:map_options => {:do_clustering => false}, :markers => {:data => @json}) %>
+	</div>
+
 	<div class="panel panel-primary" >
 		<div class="panel-heading">
 	        <h5 class="panel-title">List of Classes for <%= current_user.name %> </h5>
@@ -93,7 +104,7 @@ $('#calendar').fullCalendar({
 	<% if current_user.customer.present? %>
   		<%= link_to 'Create a Studio', new_studio_path(), class: 'btn btn-mini', style: 'margin-top:-3px;' %>
     <% else %>
-		<%= link_to 'Add an Account', new_user_account_path(current_user), class: 'btn btn-mini', style: 'margin-top:-3px;'  %></p>
+		<%= link_to 'Add an Account', new_user_account_path(current_user.id), class: 'btn btn-mini', style: 'margin-top:-3px;'  %></p>
 		<% end %>
 	<% end %>
 	<% end %>
@@ -102,23 +113,7 @@ $('#calendar').fullCalendar({
 
 
 	<% else %>
-	<!-- This is the landing page that everyone first sees -->
-
-		<h3> Online Studio Management </h3>
-		
-		<ul>
-			<li> track students and attendance </li>
-			<li> search local instructors </li>
-			<li> offer discounts and promotions </li>
-		</ul>
-
-		<%= link_to 'Try Free', root_path(), class: 'btn btn-mini' %>
-
-		<h3>Have peace of mind off the mat</h3>
-
-		Studio Manager's software has everything you need to run a thriving studio space. Keep track of your schedule of classes, streamlined assignment of subs, inventory of instructors in the area.  An appointment scheduler on your website and Facebook page is like having a virtual receptionist 24/7 - no more missed calls, phone tag or lost leads.
-
-
-		<% end %>
+		<%= render 'landing_page' %>
+	<% end %>
   	</div>
 </div>

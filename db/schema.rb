@@ -23,10 +23,41 @@ ActiveRecord::Schema.define(:version => 20130815045944) do
     t.datetime "updated_at",            :null => false
   end
 
+  create_table "charges", :force => true do |t|
+    t.integer  "studio_id"
+    t.integer  "user_id"
+    t.string   "stripe_card_token"
+    t.integer  "amount"
+    t.string   "description"
+    t.string   "email"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+  end
+
+  create_table "coupons", :force => true do |t|
+    t.string   "studio_id"
+    t.integer  "user_id"
+    t.string   "duration"
+    t.integer  "amount_off"
+    t.integer  "duration_in_months"
+    t.integer  "max_redemptions"
+    t.integer  "percent_off"
+    t.datetime "redeem_by"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+  end
+
   create_table "customers", :force => true do |t|
+    t.string   "studio_id"
     t.integer  "user_id"
     t.string   "stripe_customer_token"
     t.string   "last_4_digits"
+    t.integer  "plan_id"
+    t.integer  "quantity"
+    t.datetime "trial_end_at"
+    t.string   "email"
+    t.string   "coupon_code"
+    t.string   "description"
     t.datetime "created_at",            :null => false
     t.datetime "updated_at",            :null => false
   end
@@ -39,12 +70,17 @@ ActiveRecord::Schema.define(:version => 20130815045944) do
     t.string   "title"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
-    t.integer  "studio_id"
   end
 
-  create_table "instructors", :force => true do |t|
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+  create_table "memberships", :force => true do |t|
+    t.integer  "studio_id"
+    t.string   "name"
+    t.integer  "price"
+    t.string   "interval"
+    t.integer  "interval_count"
+    t.integer  "trial_period_days"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
   end
 
   create_table "plans", :force => true do |t|
@@ -66,75 +102,6 @@ ActiveRecord::Schema.define(:version => 20130815045944) do
   add_index "roles", ["name", "resource_type", "resource_id"], :name => "index_roles_on_name_and_resource_type_and_resource_id"
   add_index "roles", ["name"], :name => "index_roles_on_name"
 
-  create_table "studio_charges", :force => true do |t|
-    t.integer  "studio_id"
-    t.integer  "user_id"
-    t.string   "stripe_card_token"
-    t.integer  "amount"
-    t.string   "description"
-    t.string   "email"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
-  end
-
-  create_table "studio_coupons", :force => true do |t|
-    t.string   "studio_id"
-    t.integer  "user_id"
-    t.string   "duration"
-    t.integer  "amount_off"
-    t.integer  "duration_in_months"
-    t.integer  "max_redemptions"
-    t.integer  "percent_off"
-    t.datetime "redeem_by"
-    t.datetime "created_at",         :null => false
-    t.datetime "updated_at",         :null => false
-  end
-
-  create_table "studio_customers", :force => true do |t|
-    t.string   "studio_id"
-    t.integer  "user_id"
-    t.string   "stripe_customer_token"
-    t.string   "last_4_digits"
-    t.integer  "plan_id"
-    t.integer  "quantity"
-    t.datetime "trial_end_at"
-    t.string   "email"
-    t.string   "coupon_code"
-    t.string   "description"
-    t.datetime "created_at",            :null => false
-    t.datetime "updated_at",            :null => false
-  end
-
-  create_table "studio_plans", :force => true do |t|
-    t.integer  "studio_id"
-    t.string   "name"
-    t.integer  "amount"
-    t.string   "interval"
-    t.integer  "interval_count"
-    t.integer  "trial_period_days"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
-  end
-
-  create_table "studio_subscriptions", :force => true do |t|
-    t.string   "studio_id"
-    t.integer  "user_id"
-    t.string   "status"
-    t.string   "stripe_customer_token"
-    t.boolean  "cancel_at_eriod_end"
-    t.integer  "plan_id"
-    t.integer  "quantity"
-    t.datetime "start"
-    t.datetime "cenceled_at"
-    t.datetime "current_period_end"
-    t.datetime "current_period_start"
-    t.datetime "ended_At"
-    t.datetime "trial_end_at"
-    t.datetime "trial_start_at"
-    t.datetime "created_at",            :null => false
-    t.datetime "updated_at",            :null => false
-  end
-
   create_table "studios", :force => true do |t|
     t.string   "name"
     t.string   "location"
@@ -151,32 +118,43 @@ ActiveRecord::Schema.define(:version => 20130815045944) do
     t.string   "state"
   end
 
+  create_table "subscriptions", :force => true do |t|
+    t.string   "studio_id"
+    t.integer  "user_id"
+    t.string   "status"
+    t.string   "stripe_customer_token"
+    t.boolean  "cancel_at_period_end"
+    t.integer  "plan_id"
+    t.integer  "quantity"
+    t.datetime "started_at"
+    t.datetime "canceled_at"
+    t.datetime "current_period_end"
+    t.datetime "current_period_start"
+    t.datetime "ended_at"
+    t.datetime "trial_end_at"
+    t.datetime "trial_start_at"
+    t.datetime "created_at",            :null => false
+    t.datetime "updated_at",            :null => false
+  end
+
   create_table "users", :force => true do |t|
-    t.string   "email",                                :default => "", :null => false
-    t.string   "encrypted_password",                   :default => ""
+    t.string   "email",                  :default => "", :null => false
+    t.string   "encrypted_password",     :default => "", :null => false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                        :default => 0
+    t.integer  "sign_in_count",          :default => 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                                           :null => false
-    t.datetime "updated_at",                                           :null => false
+    t.datetime "created_at",                             :null => false
+    t.datetime "updated_at",                             :null => false
     t.string   "name"
-    t.string   "invitation_token",       :limit => 60
-    t.datetime "invitation_sent_at"
-    t.datetime "invitation_accepted_at"
-    t.integer  "invitation_limit"
-    t.integer  "invited_by_id"
-    t.string   "invited_by_type"
     t.string   "permalink"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
-  add_index "users", ["invitation_token"], :name => "index_users_on_invitation_token", :unique => true
-  add_index "users", ["invited_by_id"], :name => "index_users_on_invited_by_id"
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
 
   create_table "users_roles", :id => false, :force => true do |t|

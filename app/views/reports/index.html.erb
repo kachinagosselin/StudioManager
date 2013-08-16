@@ -1,0 +1,29 @@
+<script> 
+$(document).ready(function() {
+
+    //NOTE that I am selecting on a class here
+    $('#toggle').click(function(e) {
+        //You also need to prevent the default behaviour of 
+        e.preventDefault();
+
+        $("#map-container").toggle();
+    });
+
+    });
+</script>
+
+
+<div class="row" style="margin-top:-17px;">
+	<div class="col-lg-2 leftspan" style="margin-top: 10px;">
+		<%= render 'layouts/sidebar' %>
+	</div>
+
+	<div class="col-lg-8 rightspan" style="min-height:600px;">
+<h3> Reports</h3>
+
+<div class="divider-horizontal-regular"></div>
+
+
+</div>
+</div>
+

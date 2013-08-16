@@ -4,25 +4,12 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
-  devise :invitable, :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
-
+    devise :database_authenticatable, :registerable,
+            :recoverable, :rememberable, :trackable, :validatable
+    
   has_many :accounts, :dependent => :destroy
   has_one :customer, :dependent => :destroy
   # Setup accessible (or protected) attributes for your model
   attr_accessible :name, :email, :password, :password_confirmation, :remember_me
     
-    
-    def to_param
-        permalink
-    end
-    
-    private
-    def create_permalink
-        self.permalink = name.downcase
-    end
-    
-    def self.find(query)
-        self.find_by_name(query) || super(query)
-    end
 end

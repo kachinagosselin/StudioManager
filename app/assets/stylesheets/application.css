@@ -13,6 +13,7 @@
  *= require fullcalendar
  *= require fullcalendar.print
 */
+
 .brand {
   float: left;
   padding-right: 8px;

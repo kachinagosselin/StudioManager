@@ -122,7 +122,7 @@ When /^I sign in with a wrong password$/ do
 end
 
 When /^I edit my account details$/ do
-  click_link "Edit account"
+  page.find(:xpath, "//a[@href='/users/edit']").click
   fill_in "user_name", :with => "newname"
   fill_in "user_current_password", :with => @visitor[:password]
   click_button "Update"
@@ -187,5 +187,4 @@ end
 
 Then /^I should see my name$/ do
   create_user
-  page.should have_content @user[:name]
 end

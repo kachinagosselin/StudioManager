@@ -1,3 +1,4 @@
+<% if Studio.first.present? %>
 <div class="row">
 
   <div class="col-lg-2 leftspan" style="margin-top: 10px;">
@@ -7,6 +8,10 @@
   <!-- admin will have to add a studio to their account - can add more than one
   -->
   <div class="col-lg-8 rightspan">
+
+<% else %>
+  <div class="col-lg-8 col-lg-offset-2">
+<% end %>
 
     <h2>Edit <%= resource_name.to_s.humanize %></h2>
 

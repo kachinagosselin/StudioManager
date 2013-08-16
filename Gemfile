@@ -19,14 +19,12 @@ gem "rmagick", "2.12.0", :require => 'RMagick'
 gem 'stripe'
 gem "meta_search"
 gem 'will_paginate', "~> 3.0"
-gem 'will_paginate-bootstrap'
 gem 'gmaps4rails'
 gem "geocoder"
 gem 'event-calendar', :require => 'event_calendar'
 gem "watu_table_builder", :require => "table_builder"
 gem 'fullcalendar-rails'
 gem 'mandrill-api'
-gem 'devise_invitable', '~> 1.1.0'
 
 group :development do
   gem 'better_errors'

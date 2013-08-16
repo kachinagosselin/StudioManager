@@ -1,0 +1,2 @@
+module StudioCouponsHelper
+end

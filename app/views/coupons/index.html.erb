@@ -1,0 +1,66 @@
+<div class="row" style="margin-top:-17px;">
+	<div class="col-lg-2 leftspan" style="margin-top: 10px;">
+		<%= render 'layouts/sidebar' %>
+	</div>
+
+	<div class="col-lg-8 rightspan" style="min-height:600px;">
+		<h3> Coupons</h3>
+			<div class="pull-right" style="margin-top:-40px;">
+				<a data-toggle="modal" href="#add-coupon" class="btn btn-mini" type="button">Add Coupon</a>
+			</div>
+			<div class="divider-horizontal-regular"></div>
+				<table class="table table-hover">
+				    <thead>
+				        <tr>
+				          <th>Title</th>
+				          <th>Type</th>  
+				          <th>Amount Off</th>
+				          <th>Duration</th>                             
+				          <th>Max Redemptions</th>                             
+				          <th>Redeem By</th>                             
+				        </tr>
+				    </thead>
+				    <tbody>
+				    	<% @coupons = Coupon.find(:all)%>
+				        <% @coupons.each do |coupon| %>
+				        	<tr>
+				        		<td><% %></td>
+				        		<td><%= coupon.duration%></td>
+				        		<td><%= coupon.amount_off if coupon.amount_off?%> 
+				        			<%= coupon.percent_off if coupon.percent_off?%>
+				        		</td>						
+				        		<td><%= coupon.duration_in_months if coupon.duration_in_months?%></td>		        		<td><%= coupon.max_redemptions if coupon.max_redemptions?%></td>
+								<td><%= coupon.redeem_by if coupon.redeem_by?%></td>
+				        	</tr>
+				        <% end %>
+				    </tbody>
+				</table>
+</div>
+</div>
+
+<%= simple_form_for( @studio, :url => new_studio_coupon_path(@studio), :method => :post, :remote => true, :html => {:id => "add_coupon"} ) do |form| %>
+
+<div id="add-coupon" class="modal" style="display: none;">
+    
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal">&#215;</a>
+        <h2>Create coupon</h2>
+    </div>
+
+    <div class="modal-body">
+              
+      <div id="stripe_error">
+      <noscript>JavaScript is not enabled and is required for this form. First enable it in your web browser settings.</noscript>
+      </div>
+    </div>
+  
+    <div class="modal-footer">
+    <div class="actions">
+        <a class="btn" data-dismiss="modal" href="#">Cancel</a>
+        <%= form.submit "Add Coupon", :class =>"btn submit-button"%>
+    </div>
+    </div>
+</div>
+<%end%>
+
+
