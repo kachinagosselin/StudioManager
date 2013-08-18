@@ -5,61 +5,44 @@
 
 <script> 
 $(document).ready(function() {
-
     //NOTE that I am selecting on a class here
-    $('#toggle').click(function(e) {
+    $('.toggle').click(function(e) {
         //You also need to prevent the default behaviour of 
         e.preventDefault();
-
         $("#map-container").toggle();
     });
 
-
-$('#calendar').fullCalendar({
-	defaultView: 'agendaWeek',
-	height: 500,
-	header: {
-  	left: 'prev,next today',
-  	center: 'title',
-  	right: 'month,agendaWeek,agendaDay'
-  	},
-});
-
+	$('#calendar').fullCalendar({
+		defaultView: 'agendaWeek',
+		minTime: 6,
+		height: 500,
+		header: {
+	  	left: 'prev,next today',
+	  	center: 'title',
+	  	right: 'month,agendaWeek,agendaDay',
+	  	},
+	    eventSources: [{
+	            url: '/studios/1/events/', // use the `url` property
+	    }]
+	});
 });
 </script>
 
-<div class="row" style="margin-top:-17px;">
+<div class="row">
+	<% if user_signed_in? %>
+		<% if current_user.has_role? :owner, :any %>
+			<%= render 'dashboard' %>
+		<% else %>
 
-	<% if current_user.present? %>
-
-	<% if current_user.has_role? :owner, :any %>
-
-	<div class="col-lg-2 leftspan" style="margin-top: 10px;">
-		<%= render 'layouts/sidebar' %>
-	</div>
-	<div class="col-lg-8 rightspan" style="min-height:600px;">
-		<h3>Welcome to your online studio manager!</h3>
-
-		<!-- This is the content for the studio owner dashboard!
-		-->
-
-<a href="https://connect.stripe.com/oauth/authorize?response_type=code&amp;scope=read_write&amp;stripe_landing=login&amp;client_id=ca_2Ksr3KRSkcnkhLjwUQPbFNKuAptJ5sSw" class="stripe-connect"><span>Connect with Stripe</span></a>
-
-	</div>
-
-
-	<% else %>
 	<div class="col-lg-8 col-lg-offset-2">
 	<% if current_user.has_role? :student, :any %>
-	<!-- Would like to have an icon for the maps so that if the student has a studio they do not have to see the map but they can toggle it at any time. Displays events for primary studio automatically. 
-	-->
-	<h3>Welcome! Search for your studio on the map and start getting organized.</h3> 
-	<p> If you can't find yours send an invitation so that they can sign up for our services. <a> Send Invite </a> </p>
-	
+		<!-- Would like to have an icon for the maps so that if the student has a studio they do not have to see the map but they can toggle it at any time. Displays events for primary studio automatically. 
+		-->
+		<h3>Welcome! Search for your studio on the map and start getting organized.</h3> 
+		<p> If you can't find yours send an invitation so that they can sign up for our services. <a> Send Invite </a> </p>
 	<% end %>
 
-    <%= link_to 'Map view', '', class: 'button', id: "toggle" %>
-
+	<a href="#" class="toggle">Hide Map</a>
     <div id="map-container">
 	 	<%= gmaps(:map_options => {:do_clustering => false}, :markers => {:data => @json}) %>
 	</div>
@@ -101,17 +84,15 @@ $('#calendar').fullCalendar({
 	<% if !current_user.has_role? :owner, :any %>
 		<p style="margin-left:100px;"><b>Are you a studio owner?</b> To be able to use our full suite of services please:
 
-	<% if current_user.customer.present? %>
-  		<%= link_to 'Create a Studio', new_studio_path(), class: 'btn btn-mini', style: 'margin-top:-3px;' %>
-    <% else %>
-		<%= link_to 'Add an Account', new_user_account_path(current_user.id), class: 'btn btn-mini', style: 'margin-top:-3px;'  %></p>
+		<% if current_user.customer.present? %>
+	  		<%= link_to 'Create a Studio', new_studio_path(), class: 'btn btn-mini', style: 'margin-top:-3px;' %>
+	    <% else %>
+			<%= link_to 'Add an Account', new_user_account_path(current_user.id), class: 'btn btn-mini', style: 'margin-top:-3px;'  %></p>
 		<% end %>
-	<% end %>
 	<% end %>
 
 	</div>
-
-
+		<%end%>
 	<% else %>
 		<%= render 'landing_page' %>
 	<% end %>

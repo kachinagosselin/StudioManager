@@ -1,9 +1,6 @@
-<script>
-  $(document).ready(function(){
-});
-</script>
 
-<%= simple_form_for(@event, :html => {:class => 'form-vertical', :multipart => true }) do |f| %>
+
+<%= simple_form_for([@studio, @event], :html => {:class => 'form-vertical', :multipart => true }) do |f| %>
   <%= f.error_notification %>
   <div class="form-inputs">   
     <div class="row">

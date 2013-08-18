@@ -1,3 +1,14 @@
+<script>
+$(document).ready(function() {
+  $("#new_coupon").submit(function(event) {
+        $('#new_coupon').get(0).submit();
+  });
+    $("#edit_coupon").submit(function(event) {
+        $('#edit_coupon').get(0).submit();
+  });
+});
+</script>
+
 <div class="row" style="margin-top:-17px;">
 	<div class="col-lg-2 leftspan" style="margin-top: 10px;">
 		<%= render 'layouts/sidebar' %>
@@ -6,61 +17,66 @@
 	<div class="col-lg-8 rightspan" style="min-height:600px;">
 		<h3> Coupons</h3>
 			<div class="pull-right" style="margin-top:-40px;">
-				<a data-toggle="modal" href="#add-coupon" class="btn btn-mini" type="button">Add Coupon</a>
+				  <%= link_to 'New Coupon', new_studio_coupon_path(@studio),
+        :class => 'btn btn-primary btn-sm' ,  :data => {:toggle => "modal", :target => "#myModal"} , :remote => true, :html => {:style => "margin-top:5px;"}%>
+
 			</div>
 			<div class="divider-horizontal-regular"></div>
-				<table class="table table-hover">
+				<table class="table table-hover" style="width:100%;">
 				    <thead>
 				        <tr>
 				          <th>Title</th>
 				          <th>Type</th>  
 				          <th>Amount Off</th>
 				          <th>Duration</th>                             
-				          <th>Max Redemptions</th>                             
-				          <th>Redeem By</th>                             
+				          <th>Max Redemptions</th>                          
+				          <th>Redeem By</th>   
+				          <th></th>
+				          <th></th>                          
 				        </tr>
 				    </thead>
 				    <tbody>
-				    	<% @coupons = Coupon.find(:all)%>
+				    	<% @coupons = @studio.coupons.find(:all)%>
 				        <% @coupons.each do |coupon| %>
 				        	<tr>
-				        		<td><% %></td>
+				        		<td><%= coupon.title %></td>
 				        		<td><%= coupon.duration%></td>
 				        		<td><%= coupon.amount_off if coupon.amount_off?%> 
 				        			<%= coupon.percent_off if coupon.percent_off?%>
 				        		</td>						
 				        		<td><%= coupon.duration_in_months if coupon.duration_in_months?%></td>		        		<td><%= coupon.max_redemptions if coupon.max_redemptions?%></td>
 								<td><%= coupon.redeem_by if coupon.redeem_by?%></td>
+								<% @edit_coupon = coupon %>
+				  				<td><%= link_to 'Edit', edit_studio_coupon_path(@studio, @edit_coupon),  :data => {:toggle => "modal", :target => "#editModal"} , :remote => true%>	</td>
+    							<td><%= link_to 'Delete', [coupon.studio, coupon], method: :delete, data: { confirm: 'Are you sure? This action cannot be undone.' }%></td>
 				        	</tr>
 				        <% end %>
-				    </tbody>
 				</table>
 </div>
 </div>
 
-<%= simple_form_for( @studio, :url => new_studio_coupon_path(@studio), :method => :post, :remote => true, :html => {:id => "add_coupon"} ) do |form| %>
 
-<div id="add-coupon" class="modal" style="display: none;">
-    
-    <div class="modal-header">
-        <a class="close" data-dismiss="modal">&#215;</a>
-        <h2>Create coupon</h2>
-    </div>
 
-    <div class="modal-body">
-              
-      <div id="stripe_error">
-      <noscript>JavaScript is not enabled and is required for this form. First enable it in your web browser settings.</noscript>
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Create Coupon</h4>
       </div>
-    </div>
-  
-    <div class="modal-footer">
-    <div class="actions">
-        <a class="btn" data-dismiss="modal" href="#">Cancel</a>
-        <%= form.submit "Add Coupon", :class =>"btn submit-button"%>
-    </div>
-    </div>
-</div>
-<%end%>
+ 		<%= render 'form' %>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
-
+  <div class="modal fade" id="editModal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Edit Coupon</h4>
+      </div>
+ 		<%= render 'form' %>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

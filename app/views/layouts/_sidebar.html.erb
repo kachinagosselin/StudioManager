@@ -1,4 +1,6 @@
-    <% @studio = Studio.first %>
+    <% if user_signed_in? %>
+    <% if current_user.has_role? :owner %>
+          <% @studio = Studio.first %>
 
 	<%= link_to 'Dashboard', root_path()%>
 		<div class="divider-horizontal"></div>
@@ -8,7 +10,12 @@
 		<div class="divider-horizontal"></div>
 	<%= link_to 'Students', studio_students_path(@studio)%>
 		<div class="divider-horizontal"></div>
+	<%= link_to 'Memberships', studio_memberships_path(@studio)%>
+			<div class="divider-horizontal"></div>
 	<%= link_to 'Coupons', studio_coupons_path(@studio)%>
 		<div class="divider-horizontal"></div>
 	<%= link_to 'Reports', studio_reports_path(@studio)%>
 		<div class="divider-horizontal"></div>
+
+	<% end %>
+	<% end %>

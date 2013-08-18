@@ -1,7 +1,13 @@
 class EventsController < ApplicationController
     
     def index
-        @events = Event.all
+        @studio = Studio.first
+        @events = @studio.events
+        
+        respond_to do |format|
+            format.html # index.html.erb
+            format.json { render json: @events }
+        end
     end
     
     def show
@@ -9,7 +15,8 @@ class EventsController < ApplicationController
     end
     
     def new
-        @event = Event.new
+        @studio = Studio.find(params[:studio_id])
+        @event = @studio.events.new
     end
 
     def create
@@ -27,15 +34,17 @@ class EventsController < ApplicationController
     end
     
     def edit
+        @studio = Studio.find(params[:studio_id])
         @event = Event.find(params[:id])
     end
     
     def update
+        @studio = Studio.find(params[:studio_id])
         @event = Event.find(params[:id])
         
         respond_to do |format|
             if @event.update_attributes(params[:event])
-                format.html { redirect_to event_path(@event), notice: 'Event was successfully updated.' }
+                format.html { redirect_to studio_event_path(@studio, @event), notice: 'Event was successfully updated.' }
                 format.json { head :no_content }
                 else
                 format.html { render action: "edit" }

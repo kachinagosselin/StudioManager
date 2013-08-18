@@ -13,27 +13,75 @@
   <div class="col-lg-8 col-lg-offset-2">
 <% end %>
 
-    <h2>Edit <%= resource_name.to_s.humanize %></h2>
+
+    <h2>Edit Account Details</h2>
+        <h3> Personal Details </h3>
 
 <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
   <%= devise_error_messages! %>
-<p><%= f.label :name %><br />
-<%= f.text_field :name %></p>
+  <div class="row">
+  <div class="form-group col-lg-6">
+
+  <p><%= f.label :name %><br />
+  <%= f.text_field :name, :class => "form-control"%></p>
 
   <div><%= f.label :email %><br />
-  <%= f.email_field :email %></div>
+  <%= f.email_field :email, :class => "form-control" %></div>
+  </br><p><b> Phone </b></p></br>
+  </br><p><b> Address </b></p></br>
+  </br><p><b> City, State </b></p></br>
 
-  <div><%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-  <%= f.password_field :password, :autocomplete => "off" %></div>
 
+</div>
+  <div class="form-group col-lg-6">
+
+  <div><%= f.label :password %> <br />
+  <%= f.password_field :password, :autocomplete => "off", :class => "form-control" %></div>
+    <p class="help-block">Leave blank if you don't want to change it</p>
+
+  <% if false %>
   <div><%= f.label :password_confirmation %><br />
   <%= f.password_field :password_confirmation %></div>
+  <% end %>
 
-  <div><%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-  <%= f.password_field :current_password %></div>
+  <div><%= f.label :current_password%><br />
+  <%= f.password_field :current_password, :class => "form-control"  %></div>
+    <p class="help-block">We need your current password to confirm your changes</p>
 
-  <div><%= f.submit "Update" %></div>
+  <div><%= f.submit "Update", :class => "btn btn-primary pull-right" %></div>
+</div>
+</div>
+
+
+    <div class="divider-horizontal-regular"></div>
+
+        <h3> Instructor Profile </h3>
+    <div class="divider-horizontal-regular"></div>
+  
+  </br><p><b> Image </b></p></br>
+    </br><p><b> Description </b></p></br>
+  </br><p><b> Availability </b></p></br>
+  <p> Mon | Tues | Wed | Thurs | Fri | Sat | Sun</p></br>
+
+  <div><%= f.submit "Update", :class => "btn btn-primary pull-right" %></div>
+
 <% end %>
+
+  </br><p> Modal popup you will be charged a one-time fee to make this profile.</p></br>
+
+
+
+
+
+    <div class="divider-horizontal-regular"></div>
+
+        <h3> Studio Details </h3>
+
+    <div class="divider-horizontal-regular"></div>
+
+<%= render 'studios/form' %>
+
+    <div class="divider-horizontal-regular"></div>
 
 <a href="https://connect.stripe.com/oauth/authorize?response_type=code&amp;scope=read_write&amp;stripe_landing=login&amp;client_id=ca_2Ksr3KRSkcnkhLjwUQPbFNKuAptJ5sSw" class="stripe-connect"><span>Connect with Stripe</span></a>
 
@@ -44,3 +92,5 @@
 <%= link_to "Back", :back %>
 </div>
 </div>
+</div>
+

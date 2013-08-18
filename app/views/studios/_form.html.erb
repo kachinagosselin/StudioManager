@@ -1,22 +1,35 @@
 
-<%= simple_form_for(@studio, :html => {:class => 'form-vertical', :multipart => true }) do |f| %>
-  <%= f.error_notification %>
-  <div class="form-inputs">   
+<%= form_for(@studio, :html => {:class => 'form-vertical', :multipart => true }) do |f| %>
+
+<div class="row">
+<div class="row" style ="margin-left:0px;">
+  <div class="form-group col-lg-6">
+  <div><%=h f.label :name %><br />
+    <%=h f.text_field :name, :class => "form-control"%></div>
+  <div><%= f.label :address %><br />
+    <%= f.text_field :address, :class => "form-control" %></div>
     <div class="row">
-    <div class="span5"> 
-    <%=h f.input :name, :input_html => { :style => 'width: 330px'} %>
-    <%=h f.input :address, :input_html => { :style => 'width: 330px', :rows => 15 }%>
-    <%=h f.input :city %>
-    <%= f.input :state, :as => :select, :collection => STATES %>
+        <div class="form-group col-lg-8">
+          <div><%= f.label :city %><br />
+            <%= f.text_field :city, :class => "form-control" %></div>  
+        </div>
+        <div class="form-group col-lg-4">
+          <div><%= f.label :state %><br />
+            <%= select_tag(:state, options_for_select(STATES, @studio.state), :class => "form-control") %>
+        </div>
     </div>
-
-    <div class="span5">
-    <%=h f.input :main_phone %>
-    <%=h f.input :website %>
-
     </div>
+</div>
+  <div class="form-group col-lg-6">
+    <div><%= f.label :main_phone %><br />
+    <%= f.text_field :main_phone, :class => "form-control" %></div>  
+    <div><%= f.label :website %><br />
+    <%= f.url_field :website, :class => "form-control" %></div>  
   </div>
+
+</div>
+
   <div class="form-actions">
-    <%= f.button :submit %>
-  </div>
+  <div><%= f.submit "Update", :class => "btn btn-primary pull-right" %></div>  </div>
 <% end %>
+</div>

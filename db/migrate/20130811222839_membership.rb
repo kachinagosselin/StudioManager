@@ -7,6 +7,7 @@ class Membership < ActiveRecord::Migration
             t.string :interval
             t.integer :interval_count
             t.integer :trial_period_days
+            t.text :description
             
             t.timestamps
         end

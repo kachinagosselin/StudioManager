@@ -38,8 +38,6 @@
 	<p> Looks like you don't have any instructors signed up! </p>
 
 	<p> Search our database of users to find your instructors, or send an invitation for them to join the site. 
-		<%= link_to 'Send Invitation', new_user_invitation_path() %>
-	</p>
 		<% @instructor_database = User.with_role(:instructor, :any) %>
 			<table class="table table-hover">
 		    <thead>

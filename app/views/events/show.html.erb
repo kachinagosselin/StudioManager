@@ -1,12 +1,11 @@
+<% @studio = Studio.first %>
 
-<div class="white-background" >
 	<h3><%= @event.title %></h3>
 	<p>Hosted by <%= @event.instructor %><p>
 	<p><%= @event.description %></p>
 
 	<% if (current_user.has_role? :instructor) || (current_user.has_role? :admin) %>
-	<%= link_to 'Edit', edit_event_path(@event) %> 
+	<%= link_to 'Edit', edit_studio_event_path(@studio, @event) %> 
 	<% end %>
 	|
-    <%= link_to 'Back', events_path() %>
-</div>
+    <%= link_to 'Back', studio_events_path(@studio, @event) %>

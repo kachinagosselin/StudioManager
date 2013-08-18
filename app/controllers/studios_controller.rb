@@ -18,10 +18,10 @@ class StudiosController < ApplicationController
         respond_to do |format|
             if @studio.save
                 @user.add_role :owner
-                format.html { redirect_to root_path(), notice: 'studio was successfully created.' }
+                format.html { redirect_to root_path(), notice: 'Studio was successfully created.' }
                 format.json { head :no_content }
                 else
-                format.html { render :action => 'new', alert: 'studio was unsuccessfully created.' }
+                format.html { render :action => 'new', alert: 'Studio was unsuccessfully created.' }
                 format.json { render json: @message.errors, status: :unprocessable_entity }
             end 
         end
@@ -36,7 +36,7 @@ class StudiosController < ApplicationController
         
         respond_to do |format|
             if @studio.update_attributes(params[:studio])
-                format.html { redirect_to studio_path(@studio), notice: 'studio was successfully updated.' }
+                format.html { redirect_to :back, notice: 'Studio was successfully updated.' }
                 format.json { head :no_content }
                 else
                 format.html { render action: "edit" }

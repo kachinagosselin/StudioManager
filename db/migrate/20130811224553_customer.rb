@@ -1,7 +1,7 @@
 class Customer < ActiveRecord::Migration
     def change
         create_table :customers do |t|
-            t.string :studio_id
+            t.integer :studio_id
             t.integer :user_id
             t.string :stripe_customer_token
             t.string :last_4_digits

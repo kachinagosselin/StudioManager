@@ -1,7 +1,7 @@
 class Subscription < ActiveRecord::Migration
     def change
         create_table :subscriptions do |t|
-            t.string :studio_id
+            t.integer :studio_id
             t.integer :user_id
             t.string :status
             t.string :stripe_customer_token

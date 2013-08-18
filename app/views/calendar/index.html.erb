@@ -8,15 +8,45 @@
 <script> 
 $(document).ready(function() {
 
+  
+    /* initialize the external events
+    -----------------------------------------------------------------*/
+  
+    $('#external-events div.external-event').each(function() {
+    
+      // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
+      // it doesn't need to have a start or end
+      var eventObject = {
+        title: $.trim($(this).text()) // use the element's text as the event title
+      };
+      
+      // store the Event Object in the DOM element so we can get to it later
+      $(this).data('eventObject', eventObject);
+      
+
+      
+    });
+
     // page is now ready, initialize the calendar...
 
 $('#calendar').fullCalendar({
+  editable: true,
+  droppable: true,
 	header: {
   	left: 'prev,next today',
   	center: 'title',
   	right: 'month,agendaWeek,agendaDay'
 	},
+      eventSources: [{
+              url: '/studios/(:studio_id)/events/',
+      }]
 });
+
+$('#my-draggable').draggable({
+    revert: true,      // immediately snap back to original position
+    revertDuration: 0  //
+});
+
 
 });
 </script>
@@ -26,14 +56,24 @@ $('#calendar').fullCalendar({
 	</div>
 
   <div class="col-lg-8 rightspan">
-  	<div class="pull-right">
-  		<h3>Create Events</h3>
-  	</div>
-  	
+  	<div class="row">
+  <div class="col-lg-3">
+
+    <div id='external-events'>
+    <h4>Draggable Events</h4>
+    <% Event.all.each do |event|%>
+    <div class='external-event'>My Event</div>
+    <% end %>
+    <p>
+    <input type='checkbox' id='drop-remove' /> <label for='drop-remove'>remove after drop</label>
+    </p>
+    </div>
+</div>
+  <div class="col-lg-9">
+
 <div id='calendar'></div>
+</div>
+</div>
 
-
-<h3> Event Calendar </h3>
-<%= raw(event_calendar) %>
-
+<%= render 'events/list' %>
 </div>

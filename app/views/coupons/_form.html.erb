@@ -1,0 +1,33 @@
+
+<%if @coupon%>
+     <div class="modal-body">
+    <%= simple_form_for([@studio, @coupon], :html => { :class => 'form-horizontal', :remote => true } ) do |f| %>
+              <%= f.error_notification %>
+              <div class="form-inputs">   
+                <div class="row">
+                <%= f.input :title %>
+                
+                <div class="span5"> 
+                <%= f.input :percent_off%>
+                <%= f.input :max_redemptions%>
+                </div>
+
+                <div class="span5">
+                <%= f.input :duration %>
+                <%= f.input :duration_in_months %>
+                <%= f.input :redeem_by%>
+                </div>
+              </div>
+
+            <div id="stripe_error">
+            <noscript>JavaScript is not enabled and is required for this form. First enable it in your web browser settings.</noscript>
+            </div>
+      </div>
+      <div class="modal-footer">
+    <div class="actions">
+        <a class="btn" data-dismiss="modal" href="#">Cancel</a>
+       <%= f.submit nil, :class => 'btn btn-submit btn-primary' %>
+        <% end %>
+    </div>     
+<% end %>
+    </div>     

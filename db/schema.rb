@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130815045944) do
+ActiveRecord::Schema.define(:version => 20130816224941) do
 
   create_table "accounts", :force => true do |t|
     t.integer  "plan_id"
@@ -30,12 +30,13 @@ ActiveRecord::Schema.define(:version => 20130815045944) do
     t.integer  "amount"
     t.string   "description"
     t.string   "email"
+    t.string   "title"
     t.datetime "created_at",        :null => false
     t.datetime "updated_at",        :null => false
   end
 
   create_table "coupons", :force => true do |t|
-    t.string   "studio_id"
+    t.integer  "studio_id"
     t.integer  "user_id"
     t.string   "duration"
     t.integer  "amount_off"
@@ -43,12 +44,14 @@ ActiveRecord::Schema.define(:version => 20130815045944) do
     t.integer  "max_redemptions"
     t.integer  "percent_off"
     t.datetime "redeem_by"
+    t.string   "title"
+    t.text     "description"
     t.datetime "created_at",         :null => false
     t.datetime "updated_at",         :null => false
   end
 
   create_table "customers", :force => true do |t|
-    t.string   "studio_id"
+    t.integer  "studio_id"
     t.integer  "user_id"
     t.string   "stripe_customer_token"
     t.string   "last_4_digits"
@@ -70,6 +73,7 @@ ActiveRecord::Schema.define(:version => 20130815045944) do
     t.string   "title"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+    t.integer  "studio_id"
   end
 
   create_table "memberships", :force => true do |t|
@@ -79,6 +83,7 @@ ActiveRecord::Schema.define(:version => 20130815045944) do
     t.string   "interval"
     t.integer  "interval_count"
     t.integer  "trial_period_days"
+    t.text     "description"
     t.datetime "created_at",        :null => false
     t.datetime "updated_at",        :null => false
   end
@@ -119,7 +124,7 @@ ActiveRecord::Schema.define(:version => 20130815045944) do
   end
 
   create_table "subscriptions", :force => true do |t|
-    t.string   "studio_id"
+    t.integer  "studio_id"
     t.integer  "user_id"
     t.string   "status"
     t.string   "stripe_customer_token"

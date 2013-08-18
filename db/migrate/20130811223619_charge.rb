@@ -7,6 +7,8 @@ class Charge < ActiveRecord::Migration
             t.integer :amount
             t.string :description
             t.string :email
+            t.string :title
+            t.text :description
             
             t.timestamps
         end

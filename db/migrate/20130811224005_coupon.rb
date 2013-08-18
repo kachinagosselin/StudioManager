@@ -1,7 +1,7 @@
 class Coupon < ActiveRecord::Migration
     def change
         create_table :coupons do |t|
-            t.string :studio_id
+            t.integer :studio_id
             t.integer :user_id
             t.string :duration
             t.integer :amount_off
@@ -9,6 +9,8 @@ class Coupon < ActiveRecord::Migration
             t.integer :max_redemptions
             t.integer :percent_off
             t.datetime :redeem_by
+            t.string :title
+            t.text :description
             
             t.timestamps
         end

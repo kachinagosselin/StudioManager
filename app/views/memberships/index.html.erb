@@ -1,0 +1,67 @@
+<script>
+$(document).ready(function() {
+  $("#new_membership").submit(function(event) {
+        $('#new_membership').get(0).submit();
+  });
+    $("#new_membership").submit(function(event) {
+        $('#new_membership').get(0).submit();
+  });
+});
+</script>
+
+<div class="row" style="margin-top:-17px;">
+	<div class="col-lg-2 leftspan" style="margin-top: 10px;">
+		<%= render 'layouts/sidebar' %>
+	</div>
+
+	<div class="col-lg-8 rightspan" style="min-height:600px;">
+		<h3> Memberships</h3>
+			<div class="pull-right" style="margin-top:-40px;">
+				  <%= link_to 'New membership', new_studio_membership_path(@studio),
+        :class => 'btn btn-primary btn-sm' ,  :data => {:toggle => "modal", :target => "#myModal"} , :remote => true, :html => {:style => "margin-top:5px;"}%>
+
+			</div>
+			<div class="divider-horizontal-regular"></div>
+				<table class="table table-hover">
+				    <thead>
+				        <tr>
+				          <th>Name</th>
+				          <th>Price</th>  
+				          <th>Interval</th>
+				          <th>Interval Count</th>
+				          <th>Trial Period Days</th>                        <th></th>
+				          <th></th>                          
+				        </tr>
+				    </thead>
+				    <tbody>
+				    	<% @memberships = @studio.memberships.find(:all)%>
+				        <% @memberships.each do |membership| %>
+				        	<tr>
+				        		<td><%= membership.name %></td>
+				        		<td><%= membership.price%></td>
+				        		<td><%= membership.interval%>
+				        		</td>						
+				        		<td><%= membership.interval_count if membership.interval_count?%></td>		        		<td><%= membership.trial_period_days if membership.trial_period_days?%></td>
+								<% @edit_membership = membership %>
+				  				<td><%= link_to 'edit', edit_studio_membership_path(@studio, @edit_membership),  :data => {:toggle => "modal", :target => "#editModal"} , :remote => true %>	</td>
+    							<td><%= link_to 'Delete', [membership.studio, membership], method: :delete, data: { confirm: 'Are you sure? This action cannot be undone.' }, :class => 'btn btn-sm' %></td>
+				        	</tr>
+				        <% end %>
+				</table>
+</div>
+</div>
+
+
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Create Membership</h4>
+      </div>
+ 		<%= render 'form' %>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
