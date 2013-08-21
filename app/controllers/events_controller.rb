@@ -1,7 +1,7 @@
 class EventsController < ApplicationController
     
     def index
-        @studio = Studio.first
+        @studio = Studio.find(params[:studio_id])
         @events = @studio.events
         
         respond_to do |format|
