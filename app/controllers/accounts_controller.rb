@@ -24,23 +24,24 @@ class AccountsController < ApplicationController
         # if the credit card is valid create new customer and accounts
             @account = @user.accounts.build(:plan_id => params[:account][:plan_id], :user_id => params[:account][:user_id], :email => params[:account][:email])
             @stripe_customer = Stripe::Customer.create(description: params[:account][:email], plan: params[:account][:plan_id], card: params[:stripe_card_token], email: params[:account][:email])
-            @customer = @user.build_customer(:stripe_customer_token => @stripe_customer.id)
+            @customer = @user.build_customer(:stripe_customer_token => @stripe_customer.id, :email => @user.email, :plan_id => params[:account][:plan_id], :quantity => 1)
             @customer.save
             @account.stripe_customer_token = @stripe_customer.id
-            @customer.last_4_digits = params[:last_4_digits]
+            @customer.last_4_digits = params[:account][:last_4_digits]
         end
         
         if @account.save
             @customer.save
+            @user.add_role :owner
             @account.update_attribute(:is_active, true)
 
-            redirect_to new_studio_path(), :notice => "Thank you for registering your credit card."
+            redirect_to edit_user_registration_path, :notice => "Thank you for registering your credit card. PLease add details about your studio to be listed on our site."
             else
             redirect_to :back, :alert => "Failed to register your credit card."
         end
     end
     
-    def unsubscribe
+    def destroy
         if Rails.env.development?
             Stripe.api_key
             else
@@ -54,9 +55,12 @@ class AccountsController < ApplicationController
         #if this is the last subscription, cancel the subscription
         stripe_customer.cancel_subscription
         @subscription.destroy
+        @account.destroy
         @user.remove_role :owner
         @user.save
         redirect_to :back, :notice => "You have successfully removed your studio account!"
     end
+    
+    
 
 end

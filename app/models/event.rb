@@ -1,6 +1,7 @@
 class Event < ActiveRecord::Base
     has_event_calendar
     belongs_to :studio
+    has_one :charge
     
     attr_accessible :studio_id, :description, :end_at, :instructor, :start_at, :title
     

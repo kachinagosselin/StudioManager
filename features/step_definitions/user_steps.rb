@@ -29,17 +29,17 @@ end
 
 def sign_up
   delete_user
-  visit '/users/sign_up'
-  fill_in "user_name", :with => @visitor[:name]
-  fill_in "user_email", :with => @visitor[:email]
-  fill_in "user_password", :with => @visitor[:password]
-  fill_in "user_password_confirmation", :with => @visitor[:password_confirmation]
+  visit '/'
+  fill_in "user_name_register", :with => @visitor[:name]
+  fill_in "user_email_register", :with => @visitor[:email]
+  fill_in "user_password_register", :with => @visitor[:password]
+  fill_in "user_passwordconfirm_register", :with => @visitor[:password_confirmation]
   click_button "Sign up"
   find_user
 end
 
 def sign_in
-  visit '/users/sign_in'
+  visit '/'
   fill_in "user_email", :with => @visitor[:email]
   fill_in "user_password", :with => @visitor[:password]
   click_button "Sign in"
@@ -129,20 +129,17 @@ When /^I edit my account details$/ do
 end
 
 When /^I look at the list of users$/ do
-  visit '/'
+  sign_in
+  visit '/users'
 end
 
 ### THEN ###
 Then /^I should be signed in$/ do
   page.should have_content "Logout"
-  page.should_not have_content "Sign up"
-  page.should_not have_content "Login"
 end
 
 Then /^I should be signed out$/ do
-  page.should have_content "Sign up"
-  page.should have_content "Login"
-  page.should_not have_content "Logout"
+  page.should have_content "Register"
 end
 
 Then /^I see an unconfirmed account message$/ do
@@ -186,5 +183,6 @@ Then /^I should see an account edited message$/ do
 end
 
 Then /^I should see my name$/ do
-  create_user
+    page.should have_content @user.name
+
 end

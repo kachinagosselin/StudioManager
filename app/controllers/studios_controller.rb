@@ -14,11 +14,14 @@ class StudiosController < ApplicationController
     
     def create
         @studio = Studio.create(params[:studio])
+        @user = current_user
+        @account = Account.where(:user_id => current_user.id).first
+        @studio.account_id = @account.id
         
         respond_to do |format|
             if @studio.save
                 @user.add_role :owner
-                format.html { redirect_to root_path(), notice: 'Studio was successfully created.' }
+                format.html { redirect_to :back, notice: 'Studio was successfully created.' }
                 format.json { head :no_content }
                 else
                 format.html { render :action => 'new', alert: 'Studio was unsuccessfully created.' }
@@ -47,7 +50,6 @@ class StudiosController < ApplicationController
     
     def instructors
         @studio = Account.where(:user_id == current_user.id).first.studio
-        @instructors = User.with_role(:instructor, @studio)
     end 
 
     def students

@@ -1,13 +1,13 @@
 
-<div class="row" style="margin-top:-17px;">
+<div class="row">
 	<div class="col-lg-2 leftspan" style="margin-top: 10px;">
 		<%= render 'layouts/sidebar' %>
 	</div>
 
 	<div class="col-lg-8 rightspan" style="min-height:600px;">
-<h3> Instructors for <%= @studio.name %></h3>
+	<h3> Your Instructors </h3>
+    <div class="divider-horizontal-regular"></div>
 
-<% if @instructors.present? %>
 		<table class="table table-condensed">
 		    <thead>
 		        <tr>
@@ -18,28 +18,24 @@
 		        </tr>
 		    </thead>
 		    <tbody>
+		    	<% @instructors = User.where(:is_certified => true) %>
+
 		        <% @instructors.each do |user| %>
 		        	<tr>
 		        		<td><%=link_to user.name, user %></td>
 		        		<td><%=link_to user.email, user %></td>
-		        		<td><%= user.email if false %></td>
-						<% if user.invitation_accepted_at.present? %>
-		        		<td><%= user.invitation_accepted_at %></td>
-		        		<% else %>
+		        		<td><%= user.phone if user.phone %></td>
 		        		<td>Outstanding invitation</td>
-		        		<% end %>
 		        	</tr>
 		        <% end %>
 		    </tbody>
 		</table>
 
-<% else %>
+    <h3> Database of Instructors</h3>
+    <div class="divider-horizontal-regular"></div>
 
-	<p> Looks like you don't have any instructors signed up! </p>
 
-	<p> Search our database of users to find your instructors, or send an invitation for them to join the site. 
-		<% @instructor_database = User.with_role(:instructor, :any) %>
-			<table class="table table-hover">
+		<table class="table table-condensed">
 		    <thead>
 		        <tr>
 		          <th>Name</th>
@@ -49,20 +45,18 @@
 		        </tr>
 		    </thead>
 		    <tbody>
-		        <% @instructor_database.each do |user| %>
+		    	<% @instructors = User.where(:is_certified => true).where(:is_available => true) %>
+
+		        <% @instructors.each do |user| %>
 		        	<tr>
 		        		<td><%=link_to user.name, user %></td>
 		        		<td><%=link_to user.email, user %></td>
-		        		<td><%= user.email if false %></td>
-						<% if user.invitation_accepted_at.present? %>
-		        		<td><%= user.invitation_accepted_at %></td>
-		        		<% else %>
+		        		<td><%=  user.phone if user.phone %></td>
 		        		<td>Outstanding invitation</td>
-		        		<% end %>
 		        	</tr>
 		        <% end %>
 		    </tbody>
 		</table>
-<% end %>
+
 </div>
 </div>

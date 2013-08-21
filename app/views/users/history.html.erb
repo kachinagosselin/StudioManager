@@ -1,0 +1,49 @@
+
+<div class="row">
+	<div class="col-lg-2 leftspan" style="margin-top: 10px;">
+		<%= render 'layouts/sidebar' %>
+	</div>
+
+	<div class="col-lg-8 rightspan" style="min-height:600px;">
+
+
+    <h3> Purchase History</h3>
+    <div class="divider-horizontal-regular"></div>
+
+    <h4> Memberships</h4>
+
+
+		<table class="table table-hover">
+				    <thead>
+				        <tr>
+				          <th>Name</th>
+				          <th>Price</th>  
+				          <th>Interval</th>
+				          <th>Interval Count</th>
+				          <th>Trial Period Days</th>
+				        </tr>
+				    </thead>
+				    <tbody>
+				<% @purchases = @user.customer.purchases.where(:product_type => "membership") %>
+				<% @purchases.each do |purchase| %>
+
+				<% membership = Membership.find(purchase.product_id) %>
+				        	<tr>
+				        		<td><%= membership.name %></td>
+				        		<td><%= membership.price%></td>
+				        		<td><%= membership.interval%>
+				        		</td>						
+				        		<td><%= membership.interval_count if membership.interval_count?%></td>		        		<td><%= membership.trial_period_days if membership.trial_period_days?%></td>
+								<% @edit_membership = membership %>
+				        	</tr>
+				        <% end %>
+				</table>
+
+
+    <div class="divider-horizontal-regular"></div>
+    <h3> Attendance History</h3>
+    <div class="divider-horizontal-regular"></div>
+
+	</div>
+</div>
+</div>

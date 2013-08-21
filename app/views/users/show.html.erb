@@ -1,40 +1,23 @@
 
-<div class="row" style="margin-top:-17px;">
+<div class="row">
 	<div class="col-lg-2 leftspan" style="margin-top: 10px;">
 		<%= render 'layouts/sidebar' %>
 	</div>
 
 	<div class="col-lg-8 rightspan" style="min-height:600px;">
+	<div class="row">
+		<div class="col-lg-4">
+			<p>Here is where we add the instructor image</p>
+		</div>
+		<div class="col-lg-8">
+			<h3><%= @user.name %></h3>
+			<p>Email: <%= @user.email if @user.email %></p>
+	 		<p>Phone: <%= @user.phone if @user.phone %></p>
+			<p>Here is where we add the instructors description.</p>
+			<p> <%= @user.description %>
+		</div>
+	</div>
 
-<% if current_user.has_role? :owner, :any %>
-
-<h3>Student Account</h3>
-<div class="divider-horizontal-regular"></div>
-
-<p><b>Name:</b> <%= @user.name %></p>
-<p><b>Email:</b>  <%= @user.email if @user.email %></p>
-
-<div class="divider-horizontal-regular"></div>
-<h3>Purchase History</h3>
-
-
-<div class="divider-horizontal-regular"></div>
-<h3>Attendance History</h3>
-
-<% else %>
-
-
-
-	<p>Here is where we add the instructor image</p>
-
-	<p>User: <%= @user.name %></p>
-	<p>Email: <%= @user.email if @user.email %></p>
-	 
-	<p>Here is where we add the instructors description.</p>
-
-	<p>Create a box that contains information about the instructors list of classes for that week.</p>
-<% end %>
-
-</div>
+	</div>
 </div>
 </div>

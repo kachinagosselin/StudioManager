@@ -27,9 +27,21 @@
 
   <div><%= f.label :email %><br />
   <%= f.email_field :email, :class => "form-control" %></div>
-  </br><p><b> Phone </b></p></br>
-  </br><p><b> Address </b></p></br>
-  </br><p><b> City, State </b></p></br>
+<div><%= f.label :phone %><br />
+    <%= f.telephone_field :phone, :class => "form-control" %></div>
+    <div><%= f.label :address %><br />
+    <%= f.text_field :address, :class => "form-control" %></div>
+    <div class="row">
+        <div class="form-group col-lg-8">
+          <div><%= f.label :city %><br />
+            <%= f.text_field :city, :class => "form-control" %></div>  
+        </div>
+        <div class="form-group col-lg-4">
+          <div><%= f.label :state %><br />
+            <%= select_tag(:state, options_for_select(STATES, current_user.state), :class => "form-control") %>
+        </div>
+    </div>
+    </div>
 
 
 </div>
@@ -58,12 +70,35 @@
         <h3> Instructor Profile </h3>
     <div class="divider-horizontal-regular"></div>
   
-  </br><p><b> Image </b></p></br>
-    </br><p><b> Description </b></p></br>
+    <div class="row">
+  <div class="form-group col-lg-6">
+
+  <p><%= f.label :imageable, "Image" %><br />
+  <%= f.file_field :imageable, :class => "form-control"%></p>  
+
+  <p><%= f.label :description %><br />
+  <%= f.text_area :description, :class => "form-control", :cols => 20, :rows => 10 %></p>  
+  <p class="help-block">This will appear in your instructor profile.</p>
+
   </br><p><b> Availability </b></p></br>
   <p> Mon | Tues | Wed | Thurs | Fri | Sat | Sun</p></br>
 
+
+
+</div>
+  <div class="form-group col-lg-6">
+        </br><p><b> Certification </b></p></br>
+            </br><p><b> Current Employment </b></p></br>
+
+  <%= f.check_box :is_certified, :class => "form-control"%>
+    <p style = "margin-top:-26px;margin-left:30px;"><b> Is certified? </b></p>
+  <%= f.check_box :is_available, :class => "form-control"%>
+    <p style = "margin-top:-26px;margin-left:30px;"><b> Is available? </b></p>
+
   <div><%= f.submit "Update", :class => "btn btn-primary pull-right" %></div>
+
+  </div>
+</div>
 
 <% end %>
 
@@ -74,17 +109,17 @@
 
 
     <div class="divider-horizontal-regular"></div>
+    <% if current_user.has_role? :owner %>
+      <h3> Studio Details </h3>
+        <div class="divider-horizontal-regular"></div>
+          <%= render 'studios/form' %>
+    <% else %>
+       <h3> Add Studio to Your Account </h3>
+       <a href="https://connect.stripe.com/oauth/authorize?response_type=code&amp;scope=read_write&amp;stripe_landing=login&amp;client_id=ca_2Ksr3KRSkcnkhLjwUQPbFNKuAptJ5sSw" class="stripe-connect pull-right btn btn-primary btn-sm" style="margin-top: -35px;"><span>Connect with Stripe</span></a>
 
-        <h3> Studio Details </h3>
+          <div class="divider-horizontal-regular"></div>
 
-    <div class="divider-horizontal-regular"></div>
-
-<%= render 'studios/form' %>
-
-    <div class="divider-horizontal-regular"></div>
-
-<a href="https://connect.stripe.com/oauth/authorize?response_type=code&amp;scope=read_write&amp;stripe_landing=login&amp;client_id=ca_2Ksr3KRSkcnkhLjwUQPbFNKuAptJ5sSw" class="stripe-connect"><span>Connect with Stripe</span></a>
-
+    <% end %>
 <h3>Cancel my account</h3>
 
 <p>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), :data => { :confirm => "Are you sure?" }, :method => :delete %>.</p>

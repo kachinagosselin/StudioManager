@@ -9,12 +9,7 @@ $(document).ready(function() {
 });
 </script>
 
-<div class="row" style="margin-top:-17px;">
-	<div class="col-lg-2 leftspan" style="margin-top: 10px;">
-		<%= render 'layouts/sidebar' %>
-	</div>
 
-	<div class="col-lg-8 rightspan" style="min-height:600px;">
 		<h3> Memberships</h3>
 			<div class="pull-right" style="margin-top:-40px;">
 				  <%= link_to 'New membership', new_studio_membership_path(@studio),
@@ -48,8 +43,7 @@ $(document).ready(function() {
 				        	</tr>
 				        <% end %>
 				</table>
-</div>
-</div>
+
 
 
 

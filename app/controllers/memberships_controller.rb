@@ -18,7 +18,7 @@ class MembershipsController < ApplicationController
         
         def create
             @studio = Studio.find(params[:studio_id])
-            @membership = membership.new(params[:membership])
+            @membership = Membership.new(params[:membership])
             @membership.studio_id = @studio.id
             
             respond_to do |format|
@@ -33,8 +33,7 @@ class MembershipsController < ApplicationController
         end
         
         def destroy
-            @membership = membership.find(params[:id])
+            @membership = Membership.find(params[:id])
             @membership.destroy
-            redirect_to :back
         end
     end

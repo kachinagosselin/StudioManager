@@ -1,5 +1,4 @@
 <!-- Probably move the stylesheet to you layout. Also make sure you include the javascript. -->
-<!-- <%= stylesheet_link_tag "event_calendar" %> -->
 
 <link rel='stylesheet' type='text/css' href='fullcalendar.css' />
 <script type='text/javascript' src='jquery.js'></script>
@@ -30,15 +29,13 @@ $(document).ready(function() {
     // page is now ready, initialize the calendar...
 
 $('#calendar').fullCalendar({
-  editable: true,
-  droppable: true,
 	header: {
   	left: 'prev,next today',
   	center: 'title',
   	right: 'month,agendaWeek,agendaDay'
 	},
       eventSources: [{
-              url: '/studios/(:studio_id)/events/',
+              url: '/studios/1/events/',
       }]
 });
 
@@ -61,7 +58,8 @@ $('#my-draggable').draggable({
 
     <div id='external-events'>
     <h4>Draggable Events</h4>
-    <% Event.all.each do |event|%>
+    <% @events = Event.where(:studio_id => @studio.id) %>
+    <% @events.each do |event|%>
     <div class='external-event'>My Event</div>
     <% end %>
     <p>

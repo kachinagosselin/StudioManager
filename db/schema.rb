@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130816224941) do
+ActiveRecord::Schema.define(:version => 20130820174605) do
 
   create_table "accounts", :force => true do |t|
     t.integer  "plan_id"
@@ -88,6 +88,18 @@ ActiveRecord::Schema.define(:version => 20130816224941) do
     t.datetime "updated_at",        :null => false
   end
 
+  create_table "pictures", :force => true do |t|
+    t.string   "name"
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
+    t.integer  "imageable_id"
+    t.string   "imageable_type"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+  end
+
   create_table "plans", :force => true do |t|
     t.string   "name"
     t.decimal  "price"
@@ -95,6 +107,18 @@ ActiveRecord::Schema.define(:version => 20130816224941) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  create_table "purchases", :force => true do |t|
+    t.integer  "customer_id"
+    t.integer  "product_id"
+    t.string   "product_type"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  add_index "purchases", ["customer_id", "product_id"], :name => "index_purchases_on_customer_id_and_product_id", :unique => true
+  add_index "purchases", ["customer_id"], :name => "index_purchases_on_customer_id"
+  add_index "purchases", ["product_id"], :name => "index_purchases_on_product_id"
 
   create_table "roles", :force => true do |t|
     t.string   "name"
@@ -157,6 +181,13 @@ ActiveRecord::Schema.define(:version => 20130816224941) do
     t.datetime "updated_at",                             :null => false
     t.string   "name"
     t.string   "permalink"
+    t.integer  "phone"
+    t.string   "address"
+    t.string   "city"
+    t.string   "state"
+    t.text     "description"
+    t.boolean  "is_certified"
+    t.boolean  "is_available"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

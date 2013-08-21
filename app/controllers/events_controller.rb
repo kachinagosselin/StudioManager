@@ -21,7 +21,6 @@ class EventsController < ApplicationController
 
     def create
         @event = Event.create(params[:event])
-        
         respond_to do |format|
             if @event.save
                 format.html { redirect_to root_path(), notice: 'Event was successfully created.' }

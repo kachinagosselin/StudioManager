@@ -11,7 +11,7 @@ class Studio < ActiveRecord::Base
     has_many :subscriptions
     
     attr_accessible :address, :city, :state
-    attr_accessible :location, :main_phone, :name, :website
+    attr_accessible :location, :main_phone, :name, :website, :account_id
     
     def gmaps4rails_address
         "#{self.address} #{self.city}, #{self.state}" 

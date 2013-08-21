@@ -57,7 +57,6 @@ background-color: gainsboro;
 border-right: 1px solid white;
 }
 
-
 .divider-horizontal-regular {
 height: 1px;
 width: 120%;
@@ -66,8 +65,6 @@ background-color: gainsboro;
 border-right: 1px solid white;
 }
 
-
-		
 	#wrap {
 		width: 100%;
 		margin: 0 auto;
