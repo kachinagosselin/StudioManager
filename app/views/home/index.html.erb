@@ -14,6 +14,8 @@ $(document).ready(function() {
 
 	$('#calendar').fullCalendar({
 		defaultView: 'agendaWeek',
+		ignoreTimezone: false,
+		eventColor: 'blue',
 		minTime: 6,
 		height: 500,
 		header: {
@@ -70,12 +72,8 @@ $(document).ready(function() {
 	        		<h5 class="panel-title">Studio Offerings </h5>
 	    		</div>
 			<ul class="list-group" style="list-style-type:none;">
-			  <li><a href="#" class="list-group-item ">
-			    <p class="list-group-item-heading">Monthly Membership</p>
-			    <!--<p class="list-group-item-text">...</p>--></a></li>
-			    <li><a href="#" class="list-group-item">
-			    <p class="list-group-item-heading">Drop-In Class</p>
-			    <!--<p class="list-group-item-text">...</p>--></a></li>
+			  <li>			  	<%= link_to "Monthly Membership", new_studio_product_path(Studio.first), class: "list-group-item"%></li>
+			    <li><%= link_to_function "Drop-In Class", current_user.customer.purchase!(Membership.first, "membership"), class: "list-group-item"%>
 			</ul>
 			</div>
 		</div>
@@ -88,7 +86,10 @@ $(document).ready(function() {
 		<% if current_user.customer.present? %>
 	  		<%= link_to 'Create a Studio', new_studio_path(), class: 'btn btn-mini', style: 'margin-top:-3px;' %>
 	    <% else %>
-			<%= link_to 'Add an Account', new_user_account_path(current_user.id), class: 'btn btn-mini', style: 'margin-top:-3px;'  %></p>
+							  <%= link_to 'Add an Account', new_user_account_path(current_user.id),
+        :class => 'btn btn-primary btn-sm' ,  :data => {:toggle => "modal", :target => "#accountModal"} , :remote => true, :html => {:style => "margin-top:5px;"}%></p>
+         		<%= render 'accounts/new' %>
+
 		<% end %>
 	<% end %>
 

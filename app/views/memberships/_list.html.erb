@@ -12,7 +12,7 @@ $(document).ready(function() {
 		<h3> Memberships</h3>
 			<div class="pull-right" style="margin-top:-40px;">
 				  <%= link_to 'New membership', new_studio_membership_path(@studio),
-        :class => 'btn btn-primary btn-sm' ,  :data => {:toggle => "modal", :target => "#myModal"} , :remote => true, :html => {:style => "margin-top:5px;"}%>
+        :class => 'btn btn-primary btn-sm' ,  :data => {:toggle => "modal", :target => "#membershipModal"} , :remote => true, :html => {:style => "margin-top:5px;"}%>
 
 			</div>
 			<div class="divider-horizontal-regular"></div>
@@ -45,16 +45,4 @@ $(document).ready(function() {
 
 
 
-
-  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">Create Membership</h4>
-      </div>
- 		<%= render 'memberships/form' %>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
 

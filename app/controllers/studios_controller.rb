@@ -53,8 +53,9 @@ class StudiosController < ApplicationController
     end 
 
     def students
-        @studio = Account.where(:user_id == current_user.id).first.studio
-        @students = User.with_role(:student, @studio)
+        @account = Account.where(:user_id == current_user.id).first
+        @studio = @account.studio
+        @students = @studio.users
     end 
     
     def details  

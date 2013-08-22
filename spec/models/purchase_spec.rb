@@ -1,5 +1,15 @@
 require 'spec_helper'
 
 describe Purchase do
-  pending "add some examples to (or delete) #{__FILE__}"
+    before do
+        @hash = Hash.new({:hello => 'world'})
+    end
+    
+    it "should return a blank instance" do
+        Hash.new.should == {}
+    end
+    
+    it "hash the correct information in a key" do
+        @hash[:hello].should == 'world'
+    end
 end

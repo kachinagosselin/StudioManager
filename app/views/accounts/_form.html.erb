@@ -46,20 +46,11 @@ function stripeResponseHandler(status, response) {
 }
 
 </script>
+  <div class="row" style="padding-left:30px;padding-right:30px;padding-bottom:10px;">
+    <h4>Add Credit Card </h4>
 
-    <h1>Activate Account for <%= current_user.name%> </h1>
+    <%= form_for([current_user, @account]) do |f| %>
 
-    <%= simple_form_for([current_user, @account]) do |f| %>
-      <% if @account.errors.any? %>
-        <div class="error_messages">
-          <h2><%= pluralize(@account.errors.count, "error") %> prohibited this account from being saved:</h2>
-          <ul>
-          <% @account.errors.full_messages.each do |msg| %>
-            <li><%= msg %></li>
-          <% end %>
-          </ul>
-        </div>
-      <% end %>
 
       <%= f.hidden_field :plan_id, :value => 1000 %>
       <%= f.hidden_field :user_id, :value => current_user.id %>
@@ -72,26 +63,34 @@ function stripeResponseHandler(status, response) {
         Credit card has been provided.
       <% end %>
       <% else %>
-        <div class="field">
+        <div class="form-group" >
           <%= label_tag :card_number, "Credit Card Number" %>
-          <%= text_field_tag :card_number, nil, name: nil %>
-        </div>
-        <div class="field">
-          <%= label_tag :card_code, "Security Code on Card (CVV)" %>
-          <%= text_field_tag :card_code, nil, name: nil %>
-        </div>
-        <div class="field">
+          <%= text_field_tag :card_number, nil, name: nil, :class => "form-control"  %>
+ 
+         <div class="row">
+          <div class="form-group col-lg-4">
+          <%= label_tag :card_code, "Security Code (CVV)" %>
+          <%= text_field_tag :card_code, nil, name: nil, :class => "form-control"  %>
+          </div>
+          <div class="form-group col-lg-4">
           <%= label_tag :card_month, "Card Expiration" %>
-          <%= select_month nil, {add_month_numbers: true}, {name: nil, id: "card_month"} %>
-          <%= select_year nil, {start_year: Date.today.year, end_year: Date.today.year+15}, {name: nil, id: "card_year"} %>
+          <%= text_field_tag :card_month, nil, name: nil, :class => 'datepicker form-control'  %>
+          </div>
+          <div class="form-group col-lg-4">
+          <%= label_tag :card_year, " " %>
+          <%= text_field_tag :card_year, nil, name: nil, :class => 'datepicker form-control'  %>
+          </div>
+        </div>
         </div>
       <% end %>
       <div id="stripe_error">
         <noscript>JavaScript is not enabled and is required for this form. First enable it in your web browser settings.</noscript>
       </div>
-      <div class="actions">
-        <%= link_to_function "Back", "history.back()" %>
-        <%= f.submit "Continue", :class =>"submit-button", :id => "new_account"%>
+      <div class="form-actions pull-right">
+        <%= link_to_function "Back", "history.back()", :class =>"btn btn-default" %>
+        <%= f.submit "Continue", :class =>"submit-button btn btn-primary", :id => "new_account"%>
 
-      </div>
+    </div>
   <% end %>
+</div>
+

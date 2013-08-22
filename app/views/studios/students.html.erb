@@ -1,5 +1,5 @@
 
-<div class="row" style="margin-top:-17px;">
+<div class="row">
 	<div class="col-lg-2 leftspan" style="margin-top: 10px;">
 		<%= render 'layouts/sidebar' %>
 	</div>
@@ -7,9 +7,6 @@
 	<div class="col-lg-8 rightspan" style="min-height:600px;">
 <h3> Students of <%= @studio.name %></h3>
 
-<p>Form to add new students </p>
-
-<% if @instructors.present? %>
 		<table class="table table-hover">
 		    <thead>
 		        <tr>
@@ -22,24 +19,17 @@
 		    <tbody>
 		        <% @students.each do |user| %>
 		        	<tr>
+		        		<% if user.is_certified %>
 		        		<td><%=link_to user.name, user %></td>
-		        		<td><%=link_to user.email, user %></td>
-		        		<td><%= user.email if false %></td>
-						<% if user.invitation_accepted_at.present? %>
-		        		<td><%= user.invitation_accepted_at %></td>
 		        		<% else %>
-		        		<td>Outstanding invitation</td>
+		        		<td><%=user.name %></td>
 		        		<% end %>
+		        		<td><%=user.email %></td>
+		        		<td><%=user.phone %></td>
 		        	</tr>
 		        <% end %>
 		    </tbody>
 		</table>
 
-<% else %>
-
-	<p> Looks like you don't have any students signed up! </p>
-
-	<p> Send an invitation for them to join the site. </p>
-<% end %>
 </div>
 </div>

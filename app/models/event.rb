@@ -1,7 +1,7 @@
 class Event < ActiveRecord::Base
-    has_event_calendar
     belongs_to :studio
     has_one :charge
+    has_many :students, foreign_key: "user_id", :through => :registered_event
     
     attr_accessible :studio_id, :description, :end_at, :instructor, :start_at, :title
     
@@ -22,8 +22,44 @@ class Event < ActiveRecord::Base
     scope :between, lambda {|start_time, end_time|  
     {:conditions => ["? < starts_at < ?", Event.format_date(start_time),      Event.format_date(end_time)] }  
     }  
+    
     def self.format_date(date_time)  
     Time.at(date_time.to_i).to_formatted_s(:db)  
+    end
+
+    def day_of_week
+        day_of_week = start_at.wday
+        if day_of_week == 0
+            return "Sun"
+        elsif day_of_week == 1
+            return "Mon"
+        elsif day_of_week == 2
+            return "Tues"
+        elsif day_of_week == 3
+            return "Wed"
+        elsif day_of_week == 4
+            return "Thurs"
+        elsif day_of_week == 5
+            return "Fri"
+        elsif day_of_week == 6
+            return "Sat"
+        end
+    end
+
+    def duration
+        days = ((end_at-start_at) / (24*3600)).round
+        hours_remaining = ((end_at-start_at) / 3600).round % 24
+        hours = ((end_at-start_at) / 3600).round
+        minutes_remaining = ((end_at-start_at)/ 60).round % 60
+        if days != 0
+            return "#{days} days #{hours_remaining} hrs #{minutes_remaining} mins"
+        else
+            return "#{hours} hrs #{minutes_remaining} mins"
+        end
+    end
+
+    def register!(student, studio)
+        registered_event.create!(student_id: student.id, studio_id: studio.id)
     end
 
 end

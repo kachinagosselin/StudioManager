@@ -1,7 +1,14 @@
+<script>
+$(document).ready(function() {
+  $("#new_coupon").submit(function(event) {
+   $('#new_coupon').get(0).submit();
+  });
 
-<%if @coupon%>
+});
+</script>
+
      <div class="modal-body">
-    <%= simple_form_for([@studio, @coupon], :html => { :class => 'form-horizontal', :remote => true } ) do |f| %>
+    <%= simple_form_for([@studio, @new_coupon], :html => { :class => 'form-horizontal', :remote => true } ) do |f| %>
               <%= f.error_notification %>
               <div class="form-inputs">   
                 <div class="row">
@@ -26,8 +33,7 @@
       <div class="modal-footer">
     <div class="actions">
         <a class="btn" data-dismiss="modal" href="#">Cancel</a>
-       <%= f.submit nil, :class => 'btn btn-submit btn-primary' %>
+          <button type="submit" class="btn btn-primary">Submit</button>
         <% end %>
     </div>     
-<% end %>
     </div>     

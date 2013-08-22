@@ -9,7 +9,11 @@ class Studio < ActiveRecord::Base
     has_many :charges
     has_many :memberships
     has_many :subscriptions
-    
+    has_many :purchases
+    has_many :registered_events
+    has_many :users, foreign_key: "user_id", :through => :registered_events
+
+
     attr_accessible :address, :city, :state
     attr_accessible :location, :main_phone, :name, :website, :account_id
     

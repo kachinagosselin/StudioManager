@@ -4,23 +4,18 @@ class MembershipsController < ApplicationController
             @studio = Studio.find(params[:studio_id])
             @memberships = @studio.memberships.find(:all)
             @membership = @studio.memberships.new
-            
+            puts 'index'
             respond_to do |format|
                 format.html # index.html.erb
                 format.json { render json: @memberships }
             end
         end
         
-        def new
-            @studio = Studio.find(params[:studio_id])
-            @membership = @studio.memberships.new
-        end
-        
         def create
             @studio = Studio.find(params[:studio_id])
             @membership = Membership.new(params[:membership])
             @membership.studio_id = @studio.id
-            
+            puts 'create'
             respond_to do |format|
                 if @membership.save
                     format.html { redirect_to studio_memberships_path(@studio), notice: 'Membership was successfully created.' }
@@ -33,7 +28,9 @@ class MembershipsController < ApplicationController
         end
         
         def destroy
+            @studio = Studio.find(params[:studio_id])
             @membership = Membership.find(params[:id])
             @membership.destroy
+            redirect_to studio_memberships_path(@studio)
         end
     end

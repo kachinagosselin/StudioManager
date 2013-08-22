@@ -1,29 +1,26 @@
 <h3>Studio Classes</h3>
-<% @studio = Studio.first %>
-<% @events = @studio.events.all %>
-	 <p> This is the list of events that belong to this studio. </p>
+<%= link_to 'Create an Event', new_studio_event_path(@studio), class: 'btn btn-sm btn-primary pull-right', :style => "margin-top:-35px;"%>
 
-      <%= link_to 'Create an Event', new_studio_event_path(@studio), class: 'btn btn-sm'%>
+<% @events = @studio.events.select("DISTINCT title") %>
 
+    <table class="table table-hover">
+        <thead>
+            <tr>
+              <th></th>
+              <th>Start Time</th>
+              <th>Title</th>
+              <th>Location</th>
+              <th>Duration</th>
+            </tr>       
+        </thead>
+        <tbody>
+            <% @events.each do |event| %>
+              <tr>
 
-<table class="table table-condensed">
-
-    <thead>
-        <tr>
-          <th>Start Time</th>
-          <th>Title</th>
-          <th>Instructor</th>
-          <th>Location</th>
-          <th>Duration</th>
-        </tr>       
-    </thead>
-    <tbody>
-        <% @events.each do |event| %>
-          <tr>
-            <td><%=link_to event.start_at, studio_event_path(@studio, event) %></td>
-        		<td><%=link_to event.title, studio_event_path(@studio, event)%></td>
-            <td><%=link_to event.instructor, user_path(User.where(:name => event.instructor).first.id) %></td>
-          </tr>
-        <% end %>
-    </tbody>
-</table>
+              <td><%= event.title%></td>
+              <td></td>
+              <td><%= Event.where(:title => event.title).first.duration %></td>
+              </tr>
+            <% end %>
+        </tbody>
+    </table>

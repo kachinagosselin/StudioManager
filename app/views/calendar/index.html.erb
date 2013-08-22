@@ -8,24 +8,6 @@
 $(document).ready(function() {
 
   
-    /* initialize the external events
-    -----------------------------------------------------------------*/
-  
-    $('#external-events div.external-event').each(function() {
-    
-      // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
-      // it doesn't need to have a start or end
-      var eventObject = {
-        title: $.trim($(this).text()) // use the element's text as the event title
-      };
-      
-      // store the Event Object in the DOM element so we can get to it later
-      $(this).data('eventObject', eventObject);
-      
-
-      
-    });
-
     // page is now ready, initialize the calendar...
 
 $('#calendar').fullCalendar({
@@ -72,6 +54,8 @@ $('#my-draggable').draggable({
 <div id='calendar'></div>
 </div>
 </div>
+
+    <div class="divider-horizontal-regular"></div>
 
 <%= render 'events/list' %>
 </div>

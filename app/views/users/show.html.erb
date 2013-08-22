@@ -14,8 +14,42 @@
 			<p>Email: <%= @user.email if @user.email %></p>
 	 		<p>Phone: <%= @user.phone if @user.phone %></p>
 			<p>Here is where we add the instructors description.</p>
-			<p> <%= @user.description %>
+			<p> <%= @user.description %></p>
+			<h4> Current Employment </h4>
+			<% Event.where("instructor = ?", @user.name).select("DISTINCT studio_id").each do |e|%>
+			<% @studio = Studio.find(e.studio_id) %>
+			<p><%= @studio.name %></p>
+			<% end %>
+
 		</div>
+
+		<% @events = Event.where(:instructor => @user.name).where('start_at < ?', Date.today+7).order(:start_at) %>
+		<h4> Events for next Week </h4>
+		<table class="table table-hover">
+		    <thead>
+		        <tr>
+		          <th></th>
+		          <th>Start Time</th>
+		          <th>Title</th>
+		          <th>Studio</th>
+		          <th>Location</th>
+		          <th>Duration</th>
+		        </tr>       
+		    </thead>
+		    <tbody>
+		        <% @events.each do |event| %>
+		          <tr>
+		            <td><%= event.day_of_week %></td>
+		            <td><%= event.start_at.strftime("%I:%M %P") %></td>
+		        	<td><%= link_to event.title, studio_event_path(@studio, event) %></td>
+		        	<td><%= Studio.find(event.studio_id).name %></td>
+		        	<td></td>
+		        	<td><%= event.duration %></td>
+		          </tr>
+		        <% end %>
+		    </tbody>
+		</table>
+
 	</div>
 
 	</div>

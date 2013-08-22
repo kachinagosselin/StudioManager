@@ -26,13 +26,13 @@ StudioManager::Application.routes.draw do
         end
     end 
     resources :plans
-    resources :products
     
     resources :studios do
         resources :events
         resources :memberships
         resources :customers
         resources :subscriptions
+        resources :products
         resources :coupons
         resources :reports
     end

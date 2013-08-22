@@ -1,32 +1,33 @@
 
-<%if @membership%>
      <div class="modal-body">
-    <%= simple_form_for([@studio, @membership], :html => { :class => 'form-horizontal', :remote => true } ) do |f| %>
-              <%= f.error_notification %>
-              <div class="form-inputs">   
-                <div class="row">
-                <%= f.input :name %>
-                
-                <div class="span5"> 
-                <%= f.input :price%>
-                <%= f.input :trial_period_days%>
+    <%= form_for([@studio, @membership], :html => { :class => 'form-horizontal', :remote => true } ) do |f| %>
+        <div class="form-group">
+          <%= f.label :name %>
+            <%= f.text_field :name, :class => "form-control" %>
+                <div class="form-group  col-lg-6">
+                <%= f.label :price %>
+                <%= f.number_field :price, :class => "form-control"%>
+
+                <%= f.label :trial_period_days %>
+                <%= f.number_field :trial_period_days, :class => "form-control"%>
                 </div>
 
-                <div class="span5">
-                <%= f.input :interval %>
-                <%= f.input :interval_count %>
+                <div class="form-group  col-lg-5" style ="margin-left:10px;">
+                <%= f.label :interval %>
+                <%= f.text_field :interval, :class => "form-control" %>
+
+                <%= f.label :interval_count %>
+                <%= f.number_field :interval_count, :class => "form-control" %>
                 </div>
-              </div>
+                </div>
 
             <div id="stripe_error">
             <noscript>JavaScript is not enabled and is required for this form. First enable it in your web browser settings.</noscript>
             </div>
-      </div>
       <div class="modal-footer">
     <div class="actions">
         <a class="btn" data-dismiss="modal" href="#">Cancel</a>
-       <%= f.submit nil, :class => 'btn btn-submit btn-primary' %>
+          <button type="submit" class="btn btn-primary">Submit</button>
         <% end %>
     </div>     
-<% end %>
     </div>     

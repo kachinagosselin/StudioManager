@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130820174605) do
+ActiveRecord::Schema.define(:version => 20130821210106) do
 
   create_table "accounts", :force => true do |t|
     t.integer  "plan_id"
@@ -111,14 +111,31 @@ ActiveRecord::Schema.define(:version => 20130820174605) do
   create_table "purchases", :force => true do |t|
     t.integer  "customer_id"
     t.integer  "product_id"
+    t.integer  "studio_id"
     t.string   "product_type"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
   end
 
-  add_index "purchases", ["customer_id", "product_id"], :name => "index_purchases_on_customer_id_and_product_id", :unique => true
+  add_index "purchases", ["customer_id", "product_id", "studio_id", "product_type"], :name => "studio_purchases", :unique => true
   add_index "purchases", ["customer_id"], :name => "index_purchases_on_customer_id"
   add_index "purchases", ["product_id"], :name => "index_purchases_on_product_id"
+  add_index "purchases", ["studio_id"], :name => "index_purchases_on_studio_id"
+
+  create_table "registered_events", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "event_id"
+    t.integer  "studio_id"
+    t.boolean  "attended",   :default => false
+    t.boolean  "canceled",   :default => true
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
+  end
+
+  add_index "registered_events", ["event_id"], :name => "index_registered_events_on_event_id"
+  add_index "registered_events", ["studio_id"], :name => "index_registered_events_on_studio_id"
+  add_index "registered_events", ["user_id", "event_id", "studio_id"], :name => "student_events", :unique => true
+  add_index "registered_events", ["user_id"], :name => "index_registered_events_on_user_id"
 
   create_table "roles", :force => true do |t|
     t.string   "name"

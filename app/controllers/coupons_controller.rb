@@ -3,7 +3,7 @@ class CouponsController < ApplicationController
     def index
         @studio = Studio.find(params[:studio_id])
         @coupons = @studio.coupons.find(:all)
-        @coupon = @studio.coupons.new
+        @new_coupon = @studio.coupons.new
         
         respond_to do |format|
             format.html # index.html.erb
@@ -11,14 +11,9 @@ class CouponsController < ApplicationController
         end
     end
     
-    def new
-        @studio = Studio.find(params[:studio_id])
-        @coupon = @studio.coupons.new
-    end
-    
     def create
         @studio = Studio.find(params[:studio_id])
-        @coupon = Coupon.new(params[:coupon])
+        @coupon = Coupon.create(params[:coupon])
         @coupon.studio_id = @studio.id
         
         respond_to do |format|

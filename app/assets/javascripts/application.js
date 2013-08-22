@@ -14,3 +14,4 @@
 //= require_tree .
 //= require fullcalendar
 //= require gcal
+//= require bootstrap-datepicker
