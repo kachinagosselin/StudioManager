@@ -10,6 +10,7 @@ $(document).ready(function() {
         //You also need to prevent the default behaviour of 
         e.preventDefault();
         $("#map-container").toggle();
+
     });
 
 	$('#calendar').fullCalendar({
@@ -24,10 +25,10 @@ $(document).ready(function() {
 	  	right: 'month,agendaWeek,agendaDay',
 	  	},
 	    eventSources: [{
-	            url: '/studios/1/events/', // use the `url` property
+	            url: user_registered_events_path(current_user), // use the `url` property
 	    }, 
 	    {
-	            url: '/studios/4/events/', // use the `url` property
+	            url: '/studios/1/events/', // use the `url` property
 	    }]
 	});
 });
@@ -71,10 +72,12 @@ $(document).ready(function() {
 				<div class="panel-heading">
 	        		<h5 class="panel-title">Studio Offerings </h5>
 	    		</div>
+	    		<% if false %>
 			<ul class="list-group" style="list-style-type:none;">
 			  <li>			  	<%= link_to "Monthly Membership", new_studio_product_path(Studio.first), class: "list-group-item"%></li>
 			    <li><%= link_to_function "Drop-In Class", current_user.customer.purchase!(Membership.first, "membership"), class: "list-group-item"%>
 			</ul>
+			<% end %>
 			</div>
 		</div>
 		</div>
@@ -84,7 +87,7 @@ $(document).ready(function() {
 		<p style="margin-left:100px;"><b>Are you a studio owner?</b> To be able to use our full suite of services please:
 
 		<% if current_user.customer.present? %>
-	  		<%= link_to 'Create a Studio', new_studio_path(), class: 'btn btn-mini', style: 'margin-top:-3px;' %>
+	  		<%= link_to 'Create a Studio', edit_user_registration_path(), class: 'btn btn-mini', style: 'margin-top:-3px;' %>
 	    <% else %>
 							  <%= link_to 'Add an Account', new_user_account_path(current_user.id),
         :class => 'btn btn-primary btn-sm' ,  :data => {:toggle => "modal", :target => "#accountModal"} , :remote => true, :html => {:style => "margin-top:5px;"}%></p>

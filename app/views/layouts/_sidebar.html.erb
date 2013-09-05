@@ -1,23 +1,26 @@
     <% if user_signed_in? %>
     <% if current_user.has_role? :owner %>
-          <% if Studio.where(:account_id =>  Account.where(:user_id => current_user.id).first.id ).first.present? %>
-          <% @studio = Studio.where(:account_id =>  Account.where(:user_id => current_user.id).first.id ).first%>
+          <% if Studio.where(:account_id => current_user.account.id ).first.present? %>
+          <% @studio = Studio.where(:account_id =>  current_user.account.id).first%>
+
+	<!--
 	<%= link_to 'Dashboard', root_path()%>
-		<div class="divider-horizontal"></div>
+		<div class="divider-horizontal"></div> -->
+
 	<%= link_to 'Calendar', calendar_path()%>
 		<div class="divider-horizontal"></div>
-	<%= link_to 'Instructors', studio_instructors_path(@studio)%>
+	<%= link_to 'Instructors', instructors_studio_path(@studio)%>
 		<div class="divider-horizontal"></div>
-	<%= link_to 'Students', studio_students_path(@studio)%>
+	<%= link_to 'Students', students_studio_path(@studio)%>
 		<div class="divider-horizontal"></div>
-	<%= link_to 'Products', studio_products_path(@studio)%>
+	<%= link_to 'Memberships', studio_memberships_path(@studio)%>
 		<div class="divider-horizontal"></div>
 	<%= link_to 'Coupons', studio_coupons_path(@studio)%>
 		<div class="divider-horizontal"></div>
+
+	<!--
 	<%= link_to 'Reports', studio_reports_path(@studio)%>
-		<div class="divider-horizontal"></div>
-		<% else %>
-		<% @studio = Studio.new %>
+		<div class="divider-horizontal"></div> -->
 	<% end %>
 
 	<% end %>

@@ -20,7 +20,8 @@ class EventsController < ApplicationController
     end
 
     def create
-        @event = Event.create(params[:event])
+        @studio = Studio.find(params[:studio_id])
+        @event = @studio.event.create(params[:event])
         respond_to do |format|
             if @event.save
                 format.html { redirect_to root_path(), notice: 'Event was successfully created.' }

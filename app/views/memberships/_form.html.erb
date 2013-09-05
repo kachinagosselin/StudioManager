@@ -1,6 +1,5 @@
-
      <div class="modal-body">
-    <%= form_for([@studio, @membership], :html => { :class => 'form-horizontal', :remote => true } ) do |f| %>
+    <%= form_for([@studio, @membership], :html => { :class => 'form-horizontal'} ) do |f| %>
         <div class="form-group">
           <%= f.label :name %>
             <%= f.text_field :name, :class => "form-control" %>
@@ -20,11 +19,7 @@
                 <%= f.number_field :interval_count, :class => "form-control" %>
                 </div>
                 </div>
-
-            <div id="stripe_error">
-            <noscript>JavaScript is not enabled and is required for this form. First enable it in your web browser settings.</noscript>
-            </div>
-      <div class="modal-footer">
+    <div class="modal-footer">
     <div class="actions">
         <a class="btn" data-dismiss="modal" href="#">Cancel</a>
           <button type="submit" class="btn btn-primary">Submit</button>

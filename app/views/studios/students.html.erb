@@ -5,7 +5,20 @@
 	</div>
 
 	<div class="col-lg-8 rightspan" style="min-height:600px;">
-<h3> Students of <%= @studio.name %></h3>
+
+<div class="col-lg-6" >
+	<h3> Students of <%= @studio.name %></h3>
+</div>
+<div class="col-lg-6" style="margin-top:20px;" >
+	<%= form_for @search, :url => students_studio_path(@studio), :html => {:method => :get} do |f| %>
+		<div class="input-group">
+      	<%= f.text_field :name_or_email_contains, :class => "form-control"  %>
+      	<span class="input-group-btn">
+          <button type="submit" class="btn btn-primary">Search</button>
+      	</span>
+    	</div><!-- /input-group -->
+	<% end %>
+</div>
 
 		<table class="table table-hover">
 		    <thead>
@@ -19,13 +32,13 @@
 		    <tbody>
 		        <% @students.each do |user| %>
 		        	<tr>
-		        		<% if user.is_certified %>
+		        		<% if user.profile.is_certified %>
 		        		<td><%=link_to user.name, user %></td>
 		        		<% else %>
 		        		<td><%=user.name %></td>
 		        		<% end %>
 		        		<td><%=user.email %></td>
-		        		<td><%=user.phone %></td>
+		        		<td><%=user.profile.phone %></td>
 		        	</tr>
 		        <% end %>
 		    </tbody>

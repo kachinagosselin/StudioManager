@@ -12,9 +12,9 @@
 		<div class="col-lg-8">
 			<h3><%= @user.name %></h3>
 			<p>Email: <%= @user.email if @user.email %></p>
-	 		<p>Phone: <%= @user.phone if @user.phone %></p>
+	 		<p>Phone: <%= @user.profile.phone if @user.profile.phone %></p>
 			<p>Here is where we add the instructors description.</p>
-			<p> <%= @user.description %></p>
+			<p> <%= @user.profile.description %></p>
 			<h4> Current Employment </h4>
 			<% Event.where("instructor = ?", @user.name).select("DISTINCT studio_id").each do |e|%>
 			<% @studio = Studio.find(e.studio_id) %>

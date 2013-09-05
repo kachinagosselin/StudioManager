@@ -1,7 +1,14 @@
-		<h3> Memberships</h3>
+
+<div class="row">
+	<div class="col-lg-2 leftspan" style="margin-top: 10px;">
+		<%= render 'layouts/sidebar' %>
+	</div>
+
+	<div class="col-lg-8 rightspan" style="min-height:600px;">
+			<h3> Memberships</h3>
 			<div class="pull-right" style="margin-top:-40px;">
 				  <%= link_to 'New membership', new_studio_membership_path(@studio),
-        :class => 'btn btn-primary btn-sm' ,  :data => {:toggle => "modal", :target => "#myModal"} , :remote => true, :html => {:style => "margin-top:5px;"}%>
+        :class => 'btn btn-primary btn-sm' ,  :data => {:toggle => "modal", :target => "#newModal"} , :remote => true, :html => {:style => "margin-top:5px;"}%>
 
 			</div>
 			<div class="divider-horizontal-regular"></div>
@@ -25,15 +32,19 @@
 				        		<td><%= membership.interval%>
 				        		</td>						
 				        		<td><%= membership.interval_count if membership.interval_count?%></td>		        		<td><%= membership.trial_period_days if membership.trial_period_days?%></td>
-								<% @edit_membership = membership %>
-				  				<td><%= link_to 'edit', edit_studio_membership_path(@studio, @edit_membership),  :data => {:toggle => "modal", :target => "#editModal"} , :remote => true %>	</td>
-    							<td><%= link_to 'Delete', [membership.studio, membership], method: :delete, data: { confirm: 'Are you sure? This action cannot be undone.' }, :class => 'btn btn-sm' %></td>
+				  				<td><%= button_to 'Edit', edit_studio_membership_path(membership.studio, membership),  :data => {:toggle => "modal", :target => "#editModal"} , :remote => true , :class => 'btn btn-default btn-xs' %>	</td>
+    							<td><%= button_to 'Delete', [membership.studio, membership], method: :delete, data: { confirm: 'Are you sure? This action cannot be undone.' }, :class => 'btn btn-default btn-xs' %></td>
 				        	</tr>
 				        <% end %>
 				</table>
 
+ 	</div>
+</div>
 
-
-
- 
+<div>
  		<%= render 'new' %>
+</div>
+<div>
+ 		<%= render 'edit' %>
+</div>
+

@@ -49,13 +49,18 @@ class StudiosController < ApplicationController
     end
     
     def instructors
-        @studio = Account.where(:user_id == current_user.id).first.studio
+        @studio = Studio.find(params[:id])
+        @search = User.search(params[:search])
+        @search_database = User.search(params[:search_database])
+        @instructors = @search.all   # load all matching records
+        @instructors_database = @search_database.all   # load all matching records
+
     end 
 
     def students
-        @account = Account.where(:user_id == current_user.id).first
-        @studio = @account.studio
-        @students = @studio.users
+        @studio = Studio.find(params[:id])
+        @search = User.search(params[:search])
+        @students = @search.all   # load all matching records
     end 
     
     def details  

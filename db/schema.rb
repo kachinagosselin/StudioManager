@@ -108,6 +108,18 @@ ActiveRecord::Schema.define(:version => 20130821210106) do
     t.datetime "updated_at", :null => false
   end
 
+  create_table "profiles", :force => true do |t|
+    t.integer "phone"
+    t.string  "address"
+    t.string  "city"
+    t.string  "state"
+    t.text    "description"
+    t.boolean "is_certified"
+    t.boolean "is_available"
+    t.boolean "hide_map"
+    t.integer "user_id"
+  end
+
   create_table "purchases", :force => true do |t|
     t.integer  "customer_id"
     t.integer  "product_id"
@@ -197,14 +209,6 @@ ActiveRecord::Schema.define(:version => 20130821210106) do
     t.datetime "created_at",                             :null => false
     t.datetime "updated_at",                             :null => false
     t.string   "name"
-    t.string   "permalink"
-    t.integer  "phone"
-    t.string   "address"
-    t.string   "city"
-    t.string   "state"
-    t.text     "description"
-    t.boolean  "is_certified"
-    t.boolean  "is_available"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
