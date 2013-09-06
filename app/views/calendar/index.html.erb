@@ -16,14 +16,12 @@ $('#calendar').fullCalendar({
   	center: 'title',
   	right: 'month,agendaWeek,agendaDay'
 	},
-      eventSources: [{
-              url: '/studios/1/events/',
-      }]
-});
-
-$('#my-draggable').draggable({
-    revert: true,      // immediately snap back to original position
-    revertDuration: 0  //
+eventSources: [{
+      url: '/studios/1/events'
+    },
+    {
+      url: '/1/calendar'
+    }]
 });
 
 
@@ -35,25 +33,9 @@ $('#my-draggable').draggable({
 	</div>
 
   <div class="col-lg-8 rightspan">
-  	<div class="row">
-  <div class="col-lg-3">
 
-    <div id='external-events'>
-    <h4>Draggable Events</h4>
-    <% @events = Event.where(:studio_id => @studio.id) %>
-    <% @events.each do |event|%>
-    <div class='external-event'>My Event</div>
-    <% end %>
-    <p>
-    <input type='checkbox' id='drop-remove' /> <label for='drop-remove'>remove after drop</label>
-    </p>
-    </div>
-</div>
-  <div class="col-lg-9">
+  <div id='calendar'></div>
 
-<div id='calendar'></div>
-</div>
-</div>
 
     <div class="divider-horizontal-regular"></div>
 

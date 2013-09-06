@@ -273,4 +273,11 @@ Devise.setup do |config|
     # The period the generated invitation token is valid, after
     # this period, the invited resource won't be able to accept the invitation.
     # When invite_for is 0 (the default), the invitation won't expire.
+    
+    # Put this in config/initializers/devise.rb with the rest of your Devise configuration
+    config.omniauth :stripe_connect,
+    ENV['STRIPE_CONNECT_CLIENT_ID'],
+    ENV['STRIPE_SECRET_KEY'],
+    :scope => 'read_write', # or :scope => 'read_only'
+    :stripe_landing => 'login' # or :stripe_landing => 'register'
 end

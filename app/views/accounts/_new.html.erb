@@ -6,7 +6,7 @@
         <h3 class="modal-title">Activate Account for <%= current_user.name%></h3>
 
       </div>
-      	<% @account = current_user.accounts.new %>
+      	<% @account = current_user.account.new %>
  		<%= render 'accounts/form' %>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->

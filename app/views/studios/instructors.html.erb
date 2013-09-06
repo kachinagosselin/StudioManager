@@ -6,19 +6,20 @@
 
 	<div class="col-lg-8 rightspan" style="min-height:600px;">
 
-<div class="col-lg-6" >
-	<h3> Your Instructors </h3>
-</div>
-<div class="col-lg-6" style="margin-top:20px;" >
-	<%= form_for @search, :url => instructors_studio_path(@studio), :html => {:method => :get} do |f| %>
-		<div class="input-group">
-      	<%= f.text_field :name_or_email_contains, :class => "form-control"  %>
-      	<span class="input-group-btn">
-          <button type="submit" class="btn btn-primary">Search</button>
-      	</span>
-    	</div><!-- /input-group -->
-	<% end %>
-</div>
+		<div class="col-lg-6" >
+			<h3> Your Instructors </h3>
+		</div>
+
+		<div class="col-lg-6" style="margin-top:20px;" >
+			<%= form_for @search, :url => instructors_studio_path(@studio), :html => {:method => :get, :id => "user_search"} do |f| %>
+				<div class="input-group">
+		      	<%= f.text_field :name_or_email_contains, :class => "form-control"  %>
+		      	<span class="input-group-btn">
+		          <button type="submit" class="btn btn-primary">Search</button>
+		      	</span>
+		    	</div><!-- /input-group -->
+			<% end %>
+		</div>
 
 		<table class="table table-condensed">
 		    <thead>
@@ -26,17 +27,21 @@
 		          <th>Name</th>
 		          <th>Email</th>  
 		          <th>Phone</th>
-		          <th>Date Joined?</th>                             
+		          <th>City</th>                             
+		          <th>Certification</th>  
+		          <th>Availability? </th>                           
 		        </tr>
 		    </thead>
 		    <tbody>
-		    	<% @profiles = Profile.where(:is_certified => true).where(:is_available => true) %>
 		        <% @instructors.each do |user| %>
 		        	<tr>
 		        		<td><%=link_to user.name, user %></td>
 		        		<td><%=link_to user.email, user %></td>
 		        		<td><%=  user.profile.phone if user.profile.phone %></td>
-		        		<td>Outstanding invitation</td>
+		        		<td><%= user.profile.city %>, <%= user.profile.state %></td>
+		        		<td></td>
+		        		<td></td>
+		        		<td>Message</td>
 		        	</tr>
 		        <% end %>
 		    </tbody>
@@ -47,7 +52,7 @@
 	<h3> Database of Instructors </h3>
 </div>
 <div class="col-lg-6" style="margin-top:20px;" >
-	<%= form_for @search_database, :url => instructors_studio_path(@studio), :html => {:method => :get} do |f| %>
+	<%= form_for @search_database, :url => instructors_studio_path(@studio), :html => {:method => :get, :id => "user_search_database"} do |f| %>
 		<div class="input-group">
       	<%= f.text_field :name_or_email_contains, :class => "form-control"  %>
       	<span class="input-group-btn">
@@ -63,18 +68,21 @@
 		          <th>Name</th>
 		          <th>Email</th>  
 		          <th>Phone</th>
-		          <th>Date Joined?</th>                             
+		          <th>City</th>                             
+		          <th>Certification</th>  
+		          <th>Availability? </th>                           
 		        </tr>
 		    </thead>
 		    <tbody>
-		    	<% @profiles = Profile.where(:is_certified => true).where(:is_available => true) %>
-		        <% @profiles.each do |profile| %>
-		        <% user = User.find(profile.user_id) %>
+		        <% @instructors_database.each do |user| %>
 		        	<tr>
 		        		<td><%=link_to user.name, user %></td>
 		        		<td><%=link_to user.email, user %></td>
 		        		<td><%=  user.profile.phone if user.profile.phone %></td>
-		        		<td>Outstanding invitation</td>
+		        		<td><%= user.profile.city %>, <%= user.profile.state %></td>
+		        		<td></td>
+		        		<td></td>
+		        		<td>Message</td>
 		        	</tr>
 		        <% end %>
 		    </tbody>

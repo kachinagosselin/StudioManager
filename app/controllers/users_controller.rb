@@ -21,8 +21,8 @@ class UsersController < ApplicationController
         students.find_by(event_id: event.id)
     end
     
-    def become_student!(other_user)
+    def become_student!(event)
         students.create!(event_id: event.id)
     end
-    
+
 end

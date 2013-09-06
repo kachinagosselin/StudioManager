@@ -4,9 +4,10 @@ class CalendarController < ApplicationController
     @month = (params[:month] || (Time.zone || Time).now.month).to_i
     @year = (params[:year] || (Time.zone || Time).now.year).to_i
     @shown_month = Date.civil(@year, @month)
-      @search = Event.search(params[:search])
-      @events = @search.all   # load all matching records
-
+      
+    @studio = Studio.find(params[:studio_id])
+    @search = @studio.events.search(params[:search])
+    @events = @search.all   # load all matching records
   end
   
 end

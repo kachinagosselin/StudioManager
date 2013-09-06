@@ -11,7 +11,9 @@ class Studio < ActiveRecord::Base
     has_many :subscriptions
     has_many :purchases
     has_many :registered_events
+    has_many :instructors
     has_many :users, foreign_key: "user_id", :through => :registered_events
+    has_many :staff, foreign_key: "user_id", :through => :instructors, :source => :user
 
 
     attr_accessible :address, :city, :state
@@ -20,4 +22,5 @@ class Studio < ActiveRecord::Base
     def gmaps4rails_address
         "#{self.address} #{self.city}, #{self.state}" 
     end
+    
 end

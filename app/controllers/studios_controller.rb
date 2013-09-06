@@ -50,16 +50,16 @@ class StudiosController < ApplicationController
     
     def instructors
         @studio = Studio.find(params[:id])
-        @search = User.search(params[:search])
-        @search_database = User.search(params[:search_database])
+        @search = @studio.staff.search(params[:search])
         @instructors = @search.all   # load all matching records
+        @available_instructors = User.joins(:profile).where('is_certified = ?',  true)
+        @search_database = @available_instructors.search(params[:search_database])
         @instructors_database = @search_database.all   # load all matching records
-
     end 
 
     def students
         @studio = Studio.find(params[:id])
-        @search = User.search(params[:search])
+        @search = @studio.users.search(params[:search])
         @students = @search.all   # load all matching records
     end 
     

@@ -15,10 +15,11 @@
 	 		<p>Phone: <%= @user.profile.phone if @user.profile.phone %></p>
 			<p>Here is where we add the instructors description.</p>
 			<p> <%= @user.profile.description %></p>
+			<% if @user.studios.present? %>
 			<h4> Current Employment </h4>
-			<% Event.where("instructor = ?", @user.name).select("DISTINCT studio_id").each do |e|%>
-			<% @studio = Studio.find(e.studio_id) %>
-			<p><%= @studio.name %></p>
+			<% @user.studios.each do |studio|%>
+			<p><%= studio.name %></p>
+			<% end %>
 			<% end %>
 
 		</div>
