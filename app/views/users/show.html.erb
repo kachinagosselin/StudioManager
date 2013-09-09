@@ -13,10 +13,11 @@
 			<h3><%= @user.name %></h3>
 			<p>Email: <%= @user.email if @user.email %></p>
 	 		<p>Phone: <%= @user.profile.phone if @user.profile.phone %></p>
-			<p>Here is where we add the instructors description.</p>
+			<p><%= @user.profile.description if @user.profile.description %></p>
 			<p> <%= @user.profile.description %></p>
 			<% if @user.studios.present? %>
-			<h4> Current Employment </h4>
+		</br>
+			<h5> Current Employment at: </h5>
 			<% @user.studios.each do |studio|%>
 			<p><%= studio.name %></p>
 			<% end %>

@@ -32,7 +32,8 @@
 				        		<td><%= membership.interval%>
 				        		</td>						
 				        		<td><%= membership.interval_count if membership.interval_count?%></td>		        		<td><%= membership.trial_period_days if membership.trial_period_days?%></td>
-				  				<td><%= button_to 'Edit', edit_studio_membership_path(membership.studio, membership),  :data => {:toggle => "modal", :target => "#editModal"} , :remote => true , :class => 'btn btn-default btn-xs' %>	</td>
+				  				<td><%= link_to 'Edit', edit_studio_membership_path(membership.studio, membership),  :data => {:toggle => "modal", :target => "#editModal#{ membership.id}"}, :remote => true, :class => 'btn btn-default btn-xs' %>	</td>
+ 		<%= render :partial => 'edit', :locals => {:membership => membership}%>
     							<td><%= button_to 'Delete', [membership.studio, membership], method: :delete, data: { confirm: 'Are you sure? This action cannot be undone.' }, :class => 'btn btn-default btn-xs' %></td>
 				        	</tr>
 				        <% end %>
@@ -44,7 +45,5 @@
 <div>
  		<%= render 'new' %>
 </div>
-<div>
- 		<%= render 'edit' %>
-</div>
+
 

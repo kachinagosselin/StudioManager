@@ -21,10 +21,10 @@ class EventsController < ApplicationController
 
     def create
         @studio = Studio.find(params[:studio_id])
-        @event = @studio.event.create(params[:event])
+        @event = @studio.events.create(params[:event])
         respond_to do |format|
             if @event.save
-                format.html { redirect_to root_path(), notice: 'Event was successfully created.' }
+                format.html { redirect_to calendar_path(@studio), notice: 'Event was successfully created.' }
                 format.json { head :no_content }
                 else
                 format.html { render :action => 'new', alert: 'Event was unsuccessfully created.' }

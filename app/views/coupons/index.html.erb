@@ -1,3 +1,12 @@
+   <script type="text/javascript">
+        $(document).ready(function() {
+            $('[data-behaviour~=datepicker]').datepicker({
+                "format": "yyyy-mm-dd",
+                "weekStart": 0,
+                "autoclose": true
+            })
+        });
+    </script>
 
 <div class="row">
 	<div class="col-lg-2 leftspan" style="margin-top: 10px;">
@@ -36,15 +45,16 @@
 				        		</td>						
 				        		<td><%= coupon.duration_in_months if coupon.duration_in_months?%></td>		        		<td><%= coupon.max_redemptions if coupon.max_redemptions?%></td>
 								<td><%= coupon.redeem_by if coupon.redeem_by?%></td>
-				  				<td>'edit'</td>
-    							<td><%= button_to 'Delete', [coupon.studio, coupon], method: :delete, data: { confirm: 'Are you sure? This action cannot be undone.' }, :class => 'btn btn-default btn-xs' %></td>
+								<td><%= link_to 'Edit', edit_studio_coupon_path(coupon.studio, coupon),  :data => {:toggle => "modal", :target => "#editModal#{ coupon.id}"}, :remote => true, :class => 'btn btn-default btn-xs' %>	</td>
+								 		<%= render :partial => 'edit', :locals => {:coupon => coupon}%>
+     							<td><%= button_to 'Delete', [coupon.studio, coupon], method: :delete, data: { confirm: 'Are you sure? This action cannot be undone.' }, :class => 'btn btn-default btn-xs' %></td>
 				        	</tr>
 				        <% end %>
 				</table>
 </div>
 </div>
 
-
-
+<div>
  		<%= render 'new' %>
+</div>
 

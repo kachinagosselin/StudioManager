@@ -37,8 +37,9 @@
 
               <td><%= event.title%></td>
               <td></td>
-                  <td></td>
-                  <td></td>
+                <td><%= link_to 'Edit', edit_studio_event_path(event.studio, event),  :data => {:toggle => "modal", :target => "#editModal#{event.id}"}, :remote => true, :class => 'btn btn-default btn-xs' %>  </td>
+                    <%= render :partial => 'events/edit', :locals => {:event => event}%>
+                  <td><%= button_to 'Delete', [event.studio, event], method: :delete, data: { confirm: 'Are you sure? This action cannot be undone.' }, :class => 'btn btn-default btn-xs' %></td>
               </tr>
             <% end %>
         </tbody>
@@ -46,7 +47,4 @@
 
 <div>
     <%= render 'events/new' %>
-</div>
-<div>
-    <%= render 'events/edit' %>
 </div>

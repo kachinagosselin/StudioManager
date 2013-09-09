@@ -1,12 +1,12 @@
-  
-  <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+  <% @membership = membership %>
+  <div class="modal fade" id="editModal<%= membership.id%>" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title">Edit Membership</h4>
       </div>
- 		<%= render 'form' %>
+ 		<%= render :partial => 'form', :locals => {:membership => @membership}%>
 
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->

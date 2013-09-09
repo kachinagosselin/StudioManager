@@ -26,6 +26,7 @@ gem 'fullcalendar-rails'
 gem 'mandrill-api'
 gem 'bootstrap-datepicker-rails'
 gem 'omniauth-stripe-connect'
+gem 'googlecharts', :require => "gchart"
 
 group :development do
   gem 'better_errors'

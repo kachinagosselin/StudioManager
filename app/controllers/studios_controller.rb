@@ -52,11 +52,17 @@ class StudiosController < ApplicationController
         @studio = Studio.find(params[:id])
         @search = @studio.staff.search(params[:search])
         @instructors = @search.all   # load all matching records
+        
         @available_instructors = User.joins(:profile).where('is_certified = ?',  true)
-        @search_database = @available_instructors.search(params[:search_database])
+        @search_database = @available_instructors.search(params[:search])
         @instructors_database = @search_database.all   # load all matching records
     end 
 
+    def instructors_database
+        @studio = Studio.find(params[:id])
+ 
+    end 
+    
     def students
         @studio = Studio.find(params[:id])
         @search = @studio.users.search(params[:search])

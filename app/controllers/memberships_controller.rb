@@ -26,18 +26,12 @@ class MembershipsController < ApplicationController
         end
     
     
-    def edit
-        @studio = Studio.find(params[:studio_id])
-        @membership = Membership.find(params[:id])
-    end
-    
-    
     def update
         @studio = Studio.find(params[:studio_id])
         @membership = Membership.find(params[:id])
         
         respond_to do |format|
-            if @mebership.update_attributes(params[:event])
+            if @membership.update_attributes(params[:membership])
                 format.html { redirect_to studio_memberships_path(@studio), notice: 'Membership was successfully updated.' }
                 format.json { head :no_content }
                 else
@@ -47,9 +41,9 @@ class MembershipsController < ApplicationController
         end
     end
         
-        def destroy
-            @membership = Membership.find(params[:id])
-            @membership.destroy
-            redirect_to :back
-        end
+    def destroy
+        @membership = Membership.find(params[:id])
+        @membership.destroy
+        redirect_to :back
     end
+end
