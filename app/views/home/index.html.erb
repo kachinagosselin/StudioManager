@@ -13,6 +13,17 @@ $(document).ready(function() {
 
     });
 
+Gmaps.map.callback = function() {
+  for (var i = 0; i <  Gmaps.map.markers.length; ++i) {
+    marker = Gmaps.map.markers[i];
+    google.maps.event.addListener(
+     marker.serviceObject, 'click', function() { 
+     	alert(marker.id);
+     	//document.getElementById('test').innerHTML = "<p>Test Content! " + marker.name + "</p>";
+
+     });
+  }
+}
 	$('#calendar').fullCalendar({
 		defaultView: 'agendaWeek',
 		ignoreTimezone: false,
@@ -53,13 +64,13 @@ $(document).ready(function() {
 		<div class="panel-heading">
 	        <h5 class="panel-title">List of Classes for <%= current_user.name %> </h5>
 	    </div>
-
+<%= @json %>
 		<div id='calendar'></div>
 	</br>
 
 		<!-- TO DO: Update calendar with the events for the studio selected (show in muted color). When a class is selected show the payment options in the section below. Have the payment options link to a purchase form. When the student purchases a payment plan this section is only displayed if the payment plan doesn't apply. Otherwise button shows [Register Class] and changes color of event.
 		-->
-
+		<div id="test"></div>
 		<div class="row">
   		<div class="col-lg-6" style="padding-right:30px;">
   			<h3> Offers for Studio One </h3>

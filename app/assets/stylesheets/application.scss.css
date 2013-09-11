@@ -12,7 +12,6 @@
  *= require_tree .
  *= require fullcalendar
  *= require fullcalendar.print
- *= require bootstrap-datepicker
  *= require bootstrap-datetimepicker
 */
 
@@ -65,4 +64,63 @@ width: 120%;
 margin: 20px 0px 10px -15px;
 background-color: gainsboro;
 border-right: 1px solid white;
+}
+
+.learn-button {
+color: #333;
+font-size: 20px;
+text-transform: capitalize;
+display: inline-block;
+padding: 25px 55px 25px 40px;
+background-color: #afd46d;
+background-image: url(/assets/marketing/button_arrow-ec1a8963a86ce547d7296fb092f9ae94.png);
+background-repeat: no-repeat;
+background-position: right top;
+border: solid 1px gray;
+-webkit-border-radius: 5px;
+-moz-border-radius: 5px;
+border-radius: 5px;
+}
+
+.trial-button {
+color: #999999;
+font-size: 20px;
+text-transform: capitalize;
+display: inline-block;
+padding: 25px 55px 25px 40px;
+background-color: #253C4A;
+background-image: url(/assets/marketing/button_arrow-ec1a8963a86ce547d7296fb092f9ae94.png);
+background-repeat: no-repeat;
+background-position: right top;
+border: solid 1px black;
+-webkit-border-radius: 5px;
+-moz-border-radius: 5px;
+border-radius: 5px;
+}
+
+.section {
+width: 100%;
+overflow-y: visible;
+overflow-x: visible;
+color: white;
+}
+
+.center {
+text-align:center;}
+
+
+#beige {
+height: 616px;
+background-color: #f3efde;
+color:black;
+}
+
+#about {
+height: 550px;
+background-color: #395a6f;
+}
+
+#footer {
+height: 400px;
+background-color: #253C4A;
 }

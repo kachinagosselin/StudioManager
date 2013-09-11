@@ -10,10 +10,12 @@
     <!-- Bootstrap core CSS -->
     <%= stylesheet_link_tag "application", :media => "all" %> -->
     <%= stylesheet_link_tag "bootstrap", :media => "all" %> -->
+    <%= stylesheet_link_tag "bootstrap_and_overrides", :media => "all" %> -->
+    <%= stylesheet_link_tag "fullcalendar.css" %>
+
     <%= javascript_include_tag "application" %>
     <%= javascript_include_tag "bootstrap.js" %>
     <%= javascript_include_tag "bootstrap.min.js" %>
-    <%= stylesheet_link_tag "fullcalendar.css" %>
     <%= javascript_include_tag "fullcalendar.js" %>
     <%= javascript_include_tag "jquery.js" %>
     <%= javascript_include_tag "jquery.min.js" %>
@@ -42,25 +44,12 @@
       </div>
     </div>
 
-    <div class="container">
+    <%= render 'layouts/messages' %>
+    <%= yield %>
+          
+    <footer>
+      <%= yield :scripts %>
+    </footer>
 
-      <!-- Main jumbotron for a primary marketing message or call to action -->
-     <div class="body-content">
-           <div class="row">
-            <div class="span12">
-              <%= render 'layouts/messages' %>
-              <%= yield %>
-
-            </div>
-          </div>
-          <footer>
-            <%= yield :scripts %>
-          </footer>
-        </div>
-
-    </div> <!-- /container -->
-
-    <script src="../../assets/js/jquery.js"></script>
-    <script src="../../dist/js/bootstrap.min.js"></script>
   </body>
 </html>

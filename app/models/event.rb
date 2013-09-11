@@ -4,7 +4,7 @@ class Event < ActiveRecord::Base
     has_many :registered_events
     has_many :users, foreign_key: "user_id", :through => :registered_events
     accepts_nested_attributes_for :registered_events
-    attr_accessible :studio_id, :description, :end_at, :instructor, :start_at, :title, :registered_events, :registered_events_attributes
+    attr_accessible :studio_id, :description, :end_at, :instructor, :start_at, :title, :registered_events, :registered_events_attributes, :archive, :price
     
     # need to override the json view to return what full_calendar is expecting.
     # http://arshaw.com/fullcalendar/docs/event_data/Event_Object/

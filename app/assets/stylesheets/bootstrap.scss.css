@@ -300,7 +300,7 @@ html {
 }
 
 body {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "museo-sans", sans-serif;
   font-size: 14px;
   line-height: 1.428571429;
   color: #333333;
@@ -449,7 +449,7 @@ h6,
 .h4,
 .h5,
 .h6 {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "museo-sans", sans-serif;
   font-weight: 500;
   line-height: 1.1;
 }
@@ -779,8 +779,8 @@ pre code {
 
 @media (min-width: 768px) {
   .container .row {
-    margin-right: -15px;
-    margin-left: -15px;
+    margin: 0px;
+    width:100%;
   }
 }
 
