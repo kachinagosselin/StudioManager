@@ -27,3 +27,6 @@ account = Account.create! :plan_id => 1000, :user_id => 1, :stripe_customer_toke
 
 puts 'SETTING UP DEFAULT STUDIO'
 studio = Studio.create! :name => "Test Studio", :location => "29 Rausch Street San Francisco CA 94103", :address => "29 Rausch Street", :city => "San Francisco", :state => "CA", :account_id => account.id
+
+puts 'SETTING UP DEFAULT CUSTOMER'
+customer = Customer.create!(:id => 1, :user_id => 1, :studio_id => 1, :stripe_customer_token => "cus_2LhxTeT79mll1r", :last_4_digits => "4444", :plan_id => 1, :quantity => 1)

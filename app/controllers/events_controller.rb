@@ -6,7 +6,7 @@ class EventsController < ApplicationController
         
         respond_to do |format|
             format.html # index.html.erb
-            format.json { render json: @events }
+            format.json { render json: @events.as_json }
         end
     end
     
@@ -55,7 +55,11 @@ class EventsController < ApplicationController
 
     def destroy
         @event = Event.find(params[:id])
+        if @event.users.present?
+        @event.archive = true
+        else
         @event.destroy
+        end
         redirect_to :back
     end
 end

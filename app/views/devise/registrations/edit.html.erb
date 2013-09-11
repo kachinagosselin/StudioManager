@@ -12,11 +12,13 @@
 <% if !current_user.profile.present? %>
 <% current_user.build_profile %>
 <% end %>
-
+<% if !current_user.photo.present? %>
+<% current_user.build_photo %>
+<% end %>
 <h3> Personal Details </h3>
 <div class="divider-horizontal-regular"></div>
 
-<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
+<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, :multipart => true}) do |f| %>
   <%= f.fields_for :profile do |p| %>
   <%= devise_error_messages! %>
   <div class="row">
@@ -67,9 +69,6 @@
   
 <div class="row">
   <div class="form-group col-lg-6">
-    <p><%= p.label :imageable, "Image" %><br />
-    <%= p.file_field :imageable, :class => "form-control"%></p>  
-
     <p><%= p.label :description %><br />
     <%= p.text_area :description, :class => "form-control", :cols => 20, :rows => 10 %></p>  
     <p class="help-block">This will appear in your instructor profile.</p>
@@ -84,11 +83,15 @@
     <p style = "margin-top:-26px;margin-left:30px;"><b> Is certified? </b></p>
     <%= p.check_box :is_available, :class => "form-control"%>
     <p style = "margin-top:-26px;margin-left:30px;"><b> Is available? </b></p>
-  <div><%= p.submit "Update", :class => "btn btn-primary pull-right" %></div>
+    <% end %>
+    <%= f.fields_for :photo do |asset| %>
+    <p><%= asset.label :image, "Image" %><br />
+    <%= asset.file_field :image, :class => "form-control"%></p>  
+    <% end %>
+  <div><%= f.submit "Update", :class => "btn btn-primary pull-right" %></div>
   </div>
 </div>
 
-<% end %>
 <% end %>
 
 <div class="divider-horizontal-regular"></div>

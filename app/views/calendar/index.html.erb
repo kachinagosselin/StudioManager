@@ -1,13 +1,7 @@
-<!-- Probably move the stylesheet to you layout. Also make sure you include the javascript. -->
 
-<link rel='stylesheet' type='text/css' href='fullcalendar.css' />
-<script type='text/javascript' src='jquery.js'></script>
-<script type='text/javascript' src='fullcalendar.js'></script>
 
 <script> 
 $(document).ready(function() {
-
-  
     // page is now ready, initialize the calendar...
 
 $('#calendar').fullCalendar({
@@ -16,14 +10,20 @@ $('#calendar').fullCalendar({
   	center: 'title',
   	right: 'month,agendaWeek,agendaDay'
 	},
-eventSources: [{
-      url: '/studios/1/events'
-    },
-    {
-      url: '/1/calendar'
-    }]
+    eventSources: [{
+          url: '/studios/1/events',
+        }]
 });
 
+
+$('#datetimepicker1').datetimepicker({
+    });
+
+$('[data-behaviour~=datepicker]').datepicker({
+      "format": "yyyy-mm-dd",
+      "weekStart": 0,
+      "autoclose": true
+    });
 
 });
 </script>

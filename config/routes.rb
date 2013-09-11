@@ -1,8 +1,10 @@
 StudioManager::Application.routes.draw do
   devise_for :views
 
-  match '/:studio_id/calendar(/:year(/:month))' => 'calendar#index', :as => :calendar, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
-  match '/users/:id/history' => 'users#history', :controller => 'users', :action => 'history', :via => [:get], :as => 'user_history'
+    match 'studios/:studio_id/register' => 'studios#register', :controller => 'studios', :action => 'register', :via => [:get]
+    match 'studios/:studio_id/invoice' => 'studios#invoice', :controller => 'studios', :action => 'invoice', :via => [:get]
+    match 'studios/:studio_id/calendar(/:year(/:month))' => 'calendar#index', :as => :calendar, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
+    match '/users/:id/history' => 'users#history', :controller => 'users', :action => 'history', :via => [:get], :as => 'user_history'
 
   authenticated :user do
     root :to => 'home#index'

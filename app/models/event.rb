@@ -1,19 +1,20 @@
 class Event < ActiveRecord::Base
     belongs_to :studio
     has_one :charge
-    has_many :students, foreign_key: "user_id", :through => :registered_event
-    
-    attr_accessible :studio_id, :description, :end_at, :instructor, :start_at, :title
+    has_many :registered_events
+    has_many :users, foreign_key: "user_id", :through => :registered_events
+    accepts_nested_attributes_for :registered_events
+    attr_accessible :studio_id, :description, :end_at, :instructor, :start_at, :title, :registered_events, :registered_events_attributes
     
     # need to override the json view to return what full_calendar is expecting.
     # http://arshaw.com/fullcalendar/docs/event_data/Event_Object/
-    def as_json(options = {})  
+    def as_json  
         {  
             :id => self.id,  
             :title => self.title,  
-            :start => start_at.rfc822,  
-            :end => end_at.rfc822,  
-            :allDay => self.all_day,  
+            :start => self.start_at.rfc822,  
+            :end => self.end_at.rfc822,  
+            :allDay => false,  
             :recurring => false,  
             :url => Rails.application.routes.url_helpers.studio_events_path(self.studio_id),  
         }  

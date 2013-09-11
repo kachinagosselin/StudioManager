@@ -21,7 +21,7 @@ class UsersController < ApplicationController
         students.find_by(event_id: event.id)
     end
     
-    def become_student!(event)
+    def enroll!(event)
         students.create!(event_id: event.id)
     end
 

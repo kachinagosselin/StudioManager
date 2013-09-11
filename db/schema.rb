@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130903235019) do
+ActiveRecord::Schema.define(:version => 20130910230644) do
 
   create_table "accounts", :force => true do |t|
     t.integer  "plan_id"
@@ -74,6 +74,8 @@ ActiveRecord::Schema.define(:version => 20130903235019) do
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
     t.integer  "studio_id"
+    t.boolean  "archive"
+    t.integer  "price"
   end
 
   create_table "instructors", :force => true do |t|
@@ -99,7 +101,7 @@ ActiveRecord::Schema.define(:version => 20130903235019) do
     t.datetime "updated_at",        :null => false
   end
 
-  create_table "pictures", :force => true do |t|
+  create_table "photos", :force => true do |t|
     t.string   "name"
     t.string   "image_file_name"
     t.string   "image_content_type"
@@ -120,15 +122,18 @@ ActiveRecord::Schema.define(:version => 20130903235019) do
   end
 
   create_table "profiles", :force => true do |t|
-    t.integer "phone"
-    t.string  "address"
-    t.string  "city"
-    t.string  "state"
-    t.text    "description"
-    t.boolean "is_certified"
-    t.boolean "is_available"
-    t.boolean "hide_map"
-    t.integer "user_id"
+    t.integer  "phone"
+    t.string   "address"
+    t.string   "city"
+    t.string   "state"
+    t.text     "description"
+    t.boolean  "is_certified"
+    t.boolean  "is_available"
+    t.boolean  "hide_map"
+    t.integer  "user_id"
+    t.datetime "dob"
+    t.string   "emergency_contact_name"
+    t.integer  "emergency_contact_number"
   end
 
   create_table "purchases", :force => true do |t|
@@ -136,8 +141,10 @@ ActiveRecord::Schema.define(:version => 20130903235019) do
     t.integer  "product_id"
     t.integer  "studio_id"
     t.string   "product_type"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+    t.integer  "final_price"
+    t.boolean  "discount_applied"
   end
 
   add_index "purchases", ["customer_id", "product_id", "studio_id", "product_type"], :name => "studio_purchases", :unique => true
@@ -150,7 +157,7 @@ ActiveRecord::Schema.define(:version => 20130903235019) do
     t.integer  "event_id"
     t.integer  "studio_id"
     t.boolean  "attended",   :default => false
-    t.boolean  "canceled",   :default => true
+    t.boolean  "canceled",   :default => false
     t.datetime "created_at",                    :null => false
     t.datetime "updated_at",                    :null => false
   end
@@ -171,13 +178,25 @@ ActiveRecord::Schema.define(:version => 20130903235019) do
   add_index "roles", ["name", "resource_type", "resource_id"], :name => "index_roles_on_name_and_resource_type_and_resource_id"
   add_index "roles", ["name"], :name => "index_roles_on_name"
 
+  create_table "students", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "studio_id"
+    t.boolean  "signed_waiver"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  add_index "students", ["studio_id"], :name => "index_students_on_studio_id"
+  add_index "students", ["user_id", "studio_id"], :name => "index_students_on_user_id_and_studio_id", :unique => true
+  add_index "students", ["user_id"], :name => "index_students_on_user_id"
+
   create_table "studios", :force => true do |t|
     t.string   "name"
     t.string   "location"
     t.integer  "main_phone"
     t.string   "website"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
     t.integer  "account_id"
     t.float    "latitude"
     t.float    "longitude"
@@ -185,6 +204,9 @@ ActiveRecord::Schema.define(:version => 20130903235019) do
     t.string   "address"
     t.string   "city"
     t.string   "state"
+    t.text     "student_waiver"
+    t.text     "instructor_waiver"
+    t.text     "cancellation_policy"
   end
 
   create_table "subscriptions", :force => true do |t|

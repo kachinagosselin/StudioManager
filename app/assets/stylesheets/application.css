@@ -13,6 +13,7 @@
  *= require fullcalendar
  *= require fullcalendar.print
  *= require bootstrap-datepicker
+ *= require bootstrap-datetimepicker
 */
 
 .brand {

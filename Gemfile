@@ -25,6 +25,7 @@ gem "watu_table_builder", :require => "table_builder"
 gem 'fullcalendar-rails'
 gem 'mandrill-api'
 gem 'bootstrap-datepicker-rails'
+gem 'bootstrap-datetimepicker-rails'
 gem 'omniauth-stripe-connect'
 gem 'googlecharts', :require => "gchart"
 

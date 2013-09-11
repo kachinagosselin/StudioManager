@@ -15,3 +15,5 @@
 //= require fullcalendar
 //= require gcal
 //= require bootstrap-datepicker
+//= require bootstrap-datetimepicker
+

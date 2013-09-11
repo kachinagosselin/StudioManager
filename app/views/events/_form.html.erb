@@ -11,7 +11,9 @@
 
     <div class="form-group  col-lg-5" style ="margin-left:10px;">
     <%= f.label :start_at %>
+    <%= f.text_field :start_at, :value=> Date.today, :id => "datetimepicker", :class => "form-control" %>
     <%= f.label :end_at %>
+    <%= f.text_field :end_at, 'data-behaviour' => 'datepicker',:class => "form-control" %>
     <%= f.label :instructor%>
     <%= f.text_field :instructor, :class => "form-control" %>
     <%= f.hidden_field :studio_id, :value => @studio.id%>

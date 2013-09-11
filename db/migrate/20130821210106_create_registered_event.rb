@@ -5,7 +5,7 @@ class CreateRegisteredEvent < ActiveRecord::Migration
                 t.integer :event_id
                 t.integer :studio_id
                 t.boolean :attended, :default => false
-                t.boolean :canceled, :default => true
+                t.boolean :canceled, :default => false
                 
                 t.timestamps
             end
