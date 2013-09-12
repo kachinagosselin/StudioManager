@@ -3,7 +3,9 @@ class Studio < ActiveRecord::Base
     geocoded_by :gmaps4rails_address   
     after_validation :geocode          # auto-fetch coordinates
     
+    belongs_to :user
     belongs_to :account
+    
     has_many :events
     has_many :coupons
     has_many :charges
@@ -12,6 +14,7 @@ class Studio < ActiveRecord::Base
     has_many :purchases
     has_many :registered_events
     has_many :instructors
+    
     has_many :users, foreign_key: "user_id", :through => :registered_events
     has_many :staff, foreign_key: "user_id", :through => :instructors, :source => :user
 

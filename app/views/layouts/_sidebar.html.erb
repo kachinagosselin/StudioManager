@@ -1,12 +1,10 @@
     <% if user_signed_in? %>
     <% if current_user.has_role? :owner %>
-          <% if Studio.where(:account_id => current_user.account.id ).first.present? %>
-          <% @studio = Studio.where(:account_id =>  current_user.account.id).first%>
+          <% if current_user.account.studio.present? %>
+          <% @studio = current_user.account.studio %>
 
-	<!--
 	<%= link_to 'Dashboard', root_path()%>
-		<div class="divider-horizontal"></div> -->
-
+		<div class="divider-horizontal"></div>
 	<%= link_to 'Calendar', calendar_path(@studio)%>
 		<div class="divider-horizontal"></div>
 	<%= link_to 'Instructors', instructors_studio_path(@studio)%>

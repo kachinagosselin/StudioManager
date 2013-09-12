@@ -72,7 +72,11 @@ class StudiosController < ApplicationController
     def checkin
         @studio = Studio.find(params[:id])
         @search = @studio.users.search(params[:search])
+        @events = @studio.events.where('start_at = ?', Date.today)
 
+        if params[:event_id].present?
+            @event = @studio.events.find(params[:event_id])
+        end
     end
     
     def invoice

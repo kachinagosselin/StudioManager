@@ -8,7 +8,7 @@ class CustomerController < ApplicationController
         def create
             if Rails.env.development?
                 Stripe.api_key
-                else
+            else
                 Stripe.api_key = ENV['STRIPE_API_KEY']
             end
         
@@ -16,7 +16,6 @@ class CustomerController < ApplicationController
             @stripe_customer = Stripe::Customer.create(description: params[:account][:email], plan: params[:account][:plan_id], card: params[:stripe_card_token], email: params[:account][:email])
             @customer = @user.build_customer(:stripe_customer_token => @stripe_customer.id, :email => @user.email, :plan_id => params[:account][:plan_id], :quantity => 1)
             @customer.last_4_digits = params[:account][:last_4_digits]
-            end
             
             if @customer.save
                 @user.add_role :student

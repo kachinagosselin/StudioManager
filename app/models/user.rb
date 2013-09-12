@@ -10,12 +10,14 @@ class User < ActiveRecord::Base
   has_one :account, :dependent => :destroy
   has_one :customer, :dependent => :destroy
   has_one :profile, :dependent => :destroy
-    has_one :photo, :as => :imageable, :dependent => :destroy
+  has_one :photo, :as => :imageable, :dependent => :destroy
+    
     accepts_nested_attributes_for :photo
     accepts_nested_attributes_for :profile
+    
   has_many :registered_events
   has_many :instructors
-    has_many :purchases
+  has_many :purchases
   has_many :studios, foreign_key: "studio_id", :through => :instructors
   has_many :events, foreign_key: "event_id", :through => :registered_events
 
