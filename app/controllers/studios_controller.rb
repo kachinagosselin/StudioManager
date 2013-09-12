@@ -69,7 +69,10 @@ class StudiosController < ApplicationController
         @students = @search.all   # load all matching records
     end 
     
-    def register
+    def checkin
+        @studio = Studio.find(params[:id])
+        @search = @studio.users.search(params[:search])
+
     end
     
     def invoice
