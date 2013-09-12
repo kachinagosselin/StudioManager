@@ -50,4 +50,6 @@ StudioManager::Application.configure do
     password: "Dragon2012"
   }
 
+    config.serve_static_assets = true
+
 end
