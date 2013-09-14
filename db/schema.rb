@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130912184323) do
+ActiveRecord::Schema.define(:version => 20130913223218) do
 
   create_table "accounts", :force => true do |t|
     t.integer  "plan_id"
@@ -66,8 +66,12 @@ ActiveRecord::Schema.define(:version => 20130912184323) do
     t.string   "email"
     t.string   "coupon_code"
     t.string   "description"
-    t.datetime "created_at",            :null => false
-    t.datetime "updated_at",            :null => false
+    t.datetime "created_at",             :null => false
+    t.datetime "updated_at",             :null => false
+    t.string   "access_token"
+    t.string   "refresh_token"
+    t.string   "stripe_publishable_key"
+    t.string   "stripe_user_id"
   end
 
   create_table "events", :force => true do |t|
@@ -247,6 +251,7 @@ ActiveRecord::Schema.define(:version => 20130912184323) do
     t.datetime "created_at",                             :null => false
     t.datetime "updated_at",                             :null => false
     t.string   "name"
+    t.string   "stripe_code"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

@@ -13,12 +13,8 @@ $(document).ready(function() {
 </script>
 
 
-<div class="row">
-	<div class="col-lg-2 leftspan" style="margin-top: 10px;">
-		<%= render 'layouts/sidebar' %>
-	</div>
+  <%= render "layouts/sidebar" %>
 
-	<div class="col-lg-8 rightspan" style="min-height:600px;">
     <h3> Reports</h3>
     <div class="divider-horizontal-regular"></div>
 
@@ -31,9 +27,15 @@ $(document).ready(function() {
               :axis_range => [nil, [2,17,5]], 
             :width => "900", :height => "300")%>"/>
         </br>
-            <p>Total # Students: </p>
+            <% total = 0 %>
+            <% @events = @studio.events.where('start_at >= ?', Date.today-7) %>
+            <% @events.each do |event| %>
+            <% total = total + event.users.count %>
+            <% end %>
+            <p>Total # Students: 
+            <%= total %>
+            </p>
             <p>Revenue this Week: </p>
             <p>Total # Students: </p>
-</div>
 </div>
 

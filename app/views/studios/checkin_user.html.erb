@@ -1,0 +1,23 @@
+<div class="section bluebackground" style="height:580px;margin-top: -30px;">
+ <h1 class="center">Welcome to <%= @studio.name %></h1>
+<p class="center" style="padding:0px;"> Feel free to check yourself into class
+<%= @event.title %></p>
+
+
+<% if current_user.has_role? :owner %>
+	<%= form_for @search, :url => checkin_studio_path(@studio), :html => {:method => :get, :class => 'form-vertical'} do |f| %>
+		<div class="form-group col-lg-4 col-lg-offset-4">
+      	<%= f.text_field :name_contains, :placeholder => "your name", :class => "form-control", :style => "width:322px;"  %>
+          <button type="submit" class="btn btn-default pull-right" style="margin-top:-33px;">Check In</button>
+         
+    	</div><!-- /forms-group -->
+		<% end %>
+		<div class="col-lg-3 col-lg-offset-5" style="margin-top:50px;">
+		<a class="trial-button" href="#learn" style="padding:15px 30px 15px 30px; color:white;">Register</a>
+
+		</div>
+<% else %>
+<%= render "layouts/error_page" %>
+<% end %>
+</div>
+<div class="navbar navbar-inverse" style="color:black;border-radius:0px !important;margin-bottom:0px;height:50px;"  id="learn"></div>

@@ -1,4 +1,7 @@
-<% @studio = Studio.first %>
+
+  <%= render "layouts/sidebar" %>
+
+  <div class="col-lg-10">
 
 	<h3><%= @event.title %></h3>
 	<p>Hosted by <%= @event.instructor %><p>
@@ -9,3 +12,30 @@
 	<% end %>
 	|
     <%= link_to 'Back', studio_events_path(@studio, @event) %>
+
+
+		<% @registered = @event.registered_events.where(:attended => false).where(:canceled => false ) %>
+		<% if @registered.present? %>
+		<div class="divider-horizontal-regular"></div>
+		<p class="lead"> Registration List </p>
+		<div class="divider-horizontal-regular"></div>
+		<% @registered.each do |registered| %>
+		<% user = User.find(registered.user_id) %>
+		<p><%= user.name %>
+        <%= link_to 'CheckIn', checkin_studio_user_path(@studio, @event, user), method: :checkin_user, class: 'btn btn-mini' %>
+
+		</p>
+		<% end %>
+		<% end %>
+		<% @attendees = @event.registered_events.where(:attended => true).where(:canceled => false ) %>
+		<% if @attendees.present? %>
+		<div class="divider-horizontal-regular"></div>
+				<p class="lead"> Attendees </p>
+		<div class="divider-horizontal-regular"></div>
+		<% @attendees.each do |attendee| %>
+		<% user = User.find(attendee.user_id) %>
+		<p><%= user.name %>
+		</p>
+		<% end %>
+		<% end %>
+</div>

@@ -22,10 +22,27 @@ class User < ActiveRecord::Base
   has_many :events, foreign_key: "event_id", :through => :registered_events
 
   # Setup accessible (or protected) attributes for your model
-    attr_accessible :name, :email, :password, :password_confirmation, :remember_me, :phone, :address, :city, :state, :description, :is_certified, :is_available, :profile, :profile_attributes, :photo, :photo_attributes
+    attr_accessible :name, :email, :password, :password_confirmation, :remember_me, :phone, :address, :city, :state, :description, :is_certified, :is_available, :profile, :profile_attributes, :photo, :photo_attributes, :stripe_code
     
-    def register!(event, studio)
-        self.registered_events.create!(event_id: event.id, studio_id: studio.id)
+    def save_with_stripe_account
+        code = self.stripe_code
+        params = ActiveSupport::JSON.decode(`curl -X POST https://connect.stripe.com/oauth/token -d client_secret=sk_test_I4Ci5lTRq3QtUQsejxMZBk71 -d code=#{self.stripe_code} -d grant_type=authorization_code`)
+        self.customer.access_token = params['access_token']
+        self.customer.refresh_token = params['refresh_token']
+        self.customer.stripe_publishable_key = params['stripe_publishable_key']
+        self.customer.stripe_user_id = params['stripe_user_id']
+    end
+    
+    def register!(event, studio, checkin)
+        self.registered_events.create!(event_id: event.id, studio_id: studio.id, attended: checkin)
+    end
+    
+    def is_registered?(event)
+        self.registered_events.where(:event_id => event.id).first.present?
+    end
+
+    def attends(event)
+        self.registered_events.where(:event_id => event.id).first.update_attributes(:attended => true)
     end
     
     def teaching_events_this_week

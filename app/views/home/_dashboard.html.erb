@@ -1,12 +1,23 @@
-	<div class="col-lg-2 leftspan" style="margin-top: 10px;">
-		<%= render 'layouts/sidebar' %>
-	</div>
-	<div class="col-lg-8 rightspan" style="min-height:600px;">
-		<h3>Welcome to your online studio manager!</h3>
+  <%= render "layouts/sidebar" %>
+  <div class="col-lg-10">
 
-		<h3>Schedule for Today</h3>
-		<div class="divider-horizontal-regular"></div>
-
+<% if !current_user.customer.access_token.present? %>
 <a href="https://connect.stripe.com/oauth/authorize?response_type=code&amp;scope=read_write&amp;stripe_landing=login&amp;client_id=ca_2Ksr3KRSkcnkhLjwUQPbFNKuAptJ5sSw" class="stripe-connect"><span>Connect with Stripe</span></a>
+<% end %>
+		<h3>Schedule for this Afternoon</h3>
+		<div class="divider-horizontal-regular"></div>
+		<% @events = @studio.events.where('start_at = ?', Date.today) %>
+		<% @events.each do |event| %>
+			<p class="lead"><%= event.title %></p>
+		<div class="divider-horizontal-regular"></div>
+		<p><%= event.instructor %></p>
+		<p><%= Event.format_date(event.start_at) %></p>
+		<p><%= Event.format_date(event.end_at) %></p>
+		<% end %>
+		<a>Edit</a> <a>Cancel</a><a> Request Sub</a>
+		<% @events_today = @studio.events.where('start_at = ?', Date.today).first %>
+		<% if @events_today.present? %>
+		
+		<% end %>
 
 	</div>

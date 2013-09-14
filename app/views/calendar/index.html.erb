@@ -12,7 +12,9 @@ $('#calendar').fullCalendar({
 	},
     eventSources: [{
           url: '/studios/1/events',
-        }]
+        }],
+
+      eventColor: 'transparent'
 });
 
 
@@ -28,17 +30,13 @@ $('[data-behaviour~=datepicker]').datepicker({
 });
 </script>
 
-<div class="row">
-  <div class="col-lg-2 leftspan" style="margin-top: 10px;">
-    <%= render 'layouts/sidebar' %>
-  </div>
+  <%= render "layouts/sidebar" %>
 
-  <div class="col-lg-8 rightspan">
-
+  <div class="col-lg-8">
+</br></br>
   <div id='calendar'></div>
-
-
-    <div class="divider-horizontal-regular"></div>
-
+</div>
+</n>
 <%= render 'events/list' %>
+</div>
 </div>

@@ -37,7 +37,7 @@
             <% @events.each do |event| %>
               <tr>
 
-              <td><%= event.title%></td>
+              <td><%= link_to event.title, studio_event_path(event.studio,event)%></td>
               <td></td>
                 <td><%= link_to 'Edit', edit_studio_event_path(event.studio, event),  :data => {:toggle => "modal", :target => "#editModal#{event.id}"}, :remote => true, :class => 'btn btn-default btn-xs' %>  </td>
                     <%= render :partial => 'events/edit', :locals => {:event => event}%>

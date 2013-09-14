@@ -45,8 +45,11 @@ body {
   padding-bottom: 20px;
 }
 
+.leftspan{
+border-right: 1px solid #ccc;
+}
+
 .rightspan{
-padding-left:20px;
 border-left: 1px solid #ccc;
 }
 
