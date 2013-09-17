@@ -1,6 +1,7 @@
 <div class="col-lg-2" style="padding-top:30px;">
     <% if user_signed_in? %>
     <% if current_user.has_role? :owner %>
+          <% if current_user.account.present? %>
           <% if current_user.account.studio.present? %>
           <% @studio = current_user.account.studio %>
 
@@ -16,8 +17,7 @@
 		<div class="divider-horizontal"></div>
 	<%= link_to 'Coupons', studio_coupons_path(@studio)%>
 		<div class="divider-horizontal"></div>
-	<%= link_to 'Reports', studio_reports_path(@studio)%>
-		<div class="divider-horizontal"></div>
+	<% end %>
 	<% end %>
 
 	<% end %>

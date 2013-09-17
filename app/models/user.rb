@@ -31,6 +31,7 @@ class User < ActiveRecord::Base
         self.customer.refresh_token = params['refresh_token']
         self.customer.stripe_publishable_key = params['stripe_publishable_key']
         self.customer.stripe_user_id = params['stripe_user_id']
+        self.customer.save
     end
     
     def register!(event, studio, checkin)

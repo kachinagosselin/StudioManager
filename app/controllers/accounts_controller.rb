@@ -7,8 +7,8 @@ class AccountsController < ApplicationController
     
     def create
         if Rails.env.development?
-            Stripe.api_key
-            else
+            Stripe.api_key = 'sk_test_I4Ci5lTRq3QtUQsejxMZBk71'
+        else
             Stripe.api_key = ENV['STRIPE_API_KEY']
         end
         
@@ -17,12 +17,12 @@ class AccountsController < ApplicationController
         
         if  @customer.present?
             stripe_customer = Stripe::Customer.retrieve(@customer.stripe_customer_token)
-            @account = @user.accounts.build(params[:account])
+            @account = @user.build_account(params[:account])
             @account.update_attribute(:is_active, true)
-            stripe_customer.update_account(:plan => params[:account][:plan_id], :quantity => 1)      
+            stripe_customer.update_subscription(:plan => params[:account][:plan_id], :quantity => 1)      
         else
         # if the credit card is valid create new customer and accounts
-            @account = @user.accounts.build(:plan_id => params[:account][:plan_id], :user_id => params[:account][:user_id], :email => params[:account][:email])
+            @account = @user.build_account(:plan_id => params[:account][:plan_id], :user_id => params[:account][:user_id], :email => params[:account][:email])
             @stripe_customer = Stripe::Customer.create(description: params[:account][:email], plan: params[:account][:plan_id], card: params[:stripe_card_token], email: params[:account][:email])
             @customer = @user.build_customer(:stripe_customer_token => @stripe_customer.id, :email => @user.email, :plan_id => params[:account][:plan_id], :quantity => 1)
             @customer.save
@@ -31,11 +31,8 @@ class AccountsController < ApplicationController
         end
         
         if @account.save
-            @customer.save
             @user.add_role :owner
-            @account.update_attribute(:is_active, true)
-
-            redirect_to edit_user_registration_path, :notice => "Thank you for registering your credit card. PLease add details about your studio to be listed on our site."
+            redirect_to edit_user_registration_path, :notice => "Thank you for registering your credit card. Please add details about your studio to be listed on our site."
             else
             redirect_to :back, :alert => "Failed to register your credit card."
         end

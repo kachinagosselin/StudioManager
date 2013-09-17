@@ -20,7 +20,7 @@ class Studio < ActiveRecord::Base
 
 
     attr_accessible :address, :city, :state
-    attr_accessible :location, :main_phone, :name, :website, :account_id
+    attr_accessible :location, :main_phone, :name, :website, :account_id, :cancellation_policy, :student_waiver, :instructor_waiver
     
     def gmaps4rails_address
         "#{self.address} #{self.city}, #{self.state}" 

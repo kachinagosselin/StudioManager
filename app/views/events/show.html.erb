@@ -33,9 +33,11 @@
 				<p class="lead"> Attendees </p>
 		<div class="divider-horizontal-regular"></div>
 		<% @attendees.each do |attendee| %>
+		<% if User.exists?(id: attendee.user_id)%>
 		<% user = User.find(attendee.user_id) %>
 		<p><%= user.name %>
 		</p>
 		<% end %>
+		<% end %>		
 		<% end %>
 </div>

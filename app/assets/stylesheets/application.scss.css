@@ -205,3 +205,13 @@ a:focus {
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
+
+.container-non-responsive {
+  /* Margin/padding copied from Bootstrap */
+  margin-left: auto;
+  margin-right: auto;
+
+  /* Set width to your desired site width */
+  width: 1460px;
+  min-width:1460px;
+}

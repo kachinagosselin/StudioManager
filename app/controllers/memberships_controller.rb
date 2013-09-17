@@ -14,6 +14,15 @@ class MembershipsController < ApplicationController
             @studio = Studio.find(params[:studio_id])
             @membership = Membership.new(params[:membership])
             @membership.studio_id = @studio.id
+            @client = current_user
+            @stripe_membership = Stripe::Plan.create({
+                                                     :amount => params[:membership][:price],
+                                                     :interval => params[:membership][:interval],
+                                                     :name => params[:membership][:name],
+                                                     :currency => 'usd',
+                                                     :id => params[:membership][:name]
+                                                     }, @client.customer.access_token
+                                                   )
             respond_to do |format|
                 if @membership.save
                     format.html { redirect_to studio_memberships_path(@studio) }

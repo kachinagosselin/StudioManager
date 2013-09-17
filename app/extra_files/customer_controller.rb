@@ -39,7 +39,7 @@ class CustomerController < ApplicationController
     
         def create_for_client
             Stripe.api_key = @user.customer.access_token
-
+            d
             @user = User.find(params[:user_id])
             @stripe_customer = Stripe::Customer.create(description: "Test Stripe Connect", plan: params[:account][:plan_id], card: params[:stripe_card_token], email: params[:account][:email])
             @customer = @user.build_customer(:stripe_customer_token => @stripe_customer.id, :email => @user.email, :plan_id => params[:account][:plan_id], :quantity => 1)

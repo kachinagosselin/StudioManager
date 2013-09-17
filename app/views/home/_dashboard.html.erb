@@ -1,23 +1,28 @@
+
   <%= render "layouts/sidebar" %>
   <div class="col-lg-10">
+	<% if !current_user.account.present? %>
+		<p style="margin-left:100px;"><b>Are you a studio owner?</b> To be able to use our full suite of services please:
+		<%= link_to 'Add an Account', new_user_account_path(current_user.id),
+        :class => 'btn btn-primary btn-sm' ,  :data => {:toggle => "modal", :target => "#accountModal"} , :remote => true, :html => {:style => "margin-top:5px;"}%></p>
+         		<%= render 'accounts/new' %>
+    <% else %>
+     <% if !current_user.account.studio.present? %>
+    	 <%= link_to 'Create a Studio', edit_user_registration_path(), class: 'btn btn-mini', style: 'margin-top:-3px;' %>
+    <% end %>
+    <% end %>
 
-<% if !current_user.customer.access_token.present? %>
-<a href="https://connect.stripe.com/oauth/authorize?response_type=code&amp;scope=read_write&amp;stripe_landing=login&amp;client_id=ca_2Ksr3KRSkcnkhLjwUQPbFNKuAptJ5sSw" class="stripe-connect"><span>Connect with Stripe</span></a>
-<% end %>
-		<h3>Schedule for this Afternoon</h3>
-		<div class="divider-horizontal-regular"></div>
-		<% @events = @studio.events.where('start_at = ?', Date.today) %>
-		<% @events.each do |event| %>
-			<p class="lead"><%= event.title %></p>
-		<div class="divider-horizontal-regular"></div>
-		<p><%= event.instructor %></p>
-		<p><%= Event.format_date(event.start_at) %></p>
-		<p><%= Event.format_date(event.end_at) %></p>
-		<% end %>
-		<a>Edit</a> <a>Cancel</a><a> Request Sub</a>
-		<% @events_today = @studio.events.where('start_at = ?', Date.today).first %>
-		<% if @events_today.present? %>
-		
-		<% end %>
+<% if current_user.customer.present? %>
+	<% if current_user.customer.access_token.present? %>
+		<%= link_to 'Add a Customer', new_customer_path(@studio) %>
+	<% else %>
+		<a href="https://connect.stripe.com/oauth/authorize?response_type=code&amp;scope=read_write&amp;stripe_landing=login&amp;client_id=ca_2Ksr3KRSkcnkhLjwUQPbFNKuAptJ5sSw" class="stripe-connect"><span>Connect with Stripe</span></a>
+	<% end %>
 
+	<h3>Schedule for this Afternoon</h3>
+	<div class="divider-horizontal-regular" style="margin-bottom:0px"></div>
+
+	<div id='dashboard-cal'>
+  		<div id='calendar'></div>
 	</div>
+<% end %>

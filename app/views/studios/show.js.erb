@@ -1,0 +1,2 @@
+//document.write("<%= escape_javascript(content_tag(:iframe, '', :style => 'height:500px;width:500px;', :src => calendar_url(@studio)).html_safe) %>");
+document.write("<%= escape_javascript(render(:partial => 'studios/embed', :locals => {:studio => @studio}).html_safe) %>");

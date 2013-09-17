@@ -52,6 +52,23 @@ class EventsController < ApplicationController
             end
         end
     end
+    
+    def purchase
+        @studio = Studio.find(params[:studio_id])
+        @event = Event.find(params[:id])
+        @account = Account.find(@studio.account_id)
+        @client = @account.user
+        @user = current_user
+        @stripe_charge = Stripe::Charge.create({
+                                               :amount => 1600,
+                                               :currency => "usd",
+                                               :card => @user.customer.stripe_customer_token,
+                                               :description => "Charge to test purchase of class"
+                                               }, @client.customer.access_token
+                                                 )
+        @user.register!(@event, @studio, false)
+        
+    end
 
     def destroy
         @event = Event.find(params[:id])

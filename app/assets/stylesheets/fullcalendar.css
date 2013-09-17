@@ -28,6 +28,7 @@ vertical-align:top;
 
 /* Header
 ------------------------------------------------------------------------*/
+#dashboard-cal > #calendar table thead {display:none;}
 
 .fc-header td{
 white-space:nowrap;

@@ -1,22 +1,17 @@
-<div class="section bluebackground" style="height:580px;margin-top: -30px;">
+<div class="section bluebackground" style="height:600px;margin-top: -30px;">
  <h1 class="center">Welcome to <%= @studio.name %></h1>
 <p class="center" style="padding:0px;"> Feel free to check yourself into class</p>
 
 
 <% if current_user.has_role? :owner %>
 
-	<% if @event.present? %>
 
-
-	</div>
-	<% else %>
-		<div class="col-lg-3 col-lg-offset-5" style="margin-top:50px;">
+		<div style="margin-top:50px;margin-left:auto;margin-right:auto;width:332px;">
 		<%= form_for @studio, :url => checkin_studio_path(@studio), :html => {:method => :get, :class => 'form-vertical'} do |f| %>
 		<%= select_tag('event_id', options_from_collection_for_select(@events, "id", "title"),:class=> "form-control", :style => "width:252px;" ) %>
           <button type="submit" class="btn btn-default pull-right" style="margin-top:-34px;">Select</button>
           <% end %>
 		</div>
-	<% end %>
 <% else %>
 <%= render "layouts/error_page" %>
 <% end %>

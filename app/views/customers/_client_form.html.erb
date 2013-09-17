@@ -1,0 +1,95 @@
+<script>
+Stripe.setPublishableKey($('meta[name="stripe-key"]').attr('content'));
+$(document).ready(function() {
+
+  $("#new_customer").submit(function(event) {
+
+    // disable the submit button to prevent repeated clicks
+    $('.submit-button').attr("disabled", "disabled");
+    var card_number = document.getElementById('card_number').value;
+    var card_code = document.getElementById('card_code').value;
+    var card_month = document.getElementById('card_month').value;
+    var card_year = document.getElementById('card_year').value;
+    //alert('Number: ' + card_number + ' CVC: ' + card_code + ' Month:' + card_month + 'Year:' + card_year);
+    
+    var end = card_number.length;
+    var last_4_digits = card_number[end-4]+card_number[end-3]+card_number[end-2]+card_number[end-1];
+    $("#new_customer").append("<input type='hidden' name='last_4_digits' value='" + last_4_digits + "'/>");
+  
+    Stripe.createToken({
+        number: $('#card_number').val(),
+        cvc: $('#card_code').val(),
+        exp_month: $('#card_month').val(),
+        exp_year: $('#card_year').val()
+    }, stripeResponseHandler);
+
+    // prevent the form from submitting with the default action
+    return false;
+  });
+});
+
+function stripeResponseHandler(status, response) {
+    if (response.error) {
+        // show the errors on the form
+        $(".payment-errors").text(response.error.message);
+        $(".submit-button").removeAttr("disabled");
+    } else {
+        var token = response['id'];
+        alert('Token: ' + token);
+        // insert the token into the form so it gets submitted to the server
+        $("#new_customer").append("<input type='hidden' name='stripe_card_token' value='" + token + "'/>");
+        // and submit
+        $('#new_customer').get(0).submit();
+        //alert(token); 
+    }
+    return false;
+}
+
+</script>
+  <div class="row" style="padding-left:30px;padding-right:30px;padding-bottom:10px;">
+    <h4>Add Credit Card </h4>
+
+    <%= form_for([@user, @customer], :url => new_client_customer_path(@studio), :html => { :class => 'form-horizontal', :remote => true }) do |f| %>
+
+
+      <%= f.hidden_field :plan_id, :value => 1000 %>
+      <%= f.hidden_field :user_id, :value => current_user.id %>
+      <%= f.hidden_field :email, :value => current_user.email %>
+
+      <% customer = Customer.where(:user_id => current_user.id).first %>
+      <% if customer.present? %>
+      <% stripe_customer = Stripe::Customer.retrieve(customer.stripe_customer_token) %>
+      <% if stripe_customer.active_card.fingerprint.present? %>
+        Credit card has been provided. Last four digits are : <%= customer.last_4_digits %>
+      <% end %>
+      <% else %>
+        <div class="form-group" >
+          <%= label_tag :card_number, "Credit Card Number" %>
+          <%= text_field_tag :card_number, nil, name: nil, :class => "form-control"  %>
+ 
+         <div class="row">
+          <div class="form-group col-lg-4">
+          <%= label_tag :card_code, "Security Code (CVV)" %>
+          <%= text_field_tag :card_code, nil, name: nil, :class => "form-control"  %>
+          </div>
+          <div class="form-group col-lg-4">
+          <%= label_tag :card_month, "Card Expiration" %>
+          <%= text_field_tag :card_month, nil, name: nil, :class => 'datepicker form-control'  %>
+          </div>
+          <div class="form-group col-lg-4">
+          <%= label_tag :card_year, " " %>
+          <%= text_field_tag :card_year, nil, name: nil, :class => 'datepicker form-control'  %>
+          </div>
+        </div>
+        </div>
+      <% end %>
+      <div id="stripe_error">
+        <noscript>JavaScript is not enabled and is required for this form. First enable it in your web browser settings.</noscript>
+      </div>
+      <div class="form-actions pull-right">
+        <%= f.submit "Update", :class =>"submit-button btn btn-primary", :id => "new_customer"%>
+
+    </div>
+  <% end %>
+</div>
+

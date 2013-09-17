@@ -14,7 +14,13 @@ class CouponsController < ApplicationController
         @studio = Studio.find(params[:studio_id])
         @coupon = Coupon.create(params[:coupon])
         @coupon.studio_id = @studio.id
-        
+        @client = current_user
+        @stripe_coupon = Stripe::Coupon.create({
+                              :percent_off => params[:coupon][:percent_off],
+                              :duration => 'repeating',
+                              :duration_in_months => params[:coupon][:duration_in_months],
+                              :id => params[:coupon][:title]}, @client.customer.access_token
+                              )
         respond_to do |format|
             if @coupon.save
                 format.html { redirect_to studio_coupons_path(@studio) }                

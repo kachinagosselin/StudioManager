@@ -1,12 +1,8 @@
-<% if Studio.first.present? %>
-<div class="row">
-  <div class="col-lg-2 leftspan" style="margin-top: 10px;">
-    <%= render 'layouts/sidebar' %>
-  </div>
-  <div class="col-lg-8 rightspan">
-<% else %>
-  <div class="col-lg-8 col-lg-offset-2">
-<% end %>
+
+  <%= render "layouts/sidebar" %>
+
+  <div class="col-lg-10">
+
 
 <!-- move to controller -->
 <% if !current_user.profile.present? %>
@@ -15,7 +11,9 @@
 <% if !current_user.photo.present? %>
 <% current_user.build_photo %>
 <% end %>
-<h3> Personal Details </h3>
+<% if !current_user.account.studio.present? %>
+<% @studio = current_user.account.build_studio %>
+<% end %><h3> Personal Details </h3>
 <div class="divider-horizontal-regular"></div>
 
 <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, :multipart => true}) do |f| %>
@@ -45,6 +43,15 @@
     </div>
 
   <div class="form-group col-lg-6">
+        <%= p.label :dob, "Date of Birth" %>
+    <%= p.text_field :dob, :class => "form-control"  %>
+
+    <%= p.label :emergency_contact_name %>
+    <%= p.text_field :emergency_contact_name, :class => "form-control"  %>
+
+    <%= p.label :emergency_contact_number %>
+    <%= p.text_field :emergency_contact_number, :class => "form-control"  %>
+    
     <div><%= f.label :password %> <br />
     <%= f.password_field :password, :autocomplete => "off", :class => "form-control" %></div>
       <p class="help-block">Leave blank if you don't want to change it</p>
@@ -121,7 +128,5 @@
 <p>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), :data => { :confirm => "Are you sure?" }, :method => :delete %>.</p>
 
 <%= link_to "Back", :back %>
-</div>
-</div>
 </div>
 

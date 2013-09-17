@@ -2,19 +2,18 @@
   <%= render "layouts/sidebar" %>
 
 		<div class="col-lg-9" >
-			<h3> Your Instructors </h3>
-
+	<h3> Database of Instructors </h3>
 		<div class="col-lg-7" style="margin-left:650px;margin-top:-40px;" >
-			<%= form_for @search, :url => instructors_studio_path(@studio), :html => {:method => :get, :id => "user_search"} do |f| %>
-				<div class="input-group">
-		      	<%= f.text_field :name_or_email_contains, :class => "form-control"  %>
-		      	<span class="input-group-btn">
-		          <button type="submit" class="btn btn-primary">Search</button>
-		      	</span>
-		    	</div><!-- /input-group -->
-			<% end %>
-		</div>
-		</div>
+	<%= form_for @search_database, :url => instructors_database_path(), :html => {:method => :get, :id => "user_search_database"} do |f| %>
+		<div class="input-group">
+      	<%= f.text_field :name_contains, :class => "form-control"  %>
+      	<span class="input-group-btn">
+          <button type="submit" class="btn btn-primary">Search</button>
+      	</span>
+    	</div><!-- /input-group -->
+	<% end %>
+	</div>
+	</div>
 
 		<table class="table table-condensed">
 		    <thead>
@@ -28,7 +27,7 @@
 		        </tr>
 		    </thead>
 		    <tbody>
-		        <% @instructors.each do |user| %>
+		        <% @instructors_database.each do |user| %>
 		        	<tr>
 		        		<td><%=link_to user.name, user %></td>
 		        		<td><%=link_to user.email, user %></td>
@@ -41,10 +40,5 @@
 		        <% end %>
 		    </tbody>
 		</table>
-    <div class="divider-horizontal-regular"></div>
 
-
-		<div style="margin-top:0px; margin-left:auto; margin-right:auto; width:231px;">
-		<%= link_to 'Search Database', instructors_database_path(), class: 'trial-button', :style => "width:260px;margin-top:50px;" %>
-		</div>
-
+</div>

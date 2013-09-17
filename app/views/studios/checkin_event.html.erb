@@ -6,19 +6,32 @@
 
 
 <% if current_user.has_role? :owner %>
+	<div style="margin-top:50px;margin-left:auto;margin-right:auto;width:366px;">
 	<%= form_for @search, :url => checkin_studio_user_path(@studio, @event), :html => {:method => :post, :class => 'form-vertical'} do |f| %>
-		<div class="form-group col-lg-4 col-lg-offset-4">
-      	<%= f.text_field :name_contains, :placeholder => "your name", :class => "form-control", :style => "width:322px;"  %>
-          <button type="submit" class="btn btn-default pull-right" style="margin-top:-33px;">Check In</button>
-         
-    	</div><!-- /forms-group -->
+      	<%= f.text_field :name_contains, :placeholder => "your name", :class => "form-control", :style => "width:275px;"  %>
+          <button type="submit" class="btn btn-default" style="margin-top:-56px;margin-left:282px;">Check In</button>    
 		<% end %>
-		<div class="col-lg-3 col-lg-offset-5" style="margin-top:50px;">
-		<a class="trial-button" href="#learn" style="padding:15px 30px 15px 30px; color:white;">Register</a>
+    	</div><!-- /forms-group -->
 
+		<div style="margin-top:50px;margin-left:auto;margin-right:auto;width:136px;">
+                <%= link_to 'Register', new_user_registration_path(),
+        :class => 'trial-button' ,  :data => {:toggle => "modal", :target => "#registerModal"} , :remote => true, :html => {:style => "padding:15px 30px 15px 30px; color:white;"}%>
 		</div>
 <% else %>
 <%= render "layouts/error_page" %>
 <% end %>
 </div>
 <div class="navbar navbar-inverse" style="color:black;border-radius:0px !important;margin-bottom:0px;height:50px;"  id="learn"></div>
+
+ <div class="modal" id="registerModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Register Basic Account</h4>
+                    <%= render "devise/registrations/new" %>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
