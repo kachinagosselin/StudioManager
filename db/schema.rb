@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130913223218) do
+ActiveRecord::Schema.define(:version => 20130919145938) do
 
   create_table "accounts", :force => true do |t|
     t.integer  "plan_id"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(:version => 20130913223218) do
     t.datetime "created_at",            :null => false
     t.datetime "updated_at",            :null => false
     t.integer  "studio_id"
+    t.string   "type"
   end
 
   add_index "accounts", ["studio_id"], :name => "index_accounts_on_studio_id"
@@ -143,6 +144,8 @@ ActiveRecord::Schema.define(:version => 20130913223218) do
     t.datetime "dob"
     t.string   "emergency_contact_name"
     t.integer  "emergency_contact_number"
+    t.string   "name"
+    t.string   "email"
   end
 
   create_table "purchases", :force => true do |t|
@@ -252,6 +255,7 @@ ActiveRecord::Schema.define(:version => 20130913223218) do
     t.datetime "updated_at",                             :null => false
     t.string   "name"
     t.string   "stripe_code"
+    t.integer  "max_distance"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

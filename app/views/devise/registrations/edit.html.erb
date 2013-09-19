@@ -11,9 +11,7 @@
 <% if !current_user.photo.present? %>
 <% current_user.build_photo %>
 <% end %>
-<% if !current_user.account.studio.present? %>
-<% @studio = current_user.account.build_studio %>
-<% end %><h3> Personal Details </h3>
+<h3> Personal Details </h3>
 <div class="divider-horizontal-regular"></div>
 
 <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, :multipart => true}) do |f| %>
@@ -22,52 +20,48 @@
   <div class="row">
     <div class="form-group col-lg-6">
     <p><%= f.label :name %><br />
-    <%= f.text_field :name, :class => "form-control"%></p>
-    <div><%= f.label :email %><br />
-    <%= f.email_field :email, :class => "form-control" %></div>
-    <div><%= p.label :phone %><br />
-      <%= p.telephone_field :phone, :class => "form-control" %></div>
-      <div><%= p.label :address %><br />
-      <%= p.text_field :address, :class => "form-control" %></div>
+    <%=h f.text_field :name, :class => "form-control"%></p>
+    <p><%= f.label :email %><br />
+    <%=h f.email_field :email, :class => "form-control" %></p>
+    <p><%= p.label :address %><br />
+    <%=h p.text_field :address, :class => "form-control" %></p>
       
       <div class="row">
           <div class="form-group col-lg-8">
-            <div><%= p.label :city %><br />
-              <%= p.text_field :city, :class => "form-control" %></div>  
+            <p><%= p.label :city %><br />
+              <%=h p.text_field :city, :class => "form-control" %></p>  
           </div>
           <div class="form-group col-lg-4">
-            <div><%= p.label :state %><br />
-              <%= p.select(:state, options_for_select(STATES, current_user.profile.state), :class => "form-control") %></div>
+            <p><%= p.label :state %><br />
+                  <%= select_tag(:state, options_for_select(STATES, @current_user.profile.state), :class => "form-control") %></p>
+
           </div>
       </div>
+
+      <h4>Change Your Password</h4>
+      <p><%=h f.label :password %> <br />
+      <%=h f.password_field :password, :autocomplete => "off", :class => "form-control"%></p>
     </div>
 
   <div class="form-group col-lg-6">
-        <%= p.label :dob, "Date of Birth" %>
-    <%= p.text_field :dob, :class => "form-control"  %>
+    <p><%= p.label :dob, "Date of Birth" %><br />
+    <%=h p.text_field :dob, :class => "form-control"%></p>
 
-    <%= p.label :emergency_contact_name %>
-    <%= p.text_field :emergency_contact_name, :class => "form-control"  %>
+    <p><%= p.label :phone %><br />
+      <%=h p.telephone_field :phone, :class => "form-control" %></p>
 
-    <%= p.label :emergency_contact_number %>
-    <%= p.text_field :emergency_contact_number, :class => "form-control"  %>
-    
-    <div><%= f.label :password %> <br />
-    <%= f.password_field :password, :autocomplete => "off", :class => "form-control" %></div>
-      <p class="help-block">Leave blank if you don't want to change it</p>
+    <p><%= p.label :emergency_contact_name %><br />
+    <%=h p.text_field :emergency_contact_name, :class => "form-control"%></p>
 
-      <% if false %>
-        <div><%= f.label :password_confirmation %><br />
-        <%= f.password_field :password_confirmation %></div>
-      <% end %>
+    <p><%= p.label :emergency_contact_number %><br />
+    <%=h p.text_field :emergency_contact_number, :class => "form-control"%></p>
 
-    <div><%= f.label :current_password%><br />
-    <%= f.password_field :current_password, :class => "form-control"  %></div>
-      <p class="help-block">We need your current password to confirm your changes</p>
+    <p style="padding-top:54px;"><%= f.label :password_confirmation %><br />
+    <%=h f.password_field :password_confirmation, :class => "form-control" %></p>
 
-    <div><%= f.submit "Update", :class => "btn btn-primary pull-right" %></div>
+    <a data-toggle="modal" href="#enter-password" class="btn btn-primary pull-right" type="button">Update</a>
   </div>
-  </div>
+</div>
 
 
 <div class="divider-horizontal-regular"></div>
@@ -77,8 +71,8 @@
 <div class="row">
   <div class="form-group col-lg-6">
     <p><%= p.label :description %><br />
-    <%= p.text_area :description, :class => "form-control", :cols => 20, :rows => 10 %></p>  
-    <p class="help-block">This will appear in your instructor profile.</p>
+    <%=h p.text_area :description, :class => "form-control", :cols => 20, :rows => 10 %></p>  
+    <p class="help-block">Note: This will appear in your instructor profile.</p>
 
     </br><p><b> Availability </b></p></br>
     <p> Mon | Tues | Wed | Thurs | Fri | Sat | Sun</p></br>
@@ -95,38 +89,100 @@
     <p><%= asset.label :image, "Image" %><br />
     <%= asset.file_field :image, :class => "form-control"%></p>  
     <% end %>
-  <div><%= f.submit "Update", :class => "btn btn-primary pull-right" %></div>
+    <a data-toggle="modal" href="#enter-password" class="btn btn-primary pull-right" type="button">Update</a>
   </div>
 </div>
 
+<div class="modal fade" id="enter-password" tabindex="-1" role="dialog" aria-labelledby="newModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Confirm Password</h4>
+      </div>
+
+        <div class="modal-body">    
+        <%= f.label :current_password %>
+        <%=h f.password_field :current_password, :class => "form-control", :required => true %>
+        <p class="help-block">Note: We need your current password to confirm your changes</p>
+        </div>
+  
+    <div class="modal-footer">
+    <div class="actions">
+        <a class="btn" data-dismiss="modal" href="#">Cancel</a>
+          <button type="submit" class="btn btn-primary pull-right">Confirm</button>
+    </div>     
+    </div>     
+
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 <% end %>
+
+
 
 <div class="divider-horizontal-regular"></div>
     <h3> Billing Details </h3>
 <div class="divider-horizontal-regular"></div>
-<% if !current_user.customer.present? %>
-<% @customer = current_user.build_customer %>
-<% else %>
-<% @customer = current_user.customer %>
-<% end %>
-    <%= render 'customers/form' %>
 
+<div class="row">
+  <div class="form-group col-lg-12">
+
+  <% if current_user.customer.present? %>
+      <% if current_user.customer.stripe_customer_token.present? %>
+      <% stripe_customer = Stripe::Customer.retrieve(@customer.stripe_customer_token) %>
+        <% if stripe_customer.active_card.fingerprint.present? %>
+          <p class= "lead" style="padding-top:25px;">Credit card has been provided. Last four digits are: <%= @customer.last_4_digits %></p>
+          <a data-toggle="modal" href="#update-card" class="btn btn-primary pull-right" style="margin-top:-50px;" type="button">Update</a>
+        <% end %>
+      <% end %>
+  <% else %>  
+     <%= render 'customers/add_card' %>  
+  <% end %>
+  </div>
+</div>
 
 <div class="divider-horizontal-regular"></div>
   <% if current_user.has_role? :owner %>
-      <h3> Studio Details </h3>
-<div class="divider-horizontal-regular"></div>
+    <% if !current_user.account.studio.present? %>
+    <% @studio = current_user.account.build_studio %>
+    <% end %>
+    
+    <h3> Studio Details </h3>
+    <div class="divider-horizontal-regular"></div>
     <%= render 'studios/form' %>
-  <% else %>
-      <h3> Add Studio to Your Account </h3>
-      <a href="https://connect.stripe.com/oauth/authorize?response_type=code&amp;scope=read_write&amp;stripe_landing=login&amp;client_id=ca_2Ksr3KRSkcnkhLjwUQPbFNKuAptJ5sSw" class="stripe-connect pull-right btn btn-primary btn-sm" style="margin-top: -35px;"><span>Connect with Stripe</span></a>
-<div class="divider-horizontal-regular"></div>
   <% end %>
 
-<h3>Cancel my account</h3>
+  <% if current_user.customer.present? %>
+        <% if current_user.customer.stripe_customer_token.present? %>
+      <h3> Upgrade Your Account </h3>
+      <!-- <a href="https://connect.stripe.com/oauth/authorize?response_type=code&amp;scope=read_write&amp;stripe_landing=login&amp;client_id=ca_2Ksr3KRSkcnkhLjwUQPbFNKuAptJ5sSw" class="stripe-connect pull-right btn btn-primary btn-sm" style="margin-top: -35px;"><span>Connect with Stripe</span></a> -->
+
+        <%= form_for([current_user, Account.new]) do |f| %>
+        <%= f.hidden_field :user_id, :value => current_user.id %>
+        <%= f.hidden_field :email, :value => current_user.email %>
+          <p class="lead center"> Sign up for your 14 day free trial! </p>
+          <div class="form-group col-lg-5 col-lg-offset-1">
+          <%= f.label :type, "Studio Owner Account" %>
+          <%= f.radio_button :type, "studio-basic", :checked => 1%>
+          </div>
+          <div class="form-group col-lg-6">
+          <%= f.label :type, "Independent Professional" %>
+          <%= f.radio_button :type, "professional-basic"%>
+          </div>
+      <div id="stripe_error">
+        <noscript>JavaScript is not enabled and is required for this form. First enable it in your web browser settings.</noscript>
+      </div>
+      <div class="form-actions pull-right">
+        <%= f.submit "Create Account", :class =>"submit-button btn btn-primary", :id => "new_account"%>
+      </div>
+  <% end %>
+  <% end %>
+  <% end %>
+<div class="divider-horizontal-regular"></div>
 
 <p>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), :data => { :confirm => "Are you sure?" }, :method => :delete %>.</p>
-
-<%= link_to "Back", :back %>
 </div>
+
+<%= render 'customers/update_card', :user => current_user %> 
 

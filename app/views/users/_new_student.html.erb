@@ -1,0 +1,84 @@
+<script>
+Stripe.setPublishableKey($('meta[name="stripe-key"]').attr('content'));
+$(document).ready(function() {
+
+  $("#new_customer").submit(function(event) {
+
+    // disable the submit button to prevent repeated clicks
+    $('.submit-button').attr("disabled", "disabled");
+    var card_number = document.getElementById('card_number').value;
+    var card_code = document.getElementById('card_code').value;
+    var card_month = document.getElementById('card_month').value;
+    var card_year = document.getElementById('card_year').value;
+    //alert('Number: ' + card_number + ' CVC: ' + card_code + ' Month:' + card_month + 'Year:' + card_year);
+    
+    var end = card_number.length;
+    var last_4_digits = card_number[end-4]+card_number[end-3]+card_number[end-2]+card_number[end-1];
+    $("#new_customer").append("<input type='hidden' name='last_4_digits' value='" + last_4_digits + "'/>");
+  
+    Stripe.createToken({
+        number: $('#card_number').val(),
+        cvc: $('#card_code').val(),
+        exp_month: $('#card_month').val(),
+        exp_year: $('#card_year').val()
+    }, stripeResponseHandler);
+
+    // prevent the form from submitting with the default action
+    return false;
+  });
+});
+
+function stripeResponseHandler(status, response) {
+    if (response.error) {
+        // show the errors on the form
+        $(".payment-errors").text(response.error.message);
+        $(".submit-button").removeAttr("disabled");
+    } else {
+        var token = response['id'];
+        alert('Token: ' + token);
+        // insert the token into the form so it gets submitted to the server
+        $("#new_customer").append("<input type='hidden' name='stripe_card_token' value='" + token + "'/>");
+        // and submit
+        $('#new_customer').get(0).submit();
+        //alert(token); 
+    }
+    return false;
+}
+
+</script>
+
+<div class="modal-body">
+<%= form_for("user", :url => new_student_path(@studio.id, @event.id), :html => {:class => 'form-vertical' }) do |form| %>
+  <div class="form-inputs">   
+
+  	  <p><%= form.label :name %><br />
+  <%= form.text_field :name, :autofocus => true, :class => "form-control", :id => "user_name_register"%></p>  
+
+ 
+  	  <p><%= form.label :email %><br />
+  <%= form.text_field :email, :required => true, :class => "form-control", :id => "user_email_register"%></p>  
+
+ 	  <p><%= form.label :password %><br />
+  <%= form.password_field :password, :required => true, :class => "form-control", :id => "user_password_register"%></p>  
+
+ 	  <p><%= form.label :password_confirmation %><br />
+  <%= form.password_field :password_confirmation, :required => true, :class => "form-control", :id => "user_passwordconfirm_register"%></p>  
+  <div class="well" style="height:200px;overflow-y:scroll;">
+  <h4> Studio Waiver </h4>
+  <p><%=@studio.student_waiver %></p>
+  </div>
+    <%= check_box_tag :signed_waiver%><p style="margin-left:20px;margin-top:-19px;">I have read and accept the conditions</p>  
+  </div>
+      <div class="modal-footer">
+    <div class="actions">
+        <a class="btn" data-dismiss="modal" href="#">Cancel</a>
+       <%= form.submit "Sign up", :class => 'btn btn-submit btn-primary' %>
+    </div>     
+<% end %>
+
+
+</div>     
+</div>     
+
+
+

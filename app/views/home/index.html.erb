@@ -2,28 +2,8 @@
 <%= stylesheet_link_tag "fullcalendar.css" %>
 <%= javascript_include_tag "fullcalendar.js" %>
 
-<script> 
-$(document).ready(function() {
-    //NOTE that I am selecting on a class here
-
-$('#calendar').fullCalendar({
-  	defaultView: 'agendaDay',
-	header: {
-  	left: '',
-  	center: '',
-  	right: ''
-	},
-
-
-      eventColor: 'transparent'
-});
-});
-</script>
-
-<div class="row">
-	<% if user_signed_in? %>
-			<%= render 'dashboard' %>
-	<% else %>
-		<%= render 'landing_page' %>
-	<% end %>
-</div>
+<% if user_signed_in? %>
+	<%= render 'dashboard' %>
+<% else %>
+	<%= render 'landing_page' %>
+<% end %>

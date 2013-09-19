@@ -38,6 +38,15 @@ class MembershipsController < ApplicationController
     def update
         @studio = Studio.find(params[:studio_id])
         @membership = Membership.find(params[:id])
+        @client = current_user
+        @stripe_membership = Stripe::Plan.create({
+                                                 :amount => params[:membership][:price],
+                                                 :interval => params[:membership][:interval],
+                                                 :name => params[:membership][:name],
+                                                 :currency => 'usd',
+                                                 :id => params[:membership][:name]
+                                                 }, @client.customer.access_token
+                                                 )
         
         respond_to do |format|
             if @membership.update_attributes(params[:membership])

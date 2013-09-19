@@ -12,6 +12,7 @@ gem 'devise', '>= 2.0.0'
 gem 'figaro'
 gem 'thin'
 gem 'heroku'
+gem 'aws-sdk'
 gem 'simple_form'
 gem "rolify"
 gem "paperclip", "~> 3.0"

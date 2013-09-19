@@ -14,26 +14,31 @@ class AccountsController < ApplicationController
         
         @user = User.find(params[:user_id])
         @customer = @user.customer
-        
+            
         if  @customer.present?
             stripe_customer = Stripe::Customer.retrieve(@customer.stripe_customer_token)
             @account = @user.build_account(params[:account])
             @account.update_attribute(:is_active, true)
-            stripe_customer.update_subscription(:plan => params[:account][:plan_id], :quantity => 1)      
+            stripe_customer.update_subscription(:plan => params[:account][:type], :quantity => 1)      
         else
         # if the credit card is valid create new customer and accounts
-            @account = @user.build_account(:plan_id => params[:account][:plan_id], :user_id => params[:account][:user_id], :email => params[:account][:email])
-            @stripe_customer = Stripe::Customer.create(description: params[:account][:email], plan: params[:account][:plan_id], card: params[:stripe_card_token], email: params[:account][:email])
-            @customer = @user.build_customer(:stripe_customer_token => @stripe_customer.id, :email => @user.email, :plan_id => params[:account][:plan_id], :quantity => 1)
+            @account = @user.build_account(:plan_id => params[:account][:type], :user_id => params[:account][:user_id], :email => params[:account][:email])
+            @stripe_customer = Stripe::Customer.create(description: params[:account][:email], plan: params[:account][:type], card: params[:stripe_card_token], email: params[:account][:email])
+            @customer = @user.build_customer(:stripe_customer_token => @stripe_customer.id, :email => @user.email, :plan_id => params[:account][:type], :quantity => 1)
+            @customer.last_4_digits = params[:last_4_digits]
             @customer.save
-            @account.stripe_customer_token = @stripe_customer.id
-            @customer.last_4_digits = params[:account][:last_4_digits]
+            @account.update_attribute(:is_active, true)
+            @account.update_attribute(:stripe_customer_token, @stripe_customer.id)
         end
         
         if @account.save
-            @user.add_role :owner
+            if params[:account][:type] = 'studio-basic'
+                @user.add_role :owner
+            elsif params[:account][:type]= 'professional-basic'
+                @user.add_role :professional
+            end
             redirect_to edit_user_registration_path, :notice => "Thank you for registering your credit card. Please add details about your studio to be listed on our site."
-            else
+        else
             redirect_to :back, :alert => "Failed to register your credit card."
         end
     end

@@ -1,4 +1,3 @@
-
   <%= render "layouts/sidebar" %>
   <div class="col-lg-10">
 	<% if !current_user.account.present? %>
@@ -9,6 +8,26 @@
     <% else %>
      <% if !current_user.account.studio.present? %>
     	 <%= link_to 'Create a Studio', edit_user_registration_path(), class: 'btn btn-mini', style: 'margin-top:-3px;' %>
+    <% else %>
+    <script> 
+$(document).ready(function() {
+    //NOTE that I am selecting on a class here
+
+$('#calendar').fullCalendar({
+  	defaultView: 'agendaDay',
+	header: {
+  	left: '',
+  	center: '',
+  	right: ''
+	},
+    eventSources: [{
+          url: '<%= studio_events_path(@studio) %>',
+        }],
+
+      eventColor: 'transparent'
+});
+});
+</script>
     <% end %>
     <% end %>
 

@@ -14,17 +14,14 @@ class StudiosController < ApplicationController
     
     def create
         @studio = Studio.create(params[:studio])
-        @user = current_user
-        @account = Account.where(:user_id => current_user.id).first
-        @studio.account_id = @account.id
+        @studio.account_id = current_user.account.id
         
         respond_to do |format|
             if @studio.save
-                @user.add_role :owner
                 format.html { redirect_to :back, notice: 'Studio was successfully created.' }
                 format.json { head :no_content }
-                else
-                format.html { render :action => 'new', alert: 'Studio was unsuccessfully created.' }
+            else
+                format.html { redirect_to :back, alert: 'Studio was unsuccessfully created.' }
                 format.json { render json: @message.errors, status: :unprocessable_entity }
             end 
         end
@@ -36,6 +33,9 @@ class StudiosController < ApplicationController
 
     def widget
         @studio = Studio.find(params[:id])
+        respond_to do |format|
+            format.js {render :layout=>false}
+        end
     end
     
     def update
@@ -46,7 +46,7 @@ class StudiosController < ApplicationController
                 format.html { redirect_to :back, notice: 'Studio was successfully updated.' }
                 format.json { head :no_content }
                 else
-                format.html { render action: "edit" }
+                format.html { redirect_to :back, alert: 'Studio was unsuccessfully updated.' }
                 format.json { render json: @message.errors, status: :unprocessable_entity }
             end
         end
@@ -110,10 +110,6 @@ class StudiosController < ApplicationController
         
         @json = Studio.all.to_gmaps4rails do |studio, marker|
             marker.json({ :id => studio.id })
-        end
-        
-        respond_to do | format |  
-            format.js {render :layout => false}  
         end
     end
     

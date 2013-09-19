@@ -1,0 +1,28 @@
+<script language="javascript">
+var id = "#add_card";  
+</script>
+<%= javascript_include_tag "javascript/stripe.js" %>
+    
+
+<%= form_for([current_user, current_user.build_customer], :html => { :class => 'form-vertical', :remote => true, :id => "add_card" }) do |c| %>
+
+        <div class="form-group" >
+          <%= label_tag :card_number, "Credit Card Number" %>
+          <%=h text_field_tag :card_number, nil, name: nil, :class => "form-control"  %>
+ 
+          <div class="form-group col-lg-4">
+          <%= label_tag :card_code, "Security Code (CVV)" %>
+          <%=h text_field_tag :card_code, nil, name: nil, :class => "form-control"  %>
+          </div>
+          <div class="form-group col-lg-4">
+          <%= label_tag :card_month, "Card Expiration" %>
+          <%=h text_field_tag :card_month, nil, name: nil, :class => 'datepicker form-control'  %>
+          </div>
+          <div class="form-group col-lg-4">
+          <%= label_tag :card_year, " " %>
+          <%=h text_field_tag :card_year, nil, name: nil, :class => 'datepicker form-control'  %>
+          </div>
+
+        <%= c.submit "Add Card", :class =>"submit-button btn btn-primary pull-right", :id => "add_card"%> 
+        </div>
+<% end %>

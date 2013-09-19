@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
     
   has_one :account, :dependent => :destroy
   has_one :customer, :dependent => :destroy
-  has_one :profile, :dependent => :destroy
+  has_one :profile
   has_one :photo, :as => :imageable, :dependent => :destroy
     
     accepts_nested_attributes_for :photo
@@ -22,7 +22,14 @@ class User < ActiveRecord::Base
   has_many :events, foreign_key: "event_id", :through => :registered_events
 
   # Setup accessible (or protected) attributes for your model
-    attr_accessible :name, :email, :password, :password_confirmation, :remember_me, :phone, :address, :city, :state, :description, :is_certified, :is_available, :profile, :profile_attributes, :photo, :photo_attributes, :stripe_code
+    attr_accessible :name, :email, :password, :password_confirmation, :remember_me, :phone, :address, :city, :state, :description, :is_certified, :is_available, :profile, :profile_attributes, :photo, :photo_attributes, :stripe_code, :max_distance
+    
+    before_create :instantiate_profile
+        
+    def instantiate_profile
+        self.create_profile(:name => name, :email => email)
+        self.create_photo
+    end
     
     def save_with_stripe_account
         code = self.stripe_code

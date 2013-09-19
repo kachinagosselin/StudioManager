@@ -19,6 +19,7 @@
 		<table class="table table-condensed">
 		    <thead>
 		        <tr>
+		          <th></th>
 		          <th>Name</th>
 		          <th>Email</th>  
 		          <th>Phone</th>
@@ -30,13 +31,14 @@
 		    <tbody>
 		        <% @instructors.each do |user| %>
 		        	<tr>
+		        		<td><%= image_tag user.photo.image.url(:thumb) if user.photo %></td>
 		        		<td><%=link_to user.name, user %></td>
 		        		<td><%=link_to user.email, user %></td>
 		        		<td><%=  user.profile.phone if user.profile.phone %></td>
 		        		<td><%= user.profile.city %>, <%= user.profile.state %></td>
 		        		<td></td>
 		        		<td></td>
-		        		<td>Message</td>
+                  		<td><a class = 'btn btn-default btn-xs' href="mailto:<%=user.email%>">Message</a></td>
 		        	</tr>
 		        <% end %>
 		    </tbody>

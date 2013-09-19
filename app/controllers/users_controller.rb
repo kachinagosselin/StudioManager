@@ -11,17 +11,39 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
   end 
 
-    def history
-        @user = User.find(params[:id])
-        
-    end 
-
-    def student?(event)
-        students.find_by(event_id: event.id)
-    end
+  def history
+    @user = User.find(params[:id])
+  end 
     
-    def enroll!(event)
-        students.create!(event_id: event.id)
-    end
+  def private_dashboard
+    @user = User.find(params[:id])
+  end 
+    
+    def private_students
+        @user = User.find(params[:id])
+    end 
+    
+    def private_memberships
+        @user = User.find(params[:id])
+    end 
+    
+    def private_coupons
+        @user = User.find(params[:id])
+    end 
+    
+  def new_student
+      @studio = Studio.find(params[:studio_id])
+      @event = Event.find(params[:event_id])
+      @user = User.create(:name => params[:user][:name], :email => params[:user][:email], :password => params[:user][:password], :password_confirmation => params[:user][:password_confirmation])
+      if params[:signed_waiver] = true
+          @signed = true
+          @studio.add_student(@user, @signed)
+      if @user.save
+          redirect_to invoice_path(@studio, @user), notice: 'Student was successfully created.' 
+      else
+          redirect_to :back, alert: 'Student was not successfully created.' 
+      end 
+      end
+  end 
 
 end

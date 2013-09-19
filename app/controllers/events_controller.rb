@@ -22,6 +22,11 @@ class EventsController < ApplicationController
     def create
         @studio = Studio.find(params[:studio_id])
         @event = @studio.events.create(params[:event])
+        @user = User.where(:name => params[:event][:instructor]).first
+        if !@user.instructor?(@studio)
+            @user.become_instructor!(@studio)
+        end
+        
         respond_to do |format|
             if @event.save
                 format.html { redirect_to calendar_path(@studio), notice: 'Event was successfully created.' }

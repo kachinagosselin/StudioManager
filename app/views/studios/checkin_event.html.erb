@@ -29,7 +29,7 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title">Register Basic Account</h4>
-                    <%= render "devise/registrations/new" %>
+                    <%= render "users/new_student", :locals => {:studio => @studio} %>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->

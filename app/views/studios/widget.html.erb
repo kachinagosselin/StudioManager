@@ -1,8 +1,8 @@
-<link href="/assets/fullcalendar.css" media="all" rel="stylesheet" type="text/css">
+<%= stylesheet_link_tag "fullcalendar.css" %>
+<%= javascript_include_tag "fullcalendar.js" %>
 
 <script> 
 $(document).ready(function() {
-    // page is now ready, initialize the calendar...
 
 $('#calendar').fullCalendar({
 	header: {
@@ -11,13 +11,12 @@ $('#calendar').fullCalendar({
   	right: 'month,agendaWeek,agendaDay'
 	},
     eventSources: [{
-          url: '/studios/1/events',
+          url: '<%= studio_events_path(@studio) %>',
         }],
 
       eventColor: 'transparent'
 });
 </script>
-<div id="calendar-embed-widget">
-    <div id='calendar'></div>
 
-</div>
+<h1> Here </h1>
+    <div id='calendar'></div>

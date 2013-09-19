@@ -1,10 +1,17 @@
-
+   <script type="text/javascript">
+        $(document).ready(function() {
+            $('[data-behaviour~=datepicker]').datepicker({
+                "format": "yyyy-mm-dd",
+                "weekStart": 0,
+                "autoclose": true
+            })
+        });
+    </script>
 
   <%= render "layouts/sidebar" %>
 
 <p> Embed Calendar </p>
-<script src="http://localhost:3000/studios/1.js" type="text/javascript"></script>
-
+<script src="http://localhost:3000/studios/4.js" width="200" height="200"></script>
 		<h3> Coupons</h3>
 			<div class="pull-right" style="margin-top:-40px;">
 				  <%= link_to 'New Coupon', new_studio_coupon_path(@studio),

@@ -12,7 +12,7 @@ $('#calendar').fullCalendar({
   	right: 'month,agendaWeek,agendaDay'
 	},
     eventSources: [{
-          url: '/studios/1/events',
+          url: '<%= studio_events_path(@studio) %>',
         }],
 
       eventColor: 'transparent'
