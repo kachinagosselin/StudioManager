@@ -52,46 +52,40 @@ function stripeResponseHandler(status, response) {
 <div class="modal fade" id="update-card" tabindex="-1" role="dialog" aria-labelledby="newModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
+
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title">Update Credit Card</h4>
-      </div>
+      </div> <!-- End of Header -->
 
     <div class="modal-body">
-          <div class="row" style="padding-left:30px;padding-right:30px;padding-bottom:10px;">
-<%= form_for([current_user, current_user.customer], :html => { :class => 'form-horizontal', :remote => true, :id => "update_card" }) do |f| %>
+          <%= form_for([@user, @user.customer], :method => :put, :html => { :class => 'form-horizontal', :remote => true, :id => "update_card" }) do |f| %>
 
-
-      <%= f.hidden_field :plan_id, :value => 1000 %>
-      <%= f.hidden_field :user_id, :value => current_user.id %>
-      <%= f.hidden_field :email, :value => current_user.email %>
-
+            <%= f.hidden_field :user_id, :value => current_user.id %>
+            <%= f.hidden_field :email, :value => current_user.email %>
         <div class="form-group" >
           <%= label_tag :card_number, "Credit Card Number" %>
           <%=h text_field_tag :card_number, nil, name: nil, :class => "form-control"  %>
- 
-          <div class="form-group col-lg-4">
+          <div class="row">
+          <div class="col-lg-4">
           <%= label_tag :card_code, "Security Code (CVV)" %>
-          <%=h text_field_tag :card_code, nil, name: nil, :class => "form-control"  %>
-          </div>
-          <div class="form-group col-lg-4">
+          <%=h text_field_tag :card_code, nil, name: nil, :class => "form-control"  %></div>
+          <div class="col-lg-4">
           <%= label_tag :card_month, "Card Expiration" %>
-          <%=h text_field_tag :card_month, nil, name: nil, :class => 'datepicker form-control'  %>
-          </div>
-          <div class="form-group col-lg-4">
+          <%=h text_field_tag :card_month, nil, name: nil, :class => 'datepicker form-control'  %></div>
+          <div class="col-lg-4">
           <%= label_tag :card_year, " " %>
-          <%=h text_field_tag :card_year, nil, name: nil, :class => 'datepicker form-control'  %>
-          </div>
+          <%=h text_field_tag :card_year, nil, name: nil, :class => 'datepicker form-control'  %></div>
         </div>
+      </div><!-- End of Form Group -->
       <div id="stripe_error">
         <noscript>JavaScript is not enabled and is required for this form. First enable it in your web browser settings.</noscript>
       </div>
-    </div>
-    </div>
+    </div><!-- End of Body -->
     <div class="modal-footer">
     <div class="actions">
         <a class="btn" data-dismiss="modal" href="#">Cancel</a>
-        <%= f.submit "Update Card", :class =>"submit-button btn btn-primary", :id => "new_customer"%>
+        <%= f.submit "Update Card", :class =>"submit-button btn btn-primary", :id => "update_card"%>
     </div>
     </div>
     </div><!-- /.modal-content -->

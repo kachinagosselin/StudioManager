@@ -3,14 +3,6 @@
 
   <div class="col-lg-10">
 
-
-<!-- move to controller -->
-<% if !current_user.profile.present? %>
-<% current_user.build_profile %>
-<% end %>
-<% if !current_user.photo.present? %>
-<% current_user.build_photo %>
-<% end %>
 <h3> Personal Details </h3>
 <div class="divider-horizontal-regular"></div>
 
@@ -79,7 +71,6 @@
   </div>
   <div class="form-group col-lg-6">
     </br><p><b> Certification </b></p></br>
-    </br><p><b> Current Employment </b></p></br>
     <%= p.check_box :is_certified, :class => "form-control"%>
     <p style = "margin-top:-26px;margin-left:30px;"><b> Is certified? </b></p>
     <%= p.check_box :is_available, :class => "form-control"%>
@@ -125,58 +116,34 @@
     <h3> Billing Details </h3>
 <div class="divider-horizontal-regular"></div>
 
-<div class="row">
-  <div class="form-group col-lg-12">
-
   <% if current_user.customer.present? %>
       <% if current_user.customer.stripe_customer_token.present? %>
-      <% stripe_customer = Stripe::Customer.retrieve(@customer.stripe_customer_token) %>
+      <% stripe_customer = Stripe::Customer.retrieve(current_user.customer.stripe_customer_token) %>
         <% if stripe_customer.active_card.fingerprint.present? %>
-          <p class= "lead" style="padding-top:25px;">Credit card has been provided. Last four digits are: <%= @customer.last_4_digits %></p>
+          <p class= "lead" style="padding-top:25px;">Credit card has been provided. Last four digits are: <%= current_user.customer.last_4_digits %></p>
           <a data-toggle="modal" href="#update-card" class="btn btn-primary pull-right" style="margin-top:-50px;" type="button">Update</a>
+          <%= render 'customers/update_card', :user => current_user %> 
+
         <% end %>
       <% end %>
   <% else %>  
      <%= render 'customers/add_card' %>  
   <% end %>
-  </div>
-</div>
 
-<div class="divider-horizontal-regular"></div>
   <% if current_user.has_role? :owner %>
     <% if !current_user.account.studio.present? %>
     <% @studio = current_user.account.build_studio %>
     <% end %>
-    
+    <div class="divider-horizontal-regular"></div>
+
     <h3> Studio Details </h3>
     <div class="divider-horizontal-regular"></div>
-    <%= render 'studios/form' %>
+    <%= render 'studios/form', :user => current_user  %>
   <% end %>
 
   <% if current_user.customer.present? %>
-        <% if current_user.customer.stripe_customer_token.present? %>
-      <h3> Upgrade Your Account </h3>
-      <!-- <a href="https://connect.stripe.com/oauth/authorize?response_type=code&amp;scope=read_write&amp;stripe_landing=login&amp;client_id=ca_2Ksr3KRSkcnkhLjwUQPbFNKuAptJ5sSw" class="stripe-connect pull-right btn btn-primary btn-sm" style="margin-top: -35px;"><span>Connect with Stripe</span></a> -->
-
-        <%= form_for([current_user, Account.new]) do |f| %>
-        <%= f.hidden_field :user_id, :value => current_user.id %>
-        <%= f.hidden_field :email, :value => current_user.email %>
-          <p class="lead center"> Sign up for your 14 day free trial! </p>
-          <div class="form-group col-lg-5 col-lg-offset-1">
-          <%= f.label :type, "Studio Owner Account" %>
-          <%= f.radio_button :type, "studio-basic", :checked => 1%>
-          </div>
-          <div class="form-group col-lg-6">
-          <%= f.label :type, "Independent Professional" %>
-          <%= f.radio_button :type, "professional-basic"%>
-          </div>
-      <div id="stripe_error">
-        <noscript>JavaScript is not enabled and is required for this form. First enable it in your web browser settings.</noscript>
-      </div>
-      <div class="form-actions pull-right">
-        <%= f.submit "Create Account", :class =>"submit-button btn btn-primary", :id => "new_account"%>
-      </div>
-  <% end %>
+    <% if !current_user.account.present? %>
+      <%= render 'accounts/edit_form' %>
   <% end %>
   <% end %>
 <div class="divider-horizontal-regular"></div>
@@ -184,5 +151,4 @@
 <p>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), :data => { :confirm => "Are you sure?" }, :method => :delete %>.</p>
 </div>
 
-<%= render 'customers/update_card', :user => current_user %> 
 

@@ -34,14 +34,14 @@ $('#calendar').fullCalendar({
 <% if current_user.customer.present? %>
 	<% if current_user.customer.access_token.present? %>
 		<%= link_to 'Add a Customer', new_customer_path(@studio) %>
+
+      <h3>Schedule for this Afternoon</h3>
+  <div class="divider-horizontal-regular" style="margin-bottom:0px"></div>
+
+  <div id='dashboard-cal'>
+      <div id='calendar'></div>
+  </div>
 	<% else %>
 		<a href="https://connect.stripe.com/oauth/authorize?response_type=code&amp;scope=read_write&amp;stripe_landing=login&amp;client_id=ca_2Ksr3KRSkcnkhLjwUQPbFNKuAptJ5sSw" class="stripe-connect"><span>Connect with Stripe</span></a>
 	<% end %>
-
-	<h3>Schedule for this Afternoon</h3>
-	<div class="divider-horizontal-regular" style="margin-bottom:0px"></div>
-
-	<div id='dashboard-cal'>
-  		<div id='calendar'></div>
-	</div>
 <% end %>

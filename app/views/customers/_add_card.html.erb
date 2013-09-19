@@ -1,5 +1,7 @@
 <script>
+var id = "#add_card";
 Stripe.setPublishableKey($('meta[name="stripe-key"]').attr('content'));
+
 $(document).ready(function() {
   $("#add_card").submit(function(event) {
     // disable the submit button to prevent repeated clicks
@@ -25,25 +27,44 @@ $(document).ready(function() {
   });
 });
 
-<%= form_for([current_user, current_user.build_customer], :html => { :class => 'form-vertical', :remote => true, :id => "add_card" }) do |c| %>
 
+function stripeResponseHandler(status, response) {
+    if (response.error) {
+        $(".payment-errors").text(response.error.message);
+        $(".submit-button").removeAttr("disabled");
+    } else {
+        var token = response['id'];
+        // insert the token into the form so it gets submitted to the server
+        $("#add_card").append("<input type='hidden' name='stripe_card_token' value='" + token + "'/>");
+        //document.getElementById('subscription_stripe_card_token').value = response['id']
+        // and submit
+        $('#add_card').get(0).submit();
+    }
+    return false;
+}
+
+</script>
+
+<%= form_for([@user, @user.build_customer], :method => :post, :html => { :remote => true, :id => "add_card" }) do |c| %>
         <div class="form-group" >
-          <%= label_tag :card_number, "Credit Card Number" %>
-          <%=h text_field_tag :card_number, nil, name: nil, :class => "form-control"  %>
- 
-          <div class="form-group col-lg-4">
-          <%= label_tag :card_code, "Security Code (CVV)" %>
-          <%=h text_field_tag :card_code, nil, name: nil, :class => "form-control"  %>
-          </div>
-          <div class="form-group col-lg-4">
-          <%= label_tag :card_month, "Card Expiration" %>
-          <%=h text_field_tag :card_month, nil, name: nil, :class => 'datepicker form-control'  %>
-          </div>
-          <div class="form-group col-lg-4">
-          <%= label_tag :card_year, " " %>
-          <%=h text_field_tag :card_year, nil, name: nil, :class => 'datepicker form-control'  %>
-          </div>
+          <p><%= label_tag :card_number, "Credit Card Number" %>
+          <%=h text_field_tag :card_number, nil, name: nil, :class => "form-control"  %></p>
 
-        <%= c.submit "Add Card", :class =>"submit-button btn btn-primary pull-right", :id => "add_card"%> 
+         <div class="row">
+          <div class="col-lg-4">
+          <p><%= label_tag :card_code, "Security Code (CVV)" %>
+          <%=h text_field_tag :card_code, nil, name: nil, :class => "form-control"  %></p>
+          </div>
+          <div class="col-lg-4">
+          <p><%= label_tag :card_month, "Card Expiration" %></br>
+          <%=h text_field_tag :card_month, nil, name: nil, :class => 'datepicker form-control'  %></p>
+          </div>
+          <div class="col-lg-4">
+          <p style = "margin-top:5px;"><%= label_tag :card_year, " "%></br>
+          <%=h text_field_tag :card_year, nil, name: nil, :class => 'datepicker form-control'  %></p>
+          </div>
+          <div><p style="margin-right:15px;"><%= c.submit "Add Card", :class =>"submit-button btn btn-primary pull-right", :id => "add_card"%> </p></div>
+
+        </div>
         </div>
 <% end %>

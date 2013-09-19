@@ -1,38 +1,38 @@
 
-<%= form_for(@studio, :html => {:class => 'form-vertical', :multipart => true }) do |f| %>
+<%= form_for(@studio) do |s| %>
 
 <div class="row">
 <div class="row" style ="margin-left:0px;">
   <div class="form-group col-lg-6">
-  <p><%=h f.label :name %><br />
-    <%=h f.text_field :name, :class => "form-control"%></p>
-  <p><%= f.label :address %><br />
-    <%= f.text_field :address, :class => "form-control" %></p>
+  <p><%=h s.label :name %><br />
+    <%=h s.text_field :name, :class => "form-control"%></p>
+  <p><%= s.label :address %><br />
+    <%= s.text_field :address, :class => "form-control" %></p>
     <div class="row">
         <div class="form-group col-lg-8">
-          <p><%= f.label :city %><br />
-            <%= f.text_field :city, :class => "form-control" %></p>  
+          <p><%= s.label :city %><br />
+            <%= s.text_field :city, :class => "form-control" %></p>  
         </div>
         <div class="form-group col-lg-4">
-          <p><%= f.label :state %><br />
-            <%= select_tag(:state, options_for_select(STATES, @studio.state), :class => "form-control") %></p>
+          <p><%= s.label :state %><br />
+            <%= s.select :state, options_for_select(STATES, @studio.state), :html => {:class => "form-control"} %></p>
     </div>
     </div>
-        <p><%= f.label :cancellation_policy %><br/>
-    <%= f.text_area :cancellation_policy, :class => "form-control", :cols => 20, :rows => 9 %></p>  
+        <p><%= s.label :cancellation_policy %><br/>
+    <%= s.text_area :cancellation_policy, :class => "form-control", :cols => 20, :rows => 9 %></p>  
 </div>
   <div class="form-group col-lg-6">
-    <p><%= f.label :main_phone %><br />
-    <%= f.text_field :main_phone, :class => "form-control" %></p>  
-    <p><%= f.label :website %><br />
-    <%= f.url_field :website, :class => "form-control" %></p>  
-    <p><%= f.label :student_waiver %><br/>
-    <%= f.text_area :student_waiver, :class => "form-control", :cols => 20, :rows => 13 %></p>      
+    <p><%= s.label :main_phone %><br />
+    <%= s.text_field :main_phone, :class => "form-control" %></p>  
+    <p><%= s.label :website %><br />
+    <%= s.url_field :website, :class => "form-control" %></p>  
+    <p><%= s.label :student_waiver %><br/>
+    <%= s.text_area :student_waiver, :class => "form-control", :cols => 20, :rows => 13 %></p>      
    </div>
 
 </div>
 
   <div class="form-actions">
-  <div><%= f.submit "Update", :class => "btn btn-primary pull-right" %></div>  </div>
+  <div><%= s.submit "Update", :class => "submit-button btn btn-primary pull-right", :id => "add_studio" %></div>  </div>
 <% end %>
 </div>

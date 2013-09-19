@@ -9,13 +9,11 @@ class StudiosController < ApplicationController
     end
     
     def new
-        @studio = Studio.new
+        @studio = current_user.account.build_studio
     end
     
     def create
-        @studio = Studio.create(params[:studio])
-        @studio.account_id = current_user.account.id
-        
+        @studio = current_user.account.build_studio(params[:studio])
         respond_to do |format|
             if @studio.save
                 format.html { redirect_to :back, notice: 'Studio was successfully created.' }
@@ -63,7 +61,7 @@ class StudiosController < ApplicationController
     def instructors_database
         @available_instructors = User.joins(:profile).where('is_certified = ?',  true)
         if params[:distance].present?
-            @search_database = @available_instructors.near(current_user.studio.gmaps4rails_address, params[:distance]).search(params[:search])
+            @search_database = @available_instructors.near(current_user.account.studio.gmaps4rails_address, params[:distance]).search(params[:search])
         else
             @search_database = @available_instructors.search(params[:search])
         end

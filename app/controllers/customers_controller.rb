@@ -1,23 +1,23 @@
 class CustomersController < ApplicationController
+    
     def create 
         if Rails.env.development?
             Stripe.api_key
             else
             Stripe.api_key = ENV['STRIPE_API_KEY']
         end
-        @user = User.find(params[:user_id])
+        @user = User.find(params[:user_id])        
         @stripe_customer = Stripe::Customer.create(description: @user.email, card: params[:stripe_card_token])
-        @customer = @user.build_customer(:stripe_customer_token => @stripe_customer.id)
-        @customer.last_4_digits = params[:last_4_digits]
-     
+        @customer = @user.build_customer(:stripe_customer_token => @stripe_customer.id, :email => @user.email, :last_4_digits => params[:last_4_digits])
         respond_to do |format|
-        if @customer.save
-            format.html { redirect_to :back, notice: 'Card successfully added.' }
-            format.json { head :no_content }
-        else
-            format.html { render :back, alert: 'Card was unsuccessfully added.' }
-            format.json { render json: @message.errors, status: :unprocessable_entity }
-        end 
+            if @customer.save
+                format.html { redirect_to :back, notice: 'Card successfully added.' }
+                format.json { head :no_content }
+                else
+                @user.customer.destroy
+                format.html { redirect_to :back, alert: 'Card was unsuccessfully added.' }
+                format.json { render json: @message.errors, status: :unprocessable_entity }
+            end 
         end
     end
     

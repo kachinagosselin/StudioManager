@@ -1,0 +1,27 @@
+      <div class="divider-horizontal-regular"></div>
+      <h3 class="center"> Upgrade Your Account </h3>
+      <!-- <a href="https://connect.stripe.com/oauth/authorize?response_type=code&amp;scope=read_write&amp;stripe_landing=login&amp;client_id=ca_2Ksr3KRSkcnkhLjwUQPbFNKuAptJ5sSw" class="stripe-connect pull-right btn btn-primary btn-sm" style="margin-top: -35px;"><span>Connect with Stripe</span></a> -->
+
+        <%= form_for([@user, @user.build_account) do |a| %>
+        <%= a.hidden_field :user_id, :value => current_user.id %>
+        <%= a.hidden_field :email, :value => current_user.email %>
+          <p class="lead center"> Sign up for your 14 day free trial! </p>
+          <div class="form-group">
+            <div class="row">
+            <div class="col-lg-5 col-lg-offset-1">
+          <%= a.label :plan_id, "Studio Owner Account   " %>
+          <%= a.radio_button :plan_id, "studio-basic", :checked => 1%>
+          </div>
+          <div class="col-lg-6">
+          <%= a.label :plan_id, "Independent Professional   " %>
+          <%= a.radio_button :plan_id, "professional-basic"%>
+          </div>
+      <div id="stripe_error">
+        <noscript>JavaScript is not enabled and is required for this form. First enable it in your web browser settings.</noscript>
+      </div>
+        <div class="form-actions">
+  <div><%= a.submit "Upgrade", :class => "submit-button btn btn-primary pull-right"%></div>  </div>
+     </div> <!-- close row -->
+    </div> <!-- Close form group -->
+ 
+ <% end %>
