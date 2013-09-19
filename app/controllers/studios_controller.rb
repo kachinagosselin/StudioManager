@@ -62,7 +62,11 @@ class StudiosController < ApplicationController
 
     def instructors_database
         @available_instructors = User.joins(:profile).where('is_certified = ?',  true)
-        @search_database = @available_instructors.search(params[:search])
+        if params[:distance].present?
+            @search_database = @available_instructors.near(current_user.studio.gmaps4rails_address, params[:distance]).search(params[:search])
+        else
+            @search_database = @available_instructors.search(params[:search])
+        end
         @instructors_database = @search_database.all   # load all matching records
     end 
     
