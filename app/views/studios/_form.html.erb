@@ -1,3 +1,8 @@
+<script>
+$(document).ready(function() {
+document.getElementById("studio_state").classList.add('form-control');
+});
+</script>
 
 <%= form_for(@studio) do |s| %>
 
@@ -15,7 +20,7 @@
         </div>
         <div class="form-group col-lg-4">
           <p><%= s.label :state %><br />
-            <%= s.select :state, options_for_select(STATES, @studio.state), :html => {:class => "form-control"} %></p>
+              <%= s.select :state, STATES %></p>
     </div>
     </div>
         <p><%= s.label :cancellation_policy %><br/>

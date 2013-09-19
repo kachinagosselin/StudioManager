@@ -1,4 +1,14 @@
+    <%= javascript_include_tag "bootstrap-datetimepicker.min.js" %>
 
+<script>
+$(document).ready(function() {
+document.getElementById("user_profile_attributes_state").classList.add('form-control');
+var x = document.getElementById("datetimepicker");
+alert(x);
+    $('#datetimepicker').datetimepicker();
+
+});
+</script>
   <%= render "layouts/sidebar" %>
 
   <div class="col-lg-10">
@@ -25,7 +35,7 @@
           </div>
           <div class="form-group col-lg-4">
             <p><%= p.label :state %><br />
-                  <%= select_tag(:state, options_for_select(STATES, @current_user.profile.state), :class => "form-control") %></p>
+              <%= p.select :state, STATES, {:class => "form-control"} %></p>
 
           </div>
       </div>
@@ -37,8 +47,15 @@
 
   <div class="form-group col-lg-6">
     <p><%= p.label :dob, "Date of Birth" %><br />
-    <%=h p.text_field :dob, :class => "form-control"%></p>
-
+    <%=h p.text_field :dob, :class => "form-control",:id => "datetimepicker", :type => "text"%></p>
+  <!--
+  <div id="datetimepicker2" class="input-append">
+    <input data-format="MM/dd/yyyy HH:mm:ss PP" type="text"></input>
+    <span class="add-on">
+      <i data-time-icon="icon-time" data-date-icon="icon-calendar">
+      </i>
+    </span>
+  </div> -->
     <p><%= p.label :phone %><br />
       <%=h p.telephone_field :phone, :class => "form-control" %></p>
 
