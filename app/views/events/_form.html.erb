@@ -1,3 +1,18 @@
+
+<script>
+$(document).ready(function() {
+    $('.form_datetime').datetimepicker({
+        weekStart: 1,
+        autoclose: 1,
+        startView: 2,
+        forceParse: 0,
+        showMeridian: 1
+        format: "dd MM yyyy",
+      });
+
+});
+</script>
+
 <div class="modal-body">
 <%= form_for([@studio, @event], :html => {:class => 'form-horizontal'}) do |f| %>
   <div class="form-group">   
@@ -9,12 +24,15 @@
     </div>
 
     <div class="form-group  col-lg-5" style ="margin-left:10px;">
-    <%= f.label :start_at, "Start Time" %><br />
-    <%=h f.text_field :start_at, 'data-date' => Date.today, 'data-date-format'=>"M d yyyy", :class => "form_datetime form-control", :type => "text"%>
+        <p><%= f.label :start_at, "Date of Birth" %><br />
+    <%=h f.text_field :start_at, 'data-date' => Date.today, :class => "form_datetime form-control", :type => "text"%>
+    <span class="add-on"><i class="icon-th"></i></span>
 
-    <%= f.label :end_at, "End Time" %><br />
-    <%=h f.text_field :end_at, 'data-date' => Date.today, 'data-date-format'=>"M d - H:ii p", :class => "form_datetime form-control", :type => "text"%>
-    
+  </p>
+
+    <%= f.text_field :start_at, :type => "datetime", :class => "form-control" %>
+    <%= f.label :end_at %>
+    <%= f.text_field :end_at, :type => 'datetime',:class => "form-control" %>
     <%= f.label :instructor%>
     <%= f.text_field :instructor, :class => "form-control" %>
     <%= f.hidden_field :studio_id, :value => @studio.id%>
