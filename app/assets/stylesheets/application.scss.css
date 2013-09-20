@@ -12,8 +12,9 @@
  *= require_tree .
  *= require fullcalendar
  *= require fullcalendar.print
- *= require bootstrap-datetimepicker
+ *= require datetimepicker
 */
+
 
 .brand {
   float: left;

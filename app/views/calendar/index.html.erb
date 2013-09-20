@@ -15,7 +15,8 @@ $('#calendar').fullCalendar({
           url: '<%= studio_events_path(@studio) %>',
         }],
 
-      eventColor: 'transparent'
+      eventColor: 'transparent',
+      ignoreTimezone: false
 });
 
 
