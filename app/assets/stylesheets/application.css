@@ -214,7 +214,3 @@ a:focus {
   width: 1460px;
   min-width:1460px;
 }
-
-.datetimepicker{
-z-index: 1551  !important;
-}
