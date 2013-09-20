@@ -4,10 +4,11 @@ $(document).ready(function() {
 document.getElementById("user_profile_attributes_state").classList.add('form-control');
     $('.form_datetime').datetimepicker({
         weekStart: 1,
-        todayBtn:  1,
+        todayBtn:  0,
         autoclose: 1,
-        todayHighlight: 1,
-        startView: 2,
+        todayHighlight: 0,
+        minView: 1,
+        startView: 4,
         forceParse: 0,
         showMeridian: 1
     });
@@ -52,7 +53,7 @@ document.getElementById("user_profile_attributes_state").classList.add('form-con
 
   <div class="form-group col-lg-6">
     <p><%= p.label :dob, "Date of Birth" %><br />
-    <%=h p.text_field :dob, 'data-date' => Date.today, :class => "form_datetime form-control", 'data-date-format'=>"dd MM yyyy - HH:ii p", :type => "text"%></p>
+    <%=h p.text_field :dob, 'data-date' => Date.today, :class => "form_datetime form-control", 'data-date-format'=>"M d  yyyy", :type => "text"%></p>
 
     <p><%= p.label :phone %><br />
       <%=h p.telephone_field :phone, :class => "form-control" %></p>
