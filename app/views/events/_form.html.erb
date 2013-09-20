@@ -1,16 +1,4 @@
 
-<script>
-$(document).ready(function() {
-    $('.form_datetime').datetimepicker({
-        weekStart: 1,
-        autoclose: 1,
-        startView: 2,
-        forceParse: 0,
-        showMeridian: 1
-      });
-
-});
-</script>
 
 <div class="modal-body">
 <%= form_for([@studio, @event], :html => {:class => 'form-horizontal'}) do |f| %>
