@@ -7,7 +7,6 @@ $(document).ready(function() {
         startView: 2,
         forceParse: 0,
         showMeridian: 1
-        format: "dd MM yyyy",
       });
 
 });
@@ -24,13 +23,12 @@ $(document).ready(function() {
     </div>
 
     <div class="form-group  col-lg-5" style ="margin-left:10px;">
-        <p><%= f.label :start_at, "Date of Birth" %><br />
+        <p><%= f.label :start_at, "Start Time" %><br />
     <%=h f.text_field :start_at, 'data-date' => Date.today, :class => "form_datetime form-control", :type => "text"%>
     <span class="add-on"><i class="icon-th"></i></span>
 
   </p>
 
-    <%= f.text_field :start_at, :type => "datetime", :class => "form-control" %>
     <%= f.label :end_at %>
     <%= f.text_field :end_at, :type => 'datetime',:class => "form-control" %>
     <%= f.label :instructor%>
