@@ -10,7 +10,8 @@
 
     <div class="form-group  col-lg-5" style ="margin-left:10px;">
     <%= f.label :start_at, "Start Time" %><br />
-    <%=h f.text_field :start_at, 'data-date' => Date.today, 'data-date-format'=>"M d - H:ii p", :class => "form_datetime form-control", :type => "text"%>
+    <%=h f.text_field :start_at, 'data-date' => Date.today, 'data-date-format'=>"M d yyyy", :class => "form_datetime form-control", :type => "text"%>
+
     <span class="add-on"><i class="icon-th"></i></span>
 
     <%= f.label :end_at, "End Time" %><br />
