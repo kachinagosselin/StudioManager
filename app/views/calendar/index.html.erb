@@ -12,11 +12,8 @@ $('#calendar').fullCalendar({
   	right: 'month,agendaWeek,agendaDay'
 	},
     eventSources: [{
-          url: '<%= studio_events_path(@studio) %>',
+          url: '/studios/<%= @studio.id %>/events.json',
         }],
-
-      eventColor: 'transparent',
-      ignoreTimezone: false
 });
 
 
