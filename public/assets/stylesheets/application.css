@@ -1,0 +1,217 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ *= require_self
+ *= require_tree .
+ * content from app/assets/stylesheets/bootstrap.css
+
+*/
+
+
+.brand {
+  float: left;
+  padding-right: 8px;
+}
+ul.nav {
+  list-style: none;
+  margin: 0 0 2em;
+  padding: 0;
+}
+ul.nav li {
+  display: inline;
+}
+#flash_notice, #flash_alert {
+  padding: 5px 8px;
+  margin: 10px 0;
+}
+#flash_notice {
+  background-color: #CFC;
+  border: solid 1px #6C6;
+}
+#flash_alert {
+  background-color: #FCC;
+  border: solid 1px #C66;
+}
+
+body {
+  padding-top:32px;
+  padding-bottom: 20px;
+}
+
+.leftspan{
+border-right: 1px solid #ccc;
+}
+
+.rightspan{
+border-left: 1px solid #ccc;
+}
+
+.divider-horizontal {
+height: 1px;
+width: 120%;
+margin: 10px 0px 10px -40px;
+background-color: gainsboro;
+border-right: 1px solid white;
+}
+
+.divider-horizontal-regular {
+height: 1px;
+width: 120%;
+margin: 20px 0px 10px -15px;
+background-color: gainsboro;
+border-right: 1px solid white;
+}
+
+.learn-button {
+color: #333;
+font-size: 20px;
+text-transform: capitalize;
+display: inline-block;
+padding: 25px 55px 25px 40px;
+background-color: #afd46d;
+background-image: url(/assets/marketing/button_arrow-ec1a8963a86ce547d7296fb092f9ae94.png);
+background-repeat: no-repeat;
+background-position: right top;
+border: solid 1px gray;
+-webkit-border-radius: 5px;
+-moz-border-radius: 5px;
+border-radius: 5px;
+}
+
+.trial-button {
+color: #999999;
+font-size: 20px;
+text-transform: capitalize;
+display: inline-block;
+padding: 25px 55px 25px 40px;
+background-color: #253C4A;
+background-image: url(/assets/marketing/button_arrow-ec1a8963a86ce547d7296fb092f9ae94.png);
+background-repeat: no-repeat;
+background-position: right top;
+border: solid 1px black;
+-webkit-border-radius: 5px;
+-moz-border-radius: 5px;
+border-radius: 5px;
+}
+
+.section {
+width: 100%;
+overflow-y: visible;
+overflow-x: visible;
+color: white;
+}
+
+.section h1 {
+font-size: 42px;
+font-weight: 100;
+line-height: 1.2em;
+padding-top: 120px;
+display: block;
+-webkit-margin-before: 0.67em;
+-webkit-margin-after: 0.67em;
+-webkit-margin-start: 0px;
+-webkit-margin-end: 0px;
+}
+
+.section h2{
+margin: 0px;
+font-size: 28px;
+line-height: 1.3em;
+font-weight: 300;
+-webkit-margin-before: 0.83em;
+-webkit-margin-after: 0.83em;
+-webkit-margin-start: 0px;
+-webkit-margin-end: 0px;
+padding-bottom: 30px;
+}
+
+.section h2{
+padding: 55px 0;
+}
+
+.beigebackground h2 {
+color: #999999;
+padding-top: 50px;
+padding-bottom: 15px;
+}
+
+.beigebackground h2 {
+color: #395a6f;
+}
+
+.bluebackground p {
+color: #fff;
+font-size: 15px;
+line-height: 1.6em;
+font-weight: 100;
+display: block;
+-webkit-margin-before: 1em;
+-webkit-margin-after: 1em;
+-webkit-margin-start: 0px;
+-webkit-margin-end: 0px;}
+
+.beigebackground p {
+color: #333;
+font-size: 15px;
+line-height: 1.6em;
+font-weight: 100;
+display: block;
+-webkit-margin-before: 1em;
+-webkit-margin-after: 1em;
+-webkit-margin-start: 0px;
+-webkit-margin-end: 0px;}
+
+.section .header-subscript {
+text-align: center;
+font-size: 18px;
+margin-top: 15px;
+font-weight: 300;
+}
+
+.center {
+text-align:center;}
+
+.beigebackground {
+height: 626px;
+background-color: #f3efde;
+color:black;
+}
+
+.bluebackground {
+height: 550px;
+background-color: #395a6f;
+}
+
+.footer {
+height: 350px;
+background-color: #253C4A;
+}
+
+a:hover,
+a:focus {
+  color: #2a6496;
+  text-decoration: underline;
+}
+
+a:focus {
+  outline: thin dotted #333;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+
+.container-non-responsive {
+  /* Margin/padding copied from Bootstrap */
+  margin-left: auto;
+  margin-right: auto;
+
+  /* Set width to your desired site width */
+  width: 1460px;
+  min-width:1460px;
+}

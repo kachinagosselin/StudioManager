@@ -10,9 +10,8 @@
  *
  *= require_self
  *= require_tree .
- *= require fullcalendar
- *= require fullcalendar.print
- *= require datetimepicker
+ * content from app/assets/stylesheets/bootstrap.css
+
 */
 
 
