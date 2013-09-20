@@ -140,13 +140,10 @@ document.getElementById("user_profile_attributes_state").classList.add('form-con
 
   <% if current_user.customer.present? %>
       <% if current_user.customer.stripe_customer_token.present? %>
-      <% stripe_customer = Stripe::Customer.retrieve(current_user.customer.stripe_customer_token) %>
-        <% if stripe_customer.active_card.fingerprint.present? %>
           <p class= "lead" style="padding-top:25px;">Credit card has been provided. Last four digits are: <%= current_user.customer.last_4_digits %></p>
           <a data-toggle="modal" href="#update-card" class="btn btn-primary pull-right" style="margin-top:-50px;" type="button">Update</a>
           <%= render 'customers/update_card', :user => current_user %> 
 
-        <% end %>
       <% end %>
   <% else %>  
      <%= render 'customers/add_card' %>  
