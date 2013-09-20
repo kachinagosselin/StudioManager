@@ -21,10 +21,6 @@ document.getElementById("user_profile_attributes_state").classList.add('form-con
 <h3> Personal Details </h3>
 <div class="divider-horizontal-regular"></div>
 
-<div class="controls input-append date form_datetime" data-date="<%=Date.today%>" data-date-format="dd MM yyyy - HH:ii p" data-link-field="dtp_input1">
-<input class="form-control" type="text" value="" readonly>
-                </div>
-
 <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, :multipart => true}) do |f| %>
   <%= f.fields_for :profile do |p| %>
   <%= devise_error_messages! %>
@@ -56,7 +52,7 @@ document.getElementById("user_profile_attributes_state").classList.add('form-con
 
   <div class="form-group col-lg-6">
     <p><%= p.label :dob, "Date of Birth" %><br />
-    <%=h p.text_field :dob, 'data-date' => Date.today, :class => "form_datetime form-control", 'data-date-format'="dd MM yyyy - HH:ii p", :type => "text"%></p>
+    <%=h p.text_field :dob, 'data-date' => Date.today, :class => "form_datetime form-control", 'data-date-format'=>"dd MM yyyy - HH:ii p", :type => "text"%></p>
 
     <p><%= p.label :phone %><br />
       <%=h p.telephone_field :phone, :class => "form-control" %></p>
