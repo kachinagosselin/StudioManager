@@ -26,19 +26,24 @@
     <table class="table table-hover">
         <thead>
             <tr>
-              <th></th>
-              <th>Start Time</th>
+              <th>Date</th>
               <th>Title</th>
+              <th>Start Time</th>
               <th>Location</th>
               <th>Duration</th>
+              <th></th>
+              <th></th>
             </tr>       
         </thead>
         <tbody>
             <% @events.each do |event| %>
               <tr>
 
+              <td><%= event.day_of_week %></td>
               <td><%= link_to event.title, studio_event_path(event.studio,event)%></td>
-              <td></td>
+              <td><%= event.start_at.strftime("%l:%M %P") %></td>
+              <td><%= @studio.address %></td>
+              <td><%= event.duration %></td>
                 <td><%= link_to 'Edit', edit_studio_event_path(event.studio, event),  :data => {:toggle => "modal", :target => "#editModal#{event.id}"}, :remote => true, :class => 'btn btn-default btn-xs' %>  </td>
                     <%= render :partial => 'events/edit', :locals => {:event => event}%>
                   <td><%= button_to 'Delete', [event.studio, event], method: :delete, data: { confirm: 'Are you sure? This action cannot be undone.' }, :class => 'btn btn-default btn-xs' %></td>
@@ -46,17 +51,6 @@
             <% end %>
         </tbody>
     </table>
-
-
-<div class="well">
-  <div id="datetimepicker1" class="input-append date">
-    <input data-format="dd/MM/yyyy hh:mm:ss" type="text"></input>
-    <span class="add-on">
-      <i data-time-icon="icon-time" data-date-icon="icon-calendar">
-      </i>
-    </span>
-  </div>
-</div>
 
 <div>
     <%= render 'events/new' %>
