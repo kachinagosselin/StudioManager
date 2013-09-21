@@ -41,6 +41,8 @@ StudioManager::Application.routes.draw do
     #Check In Classes in Studio
     match 'studios/:id/events/:event_id/checkin/' => 'studios#checkin_event', :controller => 'studios', :action => 'checkin_event', :via => [:get], :as => 'checkin_event'
     match 'studios/:id/events/:event_id/checkin_user' => 'studios#checkin_user', :controller => 'studios', :action => 'checkin_user', :via => [:post], :as => 'checkin_studio_user'
+    match 'studios/:id/events/:event_id/checkin_user/:user_id' => 'studios#checkin_user_directly', :controller => 'studios', :action => 'checkin_user_directly', :via => [:post], :as => 'checkin_studio_user_directly'
+
     match 'studios/:id/checkin' => 'studios#checkin', :controller => 'studios', :action => 'checkin', :via => [:get], :as => 'checkin_studio'
     
     match 'studios/:id/invoice/:user_id' => 'studios#invoice', :controller => 'studios', :action => 'invoice', :via => [:get], :as => 'invoice'

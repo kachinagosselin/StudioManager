@@ -41,7 +41,7 @@
 
               <td><%= event.day_of_week %></td>
               <td><%= link_to event.title, studio_event_path(event.studio,event)%></td>
-              <td><%= event.start_at.strftime("%l:%M %P") %></td>
+              <td><%= event.start_time %></td>
               <td><%= @studio.address %></td>
               <td><%= event.duration %></td>
                 <td><%= link_to 'Edit', edit_studio_event_path(event.studio, event),  :data => {:toggle => "modal", :target => "#editModal#{event.id}"}, :remote => true, :class => 'btn btn-default btn-xs' %>  </td>

@@ -22,7 +22,7 @@ class User < ActiveRecord::Base
   has_many :purchases
   has_many :studios, foreign_key: "studio_id", :through => :instructors
   has_many :events, foreign_key: "event_id", :through => :registered_events
-
+  
   # Setup accessible (or protected) attributes for your model
     attr_accessible :name, :email, :password, :password_confirmation, :remember_me, :phone, :address, :city, :state, :description, :is_certified, :is_available, :profile, :profile_attributes, :photo, :photo_attributes, :stripe_code, :max_distance
     
@@ -143,7 +143,7 @@ class User < ActiveRecord::Base
     end
     
     def spend_credit(studio)
-        credit = self.customer.credits.where(:studio_id => studio.id, :order => "expires_at ASC").first
+        credit = self.customer.credits.where(:studio_id => studio.id).first
         credit.quantity = credit.quantity - 1
         if credit.quantity == 0
             credit.destroy
@@ -153,9 +153,7 @@ class User < ActiveRecord::Base
     end
     
     def paid_for_class?(studio)
-        if self.active_membership(studio)
-            return true
-        elsif self.customer.credits(studio).present?
+        if self.customer.credits(studio).present?
             self.spend_credit(studio)
             return true
         else

@@ -1,0 +1,41 @@
+<div class="modal fade" id="add-instructor" tabindex="-1" role="dialog" aria-labelledby="newModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title">Add Instructor Profile</h4></div>
+
+        <div class="modal-body">
+            <%= form_for([@user, @user.profile], :method => :put, :html => { :remote => true, :id => "create_instructor"}) do |p| %>
+            <div class="form-group">
+            <div class="row">
+              <div class="col-lg-6">
+                <p><%= p.label :description %><br />
+                <%=h p.text_area :description, :class => "form-control", :cols => 20, :rows => 10 %></p>  
+                <p class="help-block">Note: This will appear in your profile.</p>
+              </div>
+              <div class="col-lg-6">
+                </br><p><b> Certification </b></p></br>
+                <%= p.check_box :is_certified, :class => "form-control"%>
+                <p style = "margin-top:-26px;margin-left:30px;"><b> Is certified? </b></p>
+                <%= p.check_box :is_available, :class => "form-control"%>
+                <p style = "margin-top:-26px;margin-left:30px;"><b> Is available? </b></p>
+                <%= p.fields_for :photo do |asset| %>
+                <p><%= asset.label :image, "Profile Photo" %><br />
+                <%= asset.file_field :image, :class => "form-control"%></p>  
+                <% end %>
+
+              </div>
+            </div>
+            </div>
+        </div>
+    <div class="modal-footer">
+    <div class="actions">
+        <a class="btn" data-dismiss="modal" href="#">Cancel</a>
+        <%= p.submit "Create", :class =>"submit-button btn btn-primary", :id => "create_instructor"%>
+    </div>
+    </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<% end %>

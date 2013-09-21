@@ -3,12 +3,13 @@
 
 		<div class="col-lg-9" >
 	<h3> Database of Instructors </h3>
-		<div class="col-lg-7" style="margin-left:650px;margin-top:-40px;" >
+		<div class="col-lg-8" style="margin-left:550px;margin-top:-40px;" >
 	<%= form_for @search_database, :url => instructors_database_path(), :html => {:method => :get, :id => "user_search_database"} do |f| %>
 		<div class="input-group">
-      	<%= f.text_field :name_contains, :class => "form-control"  %>
-      	<span class="input-group-btn">
-          <button type="submit" class="btn btn-primary">Search</button>
+      	<%= f.text_field :name_contains, :class => "form-control", :style=>"width:285px;"  %>
+  		<span class="input-group-addon"> within </span>      	
+      	<%= f.text_field :distance, :placeholder => "miles", :class => "form-control", :style =>"width:60px;" %>
+        <span>  <button type="submit" class="btn btn-primary">Search</button>
       	</span>
     	</div><!-- /input-group -->
 	<% end %>
@@ -27,12 +28,17 @@
 		        </tr>
 		    </thead>
 		    <tbody>
-		        <% @instructors_database.each do |user| %>
+		        <% @instructors_database.each do |profile| %>
 		        	<tr>
-		        		<td><%=link_to user.name, user %></td>
-		        		<td><%=link_to user.email, user %></td>
-		        		<td><%=  user.profile.phone if user.profile.phone %></td>
-		        		<td><%= user.profile.city %>, <%= user.profile.state %></td>
+		        		<% user = User.find(profile.user_id) %>
+		        		<% if user.present? %>
+		        		<td><%=link_to profile.name, user_path(user) %></td>
+		        		<% else %>
+		        			<td><%= profile.name %></td>
+		        		<% end %>
+		        		<td><%=link_to profile.email %></td>
+		        		<td><%=  profile.phone if profile.phone %></td>
+		        		<td><%= profile.city %>, <%= profile.state %></td>
 		        		<td></td>
 		        		<td></td>
 		        		<td>Message</td>

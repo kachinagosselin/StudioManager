@@ -28,13 +28,6 @@ class StudiosController < ApplicationController
     def edit
         @studio = Studio.find(params[:id])
     end
-
-    def widget
-        @studio = Studio.find(params[:id])
-        respond_to do |format|
-            format.js {render :layout=>false}
-        end
-    end
     
     def update
         @studio = Studio.find(params[:id])
@@ -54,18 +47,21 @@ class StudiosController < ApplicationController
         @studio = Studio.find(params[:id])
         @search = @studio.staff.search(params[:search])
         @instructors = @search.all   # load all matching records
-        
-
     end 
 
     def instructors_database
-        @available_instructors = User.joins(:profile).where('is_certified = ?',  true)
-        if params[:distance].present?
-            @search_database = @available_instructors.near(current_user.account.studio.gmaps4rails_address, params[:distance]).search(params[:search])
+        @available_instructors = Profile.where('is_certified = ?',  true)
+
+        if params[:search].present?
+        if params[:search][:distance].present?
+            @distance = params[:search][:distance]
+            params[:search].delete :distance
+            @search_database = Profile.near(current_user.account.studio.gmaps4rails_address, @distance).where('is_certified = ?',  true).search(params[:search])
         else
             @search_database = @available_instructors.search(params[:search])
         end
-        @instructors_database = @search_database.all   # load all matching records
+        end
+        @instructors_database = @search_database   # load all matching records
     end 
     
     def students
@@ -89,6 +85,28 @@ class StudiosController < ApplicationController
         @search = @studio.users.search(params[:search])
     end
 
+    def 
+    
+    def checkin_user_directly
+        @studio = Studio.find(params[:id])
+        @event = @studio.events.find(params[:event_id])
+        @user = User.find(params[:user_id])
+        @paid = false
+
+            #if active memberships are available
+            if @user.paid_for_class?(@studio)
+                if @user.is_registered?(@event)
+                    @user.attends(@event)
+                    redirect_to :back
+                    else 
+                    @user.register!(@event, @studio, true)
+                    @user.attends(@event)
+                    redirect_to :back
+                end
+                else
+                redirect_to :back #new_purchase
+            end
+    end
     
     def checkin_user
         @studio = Studio.find(params[:id])
@@ -98,14 +116,18 @@ class StudiosController < ApplicationController
         
         #if user is a student of the studio
         if @user.present?
+            a
             #if active memberships are available
             if @user.paid_for_class?(@studio)
+                d
                 if @user.is_registered?(@event)
                     @user.attends(@event)
+                    done
                     redirect_to :back
                 else 
                     @user.register!(@event, @studio, true)
                     @user.attends(@event)
+                    here
                     redirect_to :back
                 end
             else
@@ -132,6 +154,12 @@ class StudiosController < ApplicationController
         end
     end
     
+    def widget
+        @studio = Studio.find(params[:id])
+        respond_to do |format|
+            format.js {render :layout=>false}
+        end
+    end
 
     def destroy
         @studio = Studio.find(params[:id])

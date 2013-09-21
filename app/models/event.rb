@@ -47,6 +47,18 @@ class Event < ActiveRecord::Base
         end
     end
 
+    def date
+        self.start_at.strftime("%B %e, %Y")
+    end
+
+    def start_time 
+        self.start_at.strftime("%l:%M %P")
+    end
+
+    def end_time 
+        self.end_at.strftime("%l:%M %P")
+    end
+
     def duration
         days = ((end_at-start_at) / (24*3600)).round
         hours_remaining = ((end_at-start_at) / 3600).round % 24
