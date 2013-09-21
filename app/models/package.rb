@@ -1,14 +1,10 @@
 class Package < ActiveRecord::Base
     belongs_to :studio
     
-    attr_accessible :studio_id, :quantity, :percent_off, :name, :title, :price, :archived, :expires_at
+    attr_accessible :studio_id, :quantity, :percent_off, :name, :title, :price, :archived, :expires_at, :interval_count, :interval, 
     
     def title
-        if self.price.present?
-            self.title = "#{self.name} - $#{self.price/100}"
-        else
-            self.title = "#{self.name} - $#{self.total_price/100}"
-        end
+            self.title = "#{self.name} - #{self.format_price}"
     end
     
     def total_price
@@ -18,6 +14,10 @@ class Package < ActiveRecord::Base
         else
             self.price
         end
+    end
+    
+    def format_price
+        "$#{sprintf('%.2f', self.total_price/100.0)}"
     end
 
 end

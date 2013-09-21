@@ -9,7 +9,10 @@ class MembershipsController < ApplicationController
                 format.json { render json: @memberships }
             end
         end
-        
+    
+        def new
+        end
+    
         def create
             @studio = Studio.find(params[:studio_id])
             @membership = @studio.memberships.new(params[:membership])
@@ -33,35 +36,15 @@ class MembershipsController < ApplicationController
             end
         end
     
-    
-    def update
-        @studio = Studio.find(params[:studio_id])
-        @membership = Membership.find(params[:id])
-        @client = current_user
-        @stripe_membership = Stripe::Plan.create({
-                                                 :amount => params[:membership][:price],
-                                                 :interval => params[:membership][:interval],
-                                                 :name => params[:membership][:name],
-                                                 :currency => 'usd',
-                                                 :id => params[:membership][:name]
-                                                 }, @client.customer.access_token
-                                                 )
-        
-        respond_to do |format|
-            if @membership.update_attributes(params[:membership])
-                format.html { redirect_to studio_memberships_path(@studio), notice: 'Membership was successfully updated.' }
-                format.json { head :no_content }
-                else
-                format.html { render action: "edit" }
-                format.json { render json: @message.errors, status: :unprocessable_entity }
-            end
-        end
-    end
+
         
     def destroy
         @studio = Studio.find(params[:studio_id])
         @membership = @studio.memberships.find(params[:id])
+        @client = current_user
+        @stripe_membership = Stripe::Plan.retrieve({:id => @membership.name}, @client.customer.access_token)
+        @stripe_membership.delete
         @membership.destroy
-        redirect_to :back
+        redirect_to studio_products_path(@studio)
     end
 end

@@ -114,7 +114,10 @@ class User < ActiveRecord::Base
     
     def add_membership(client, membership)
         stripe_customer = Stripe::Customer.retrieve({:id => self.customer.stripe_customer_token}, client.customer.access_token)
-        stripe_customer.update_subscription(:plan => membership.name, :prorate => false)
+        stripe_customer.update_subscription(:plan => membership.name, :prorate => membership.prorate)
+        if membership.one_time_app == true
+            stripe_customer.cancel_subscription(:at_period_end => true)
+        end
     end
     
     def purchase!(studio, product, type, discount)
@@ -136,9 +139,9 @@ class User < ActiveRecord::Base
     end
     
     def paid_for_class?(studio)
-        if self.active_membership(@studio).present?
+        if self.active_membership(studio)
             return true
-        elsif self.customer.credits(@studio).present?
+        elsif self.customer.credits(studio).present?
             self.spend_credit(studio)
             return true
         else
@@ -147,10 +150,17 @@ class User < ActiveRecord::Base
     end
         
     def active_membership(studio)
-        
+        client = User.find(studio.account.user_id)
+        stripe_customer = Stripe::Customer.retrieve({:id => self.customer.stripe_customer_token}, client.customer.access_token)
+        status = stripe_customer.status
+        if status == "active"
+            return true
+        else
+            return false
+        end
     end
     
     def credits(studio)
-        self.credits
+        self.credits.customer.credits.where(:studio_id => studio.id)
     end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130920140908) do
+ActiveRecord::Schema.define(:version => 20130921034709) do
 
   create_table "accounts", :force => true do |t|
     t.string   "plan_id"
@@ -117,8 +117,11 @@ ActiveRecord::Schema.define(:version => 20130920140908) do
     t.integer  "interval_count"
     t.integer  "trial_period_days"
     t.text     "description"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
+    t.datetime "created_at",                           :null => false
+    t.datetime "updated_at",                           :null => false
+    t.string   "title"
+    t.boolean  "one_time_app",      :default => false
+    t.boolean  "prorate",           :default => false
   end
 
   create_table "packages", :force => true do |t|
@@ -130,8 +133,10 @@ ActiveRecord::Schema.define(:version => 20130920140908) do
     t.integer  "price"
     t.boolean  "archived"
     t.datetime "expires_at"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+    t.string   "interval"
+    t.integer  "interval_count"
   end
 
   add_index "packages", ["studio_id"], :name => "index_packages_on_studio_id"

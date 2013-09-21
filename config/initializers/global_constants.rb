@@ -50,3 +50,12 @@ STATES = [
     [ "Wisconsin", "WI" ],
     [ "Wyoming", "WY" ]
   ]
+
+STRIPE_INTERVALS =  ["week", 
+"month", 
+"year"]
+
+INTERVALS =  ["day",
+             "week", 
+             "month", 
+             "year"]

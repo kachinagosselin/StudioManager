@@ -1,31 +1,46 @@
-     <div class="modal-body">
-    <%= form_for([@studio, membership], :html => { :class => 'form-horizontal'} ) do |f| %>
+    <div class="modal-body">
+    <%= form_for([@studio, membership], :html => { :id => "add_membership", :class => 'form-horizontal'} ) do |f| %>
         <div class="form-group">
           <%= f.label :name %>
             <%=h f.text_field :name, :class => "form-control" %>
             <div class="row">
                 <div class="col-lg-6">
                 <%= f.label :price %>
-                <%= f.number_field :price, :class => "form-control"%>
-
-                <%= f.label :trial_period_days %>
-                <%= f.number_field :trial_period_days, :class => "form-control"%>
+                <%=h f.text_field :price, :class => "form-control"%>
+                <%= f.label :interval_count, "Billing Frequency" %>
+                <div class="row">
+                <div class="col-lg-6">
+                <%= f.number_field :interval_count, :class => "form-control" %>
+                </div>
+                <div class="col-lg-6">
+                <%= f.select :interval, STRIPE_INTERVALS, :html => {:id => "membership_interval_select"} %></p>
+                </div>
+                </div>
                 </div>
 
                 <div class="col-lg-6">
-                <%= f.label :interval %>
-                <%=h f.text_field :interval, :class => "form-control" %>
-
-                <%= f.label :interval_count %>
-                <%= f.number_field :interval_count, :class => "form-control" %>
+                <%= f.label :trial_period_days %>
+                <%= f.number_field :trial_period_days, :class => "form-control"%>
+                <div class="row" style="margin-top:25px;">
+                <div class="col-lg-6">
+                <%= f.label :one_time_app, "One Time" %>
+                <%= f.check_box :one_time_app%>
                 </div>
+                <div class="col-lg-6">
+                <%= f.label :prorate %>
+                <%= f.check_box :prorate%>
+                </div>
+                </div>
+
+                </div>
+
             </div><!-- End of row -->
         </div><!-- End of form group -->
     </div><!-- End of body -->
     <div class="modal-footer">
     <div class="actions">
         <a class="btn" data-dismiss="modal" href="#">Cancel</a>
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="submit" id="add_membership" class="btn btn-primary">Submit</button>
         <% end %>
     </div>     
     </div>     

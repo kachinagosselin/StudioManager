@@ -1,3 +1,41 @@
+<script>
+  $(document).ready(function(){
+	document.getElementById('membership_interval').classList.add('form-control');
+	document.getElementById('package_interval').classList.add('form-control');
+
+  	var raw_package_price = document.getElementById('package_price').value/100;
+    var raw_membership_price = document.getElementById('membership_price').value/100;
+
+   if (raw_package_price != ""){
+    var formated_package_price = '$' + raw_package_price;
+    document.getElementById('package_price').value = formated_package_price;
+    }
+
+    if (raw_membership_price != ""){
+    var formated_membership_price = '$' + raw_membership_price;
+    document.getElementById('membership_price').value = formated_membership_price;
+    }
+
+    $("#add_package").submit(function(event) {
+            $('.submit-button').attr("disabled", "disabled");
+    var price_string = document.getElementById('package_price').value.replace(/[A-Za-z$-,-]/g, "").replace(/[^\d\.\-\ ]/g, '');
+    var price_int = Number(price_string)*100;
+    document.getElementById('package_price').value = price_int;
+            $('#add_package').get(0).submit();
+
+    });
+
+    $("#add_membership").submit(function(event) {
+            $('.submit-button').attr("disabled", "disabled");
+    var price_string = document.getElementById('membership_price').value.replace(/[A-Za-z$-,-]/g, "").replace(/[^\d\.\-\ ]/g, '');
+    var price_int = Number(price_string)*100;
+    document.getElementById('membership_price').value = price_int;
+            $('#add_membership').get(0).submit();
+
+    });
+});
+</script>
+
   <%= render "layouts/sidebar" %>
 <div>
 <h3> Memberships</h3>
@@ -10,25 +48,22 @@
 				<table class="table table-hover">
 				    <thead>
 				        <tr>
-				          <th>Name</th>
+				          <th>Title</th>
 				          <th>Price</th>  
-				          <th>Interval</th>
-				          <th>Interval Count</th>
-				          <th>Trial Period Days</th>                        
-				          <th></th>
+				          <th>Billing Frequency</th>
+				          <th>Subscription Type</th>                        
+				          <th>Trial Period</th>
 				          <th></th>                          
 				        </tr>
 				    </thead>
 				    <tbody>
 				        <% @studio.memberships.each do |membership| %>
 				        	<tr>
-				        		<td><%= membership.name %></td>
-				        		<td><%= membership.price%></td>
-				        		<td><%= membership.interval%>
-				        		</td>						
-				        		<td><%= membership.interval_count if membership.interval_count?%></td>		        		<td><%= membership.trial_period_days if membership.trial_period_days?%></td>
-				  				<td><%= link_to 'Edit', edit_studio_membership_path(membership.studio, membership),  :data => {:toggle => "modal", :target => "#editModalMembership#{ membership.id}"}, :remote => true, :class => 'btn btn-default btn-xs' %>	</td>
- 								<%= render :partial => 'memberships/edit', :locals => {:membership => membership}%>
+				        		<td><%= membership.title %></td>
+				        		<td><%= membership.format_price%></td>
+				        		<td><%= membership.billing_frequency%></td>	
+				        		<td><%= membership.type %></td>					
+				        		<td><%= membership.trial_period %></td>
     							<td><%= button_to 'Delete', [membership.studio, membership], method: :delete, data: { confirm: 'Are you sure? This action cannot be undone.' }, :class => 'btn btn-default btn-xs' %></td>
 				        	</tr>
 				        <% end %>
@@ -47,7 +82,6 @@
 			<tr>
 				<th>Title</th>
 				<th>Quantity</th>  
-				<th>Shareable?</th>
 				<th>Expires On</th>
 				<th>Price</th>
 				<th></th>
@@ -60,9 +94,8 @@
 
 				<td><%= package.title if package.name %></td> 
 				<td><%= package.quantity%></td>
-				<td>false</td>
 				<td><%= package.expires_at if package.expires_at%></td>						
-				<td><%= package.total_price/100.0%></td>		        		
+				<td><%= package.format_price%></td>		        		
 				<td><%= link_to 'Edit', edit_studio_package_path(package.studio, package),  :data => {:toggle => "modal", :target => "#editModalPackage#{ package.id}"}, :remote => true, :class => 'btn btn-default btn-xs' %>	</td>
  				<%= render :partial => 'packages/edit', :locals => {:package => package}%>
     			<td><%= button_to 'Delete', [package.studio, package], method: :delete, data: { confirm: 'Are you sure? This action cannot be undone.' }, :class => 'btn btn-default btn-xs' %></td>

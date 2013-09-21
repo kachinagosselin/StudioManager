@@ -1,11 +1,6 @@
 <script>
 $(document).ready(function() {
-  $("#new_membership").submit(function(event) {
-        $('#new_membership').get(0).submit();
-  });
-    $("#new_membership").submit(function(event) {
-        $('#new_membership').get(0).submit();
-  });
+
 });
 </script>
 
@@ -19,7 +14,7 @@ $(document).ready(function() {
 				<table class="table table-hover">
 				    <thead>
 				        <tr>
-				          <th>Name</th>
+				          <th>Title</th>
 				          <th>Price</th>  
 				          <th>Interval</th>
 				          <th>Interval Count</th>
@@ -31,8 +26,8 @@ $(document).ready(function() {
 				    	<% @memberships = @studio.memberships.find(:all)%>
 				        <% @memberships.each do |membership| %>
 				        	<tr>
-				        		<td><%= membership.name %></td>
-				        		<td><%= membership.price%></td>
+				        		<td><%= membership.title %></td>
+				        		<td><%= membership.format_price%></td>
 				        		<td><%= membership.interval%>
 				        		</td>						
 				        		<td><%= membership.interval_count if membership.interval_count?%></td>		        		<td><%= membership.trial_period_days if membership.trial_period_days?%></td>
