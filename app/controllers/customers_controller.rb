@@ -46,7 +46,6 @@ class CustomersController < ApplicationController
     end 
 
     def create_for_client
-        d
         @client = current_user
         @user = User.find(params[:user_id])
 
@@ -58,7 +57,7 @@ class CustomersController < ApplicationController
             @customer = @user.build_customer(:stripe_customer_token => @stripe_customer.id, :email => @user.email, :plan_id => params[:account][:plan_id], :quantity => 1)
             @stripe_customer.update_subscription(:plan => params[:account][:plan_id], :quantity => 1)  
             @customer.last_4_digits = params[:last_4_digits]
-
+        end
         if @customer.save
             redirect_to checkin_studio_user_path(@user, @studio, @event), :notice => "Thank you for registering your credit card."
             else
