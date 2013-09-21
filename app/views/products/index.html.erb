@@ -82,7 +82,7 @@
 			<tr>
 				<th>Title</th>
 				<th>Quantity</th>  
-				<th>Expires On</th>
+				<th>Expiration</th>
 				<th>Price</th>
 				<th></th>
 				<th></th>                          
@@ -94,7 +94,7 @@
 
 				<td><%= package.title if package.name %></td> 
 				<td><%= package.quantity%></td>
-				<td><%= package.expires_at if package.expires_at%></td>						
+				<td><%= package.expiration%></td>						
 				<td><%= package.format_price%></td>		        		
 				<td><%= link_to 'Edit', edit_studio_package_path(package.studio, package),  :data => {:toggle => "modal", :target => "#editModalPackage#{ package.id}"}, :remote => true, :class => 'btn btn-default btn-xs' %>	</td>
  				<%= render :partial => 'packages/edit', :locals => {:package => package}%>

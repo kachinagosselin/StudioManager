@@ -20,4 +20,17 @@ class Package < ActiveRecord::Base
         "$#{sprintf('%.2f', self.total_price/100.0)}"
     end
 
+    def expiration
+        if (self.expires_at.present?) && (self.expires_at != null)
+            return self.expires_at
+        elsif (self.interval_count.present?) && (self.interval_count > 0)
+            if self.interval_count > 1
+                "#{self.interval_count} #{self.interval}s"
+                else
+                "#{self.interval_count} #{self.interval}"
+            end
+        else
+            "unlimited"
+        end
+    end
 end

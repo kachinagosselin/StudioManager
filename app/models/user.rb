@@ -109,7 +109,21 @@ class User < ActiveRecord::Base
                                                 :currency => "usd",
                                                 :customer => stripe_customer.id,
                                                 :description => "Charge for #{package.name}"}, client.customer.access_token)
-        self.customer.credits.create!(:quantity => package.quantity, :expires_at => package.expires_at)
+        if (self.expires_at.present?) && (self.expires_at != null) 
+            self.customer.credits.create!(:quantity => package.quantity, :expires_at => package.expires_at)
+        elsif (self.interval_count.present?) && (self.interval_count > 0)
+            if self.interval == "day"
+                self.customer.credits.create!(:quantity => package.quantity, :expires_at => DateTime.now + package.interval_count.day)
+            elsif self.interval == "week"
+                self.customer.credits.create!(:quantity => package.quantity, :expires_at => DateTime.now + package.interval_count.week)
+            elsif self.interval == "month"
+                self.customer.credits.create!(:quantity => package.quantity, :expires_at => DateTime.now + package.interval_count.month)
+            elsif self.interval == "year"
+                self.customer.credits.create!(:quantity => package.quantity, :expires_at => DateTime.now + package.interval_count.year)
+            end
+        else
+            self.customer.credits.create!(:quantity => package.quantity)
+        end
     end
     
     def add_membership(client, membership)
