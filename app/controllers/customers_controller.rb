@@ -1,9 +1,9 @@
 class CustomersController < ApplicationController
     
     def create 
-        if Rails.env.development?
+        if(Rails.env.development? || Rails.env.staging?)
             Stripe.api_key
-            else
+        else
             Stripe.api_key = ENV['STRIPE_API_KEY']
         end
         @user = User.find(params[:user_id])        
@@ -46,13 +46,21 @@ class CustomersController < ApplicationController
     end 
 
     def create_for_client
+        d
         @client = current_user
-        @user = User.find(3)
-        @stripe_customer = Stripe::Customer.create({:description => "Test Stripe Connect"}, @client.customer.access_token)
-        
+        @user = User.find(params[:user_id])
+
+        if  @user.customer.present?
+            @stripe_customer = Stripe::Customer.create({description: "Test Stripe Connect", card: params[:stripe_card_token], email: params[:account][:email]}, @client.customer.access_token)
+            @stripe_customer.update_subscription(:plan => params[:account][:plan_id], :quantity => 1)  
+        else
+            @stripe_customer = Stripe::Customer.create({description: "Test Stripe Connect", card: params[:stripe_card_token], email: params[:account][:email]}, @client.customer.access_token)
+            @customer = @user.build_customer(:stripe_customer_token => @stripe_customer.id, :email => @user.email, :plan_id => params[:account][:plan_id], :quantity => 1)
+            @stripe_customer.update_subscription(:plan => params[:account][:plan_id], :quantity => 1)  
+            @customer.last_4_digits = params[:last_4_digits]
+
         if @customer.save
-            
-            redirect_to edit_user_registration_path, :notice => "Thank you for registering your credit card."
+            redirect_to checkin_studio_user_path(@user, @studio, @event), :notice => "Thank you for registering your credit card."
             else
             redirect_to :back, :alert => "Failed to register your credit card."
         end

@@ -1,4 +1,40 @@
 StudioManager::Application.routes.draw do
+  get "products/new"
+
+  get "products/create"
+
+  get "products/edit"
+
+  get "products/update"
+
+  get "products/destroy"
+
+  get "products/purchase"
+
+  get "packages/new"
+
+  get "packages/create"
+
+  get "packages/edit"
+
+  get "packages/update"
+
+  get "packages/destroy"
+
+  get "packages/purchase"
+
+  get "packages_controller/new"
+
+  get "packages_controller/create"
+
+  get "packages_controller/edit"
+
+  get "packages_controller/update"
+
+  get "packages_controller/destroy"
+
+  get "packages_controller/purchase"
+
   devise_for :views
   devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks" }
     
@@ -38,6 +74,8 @@ StudioManager::Application.routes.draw do
         resources :customers
         resources :profiles
         resources :pictures
+        resources :subscriptions
+        resources :charges
         member do
             get :registered_events, :attended_events, :purchases
             get :private_dashboard, :as => 'private_dashboard'
@@ -50,9 +88,9 @@ StudioManager::Application.routes.draw do
     
     resources :studios do
         resources :events
-        resources :memberships
-        resources :subscriptions
         resources :products
+        resources :memberships
+        resources :packages
         resources :coupons
         resources :reports
         member do

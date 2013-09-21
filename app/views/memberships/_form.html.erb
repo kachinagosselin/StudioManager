@@ -1,9 +1,10 @@
      <div class="modal-body">
-    <%= form_for([@studio, @membership], :html => { :class => 'form-horizontal'} ) do |f| %>
+    <%= form_for([@studio, membership], :html => { :class => 'form-horizontal'} ) do |f| %>
         <div class="form-group">
           <%= f.label :name %>
-            <%= f.text_field :name, :class => "form-control" %>
-                <div class="form-group  col-lg-6">
+            <%=h f.text_field :name, :class => "form-control" %>
+            <div class="row">
+                <div class="col-lg-6">
                 <%= f.label :price %>
                 <%= f.number_field :price, :class => "form-control"%>
 
@@ -11,14 +12,16 @@
                 <%= f.number_field :trial_period_days, :class => "form-control"%>
                 </div>
 
-                <div class="form-group  col-lg-5" style ="margin-left:10px;">
+                <div class="col-lg-6">
                 <%= f.label :interval %>
-                <%= f.text_field :interval, :class => "form-control" %>
+                <%=h f.text_field :interval, :class => "form-control" %>
 
                 <%= f.label :interval_count %>
                 <%= f.number_field :interval_count, :class => "form-control" %>
                 </div>
-                </div>
+            </div><!-- End of row -->
+        </div><!-- End of form group -->
+    </div><!-- End of body -->
     <div class="modal-footer">
     <div class="actions">
         <a class="btn" data-dismiss="modal" href="#">Cancel</a>

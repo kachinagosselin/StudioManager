@@ -1,5 +1,57 @@
+<script>
+Stripe.setPublishableKey($('meta[name="stripe-key"]').attr('content'));
+$(document).ready(function() {
+document.getElementById("user_memberships").classList.add('form-control');
+document.getElementById("user_packages").classList.add('form-control');
+
+
+  $("#new_student").submit(function(event) {
+
+    // disable the submit button to prevent repeated clicks
+    $('.submit-button').attr("disabled", "disabled");
+    var card_number = document.getElementById('card_number').value;
+    var card_code = document.getElementById('card_code').value;
+    var card_month = document.getElementById('card_month').value;
+    var card_year = document.getElementById('card_year').value;
+    //alert('Number: ' + card_number + ' CVC: ' + card_code + ' Month:' + card_month + 'Year:' + card_year);
+
+    var end = card_number.length;
+    var last_4_digits = card_number[end-4]+card_number[end-3]+card_number[end-2]+card_number[end-1];
+    $("#new_student").append("<input type='hidden' name='last_4_digits' value='" + last_4_digits + "'/>");
+  
+    Stripe.createToken({
+        number: $('#card_number').val(),
+        cvc: $('#card_code').val(),
+        exp_month: $('#card_month').val(),
+        exp_year: $('#card_year').val()
+    }, stripeResponseHandler);
+
+    // prevent the form from submitting with the default action
+    return false;
+  });
+});
+
+function stripeResponseHandler(status, response) {
+    if (response.error) {
+        // show the errors on the form
+        $(".payment-errors").text(response.error.message);
+        $(".submit-button").removeAttr("disabled");
+    } else {
+        var token = response['id'];
+        alert('Token: ' + token);
+        // insert the token into the form so it gets submitted to the server
+        $("#new_student").append("<input type='hidden' name='stripe_card_token' value='" + token + "'/>");
+        // and submit
+        $('#new_student').get(0).submit();
+        //alert(token); 
+    }
+    return false;
+}
+
+</script>
+
 <div class="section bluebackground" style="height:580px;margin-top: -30px;">
- <h1 class="center">Welcome to <%= @studio.name %></h1>
+ <h1 class="center">Welcome to <%= @studio.name %>!</h1>
 <p class="center" style="padding:0px;"> Feel free to check yourself into class
 	<%= @event.title %></p>
 
@@ -9,7 +61,8 @@
 	<div style="margin-top:50px;margin-left:auto;margin-right:auto;width:366px;">
 	<%= form_for @search, :url => checkin_studio_user_path(@studio, @event), :html => {:method => :post, :class => 'form-vertical'} do |f| %>
       	<%= f.text_field :name_contains, :placeholder => "your name", :class => "form-control", :style => "width:275px;"  %>
-          <button type="submit" class="btn btn-default" style="margin-top:-56px;margin-left:282px;">Check In</button>    
+
+          <button type="submit" class="btn btn-default" style="margin-top:-56px;margin-left:282px;">Submit</button>    
 		<% end %>
     	</div><!-- /forms-group -->
 
@@ -35,3 +88,13 @@
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+ <div class="modal" id="check-in" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Thanks for signing in!</h4>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

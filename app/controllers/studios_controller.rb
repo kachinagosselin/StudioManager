@@ -76,7 +76,7 @@ class StudiosController < ApplicationController
     
     def checkin
         @studio = Studio.find(params[:id])
-        @events = @studio.events.where('start_at = ?', Date.today-1)
+        @events = @studio.events.where('start_at BETWEEN ? AND ?', DateTime.now - 15.minutes, DateTime.now.end_of_day())
         
         if params[:event_id].present?
             redirect_to checkin_event_path(@studio.id, params[:event_id])
@@ -92,16 +92,33 @@ class StudiosController < ApplicationController
     
     def checkin_user
         @studio = Studio.find(params[:id])
-        @user = @studio.users.search(params[:search]).first
         @event = @studio.events.find(params[:event_id])
+        @user = @studio.users.search(params[:search]).first
+        @paid = false
         
-        if @user.is_registered?(@event)
-            @user.attends(@event)
-        else 
-            @user.register!(@event, @studio)
-            @user.attends(@event)
+        #if user is a student of the studio
+        if @user.present?
+            #if active memberships are available
+            if @user.paid_for_class?(@studio)
+                if @user.is_registered?(@event)
+                    @user.attends(@event)
+                    redirect_to :back
+                else 
+                    @user.register!(@event, @studio, true)
+                    @user.attends(@event)
+                    redirect_to :back
+                end
+            else
+                redirect_to :back #new_purchase
+            end
+            
+        #if user is not a student of the studio
+        elsif User.search(params[:search]).present?            
+            redirect_to :back #student_login
+        #if user does not have an account with our software
+        else
+            redirect_to :back #student_registration            
         end
-        redirect_to :back
     end
     
     def invoice

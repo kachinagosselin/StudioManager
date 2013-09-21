@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130919145938) do
+ActiveRecord::Schema.define(:version => 20130920140908) do
 
   create_table "accounts", :force => true do |t|
     t.string   "plan_id"
@@ -54,6 +54,17 @@ ActiveRecord::Schema.define(:version => 20130919145938) do
     t.datetime "created_at",         :null => false
     t.datetime "updated_at",         :null => false
   end
+
+  create_table "credits", :force => true do |t|
+    t.integer  "customer_id"
+    t.integer  "quantity"
+    t.datetime "expires_at"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+    t.integer  "studio_id"
+  end
+
+  add_index "credits", ["customer_id"], :name => "index_credits_on_customer_id"
 
   create_table "customers", :force => true do |t|
     t.integer  "studio_id"
@@ -109,6 +120,21 @@ ActiveRecord::Schema.define(:version => 20130919145938) do
     t.datetime "created_at",        :null => false
     t.datetime "updated_at",        :null => false
   end
+
+  create_table "packages", :force => true do |t|
+    t.integer  "studio_id"
+    t.integer  "quantity"
+    t.integer  "percent_off"
+    t.string   "name"
+    t.string   "title"
+    t.integer  "price"
+    t.boolean  "archived"
+    t.datetime "expires_at"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "packages", ["studio_id"], :name => "index_packages_on_studio_id"
 
   create_table "photos", :force => true do |t|
     t.string   "name"
@@ -218,6 +244,7 @@ ActiveRecord::Schema.define(:version => 20130919145938) do
     t.text     "student_waiver"
     t.text     "instructor_waiver"
     t.text     "cancellation_policy"
+    t.integer  "default_event_price"
   end
 
   create_table "subscriptions", :force => true do |t|

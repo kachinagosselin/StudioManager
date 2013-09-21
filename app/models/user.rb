@@ -14,7 +14,9 @@ class User < ActiveRecord::Base
     
     accepts_nested_attributes_for :photo
     accepts_nested_attributes_for :profile
-    
+
+  has_many :charges
+  has_many :credits
   has_many :registered_events
   has_many :instructors
   has_many :purchases
@@ -94,4 +96,61 @@ class User < ActiveRecord::Base
         self.profile.certification.present?
     end
     
+    def save_customer_for_studio(client, studio, stripe_card_token, last_4_digits)
+        stripe_customer = Stripe::Customer.create({description: self.email, card: stripe_card_token, email: self.email}, client.customer.access_token)
+        if  !self.customer.present?
+            customer = self.create_customer(:stripe_customer_token => stripe_customer.id, :email => self.email, :last_4_digits => last_4_digits)
+        end
+    end
+    
+    def add_credits(client, package)
+        stripe_customer = Stripe::Customer.retrieve({:id => self.customer.stripe_customer_token}, client.customer.access_token)
+        Stripe::Charge.create({:amount => package.price,
+                                                :currency => "usd",
+                                                :customer => stripe_customer.id,
+                                                :description => "Charge for #{package.name}"}, client.customer.access_token)
+        self.customer.credits.create!(:quantity => package.quantity, :expires_at => package.expires_at)
+    end
+    
+    def add_membership(client, membership)
+        stripe_customer = Stripe::Customer.retrieve({:id => self.customer.stripe_customer_token}, client.customer.access_token)
+        stripe_customer.update_subscription(:plan => membership.name, :prorate => false)
+    end
+    
+    def purchase!(studio, product, type, discount)
+        self.customer.purchases.create(:product_id => product.id, :studio_id => studio.id, :product_type => type, :discount_applied => discount)
+        self.register!(event, studio, true)
+        if type="package"
+            spend_credit(studio)
+        end
+    end
+    
+    def spend_credit(studio)
+        credit = self.customer.credits.where(:studio_id => studio.id, :order => "expires_at ASC").first
+        credit.quantity = credit.quantity - 1
+        if credit.quantity == 0
+            credit.destroy
+        else
+            credit.save
+        end
+    end
+    
+    def paid_for_class?(studio)
+        if self.active_membership(@studio).present?
+            return true
+        elsif self.customer.credits(@studio).present?
+            self.spend_credit(studio)
+            return true
+        else
+            return false
+        end 
+    end
+        
+    def active_membership(studio)
+        
+    end
+    
+    def credits(studio)
+        self.credits
+    end
 end

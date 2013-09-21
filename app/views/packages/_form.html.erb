@@ -1,0 +1,48 @@
+<script>
+$(document).ready(function() {
+document.getElementById("package_expires_at").classList.add('form-control');
+    $('.form_datetime').datetimepicker({
+        weekStart: 1,
+        todayBtn:  0,
+        autoclose: 1,
+        todayHighlight: 0,
+        minView: 2,
+        startView: 4,
+        forceParse: 0,
+        showMeridian: 1
+    });
+
+});
+</script>
+
+<div class="modal-body">
+    <%= form_for([@studio, package], :html => { :class => 'form-horizontal'} ) do |f| %>
+        <div class="form-group">
+          <p><%= f.label :name %><br />
+            <%=h f.text_field :name, :class => "form-control" %></p>
+                <div class="row">
+                <div class="col-lg-6">
+                <p><%= f.label :quantity %><br />
+                <%= f.number_field :quantity, :class => "form-control" %></p>
+
+                <p><%= f.label :percent_off %><br />
+                <%= f.number_field :percent_off, :class => "form-control"%></p>
+                </div>
+
+                <div class="col-lg-6">
+                <p><%= f.label :price %><br />
+                <%= f.number_field :price, :class => "form-control"%></p>
+
+                <p><%= f.label :expires_at, "Expires On" %><br />
+                <%=h f.text_field :expires_at, 'data-date' => Date.today, :class => "form_datetime form-control", 'data-date-format'=>"M d yyyy", :type => "text"%></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+    <div class="actions">
+        <a class="btn" data-dismiss="modal" href="#">Cancel</a>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        <% end %>
+    </div>     
+    </div>     

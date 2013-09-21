@@ -1,6 +1,5 @@
   <%= render "layouts/sidebar" %>
 
-
 <div class="col-lg-6" >
 	<h3> Students of <%= @studio.name %></h3>
 </div>
@@ -34,6 +33,7 @@
 		        		<% end %>
 		        		<td><%=user.email %></td>
 		        		<td><%=user.profile.phone %></td>
+		        		<td><%= user.created_at %></td>
 		        	</tr>
 		        <% end %>
 		    </tbody>

@@ -1,13 +1,78 @@
-<div class="row">
-	<div class="col-lg-2 leftspan" style="margin-top: 10px;">
-		<%= render 'layouts/sidebar' %>
-	</div>
+  <%= render "layouts/sidebar" %>
+<div>
+<h3> Memberships</h3>
+<div class="pull-right" style="margin-top:-40px;">
+	<%= link_to 'New membership', new_studio_membership_path(@studio),
+        :class => 'btn btn-primary btn-sm' ,  :data => {:toggle => "modal", :target => "#newModalMembership"} , :remote => true, :html => {:style => "margin-top:5px;"}%>
 
-	<div class="col-lg-8 rightspan" style="min-height:600px;">
-		<%= render 'memberships/list' %>
+			</div>
+			<div class="divider-horizontal-regular"></div>
+				<table class="table table-hover">
+				    <thead>
+				        <tr>
+				          <th>Name</th>
+				          <th>Price</th>  
+				          <th>Interval</th>
+				          <th>Interval Count</th>
+				          <th>Trial Period Days</th>                        
+				          <th></th>
+				          <th></th>                          
+				        </tr>
+				    </thead>
+				    <tbody>
+				        <% @studio.memberships.each do |membership| %>
+				        	<tr>
+				        		<td><%= membership.name %></td>
+				        		<td><%= membership.price%></td>
+				        		<td><%= membership.interval%>
+				        		</td>						
+				        		<td><%= membership.interval_count if membership.interval_count?%></td>		        		<td><%= membership.trial_period_days if membership.trial_period_days?%></td>
+				  				<td><%= link_to 'Edit', edit_studio_membership_path(membership.studio, membership),  :data => {:toggle => "modal", :target => "#editModalMembership#{ membership.id}"}, :remote => true, :class => 'btn btn-default btn-xs' %>	</td>
+ 								<%= render :partial => 'memberships/edit', :locals => {:membership => membership}%>
+    							<td><%= button_to 'Delete', [membership.studio, membership], method: :delete, data: { confirm: 'Are you sure? This action cannot be undone.' }, :class => 'btn btn-default btn-xs' %></td>
+				        	</tr>
+				        <% end %>
+				    </tbody>
+				</table>
+			</div>
+<div>
+<h3> Packages</h3>
+<div class="pull-right" style="margin-top:-40px;">
+	<%= link_to 'New package', new_studio_package_path(@studio),
+        :class => 'btn btn-primary btn-sm' ,  :data => {:toggle => "modal", :target => "#newModalPackage"} , :remote => true, :html => {:style => "margin-top:5px;"}%></div>
+<div class="divider-horizontal-regular"></div>
+				
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th>Title</th>
+				<th>Quantity</th>  
+				<th>Shareable?</th>
+				<th>Expires On</th>
+				<th>Price</th>
+				<th></th>
+				<th></th>                          
+			</tr>
+		</thead>
+		<tbody>
+			<% @studio.packages.each do |package| %>
+			<tr>
 
-
-	</div>
+				<td><%= package.title if package.name %></td> 
+				<td><%= package.quantity%></td>
+				<td>false</td>
+				<td><%= package.expires_at if package.expires_at%></td>						
+				<td><%= package.total_price/100.0%></td>		        		
+				<td><%= link_to 'Edit', edit_studio_package_path(package.studio, package),  :data => {:toggle => "modal", :target => "#editModalPackage#{ package.id}"}, :remote => true, :class => 'btn btn-default btn-xs' %>	</td>
+ 				<%= render :partial => 'packages/edit', :locals => {:package => package}%>
+    			<td><%= button_to 'Delete', [package.studio, package], method: :delete, data: { confirm: 'Are you sure? This action cannot be undone.' }, :class => 'btn btn-default btn-xs' %></td>
+			</tr>
+			<% end %>
+		</tbody>
+	</table>
 </div>
 
+<div>
  		<%= render 'memberships/new' %>
+ 		<%= render 'packages/new' %>
+</div>

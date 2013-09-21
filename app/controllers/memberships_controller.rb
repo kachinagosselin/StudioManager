@@ -12,8 +12,7 @@ class MembershipsController < ApplicationController
         
         def create
             @studio = Studio.find(params[:studio_id])
-            @membership = Membership.new(params[:membership])
-            @membership.studio_id = @studio.id
+            @membership = @studio.memberships.new(params[:membership])
             @client = current_user
             @stripe_membership = Stripe::Plan.create({
                                                      :amount => params[:membership][:price],
@@ -25,10 +24,10 @@ class MembershipsController < ApplicationController
                                                    )
             respond_to do |format|
                 if @membership.save
-                    format.html { redirect_to studio_memberships_path(@studio) }
+                    format.html { redirect_to studio_products_path(@studio) }
                     format.json { head :no_content }
                     else
-                    format.html { render :action => 'new', alert: 'Membership was unsuccessfully created.' }
+                    format.html { redirect_to studio_products_path(@studio), alert: 'Membership was unsuccessfully created.' }
                     format.json { render json: @message.errors, status: :unprocessable_entity }
                 end 
             end
@@ -60,7 +59,8 @@ class MembershipsController < ApplicationController
     end
         
     def destroy
-        @membership = Membership.find(params[:id])
+        @studio = Studio.find(params[:studio_id])
+        @membership = @studio.memberships.find(params[:id])
         @membership.destroy
         redirect_to :back
     end

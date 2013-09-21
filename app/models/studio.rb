@@ -8,10 +8,9 @@ class Studio < ActiveRecord::Base
     
     has_many :events
     has_many :coupons
-    has_many :charges
     has_many :memberships
-    has_many :subscriptions
     has_many :purchases
+    has_many :packages
     has_many :registered_events
     has_many :instructors
     has_many :students
@@ -21,7 +20,7 @@ class Studio < ActiveRecord::Base
 
 
     attr_accessible :address, :city, :state
-    attr_accessible :location, :main_phone, :name, :website, :account_id, :cancellation_policy, :student_waiver, :instructor_waiver, :type
+    attr_accessible :location, :main_phone, :name, :website, :account_id, :cancellation_policy, :student_waiver, :instructor_waiver, :default_event_price
     
     def gmaps4rails_address
         "#{self.address} #{self.city}, #{self.state}" 
