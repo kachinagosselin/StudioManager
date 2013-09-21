@@ -30,8 +30,7 @@ class CustomersController < ApplicationController
             redirect_to root_path, :notice => "Thank you for giving us access to your stripe account."
             else
             redirect_to :back, :alert => "Failed to register your stripe account."
-        end
-        
+        end        
     end 
     
     def new_customer
@@ -57,12 +56,13 @@ class CustomersController < ApplicationController
             @customer = @user.build_customer(:stripe_customer_token => @stripe_customer.id, :email => @user.email, :plan_id => params[:account][:plan_id], :quantity => 1)
             @stripe_customer.update_subscription(:plan => params[:account][:plan_id], :quantity => 1)  
             @customer.last_4_digits = params[:last_4_digits]
-        end
+        
         if @customer.save
             redirect_to checkin_studio_user_path(@user, @studio, @event), :notice => "Thank you for registering your credit card."
             else
             redirect_to :back, :alert => "Failed to register your credit card."
         end
+    end
     end
 
     def edit
