@@ -6,3 +6,5 @@ And there is an event
 When I register for an event
 When I view my events
 Then I see the event listed
+
+Given/I have

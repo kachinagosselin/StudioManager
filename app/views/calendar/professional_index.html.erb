@@ -12,7 +12,7 @@ $('#calendar').fullCalendar({
   	right: 'month,agendaWeek,agendaDay'
 	},
     eventSources: [{
-          url: '/studios/<%= @studio.id %>/events.json',
+          url: '@events.json',
         }],
 });
 
@@ -32,7 +32,7 @@ $('#calendar').fullCalendar({
   <div class="col-lg-11">
   <div id='calendar'></div>
 
-  <%= render 'events/list' %>
+  <%= render 'events/professional_list' %>
 
 </div>
 </div>

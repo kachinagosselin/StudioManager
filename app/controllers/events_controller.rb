@@ -1,7 +1,6 @@
 class EventsController < ApplicationController
     
     def index
-        @studio = Studio.find(params[:studio_id])
         @events = @studio.events
         
         respond_to do |format|
@@ -12,47 +11,37 @@ class EventsController < ApplicationController
     
     def show
         @event = Event.find(params[:id])
-    end
-    
-    def new
-        @studio = Studio.find(params[:studio_id])
-        @event = @studio.events.new
+        if @event.professional_id.present?
+        @professional = User.find(@event.professional_id)
+        else
+        @studio = @event.studio
+        end
     end
 
     def create
-        @studio = Studio.find(params[:studio_id])
-        @event = @studio.events.create(params[:event])
+        @event = Event.create(params[:event])
         @user = User.where(:name => params[:event][:instructor]).first
-        if !@user.instructor?(@studio)
-            @user.become_instructor!(@studio)
-        end
         
         respond_to do |format|
             if @event.save
-                format.html { redirect_to calendar_path(@studio), notice: 'Event was successfully created.' }
+                format.html { redirect_to :back, notice: 'Event was successfully created.' }
                 format.json { head :no_content }
                 else
-                format.html { render :action => 'new', alert: 'Event was unsuccessfully created.' }
+                format.html { redirect_to :back, alert: 'Event was unsuccessfully created.' }
                 format.json { render json: @message.errors, status: :unprocessable_entity }
             end 
         end
     end
     
-    def edit
-        @studio = Studio.find(params[:studio_id])
-        @event = Event.find(params[:id])
-    end
-    
     def update
-        @studio = Studio.find(params[:studio_id])
         @event = Event.find(params[:id])
         
         respond_to do |format|
             if @event.update_attributes(params[:event])
-                format.html { redirect_to studio_event_path(@studio, @event), notice: 'Event was successfully updated.' }
+                format.html { redirect_to :back, notice: 'Event was successfully updated.' }
                 format.json { head :no_content }
                 else
-                format.html { render action: "edit" }
+                format.html { redirect_to :back }
                 format.json { render json: @message.errors, status: :unprocessable_entity }
             end
         end
@@ -75,6 +64,15 @@ class EventsController < ApplicationController
         
     end
 
+    # Notifies users that class has been canceled - refunds purchase. 
+    # Refunding purchase means having credits restored if used. Or returning direct refund via Skype if it was a one time charge. May need a payment_type string to indicate how user has paid for class.
+    def cancel
+    end
+    
+    def archive
+        
+    end
+    
     def destroy
         @event = Event.find(params[:id])
         if @event.users.present?

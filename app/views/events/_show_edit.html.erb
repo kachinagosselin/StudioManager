@@ -5,7 +5,12 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden=true>&times;</button>
         <h4 class="modal-title">Edit Event</h4>
       </div>
-    <%= render :partial => 'form'%>
+
+      <% if @professional.present? %>
+      <%= render :partial => 'professional_form'%>
+      <% else %>
+      <%= render :partial => 'studio_form'%>
+      <% end %>
 
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->

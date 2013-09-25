@@ -10,8 +10,8 @@
 puts 'CREATING ROLES'
 Role.create([
             { :name => 'admin' }, 
-            { :name => 'instructor' }, 
-            { :name => 'student' }
+            { :name => 'owner' }, 
+            { :name => 'instructor' }
             ], :without_protection => true)
 
 puts 'CREATING PLANS'
@@ -25,8 +25,8 @@ user.save
 user2 = User.create! :name => 'Test Account', :email => 'kachina.gosselin@gmail.com', :password => 'password', :password_confirmation => 'password'
 
 puts 'SETTING UP DEFAULT ACCOUNT'
-account = Account.create! :plan_id => 1000, :user_id => 1, :stripe_customer_token => "cus_2LhxTeT79mll1r", :email => "kachina@alum.mit.edu", :is_active => true
-account2 = Account.create! :plan_id => 1000, :user_id => 2, :stripe_customer_token => "cus_2LhxTeT79mll1r", :email => "kachina.gosselin@gmail.com", :is_active => true
+account = Account.create! :plan_id => "studio-basic", :user_id => 1, :stripe_customer_token => "cus_2LhxTeT79mll1r", :email => "kachina@alum.mit.edu", :is_active => true
+account2 = Account.create! :plan_id => "professional-basic", :user_id => 2, :stripe_customer_token => "cus_2LhxTeT79mll1r", :email => "kachina.gosselin@gmail.com", :is_active => true
 
 puts 'SETTING UP DEFAULT STUDIO'
 studio = Studio.create! :name => "Test Studio", :location => "29 Rausch Street San Francisco CA 94103", :address => "29 Rausch Street", :city => "San Francisco", :state => "CA", :account_id => account.id

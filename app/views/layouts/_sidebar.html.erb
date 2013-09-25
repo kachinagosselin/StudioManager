@@ -8,13 +8,13 @@
 				<div class="divider-horizontal"></div>
 			<%= link_to 'Dashboard', root_path(), :style => "padding-top:10px;"%>
 				<div class="divider-horizontal"></div>
-			<%= link_to 'Calendar', calendar_path(@studio)%>
+			<%= link_to 'Calendar', studio_calendar_path(@studio)%>
 				<div class="divider-horizontal"></div>
 			<%= link_to 'Instructors', instructors_studio_path(@studio)%>
 				<div class="divider-horizontal"></div>
 			<%= link_to 'Students', students_studio_path(@studio)%>
 				<div class="divider-horizontal"></div>
-			<%= link_to 'Products', studio_products_path(@studio)%>
+			<%= link_to 'Products', products_studio_path(@studio)%>
 				<div class="divider-horizontal"></div>
 			<%= link_to 'Coupons', studio_coupons_path(@studio)%>
 				<div class="divider-horizontal"></div>
@@ -25,13 +25,13 @@
 			<div class="divider-horizontal"></div>
 		<%= link_to 'Private Dashboard', private_dashboard_user_path(current_user), :style => "padding-top:10px;"%>
 			<div class="divider-horizontal"></div>
-		<%= link_to 'Personal Calendar', private_calendar_path(current_user)%>
+		<%= link_to 'Personal Calendar', professional_calendar_path(current_user)%>
 			<div class="divider-horizontal"></div>
-		<%= link_to 'Students', private_students_user_path(current_user)%>
+		<%= link_to 'Students', students_user_path(current_user)%>
 			<div class="divider-horizontal"></div>
-		<%= link_to 'Memberships', private_memberships_user_path(current_user)%>
+		<%= link_to 'Memberships', products_user_path(current_user)%>
 			<div class="divider-horizontal"></div>
-		<%= link_to 'Coupons', private_coupons_user_path(current_user)%>
+		<%= link_to 'Coupons', user_coupons_path(current_user)%>
 			<div class="divider-horizontal"></div>
 		<% end %>
   		</div><div class="col-lg-9 rightspan" style="padding-top:30px;min-height:650px;">

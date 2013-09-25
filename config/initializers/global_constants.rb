@@ -51,11 +51,27 @@ STATES = [
     [ "Wyoming", "WY" ]
   ]
 
-STRIPE_INTERVALS =  ["week", 
+STRIPE_INTERVALS =  
+["week", 
 "month", 
 "year"]
 
-INTERVALS =  ["day",
-             "week", 
-             "month", 
-             "year"]
+INTERVALS =  
+["day",
+"week", 
+"month", 
+"year"]
+
+MONTHS = 
+["January",
+"February",
+"March",
+"April",
+"May",
+"June",
+"July",
+"August", 
+"September",
+"October",
+"November",
+"December"]

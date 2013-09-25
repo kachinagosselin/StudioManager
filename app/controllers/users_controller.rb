@@ -15,21 +15,33 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
   end 
     
-  def private_dashboard
+  def dashboard
     @user = User.find(params[:id])
   end 
     
-    def private_students
-        @user = User.find(params[:id])
-    end 
     
-    def private_memberships
-        @user = User.find(params[:id])
-    end 
-    
-    def private_coupons
-        @user = User.find(params[:id])
-    end 
+  def search
+      @search = User.search(params[:search]).first
+      @results = @search   # load all matching records
+
+      if @results.present?
+          if params[:user_type] == "instructor"
+              @results.become_instructor!(current_user.account.studio)
+              else params[:user_type] == "student"
+              if params[:account_type] == "studio"
+                  @results.become_student!(current_user.account.studio)
+                  elsif params[:account_type] == "professional"
+                  @results.become_student!(current_user)    
+              end
+          end
+          
+          format.html { redirect_to :back }
+          format.json { render json: @results }
+    else
+          format.html { redirect_to :back }
+          format.json { render json: @message.errors, status: :unprocessable_entity }
+      end
+  end
     
   def new_student
       @studio = Studio.find(params[:studio_id])
@@ -61,5 +73,16 @@ class UsersController < ApplicationController
           end 
       end
   end 
+    
+    def login_new_student
+        @new_user = User.find(2)
+        @name = new_user.name
+    end 
+    
+    def students
+        @professional = User.find(params[:id])
+        @search = @professional.students.search(params[:search])
+        @students = @search.all   # load all matching records
+    end 
 
 end

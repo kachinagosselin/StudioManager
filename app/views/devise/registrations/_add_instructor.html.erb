@@ -6,7 +6,7 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title">Add Instructor Profile</h4></div>
 
         <div class="modal-body">
-            <%= form_for([@user, @user.profile], :method => :put, :html => { :remote => true, :id => "create_instructor"}) do |p| %>
+            <%= form_for([@user, @user.profile]) do |p| %>
             <div class="form-group">
             <div class="row">
               <div class="col-lg-6">
@@ -32,7 +32,7 @@
     <div class="modal-footer">
     <div class="actions">
         <a class="btn" data-dismiss="modal" href="#">Cancel</a>
-        <%= p.submit "Create", :class =>"submit-button btn btn-primary", :id => "create_instructor"%>
+        <%= p.submit "Update", :class =>"submit-button btn btn-primary"%>
     </div>
     </div>
     </div><!-- /.modal-content -->

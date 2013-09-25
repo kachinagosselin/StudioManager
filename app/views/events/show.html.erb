@@ -3,13 +3,18 @@
 
   <div class="col-lg-10">
 
-	<% if (current_user.has_role? :owner) %>
+	<% if (current_user.has_role? :owner) || (current_user.has_role? :professional) %>
 
 	<h3><%= @event.title %></h3>
-    <p class="pull-right" style="margin-top:-30px;"><%= link_to 'Back', studio_events_path(@studio, @event) %> |
+    <p class="pull-right" style="margin-top:-30px;"><%= link_to 'Back', :back %> |
+    <% if @professional.present? %>
+
+    <% else %>
      <%= link_to 'Edit', edit_studio_event_path(@studio, @event),  :data => {:toggle => "modal", :target => "#editModal#{@event.id}"}, :remote => true %>  |	
      <%= link_to 'Delete', [@studio, @event], method: :delete, data: { confirm: 'Are you sure? This action cannot be undone.' } %></p>
      <%= render :partial => 'show_edit', :locals => {:event => @event}%>
+     <% end %>
+
    	<div class="divider-horizontal-regular"></div>
 
 	<div class="row" style="margin-left:20px;margin-top:20px;">
@@ -26,6 +31,9 @@
 	<% end %>
 	</div>
 	</div>
+
+                <%= link_to 'Register', new_user_registration_path(),
+        :class => 'btn btn-primary' ,  :data => {:toggle => "modal", :target => "#registerModal"} , :remote => true, :html => {:style => "padding:15px 30px 15px 30px; color:white;"}%>
 
 	<div class="col-lg-12">
 		<% @registered = @event.registered_events.where(:attended => false).where(:canceled => false ) %>
@@ -45,7 +53,11 @@
 			<% user = User.find(registered.user_id) %>
 			<tr>
 			<td><%= user.name %></td>
-        	<td><%= button_to 'CheckIn', checkin_studio_user_directly_path(@studio, @event, user), method: :checkin_user_directly, :class=>'btn btn-default btn-mini pull-right' %></td>
+			<% if @professional.present? %>
+			<% else %>
+        	<td><%= button_to 'CheckIn', 
+        	checkin_studio_user_directly_path(@studio, @event, user), method: :checkin_user_directly, :class=>'btn btn-default btn-mini pull-right' %></td>
+        	<% end %>
         	</tr>
         	<% end %>
 		</tbody>
@@ -83,3 +95,26 @@
 		<% end %>
 </div>
 </div>
+
+
+ <div class="modal" id="registerModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Register Basic Account</h4>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+ <div class="modal" id="check-in" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Thanks for signing in!</h4>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

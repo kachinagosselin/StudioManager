@@ -1,0 +1,42 @@
+  <%= render "layouts/sidebar" %>
+
+<div class="col-lg-6" >
+	<h3> Students of <%= current_user.name %></h3>
+</div>
+<div class="col-lg-6" style="margin-top:20px;" >
+	<%= form_for @search, :url => students_user_path(@professional), :html => {:method => :get} do |f| %>
+		<div class="input-group">
+      	<%= f.text_field :name_or_email_contains, :class => "form-control"  %>
+      	<span class="input-group-btn">
+          <button type="submit" class="btn btn-primary">Search</button>
+      	</span>
+    	</div><!-- /input-group -->
+	<% end %>
+</div>
+
+		<table class="table table-hover">
+		    <thead>
+		        <tr>
+		          <th>Name</th>
+		          <th>Email</th>  
+		          <th>Phone</th>
+		          <th>Date Joined?</th>                             
+		        </tr>
+		    </thead>
+		    <tbody>
+		        <% @students.each do |user| %>
+		        	<tr>
+		        		<% if user.profile.is_certified %>
+		        		<td><%=link_to user.name, user %></td>
+		        		<% else %>
+		        		<td><%=user.name %></td>
+		        		<% end %>
+		        		<td><%=user.email %></td>
+		        		<td><%=user.profile.phone %></td>
+		        		<td><%= user.created_at %></td>
+		        	</tr>
+		        <% end %>
+		    </tbody>
+		</table>
+
+</div>

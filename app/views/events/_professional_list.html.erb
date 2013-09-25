@@ -1,0 +1,61 @@
+
+
+<div>
+  <div class="col-lg-4">
+  <h3>Studio Classes</h3>
+</div>
+
+<div class="col-lg-6" style ="margin-top:15px;">
+  <%= form_for @search, :url => professional_calendar_path, :html => {:method => :get} do |f| %>
+    <div class="input-group">
+        <%= f.text_field :title_contains, :class => "form-control"  %>
+        <span class="input-group-btn">
+          <button type="submit" class="btn btn-primary">Search</button>
+        </span>
+      </div><!-- /input-group -->
+  <% end %>
+</div> 
+
+      <div class="col-lg-2" style ="margin-top:15px;">
+                <%= link_to 'Create an Event', new_user_event_path(@professional),
+        :class => 'btn btn-primary btn-sm pull-right' ,  :data => {:toggle => "modal", :target => "#newModal"} , :remote => true, :html => {:style => "margin-top:20px;"}%>
+      </div>
+</div>
+
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+              <th>Date</th>
+              <th>Title</th>
+              <th>Start Time</th>
+              <th>Location</th>
+              <th>Duration</th>
+              <th></th>
+              <th></th>
+            </tr>       
+        </thead>
+        <tbody>
+            <% @events.each do |event| %>
+              <tr>
+
+              <td><%= event.day_of_week %></td>
+              <td><%= link_to event.title, user_event_path(@professional,event)%></td>
+              <td><%= event.start_time %></td>
+              <td></td>
+              <td><%= event.duration %></td>
+                <td><%= link_to 'Edit', edit_user_event_path(@professional, event),  :data => {:toggle => "modal", :target => "#editModal#{event.id}"}, :remote => true, :class => 'btn btn-default btn-xs' %>  </td>
+                    <%= render :partial => 'events/edit_professional', :locals => {:event => event}%>
+                    <% if event.users.present? %>
+                    <td><%= button_to 'Cancel', [@professional, event], method: :cancel, data: { confirm: 'Are you sure? This action cannot be undone.' }, :class => 'btn btn-default btn-xs' %></td>
+                    <% else %>
+                  <td><%= button_to 'Delete', [@professional, event], method: :delete, data: { confirm: 'Are you sure? This action cannot be undone.' }, :class => 'btn btn-default btn-xs' %></td>
+                  <% end %>
+              </tr>
+            <% end %>
+        </tbody>
+    </table>
+
+<div>
+    <%= render 'events/new_professional' %>
+</div>

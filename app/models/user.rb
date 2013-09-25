@@ -1,38 +1,48 @@
 class User < ActiveRecord::Base
     rolify
-
+    
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
     devise :database_authenticatable, :registerable,
             :recoverable, :rememberable, :trackable, :validatable
     
-  has_one :account, :dependent => :destroy
+  has_one :account
   has_one :customer, :dependent => :destroy
   has_one :profile
-  has_one :photo, :as => :imageable, :dependent => :destroy
     
-    accepts_nested_attributes_for :photo
-    accepts_nested_attributes_for :profile
-
   has_many :charges
   has_many :credits
   has_many :registered_events
-  has_many :instructors
   has_many :purchases
-  has_many :studios, foreign_key: "studio_id", :through => :instructors
-  has_many :events, foreign_key: "event_id", :through => :registered_events
-  
+    has_many :memberships, foreign_key: "professional_id"
+    has_many :packages, foreign_key: "professional_id"
+    has_many :events, foreign_key: "professional_id"
+  has_many :registered, foreign_key: "event_id", :through => :registered_events, :source => :event
+
+  accepts_nested_attributes_for :profile
+
   # Setup accessible (or protected) attributes for your model
-    attr_accessible :name, :email, :password, :password_confirmation, :remember_me, :phone, :address, :city, :state, :description, :is_certified, :is_available, :profile, :profile_attributes, :photo, :photo_attributes, :stripe_code, :max_distance
+    attr_accessible :name, :email, :password, :password_confirmation, :remember_me, :phone, :address, :city, :state, :description, :is_certified, :is_available, :profile, :profile_attributes, :stripe_code
     
     before_create :instantiate_profile
-        
+
+    validates :name, :email, :presence => true
+    validates :email, :uniqueness => true
+    validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+.)+[a-z]{2,})$/i
+
+    # Required to create complete profile for user
     def instantiate_profile
-        self.create_profile(:name => name, :email => email)
-        self.create_photo
+        @profile = Profile.where(:email => email).first
+        if @profile.present?
+            self.profile = @profile
+            self.profile.update_attributes(:name => name)
+        else
+            self.create_profile(:name => name, :email => email)
+        end
     end
     
+    # Required to save customer associated with user
     def save_with_stripe_account
         code = self.stripe_code
         params = ActiveSupport::JSON.decode(`curl -X POST https://connect.stripe.com/oauth/token -d client_secret=sk_test_I4Ci5lTRq3QtUQsejxMZBk71 -d code=#{self.stripe_code} -d grant_type=authorization_code`)
@@ -43,6 +53,7 @@ class User < ActiveRecord::Base
         self.customer.save
     end
     
+    # Methods required to register for events
     def register!(event, studio, checkin)
         self.registered_events.create!(event_id: event.id, studio_id: studio.id, attended: checkin)
     end
@@ -50,11 +61,13 @@ class User < ActiveRecord::Base
     def is_registered?(event)
         self.registered_events.where(:event_id => event.id).first.present?
     end
-
+    
+    # Methods required to mark user as attended 
     def attends(event)
-        self.registered_events.where(:event_id => event.id).first.update_attributes(:attended => true)
+        self.registered_events.find(:event_id => event.id).update_attributes(:attended => true)
     end
     
+    # Required for creating reports 
     def teaching_events_this_week
         return Event.where(:instructor => self.name).where('start_at < ?', Date.today+7).order(:start_at)
     end
@@ -63,44 +76,35 @@ class User < ActiveRecord::Base
         return RegisteredEvent.where(:user_id => self.name).where(:attended => true).where('start_at < ?', Date.today+7).order(:start_at)
     end
     
+    # Required for tracking user history
     def events_attended(day)
         events = RegisteredEvent.where(:user_id => self.name).where(:attended => true).where('start_at = ?', day)
         return events.count
     end
 
+    # Required for displaying instructor activity
     def teaching_events
         return Event.where(:instructor => self.name)
     end
     
-    def instructor?(studio)
-        if studio == "any"
-            if self.studios.present?
-                return true
-            else 
-                return false
-            end
-        else
-            if self.studios.where(id: studio.id).present?
-                return true
-            else 
-                return false
-            end
-        end
-    end
-    
-    def become_instructor!(studio)
-        self.instructors.create!(studio_id: studio.id)
-    end
-    
+    #
     def is_certified?
         self.profile.certification.present?
     end
     
-    def save_customer_for_studio(client, studio, stripe_card_token, last_4_digits)
-        stripe_customer = Stripe::Customer.create({description: self.email, card: stripe_card_token, email: self.email}, client.customer.access_token)
-        if  !self.customer.present?
-            customer = self.create_customer(:stripe_customer_token => stripe_customer.id, :email => self.email, :last_4_digits => last_4_digits)
+    # Required to save customer of studio and/or indepedent professional
+    # options = {stripe_card_token, last_4_digits, studio, instructor}
+    def save_customer!(client, options = {})
+        if self.customer.present?
+        stripe_customer = Stripe::Customer.create({description: self.email, card: self.customer.stripe_card_token, email: self.email}, client.customer.access_token)
+        else
+            stripe_customer = Stripe::Customer.create({description: self.email, card: stripe_card_token, email: self.email}, client.customer.access_token)
+            if  !self.customer.present?
+                customer = self.create_customer(:stripe_customer_token => stripe_customer.id, :email => self.email, :last_4_digits => last_4_digits)
+            end
         end
+       
+        self.profile.become_student!(instructor)
     end
     
     def add_credits(client, package)
@@ -137,7 +141,7 @@ class User < ActiveRecord::Base
     def purchase!(studio, product, type, discount)
         self.customer.purchases.create(:product_id => product.id, :studio_id => studio.id, :product_type => type, :discount_applied => discount)
         self.register!(event, studio, true)
-        if type="package"
+        if type=="package"
             spend_credit(studio)
         end
     end

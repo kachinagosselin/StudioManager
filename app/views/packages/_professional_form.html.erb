@@ -1,0 +1,59 @@
+<script>
+$(document).ready(function() {
+document.getElementById("package_expires_at").classList.add('form-control');
+    $('.form_datetime').datetimepicker({
+        weekStart: 1,
+        todayBtn:  0,
+        autoclose: 1,
+        todayHighlight: 0,
+        minView: 2,
+        startView: 3,
+        forceParse: 0,
+        showMeridian: 1
+    });
+
+});
+</script>
+
+<div class="modal-body">
+    <%= form_for([@professional, package], :html => { :id => "add_package", :class => 'form-horizontal'} ) do |f| %>
+        <div class="form-group">
+          <p><%= f.label :name %><br />
+            <%=h f.text_field :name, :class => "form-control" %></p>
+                <div class="row">
+                <div class="col-lg-4">
+                <p><%= f.label :quantity %><br />
+                <%= f.number_field :quantity, :class => "form-control" %></p>
+
+                <p><%= f.label :expires_at, "Expires On" %><br />
+                <%=h f.text_field :expires_at, 'data-date' => Date.today, :class => "form_datetime form-control", 'data-date-format'=>"M d yyyy", :type => "text"%></p>
+                </div>
+
+                <div class="col-lg-4">
+                <p><%= f.label :price %><br />
+                <%= f.text_field :price, :class => "form-control"%></p>
+
+                <%= f.label :interval_count %>
+                <%= f.number_field :interval_count, :class => "form-control" %>
+                </div>
+
+                <div class="col-lg-4">
+                    <p><%= f.label :percent_off %><br />
+                    <%= f.number_field :percent_off, :class => "form-control"%></p>
+ 
+                    <p><%= f.label :interval %><br />
+                    <%= f.select :interval, INTERVALS, :html => {:id => "membership_interval_select"} %></p>
+               </div>
+
+                <%= f.hidden_field :professional_id, :value => @professional.id %>
+
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+    <div class="actions">
+        <a class="btn" data-dismiss="modal" href="#">Cancel</a>
+          <button type="submit" class="btn btn-primary" id="add_package">Submit</button>
+        <% end %>
+    </div>     
+    </div>     

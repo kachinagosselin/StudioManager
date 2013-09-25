@@ -4,7 +4,7 @@ class Event < ActiveRecord::Base
     has_many :registered_events
     has_many :users, foreign_key: "user_id", :through => :registered_events
     accepts_nested_attributes_for :registered_events
-    attr_accessible :studio_id, :description, :end_at, :instructor, :start_at, :title, :registered_events, :registered_events_attributes, :archive, :price
+    attr_accessible :studio_id, :description, :end_at, :instructor, :start_at, :title, :registered_events, :registered_events_attributes, :archive, :price, :professional_id
     
     # need to override the json view to return what full_calendar is expecting.
     # http://arshaw.com/fullcalendar/docs/event_data/Event_Object/
@@ -51,6 +51,10 @@ class Event < ActiveRecord::Base
         self.start_at.strftime("%B %e, %Y")
     end
 
+    def date_condensed
+        self.start_at.strftime("%b %e, %Y")
+    end
+
     def start_time 
         self.start_at.strftime("%l:%M %P")
     end
@@ -68,6 +72,13 @@ class Event < ActiveRecord::Base
             return "#{days} days #{hours_remaining} hrs #{minutes_remaining} mins"
         else
             return "#{hours} hrs #{minutes_remaining} mins"
+        end
+    end
+
+    # Required to make sure all events have instructor field
+    def instructor
+        if self.professional_id.present?
+            User.find(self.professional_id).name
         end
     end
 

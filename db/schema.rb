@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130921231403) do
+ActiveRecord::Schema.define(:version => 20130925005222) do
 
   create_table "accounts", :force => true do |t|
     t.string   "plan_id"
@@ -53,15 +53,16 @@ ActiveRecord::Schema.define(:version => 20130921231403) do
     t.text     "description"
     t.datetime "created_at",         :null => false
     t.datetime "updated_at",         :null => false
+    t.integer  "professional_id"
   end
 
   create_table "credits", :force => true do |t|
+    t.integer  "studio_id"
     t.integer  "customer_id"
     t.integer  "quantity"
     t.datetime "expires_at"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
-    t.integer  "studio_id"
   end
 
   add_index "credits", ["customer_id"], :name => "index_credits_on_customer_id"
@@ -83,6 +84,7 @@ ActiveRecord::Schema.define(:version => 20130921231403) do
     t.string   "refresh_token"
     t.string   "stripe_publishable_key"
     t.string   "stripe_user_id"
+    t.integer  "professional_id"
   end
 
   create_table "events", :force => true do |t|
@@ -91,11 +93,12 @@ ActiveRecord::Schema.define(:version => 20130921231403) do
     t.string   "instructor"
     t.text     "description"
     t.string   "title"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
     t.integer  "studio_id"
     t.boolean  "archive"
     t.integer  "price"
+    t.integer  "professional_id"
   end
 
   create_table "instructors", :force => true do |t|
@@ -108,6 +111,21 @@ ActiveRecord::Schema.define(:version => 20130921231403) do
   add_index "instructors", ["studio_id"], :name => "index_instructors_on_studio_id"
   add_index "instructors", ["user_id", "studio_id"], :name => "index_instructors_on_user_id_and_studio_id", :unique => true
   add_index "instructors", ["user_id"], :name => "index_instructors_on_user_id"
+
+  create_table "locations", :force => true do |t|
+    t.string   "name"
+    t.string   "address"
+    t.string   "city"
+    t.string   "state"
+    t.integer  "studio_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.float    "latitude"
+    t.float    "longitude"
+    t.boolean  "gmaps"
+  end
+
+  add_index "locations", ["studio_id"], :name => "index_locations_on_studio_id"
 
   create_table "memberships", :force => true do |t|
     t.integer  "studio_id"
@@ -122,6 +140,7 @@ ActiveRecord::Schema.define(:version => 20130921231403) do
     t.string   "title"
     t.boolean  "one_time_app",      :default => false
     t.boolean  "prorate",           :default => false
+    t.integer  "professional_id"
   end
 
   create_table "packages", :force => true do |t|
@@ -133,10 +152,11 @@ ActiveRecord::Schema.define(:version => 20130921231403) do
     t.integer  "price"
     t.boolean  "archived"
     t.datetime "expires_at"
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
     t.string   "interval"
     t.integer  "interval_count"
+    t.integer  "professional_id"
   end
 
   add_index "packages", ["studio_id"], :name => "index_packages_on_studio_id"
@@ -161,8 +181,20 @@ ActiveRecord::Schema.define(:version => 20130921231403) do
     t.datetime "updated_at", :null => false
   end
 
+  create_table "private_students", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "professional_id"
+    t.boolean  "signed_waiver"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
+  add_index "private_students", ["professional_id"], :name => "index_private_students_on_professional_id"
+  add_index "private_students", ["user_id", "professional_id"], :name => "index_private_students_on_user_id_and_professional_id", :unique => true
+  add_index "private_students", ["user_id"], :name => "index_private_students_on_user_id"
+
   create_table "profiles", :force => true do |t|
-    t.integer  "phone"
+    t.integer  "phone",                    :limit => 8
     t.string   "address"
     t.string   "city"
     t.string   "state"
@@ -176,10 +208,18 @@ ActiveRecord::Schema.define(:version => 20130921231403) do
     t.integer  "emergency_contact_number"
     t.string   "name"
     t.string   "email"
+    t.integer  "max_distance"
     t.float    "latitude"
     t.float    "longitude"
     t.boolean  "gmaps"
   end
+
+  create_table "profiles_roles", :id => false, :force => true do |t|
+    t.integer "profile_id"
+    t.integer "role_id"
+  end
+
+  add_index "profiles_roles", ["profile_id", "role_id"], :name => "index_profiles_roles_on_profile_id_and_role_id"
 
   create_table "purchases", :force => true do |t|
     t.integer  "customer_id"
@@ -238,10 +278,10 @@ ActiveRecord::Schema.define(:version => 20130921231403) do
   create_table "studios", :force => true do |t|
     t.string   "name"
     t.string   "location"
-    t.integer  "main_phone"
+    t.integer  "main_phone",          :limit => 8
     t.string   "website"
-    t.datetime "created_at",          :null => false
-    t.datetime "updated_at",          :null => false
+    t.datetime "created_at",                       :null => false
+    t.datetime "updated_at",                       :null => false
     t.integer  "account_id"
     t.float    "latitude"
     t.float    "longitude"
@@ -289,7 +329,6 @@ ActiveRecord::Schema.define(:version => 20130921231403) do
     t.datetime "updated_at",                             :null => false
     t.string   "name"
     t.string   "stripe_code"
-    t.integer  "max_distance"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

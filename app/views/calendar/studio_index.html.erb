@@ -1,0 +1,39 @@
+<%= javascript_include_tag "fullcalendar.js" %>
+
+
+<script> 
+$(document).ready(function() {
+    // page is now ready, initialize the calendar...
+document.getElementById("event_instructor").classList.add('form-control');
+
+$('#calendar').fullCalendar({
+	header: {
+  	left: 'prev,next today',
+  	center: 'title',
+  	right: 'month,agendaWeek,agendaDay'
+	},
+    eventSources: [{
+          url: '/studios/<%= @studio.id %>/events.json',
+        }],
+});
+
+    $('.form_datetime').datetimepicker({
+        weekStart: 1,
+        autoclose: 1,
+        maxView: 3,
+        startView: 2,
+        forceParse: 0,
+        showMeridian: 1
+      });
+});
+</script>
+
+  <%= render "layouts/sidebar" %>
+
+  <div class="col-lg-11">
+  <div id='calendar'></div>
+
+  <%= render 'events/list' %>
+
+</div>
+</div>

@@ -1,0 +1,25 @@
+  <div class="modal fade" id="newModal" tabindex="-1" role="dialog" aria-labelledby="newModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden=true>&times;</button>
+        <h4 class="modal-title">New Event</h4>
+      </div>
+
+      <div class="modal-body">
+        <%= form_for([@professional, Event.new], :html => {:class => 'form-horizontal'}) do |f| %>
+        <%= render :partial => 'events/professional_form', :locals => {:f => f} %>
+        <%= f.hidden_field :professional_id, :value => @professional.id%>
+      </div>
+
+    <div class="modal-footer">
+    <div class="actions">
+        <a class="btn" data-dismiss="modal" href="#">Cancel</a>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        <% end %>
+    </div>     
+    </div>     
+
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

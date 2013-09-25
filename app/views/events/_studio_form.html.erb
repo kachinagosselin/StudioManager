@@ -1,0 +1,40 @@
+
+
+<div class="modal-body">
+<%= form_for([@studio, @event], :html => {:class => 'form-horizontal'}) do |f| %>
+    <div class="row">
+      <div class="form-group">   
+        <div class="col-lg-6">
+        <%= f.label :title %>
+        <%= f.text_field :title, :as => :string, :input_html => { :style => 'width: 330px'}, :class => "form-control"  %>
+        <%= f.label :description %>
+        <%= f.text_area :description, :as => :text, :input_html => { :style => 'width: 330px' }, :rows => 5, :class => "form-control" %>
+        </div>
+
+        <div class="col-lg-6">
+        <p><%= f.label :start_at, "Start Time" %><br />
+        <%=h f.text_field :start_at, 'data-date' => Date.today, :class => "form_datetime form-control", :type => "text"%>
+        <span class="add-on"><i class="icon-th"></i></span>
+        </p>
+
+        <p><%= f.label :end_at, "End Time" %><br />
+        <%=h f.text_field :end_at, 'data-date' => Date.today, :class => "form_datetime form-control", :type => "text"%>
+        <span class="add-on"><i class="icon-th"></i></span>
+        </p>
+
+        <%= f.label :instructor%>
+        <%= f.select "instructor", content_tag(:option,'select instructor...',:value=>"")+options_from_collection_for_select(@studio.staff, "id", "name" ), :required => true, :class => "form-control", :html => {:id => "memberships_select"}%></p> 
+         <%= f.hidden_field :studio_id, :value => @studio.id%>
+        </div>
+      </div><!-- End of row -->
+    </div><!-- End of row -->
+
+  </div>
+
+    <div class="modal-footer">
+    <div class="actions">
+        <a class="btn" data-dismiss="modal" href="#">Cancel</a>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        <% end %>
+    </div>     
+    </div>     

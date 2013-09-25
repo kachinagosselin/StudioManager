@@ -1,39 +1,4 @@
 StudioManager::Application.routes.draw do
-  get "products/new"
-
-  get "products/create"
-
-  get "products/edit"
-
-  get "products/update"
-
-  get "products/destroy"
-
-  get "products/purchase"
-
-  get "packages/new"
-
-  get "packages/create"
-
-  get "packages/edit"
-
-  get "packages/update"
-
-  get "packages/destroy"
-
-  get "packages/purchase"
-
-  get "packages_controller/new"
-
-  get "packages_controller/create"
-
-  get "packages_controller/edit"
-
-  get "packages_controller/update"
-
-  get "packages_controller/destroy"
-
-  get "packages_controller/purchase"
 
   devise_for :views
   devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks" }
@@ -48,10 +13,11 @@ StudioManager::Application.routes.draw do
     match 'studios/:id/invoice/:user_id' => 'studios#invoice', :controller => 'studios', :action => 'invoice', :via => [:get], :as => 'invoice'
     
     #Studio and professional calendars
-    match 'studios/:studio_id/calendar(/:year(/:month))' => 'calendar#index', :as => :calendar, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
-    match 'users/:user_id/calendar(/:year(/:month))' => 'calendar#professional', :as => :calendar, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}, :as => 'private_calendar'
+    match 'studios/:studio_id/calendar(/:year(/:month))' => 'calendar#studio_index', :as => 'studio_calendar', :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
+    match 'users/:user_id/calendar(/:year(/:month))' => 'calendar#professional_index', :as => 'professional_calendar', :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
     
-    match '/users/:id/history' => 'users#history', :controller => 'users', :action => 'history', :via => [:get], :as => 'user_history'
+    
+    match '/users/:id/history' => 'users#history', :controller => 'users', :action => 'history', :via => [:post], :as => 'user_history'
     
     
     match '/studios/:id/create_for_client(/:user_id)' => 'customers#create_for_client', :controller => 'customers', :action => 'create_for_client', :via => [:post], :as => 'new_client_customer'
@@ -59,6 +25,8 @@ StudioManager::Application.routes.draw do
     match '/instructors/' => 'studios#instructors_database', :controller => 'studios', :action => 'instructors_database', :via => [:get], :as => 'instructors_database'
 
     match '/studios/:studio_id/new_student/:event_id' => 'users#new_student', :controller => 'users', :action => 'new_student', :via => [:post], :as => 'new_student'
+
+    match '/login_new_student' => 'users#login_new_student', :controller => 'users', :action => 'login_new_student', :via => [:post], :as => 'login_new_student'
 
     
     
@@ -70,34 +38,48 @@ StudioManager::Application.routes.draw do
     devise_scope :user do
         get '/auth/stripe_connect/callback', to: 'customers#register'
     end
-
+    
+    resources :profiles
+    
     resources :users do
         resources :accounts
         resources :customers
         resources :profiles
         resources :pictures
-        resources :subscriptions
+        resources :events
+        resources :memberships
+        resources :packages
         resources :charges
+        resources :coupons
+        
+        collection do
+            post :search
+        end
+        
         member do
             get :registered_events, :attended_events, :purchases
-            get :private_dashboard, :as => 'private_dashboard'
-            get :private_students, :as => 'private_students'
-            get :private_memberships, :as => 'private_memberships'
-            get :private_coupons, :as => 'private_coupons'
+            get :dashboard
+            get :students
+            get :products, :controller => 'products', :action => 'professional_index'
         end
     end 
     resources :plans
     
     resources :studios do
+        resources :locations
         resources :events
-        resources :products
         resources :memberships
         resources :packages
         resources :coupons
         resources :reports
+        collection do
+        end
         member do
             get :instructors, :students
+            post :new_instructor
+            post :new_studente
             get :widget
+            get :products, :controller => 'products', :action => 'studio_index'
         end
     end
     

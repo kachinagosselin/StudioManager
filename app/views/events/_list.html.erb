@@ -6,7 +6,7 @@
 </div>
 
 <div class="col-lg-6" style ="margin-top:15px;">
-  <%= form_for @search, :url => calendar_path, :html => {:method => :get} do |f| %>
+  <%= form_for @search, :url => studio_calendar_path, :html => {:method => :get} do |f| %>
     <div class="input-group">
         <%= f.text_field :title_contains, :class => "form-control"  %>
         <span class="input-group-btn">
@@ -39,13 +39,13 @@
             <% @events.each do |event| %>
               <tr>
 
-              <td><%= event.day_of_week %></td>
+              <td><%= event.day_of_week %>, <%= event.date_condensed %></td>
               <td><%= link_to event.title, studio_event_path(event.studio,event)%></td>
               <td><%= event.start_time %></td>
               <td><%= @studio.address %></td>
               <td><%= event.duration %></td>
                 <td><%= link_to 'Edit', edit_studio_event_path(event.studio, event),  :data => {:toggle => "modal", :target => "#editModal#{event.id}"}, :remote => true, :class => 'btn btn-default btn-xs' %>  </td>
-                    <%= render :partial => 'events/edit', :locals => {:event => event}%>
+                    <%= render :partial => 'events/edit_studio', :locals => {:event => event}%>
                   <td><%= button_to 'Delete', [event.studio, event], method: :delete, data: { confirm: 'Are you sure? This action cannot be undone.' }, :class => 'btn btn-default btn-xs' %></td>
               </tr>
             <% end %>
@@ -53,5 +53,5 @@
     </table>
 
 <div>
-    <%= render 'events/new' %>
+    <%= render 'events/new_studio' %>
 </div>

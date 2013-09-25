@@ -1,8 +1,7 @@
 class MembershipsController < ApplicationController
         
         def index
-            @studio = Studio.find(params[:studio_id])
-            @memberships = @studio.memberships.find(:all)
+            @memberships = Memberships.find(:all)
 
             respond_to do |format|
                 format.html # index.html.erb
@@ -10,13 +9,9 @@ class MembershipsController < ApplicationController
             end
         end
     
-        def new
-        end
-    
         def create
-            @studio = Studio.find(params[:studio_id])
-            @membership = @studio.memberships.new(params[:membership])
             @client = current_user
+            @membership = Membership.new(params[:membership])
             @stripe_membership = Stripe::Plan.create({
                                                      :amount => params[:membership][:price],
                                                      :interval => params[:membership][:interval],
@@ -27,10 +22,10 @@ class MembershipsController < ApplicationController
                                                    )
             respond_to do |format|
                 if @membership.save
-                    format.html { redirect_to studio_products_path(@studio) }
+                    format.html { redirect_to :back }
                     format.json { head :no_content }
                     else
-                    format.html { redirect_to studio_products_path(@studio), alert: 'Membership was unsuccessfully created.' }
+                    format.html { redirect_to :back, alert: 'Membership was unsuccessfully created.' }
                     format.json { render json: @message.errors, status: :unprocessable_entity }
                 end 
             end
@@ -39,12 +34,11 @@ class MembershipsController < ApplicationController
 
         
     def destroy
-        @studio = Studio.find(params[:studio_id])
-        @membership = @studio.memberships.find(params[:id])
         @client = current_user
+        @membership = Memberships.find(params[:id])
         @stripe_membership = Stripe::Plan.retrieve({:id => @membership.name}, @client.customer.access_token)
         @stripe_membership.delete
         @membership.destroy
-        redirect_to studio_products_path(@studio)
+        redirect_to :back
     end
 end

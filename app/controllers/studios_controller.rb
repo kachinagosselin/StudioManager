@@ -43,6 +43,32 @@ class StudiosController < ApplicationController
         end
     end
     
+    def add_instructor
+        @studio = Studio.find(params[:id])
+        @user = User.find_by(:email => params[:profile][:email])
+        if (@user.present?) && (!@user.instructor?(@studio))
+            @user.become_instructor!(@studio)
+        else
+        @profile = Profile.create!(params[:profile])
+        
+        respond_to do |format|
+            if @profile.save
+                format.html { redirect_to :back }                
+                format.json { head :no_content, notice: 'Instructor was added to the database. Please email instructor so that they can join our site.'  }
+                else
+                format.html { redirect_to :back, alert: 'Instructor was not saved.' }
+                format.json { render json: @message.errors, status: :unprocessable_entity }
+            end 
+        end
+        end
+    end
+    
+    def remove_instructor
+        @studio = Studio.find(params[:id])
+        @user = User.find(params[:user_id])
+        @user.remove_instructor!(@studio)
+    end
+    
     def instructors
         @studio = Studio.find(params[:id])
         @search = @studio.staff.search(params[:search])
@@ -50,23 +76,28 @@ class StudiosController < ApplicationController
     end 
 
     def instructors_database
-        @available_instructors = Profile.where('is_certified = ?',  true)
+        @available_instructors = Profile.where('is_certified = ?',  true).where('is_available = ?',  true)
+        if params[:search].present?
+            if params[:search][:distance].present?
+                @distance = params[:search][:distance]
+                params[:search].delete :distance
+            end
+        end
+        
+        @search_database = @available_instructors.search(params[:search])
 
         if params[:search].present?
         if params[:search][:distance].present?
-            @distance = params[:search][:distance]
-            params[:search].delete :distance
             @search_database = Profile.near(current_user.account.studio.gmaps4rails_address, @distance).where('is_certified = ?',  true).search(params[:search])
-        else
-            @search_database = @available_instructors.search(params[:search])
         end
         end
+        
         @instructors_database = @search_database   # load all matching records
     end 
     
     def students
         @studio = Studio.find(params[:id])
-        @search = @studio.users.search(params[:search])
+        @search = @studio.students.search(params[:search])
         @students = @search.all   # load all matching records
     end 
     

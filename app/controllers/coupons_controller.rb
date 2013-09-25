@@ -1,6 +1,16 @@
 class CouponsController < ApplicationController
  
-    def index
+    def studio_index
+        @studio = Studio.find(params[:studio_id])
+        @coupons = @studio.coupons.find(:all)
+        
+        respond_to do |format|
+            format.html # index.html.erb
+            format.json { render json: @coupons }
+        end
+    end
+
+    def professional_index
         @studio = Studio.find(params[:studio_id])
         @coupons = @studio.coupons.find(:all)
         
