@@ -19,10 +19,8 @@
 				        </tr>
 				    </thead>
 				    <tbody>
-				<% @registered_events = @user.registered_events.where(:attended => false )%>
-				<% @registered_events.each do |registered_event| %>
-
-				<% event = Event.find(registered_event.event_id) %>
+				<% @registered_events = @profile.find_registered%>
+				<% @registered_events.each do |event| %>
 							<% if event.start_at <= DateTime.now %>
 							<tr class="danger">
 							<% elsif event.start_at < DateTime.now + 7%>
@@ -34,7 +32,7 @@
 				        		<td><%= event.instructor%></td>
 		            			<td><%= event.start_at.to_formatted_s(:rfc822) %> </td>
 		            			<td><%= event.start_at.strftime("%I:%M %P") %></td>
-				        		<td><%= Studio.find(event.studio_id).name %></td>
+				        		<td> </td>
 				        	</tr>
 				        <% end %>
 				</table>
@@ -55,7 +53,7 @@
 				        </tr>
 				    </thead>
 				    <tbody>
-				<% @purchases = @user.customer.purchases.where(:product_type => "membership") %>
+				<% @purchases = Purchase.where(:product_type => "membership") %>
 				<% @purchases.each do |purchase| %>
 
 				<% membership = Membership.find(purchase.product_id) %>
@@ -65,7 +63,6 @@
 				        		<td><%= membership.interval%>
 				        		</td>						
 				        		<td><%= membership.interval_count if membership.interval_count?%></td>		        		<td><%= membership.trial_period_days if membership.trial_period_days?%></td>
-								<% @edit_membership = membership %>
 				        	</tr>
 				        <% end %>
 				</table>
@@ -75,4 +72,36 @@
     <h3> Attendance History</h3>
     <div class="divider-horizontal-regular"></div>
 
+
+    		<table class="table table-hover">
+				    <thead>
+				        <tr>
+				          <th>Name</th>
+				          <th>Instructor</th>  
+				          <th>Date</th>
+				          <th>Start Time</th>
+				          <th>Studio</th>
+				          <th>Location</th>
+				          <th>Cost</th>
+				        </tr>
+				    </thead>
+				    <tbody>
+				<% @registered_events = @profile.find_attended%>
+				<% @registered_events.each do |event| %>
+
+							<% if event.start_at <= DateTime.now %>
+							<tr class="danger">
+							<% elsif event.start_at < DateTime.now + 7%>
+							<tr class="warning">
+							<% else %>
+				        	<tr>
+				        	<% end %>
+				        		<td><%= event.title %></td>
+				        		<td><%= event.instructor%></td>
+		            			<td><%= event.start_at.to_formatted_s(:rfc822) %> </td>
+		            			<td><%= event.start_at.strftime("%I:%M %P") %></td>
+				        		<td></td>
+				        	</tr>
+				        <% end %>
+				</table>
 	</div>

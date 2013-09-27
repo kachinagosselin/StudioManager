@@ -1,4 +1,5 @@
 class Event < ActiveRecord::Base
+    resourcify
     belongs_to :studio
     has_one :charge
     has_many :registered_events

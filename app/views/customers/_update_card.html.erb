@@ -1,55 +1,7 @@
-<script>
-Stripe.setPublishableKey($('meta[name="stripe-key"]').attr('content'));
-$(document).ready(function() {
-  $("#update_card").submit(function(event) {
-    // disable the submit button to prevent repeated clicks
-    $('.submit-button').attr("disabled", "disabled");
-    var card_number = document.getElementById('card_number').value;
-    var card_code = document.getElementById('card_code').value;
-    var card_month = document.getElementById('card_month').value;
-    var card_year = document.getElementById('card_year').value;
-    
-    var end = card_number.length;
-    var last_4_digits = card_number[end-4]+card_number[end-3]+card_number[end-2]+card_number[end-1];
-    $("#update_card").append("<input type='hidden' name='last_4_digits' value='" + last_4_digits + "'/>");
-    
-    Stripe.createToken({
-        number: $('#card_number').val(),
-        cvc: $('#card_code').val(),
-        exp_month: $('#card_month').val(),
-        exp_year: $('#card_year').val()
-    }, stripeResponseHandler);
-
-    // prevent the form from submitting with the default action
-    return false;
-  });
-});
-
-function stripeResponseHandler(status, response) {
-    if (response.error) {
-        $(".payment-errors").text(response.error.message);
-        $(".submit-button").removeAttr("disabled");
-    } else {
-        var token = response['id'];
-        // insert the token into the form so it gets submitted to the server
-        $("#update_card").append("<input type='hidden' name='stripe_card_token' value='" + token + "'/>");
-        //document.getElementById('subscription_stripe_card_token').value = response['id']
-        // and submit
-        $('#update_card').get(0).submit();
-    }
-    return false;
-}
-
-</script>
-
-    <% if Rails.env.development? %>
-    <% Stripe.api_key %>
-    <% else %>
-    <% Stripe.api_key = ENV['STRIPE_API_KEY'] %>
-    <% end %>
 
 
-<div class="modal fade" id="update-card" tabindex="-1" role="dialog" aria-labelledby="newModalLabel" aria-hidden="true">
+
+<div class="modal fade" id="updateCardModal" tabindex="-1" role="dialog" aria-labelledby="newModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
 
@@ -58,24 +10,24 @@ function stripeResponseHandler(status, response) {
         <h4 class="modal-title">Update Credit Card</h4>
       </div> <!-- End of Header -->
 
-    <div class="modal-body">
-          <%= form_for([@user, @user.customer], :method => :put, :html => { :class => 'form-horizontal', :remote => true, :id => "update_card" }) do |f| %>
-
-            <%= f.hidden_field :user_id, :value => current_user.id %>
-            <%= f.hidden_field :email, :value => current_user.email %>
+      <div class="modal-body">
+        <%= form_for([current_user, current_user.customer]) do |f| %>
+        <%= f.hidden_field :user_id, :value => current_user.id %>
+        <%= f.hidden_field :email, :value => current_user.email %>
         <div class="form-group" >
-          <%= label_tag :card_number, "Credit Card Number" %>
-          <%=h text_field_tag :card_number, nil, name: nil, :class => "form-control"  %>
+          <p><%= label_tag :card_number, "Credit Card Number" %></br>
+          <%=h text_field_tag :card_number, nil, name: nil, :class => "form-control"%></p>
           <div class="row">
           <div class="col-lg-4">
-          <%= label_tag :card_code, "Security Code (CVV)" %>
-          <%=h text_field_tag :card_code, nil, name: nil, :class => "form-control"  %></div>
+          <p><%= label_tag :card_code, "Security Code (CVV)" %></br>
+          <%=h text_field_tag :card_code, nil, name: nil, :class => "form-control"%></p>
+          </div>
           <div class="col-lg-4">
-          <%= label_tag :card_month, "Card Expiration" %>
-          <%=h text_field_tag :card_month, nil, name: nil, :class => 'datepicker form-control'  %></div>
+          <p><%= label_tag :card_month, "Card Expiration" %></br>
+          <%=h text_field_tag :card_month, nil, name: nil, :class => 'datepicker form-control'%></p></div>
           <div class="col-lg-4">
-          <%= label_tag :card_year, " " %>
-          <%=h text_field_tag :card_year, nil, name: nil, :class => 'datepicker form-control'  %></div>
+          <p><%= label_tag :card_year, " " %></br>
+          <%=h text_field_tag :card_year, nil, name: nil, :class => 'datepicker form-control'  %></p></div>
         </div>
       </div><!-- End of Form Group -->
       <div id="stripe_error">

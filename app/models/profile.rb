@@ -22,6 +22,12 @@ class Profile < ActiveRecord::Base
         "#{self.address}, #{self.city}, #{self.state}" 
     end
     
+    def user
+        if User.exists?(id: self.user_id)
+        User.find(self.user_id)
+        end
+    end
+    
     # Return instructor studios
     def studios
         Studio.with_role(:instructor, self)
@@ -32,7 +38,13 @@ class Profile < ActiveRecord::Base
     end
     
     def become_student!(this)
+        if signed == true
         self.add_role :student, this
+        end
+    end
+
+    def remove_student(this)
+        self.remove_role :student, this
     end
     
     # Instructor roles
@@ -44,4 +56,49 @@ class Profile < ActiveRecord::Base
         self.remove_role :instructor, studio
     end
     
+    def assign_role(user_type, account_type)
+    if user_type == "instructor"
+        self.become_instructor!(current_user.account.studio)
+    else user_type == "student"
+        if account_type == "studio"
+            self.become_student!(current_user.account.studio)
+        elsif account_type == "professional"
+            self.become_student!(current_user)
+        end
+    end
+    end
+    
+    def test
+    
+    end 
+
+    def self.find_registered(event)
+    @registered = Profile.with_role(:registered, event).all
+    @registered.each do |profile|
+        if profile.has_role? :attended, event
+        @registered.delete(profile)
+        end
+    end
+    return @registered
+    end
+
+    def find_registered
+        @registered = Event.with_role(:registered, self).all
+    @registered.each do |event|
+        if self.has_role? :attended, event
+            @registered.delete(event)
+        end
+    end
+    return @registered
+    end
+
+    def find_attended
+        Event.with_role(:attended, self).all
+    end
+
+    # Required for creating reports 
+    def teaching_events_this_week
+        Event.where(:instructor => self.name).where('start_at < ?', Date.today+7).order(:start_at)
+    end
+
 end

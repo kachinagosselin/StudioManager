@@ -2,6 +2,9 @@
 
 <div class="col-lg-6" >
 	<h3> Students of <%= current_user.name %></h3>
+		<p style="margin-top:-32px;margin-left:325px;">
+			<%= link_to '+ add new', new_studio_membership_path(@studio),  
+				:data => {:toggle => "modal", :target => "#addStudent"} , :remote => true, :html => {:style => "margin-top:5px;"}%></p>
 </div>
 <div class="col-lg-6" style="margin-top:20px;" >
 	<%= form_for @search, :url => students_user_path(@professional), :html => {:method => :get} do |f| %>
@@ -24,19 +27,37 @@
 		        </tr>
 		    </thead>
 		    <tbody>
-		        <% @students.each do |user| %>
+		        <% @students.each do |profile| %>
 		        	<tr>
-		        		<% if user.profile.is_certified %>
-		        		<td><%=link_to user.name, user %></td>
+		        		<% if profile.user_id.present? %>
+		        		<% user = User.find(profile.user_id) %>
+		        		<td><%=link_to profile.name, user %></td>
 		        		<% else %>
-		        		<td><%=user.name %></td>
+		        		<td><%= profile.name %></td>
 		        		<% end %>
-		        		<td><%=user.email %></td>
-		        		<td><%=user.profile.phone %></td>
-		        		<td><%= user.created_at %></td>
+		        		<td><%= profile.email %></td>
+		        		<td><%= profile.phone %></td>
+		        		<td></td>
 		        	</tr>
 		        <% end %>
 		    </tbody>
 		</table>
 
 </div>
+
+
+
+  <div class="modal" id="addStudent" tabindex="-1" role="dialog" aria-labelledby="addInstructorLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Add Student</h4>
+      </div>
+      <%= render :partial => 'students/add_profile_professional'%>
+ 
+
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+

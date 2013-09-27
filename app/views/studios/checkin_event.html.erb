@@ -50,7 +50,7 @@ function stripeResponseHandler(status, response) {
 
 </script>
 
-<div class="section bluebackground" style="height:580px;margin-top: -30px;">
+<div class="section bluebackground" style="height:640px;margin-top: -30px;">
  <h1 class="center">Welcome to <%= @studio.name %>!</h1>
 <p class="center" style="padding:0px;"> Feel free to check yourself into class
 	<%= @event.title %></p>
@@ -65,10 +65,12 @@ function stripeResponseHandler(status, response) {
           <button type="submit" class="btn btn-default" style="margin-top:-56px;margin-left:282px;">Submit</button>    
 		<% end %>
     	</div><!-- /forms-group -->
-
-		<div style="margin-top:50px;margin-left:auto;margin-right:auto;width:136px;">
-                <%= link_to 'Register', new_user_registration_path(),
-        :class => 'trial-button' ,  :data => {:toggle => "modal", :target => "#registerModal"} , :remote => true, :html => {:style => "padding:15px 30px 15px 30px; color:white;"}%>
+    <p class="center"> If you are not yet a student of our studio, register or sign in. </p>
+    <div style="margin-top:50px;margin-left:auto;margin-right:auto;width:156px;">
+                <%= link_to 'Sign In', new_user_registration_path(),
+        :class => 'btn btn-default btn-large' ,  :data => {:toggle => "modal", :target => "#signinModal"} , :remote => true, :html => {:style => "padding:5px 10px 5px 10px; color:white;"}%>
+    <%= link_to 'Register', new_user_registration_path(),
+        :class => 'btn btn-default btn-large' ,  :data => {:toggle => "modal", :target => "#registerModal"} , :remote => true, :html => {:style => "padding:5px 10px 5px 10px; color:white;"}%>
 		</div>
 <% else %>
 <%= render "layouts/error_page" %>

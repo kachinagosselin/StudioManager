@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130925005222) do
+ActiveRecord::Schema.define(:version => 20130926235927) do
 
   create_table "accounts", :force => true do |t|
     t.string   "plan_id"
@@ -99,6 +99,7 @@ ActiveRecord::Schema.define(:version => 20130925005222) do
     t.boolean  "archive"
     t.integer  "price"
     t.integer  "professional_id"
+    t.string   "url"
   end
 
   create_table "instructors", :force => true do |t|
@@ -214,6 +215,8 @@ ActiveRecord::Schema.define(:version => 20130925005222) do
     t.boolean  "gmaps"
   end
 
+  add_index "profiles", ["email"], :name => "index_profiles_on_email", :unique => true
+
   create_table "profiles_roles", :id => false, :force => true do |t|
     t.integer "profile_id"
     t.integer "role_id"
@@ -241,10 +244,13 @@ ActiveRecord::Schema.define(:version => 20130925005222) do
     t.integer  "user_id"
     t.integer  "event_id"
     t.integer  "studio_id"
-    t.boolean  "attended",   :default => false
-    t.boolean  "canceled",   :default => false
-    t.datetime "created_at",                    :null => false
-    t.datetime "updated_at",                    :null => false
+    t.boolean  "attended",            :default => false
+    t.boolean  "canceled",            :default => false
+    t.datetime "created_at",                             :null => false
+    t.datetime "updated_at",                             :null => false
+    t.boolean  "canceled_by_student", :default => false
+    t.boolean  "redeemed",            :default => false
+    t.string   "payment_method"
   end
 
   add_index "registered_events", ["event_id"], :name => "index_registered_events_on_event_id"

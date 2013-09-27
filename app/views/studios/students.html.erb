@@ -48,7 +48,7 @@ $('#toggle_search').on('click', function () {
 
 <div class="col-lg-6" >
 	<h3> Students of <%= @studio.name %></h3>
-	<p style="margin-top:-32px;margin-left:225px;">
+	<p style="margin-top:-32px;margin-left:325px;">
 			<%= link_to '+ add new', new_studio_membership_path(@studio),  
 				:data => {:toggle => "modal", :target => "#addStudent"} , :remote => true, :html => {:style => "margin-top:5px;"}%></p>
 </div>
@@ -99,7 +99,7 @@ $('#toggle_search').on('click', function () {
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title">Add Student</h4>
       </div>
-      <%= render :partial => 'students/add_profile'%>
+      <%= render :partial => 'students/add_profile_studio'%>
  
 
     </div><!-- /.modal-content -->

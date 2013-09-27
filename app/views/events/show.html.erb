@@ -13,12 +13,16 @@
      <%= link_to 'Edit', edit_studio_event_path(@studio, @event),  :data => {:toggle => "modal", :target => "#editModal#{@event.id}"}, :remote => true %>  |	
      <%= link_to 'Delete', [@studio, @event], method: :delete, data: { confirm: 'Are you sure? This action cannot be undone.' } %></p>
      <%= render :partial => 'show_edit', :locals => {:event => @event}%>
+     	    <div class="col-lg-12">
+	<%= link_to 'CheckIn Page', checkin_event_path(@studio, @event),
+        :class => 'btn btn-primary pull-right', :style => "margin-top:-38px;margin-right:-150px;"%></div>
      <% end %>
 
    	<div class="divider-horizontal-regular"></div>
 
 	<div class="row" style="margin-left:20px;margin-top:20px;">
-	<div class="col-lg-4">
+
+    <div class="col-lg-4">
 	<p><b>Taught by:</b> <%= @event.instructor %><p>
 	<p><b>Date:</b>  <%= @event.date %><p>
 	<p><b>Time:</b>  <%= @event.start_time %> - <%= @event.end_time %><p>
@@ -32,32 +36,34 @@
 	</div>
 	</div>
 
-                <%= link_to 'Register', new_user_registration_path(),
-        :class => 'btn btn-primary' ,  :data => {:toggle => "modal", :target => "#registerModal"} , :remote => true, :html => {:style => "padding:15px 30px 15px 30px; color:white;"}%>
-
 	<div class="col-lg-12">
-		<% @registered = @event.registered_events.where(:attended => false).where(:canceled => false ) %>
 		<div class="divider-horizontal-regular"></div>
 		<p class="lead"> Registration List </p>
+		<p class="pull-right" style="margin-top:-45px;">
+			<a style = "margin-top:5px;" href="#registerModal" id="#registerModal" data-toggle="modal">+ add new</a>
 		<% if @registered.present? %>
 		<div class="divider-horizontal-regular"></div>
 		<table class="table table-hover">
 		<thead>
 			<tr>
 				<th>Name</th>
-				<th></th>                          
+				<th> </th>      
+				<th> </th>                    
 			</tr>
 		</thead>
 		<tbody>
 			<% @registered.each do |registered| %>
-			<% user = User.find(registered.user_id) %>
-			<tr>
-			<td><%= user.name %></td>
-			<% if @professional.present? %>
-			<% else %>
-        	<td><%= button_to 'CheckIn', 
-        	checkin_studio_user_directly_path(@studio, @event, user), method: :checkin_user_directly, :class=>'btn btn-default btn-mini pull-right' %></td>
-        	<% end %>
+			<% if registered.has_role? :canceled, @event %>
+			<tr class="danger"><%else %><tr>
+			<%end %>
+			<td><%= registered.name %></td>
+        	<td><%= link_to 'CheckIn', 
+        	add_attendance_studio_event_user_path(@studio, @event, registered), :method=> :get, :class=>'btn btn-default btn-mini pull-right' %>			
+        		<% if !registered.has_role? :canceled, @event %>
+				<%= link_to 'Cancel', 
+        	cancel_registration_studio_event_user_path(@studio, @event, registered), :class=>'btn btn-default btn-mini pull-right' %>
+        		<%end %></td>
+        	<td><%= link_to 'x', remove_registration_studio_event_user_path(@studio, @event, registered), :class=>"close", :type => 'button', :style=>"margin-top:-5px;"%></td>
         	</tr>
         	<% end %>
 		</tbody>
@@ -67,7 +73,7 @@
 
 		<div class="divider-horizontal-regular"></div>
 				<p class="lead"> Attendees </p>
-		<% @attendees = @event.registered_events.where(:attended => true).where(:canceled => false ) %>
+		<% @attendees = Profile.with_role(:attended, @event) %>
 		<% if @attendees.present? %>
 		<div class="divider-horizontal-regular"></div>
 
@@ -81,9 +87,10 @@
 		</thead>
 		<tbody>
 		<% @attendees.each do |attendee| %>
-		<% user = Profile.find(attendee.user_id) %>		
+		<% if attendee.user.present? %>	
+		<% end %>	
 			<tr>
-				<td><%= user.name %></td> 
+				<td><%= attendee.name %></td> 
 				<td>unlimited</td> 
 				<td></td> 
 			</tr>
@@ -104,6 +111,7 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title">Register Basic Account</h4>
       </div>
+      <%= render "add_registration" %>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->

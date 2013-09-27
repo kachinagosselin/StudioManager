@@ -1,9 +1,17 @@
-
 <script>
+Stripe.setPublishableKey($('meta[name="stripe-key"]').attr('content'));
 $(document).ready(function() {
+
+//Add form control to necessary elements if they exist
 document.getElementById("user_profile_attributes_state").classList.add('form-control');
-document.getElementById("studio_state").classList.add('form-control');
-document.getElementById("location_state").classList.add('form-control');
+var studio_state = document.getElementById("studio_state")
+if (studio_state) {
+  studio_state.classList.add('form-control');
+}
+var location_state = document.getElementById("location_state")
+if (location_state) {
+  location_state.classList.add('form-control');
+}
 
 
     var phone = document.getElementById('user_profile_attributes_phone').value.toString();
@@ -32,8 +40,44 @@ document.getElementById("location_state").classList.add('form-control');
         showMeridian: 1
     });
 
+  $(".edit_customer").submit(function(event) {
+    // disable the submit button to prevent repeated clicks
+    $('.submit-button').attr("disabled", "disabled");
+    var card_number = document.getElementById('card_number').value;
+    var card_code = document.getElementById('card_code').value;
+    var card_month = document.getElementById('card_month').value;
+    var card_year = document.getElementById('card_year').value;
+    
+    var end = card_number.length;
+    var last_4_digits = card_number[end-4]+card_number[end-3]+card_number[end-2]+card_number[end-1];
+    $(".edit_customer").append("<input type='hidden' name='last_4_digits' value='" + last_4_digits + "'/>");
+    Stripe.createToken({
+        number: $('#card_number').val(),
+        cvc: $('#card_code').val(),
+        exp_month: $('#card_month').val(),
+        exp_year: $('#card_year').val()
+    }, stripeResponseHandler);
 
+    // prevent the form from submitting with the default action
+    return false;
+  });
 });
+
+function stripeResponseHandler(status, response) {
+    if (response.error) {
+        $(".payment-errors").text(response.error.message);
+        $(".submit-button").removeAttr("disabled");
+    } else {
+        var token = response['id'];
+        // insert the token into the form so it gets submitted to the server
+        $(".edit_customer").append("<input type='hidden' name='stripe_card_token' value='" + token + "'/>");
+        //document.getElementById('subscription_stripe_card_token').value = response['id']
+        // and submit
+        $('.edit_customer').get(0).submit();
+    }
+    return false;
+}
+
 </script>
 
 <%= render "layouts/sidebar" %>
@@ -127,7 +171,7 @@ document.getElementById("location_state").classList.add('form-control');
 
 <% if (!current_user.has_role? :professional) && (!current_user.profile.has_role? :instructor, :any)%>
   <a data-toggle="modal" href="#add-instructor" class="btn btn-primary pull-right" style="margin-top:-42px;" type="button">Create</a>
-  <%= render 'add_instructor' %>
+  <%= render 'extend_profile' %>
 <% else %>
 
 <div class="divider-horizontal-regular"></div>
@@ -164,30 +208,31 @@ document.getElementById("location_state").classList.add('form-control');
 <div class="divider-horizontal-regular"></div>
 
   <% if current_user.customer.present? %>
-      <% if current_user.customer.stripe_customer_token.present? %>
           <p class= "lead" style="padding-top:25px;">Credit card has been provided. Last four digits are: <%= current_user.customer.last_4_digits %></p>
-          <a data-toggle="modal" href="#update-card" class="btn btn-primary pull-right" style="margin-top:-50px;" type="button">Update</a>
-          <%= render 'customers/update_card', :user => current_user %> 
-      <% end %>
+          <%= link_to 'Update', edit_user_customer_path(@user, @user.customer),  :data => {:toggle => "modal", :target => "#updateCardModal"}, :class=>"btn btn-primary pull-right", :style=>"margin-top:-50px;", :remote => true %>
+          <%= render 'customers/update_card'%> 
   <% else %>  
      <%= render 'customers/add_card' %>  
   <% end %>
 
-  <% if current_user.has_role? :owner %>
-    <% if !current_user.account.studio.present? %>
-    <% @studio = current_user.account.build_studio %>
-    <% end %>
-    <div class="divider-horizontal-regular"></div>
+<% if current_user.has_role? :owner %>
 
+    <div class="divider-horizontal-regular"></div>
     <h3> Studio Details </h3>
+    <%= link_to 'Create', edit_user_customer_path(@user, @user.customer),  :data => {:toggle => "modal", :target => "#updateCardModal"}, :class=>"btn btn-primary pull-right", :style=>"margin-top:-42px;", :remote => true %>
+
+    <% if current_user.account.studio.present? %>
     <div class="divider-horizontal-regular"></div>
     <%= render 'studios/form', :user => current_user  %>
     <%= render 'locations/form' %>
   <% end %>
+  <% end %>
 
   <% if current_user.customer.present? %>
     <% if !current_user.account.present? %>
-      <%= render 'accounts/edit_form' %>
+      <%= render 'upgrade_account', :account => current_user.build_account %>
+      <% else %>
+      <%= render 'upgrade_account', :locals => {:account => current_user.account} %>
   <% end %>
   <% end %>
 <div class="divider-horizontal-regular"></div>

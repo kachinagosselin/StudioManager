@@ -13,8 +13,15 @@ $('#calendar').fullCalendar({
   	right: 'month,agendaWeek,agendaDay'
 	},
     eventSources: [{
-          url: '/studios/<%= @studio.id %>/events.json',
+          url: '/studios/<%= @studio.id %>/calendar.json',
         }],
+    eventClick: function(event) {
+        if (event.url) {
+            window.open(event.url);
+            return false;
+        }
+        alert("Clicked");
+    }
 });
 
     $('.form_datetime').datetimepicker({

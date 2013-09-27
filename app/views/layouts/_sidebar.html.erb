@@ -23,7 +23,7 @@
 		<% if current_user.has_role? :professional %>
 	    <h3>Private Services</h3>
 			<div class="divider-horizontal"></div>
-		<%= link_to 'Private Dashboard', private_dashboard_user_path(current_user), :style => "padding-top:10px;"%>
+		<%= link_to 'Private Dashboard', dashboard_user_path(current_user), :style => "padding-top:10px;"%>
 			<div class="divider-horizontal"></div>
 		<%= link_to 'Personal Calendar', professional_calendar_path(current_user)%>
 			<div class="divider-horizontal"></div>

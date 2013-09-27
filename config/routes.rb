@@ -7,18 +7,12 @@ StudioManager::Application.routes.draw do
     match 'studios/:id/events/:event_id/checkin/' => 'studios#checkin_event', :controller => 'studios', :action => 'checkin_event', :via => [:get], :as => 'checkin_event'
     match 'studios/:id/events/:event_id/checkin_user' => 'studios#checkin_user', :controller => 'studios', :action => 'checkin_user', :via => [:post], :as => 'checkin_studio_user'
     match 'studios/:id/events/:event_id/checkin_user/:user_id' => 'studios#checkin_user_directly', :controller => 'studios', :action => 'checkin_user_directly', :via => [:post], :as => 'checkin_studio_user_directly'
-
-    match 'studios/:id/checkin' => 'studios#checkin', :controller => 'studios', :action => 'checkin', :via => [:get], :as => 'checkin_studio'
     
     match 'studios/:id/invoice/:user_id' => 'studios#invoice', :controller => 'studios', :action => 'invoice', :via => [:get], :as => 'invoice'
     
     #Studio and professional calendars
     match 'studios/:studio_id/calendar(/:year(/:month))' => 'calendar#studio_index', :as => 'studio_calendar', :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
     match 'users/:user_id/calendar(/:year(/:month))' => 'calendar#professional_index', :as => 'professional_calendar', :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
-    
-    
-    match '/users/:id/history' => 'users#history', :controller => 'users', :action => 'history', :via => [:post], :as => 'user_history'
-    
     
     match '/studios/:id/create_for_client(/:user_id)' => 'customers#create_for_client', :controller => 'customers', :action => 'create_for_client', :via => [:post], :as => 'new_client_customer'
     match '/studios/:id/new_customer' => 'customers#new_customer', :controller => 'customers', :action => 'new_customer', :via => [:get], :as => 'new_customer'
@@ -28,7 +22,10 @@ StudioManager::Application.routes.draw do
 
     match '/login_new_student' => 'users#login_new_student', :controller => 'users', :action => 'login_new_student', :via => [:post], :as => 'login_new_student'
 
-    
+    match 'studios/:studio_id/events/:id/cancel_registration/:profile_id' => 'events#cancel_registration', :controller => 'events', :action => 'cancel_registration', :via => [:get], :as => 'cancel_registration_studio_event_user'
+    match 'studios/:studio_id/events/:id/remove_registration/:profile_id' => 'events#remove_registration', :controller => 'events', :action => 'remove_registration', :via => [:get], :as => 'remove_registration_studio_event_user'
+    match 'studios/:studio_id/events/:id/checkin/:profile_id' => 'events#add_attendance', :controller => 'events', :action => 'add_attendance', :via => [:get], :as => 'add_attendance_studio_event_user'
+
     
   authenticated :user do
     root :to => 'home#index'
@@ -46,7 +43,11 @@ StudioManager::Application.routes.draw do
         resources :customers
         resources :profiles
         resources :pictures
-        resources :events
+        resources :events do
+            member do
+                get :checkin
+            end
+        end
         resources :memberships
         resources :packages
         resources :charges
@@ -60,6 +61,7 @@ StudioManager::Application.routes.draw do
             get :registered_events, :attended_events, :purchases
             get :dashboard
             get :students
+            get :history
             get :products, :controller => 'products', :action => 'professional_index'
         end
     end 
@@ -67,18 +69,27 @@ StudioManager::Application.routes.draw do
     
     resources :studios do
         resources :locations
-        resources :events
+        resources :events do
+            member do
+                get :checkin  
+                get :add_registration
+                #For users without an account with our software
+                post :new_registration
+            end
+        end
         resources :memberships
         resources :packages
         resources :coupons
         resources :reports
+        
         collection do
         end
+        
         member do
             get :instructors, :students
             post :new_instructor
-            post :new_studente
-            get :widget
+            post :new_student
+            get :test
             get :products, :controller => 'products', :action => 'studio_index'
         end
     end

@@ -6,6 +6,11 @@ class StudiosController < ApplicationController
     
     def show
         @studio = Studio.find(params[:id])
+        @events = @studio.events
+        respond_to do |format|
+            format.html # index.html.erb
+            format.json { render json: @events.as_json }
+        end
     end
     
     def new
@@ -174,22 +179,8 @@ class StudiosController < ApplicationController
         end
     end
     
-    def invoice
-    end
-    
-    def details  
+    def test
         @studio = Studio.find(params[:id])
-        
-        @json = Studio.all.to_gmaps4rails do |studio, marker|
-            marker.json({ :id => studio.id })
-        end
-    end
-    
-    def widget
-        @studio = Studio.find(params[:id])
-        respond_to do |format|
-            format.js {render :layout=>false}
-        end
     end
 
     def destroy

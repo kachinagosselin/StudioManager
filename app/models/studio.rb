@@ -39,11 +39,11 @@ class Studio < ActiveRecord::Base
     end
     
     def students
-        Profile.with_role(:student, self)
+        Profile.with_role(:student, self).uniq
     end
     
     def staff
-        Profile.with_role(:instructor, self)
+        Profile.with_role(:instructor, self).uniq
     end
     
     def save_customer!(client, options = {})

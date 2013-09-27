@@ -67,6 +67,7 @@ class CustomersController < ApplicationController
 
     def edit
       @user = User.find(params[:user_id])
+      render nothing: true
     end
     
     def update
@@ -83,7 +84,7 @@ class CustomersController < ApplicationController
         stripe_customer.save
 
         respond_to do |format|
-        if @customer.save
+        if @customer.save && @customer.stripe_customer_token.present?
                 format.html { redirect_to :back, notice: 'Card successfully updated.' }
         format.json { head :no_content }
         else

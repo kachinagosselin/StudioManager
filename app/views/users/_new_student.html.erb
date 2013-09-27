@@ -1,6 +1,20 @@
+<script>
+$(document).ready(function() {
+    $(".enter-card").hide();
+
+  $('#cash').on('click', function () {
+    $(".enter-card").hide();
+});
+
+$('#card').on('click', function () {
+    $(".enter-card").show();
+});
+
+});
+</script>
 
 <div class="modal-body">
-<%= form_for("user", :url => new_student_path(@studio.id, @event.id), :html => {:id => "new_student", :class => 'form-vertical' }) do |form| %>
+<%= form_for("user", :url => new_student_path(@studio, @event), :html => {:id => "new_student", :class => 'form-vertical' }) do |form| %>
   <div class="form-inputs">   
 
   	  <p><%= form.label :name %><br />
@@ -28,9 +42,12 @@
   </div>
 </div>
 
-    <p><b>Add Payment Information</b></p>
+    <p><b>Add Payment Information: </b>
+      <input type="radio" name="payment-info" id="cash" value="cash"> Cash
+      <input type="radio" name="payment-info" id="card" value="card"> Card<br>
+    </p>
 
-        <div class="form-group" >
+        <div class="enter-card form-group" >
           <p><%= label_tag :card_number, "Credit Card Number" %>
           <%=h text_field_tag :card_number, nil, name: nil, :class => "form-control"  %></p>
 

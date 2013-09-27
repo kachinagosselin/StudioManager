@@ -1,3 +1,4 @@
+<script>
 Stripe.setPublishableKey($('meta[name="stripe-key"]').attr('content'));
 $(document).ready(function() {
 
@@ -43,3 +44,5 @@ function stripeResponseHandler(status, response) {
     }
     return false;
 }
+
+</script>

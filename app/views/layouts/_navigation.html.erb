@@ -20,7 +20,7 @@ $("#registerModal").appendTo("body");
               <ul class="dropdown-menu">
                   <li><%= link_to 'View Profile', user_path(current_user) %></li>
 
-                  <li><%= link_to 'View History', user_history_path(current_user) %></li>
+                  <li><%= link_to 'View History', history_user_path(current_user) %></li>
                   <li><%= link_to 'Edit Account', edit_user_registration_path %></li>
                   <div class="divider"></div>
                   <li><%= link_to 'Logout', destroy_user_session_path, :method=>'delete' %></li>
