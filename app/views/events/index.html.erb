@@ -21,7 +21,7 @@
           <tr>
             <td><%=link_to event.start_at, studio_event_path(@studio, event) %></td>
         		<td><%=link_to event.title, studio_event_path(@studio, event)%></td>
-            <td><%=link_to event.instructor, user_path(User.where(:name => event.instructor).first.id) %></td>
+            <td><%=link_to event.instructor %></td>
           </tr>
         <% end %>
     </tbody>

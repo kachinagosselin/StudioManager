@@ -179,7 +179,7 @@ class StudiosController < ApplicationController
         end
     end
     
-    def test
+    def _embed_calendar
         @studio = Studio.find(params[:id])
     end
 

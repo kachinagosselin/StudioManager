@@ -1,6 +1,7 @@
 class EventsController < ApplicationController
     
     def index
+        @studio = Studio.find(params[:studio_id])
         @events = @studio.events
         
         respond_to do |format|
@@ -20,10 +21,9 @@ class EventsController < ApplicationController
     end
 
     def create
+        d
         @event = Event.create(params[:event])
-        @user = User.where(:name => params[:event][:instructor]).first
-        @user.add_role
-        @studio.add_role :admin, :event
+        
         respond_to do |format|
             if @event.save
                 format.html { redirect_to :back, notice: 'Event was successfully created.' }
@@ -33,6 +33,10 @@ class EventsController < ApplicationController
                 format.json { render json: @message.errors, status: :unprocessable_entity }
             end 
         end
+    end
+    
+    def edit
+
     end
     
     def update
@@ -157,9 +161,9 @@ class EventsController < ApplicationController
     def destroy
         @event = Event.find(params[:id])
         if @event.users.present?
-        @event.archive = true
+            @event.update_attributes(:archive => true)
         else
-        @event.destroy
+            @event.destroy
         end
         redirect_to :back
     end

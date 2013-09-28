@@ -1,0 +1,42 @@
+
+
+<div class="modal-body">
+<%= form_for([local_assigns[:account_type], local_assigns[:event]], :html => {:class => 'form-horizontal'}) do |f| %>
+    <div class="row">
+      <div class="form-group">   
+        <div class="col-lg-6">
+        <p><%= f.label :title %></br>
+        <%= f.text_field :title, :as => :string, :input_html => { :style => 'width: 330px'}, :class => "form-control"  %></p>
+        <p><%= f.label :description %></br>
+        <%= f.text_area :description, :as => :text, :input_html => { :style => 'width: 330px' }, :rows => 5, :class => "form-control" %></p>
+        <p><%= f.label :custom_url %></br>
+        <%=h f.text_field :custom_url, :class => "form-control" %></p>
+        </div>
+
+        <div class="col-lg-6">
+        <p><%= f.label :start_at, "Start Time" %><br />
+        <%=h f.text_field :start_at, 'data-date' => Date.today, :class => "form_datetime form-control", :type => "text"%></p>
+        <p><%= f.label :end_at, "End Time" %><br />
+        <%=h f.text_field :end_at, 'data-date' => Date.today, :class => "form_datetime form-control", :type => "text"%></p>
+
+<!-- Need to get rid of instructor field in favor of professional id, also add select location. For studio owner displays studio locations, for instructor displays booked rooms. How about a space for cost? -->
+        <% if local_assigns[:account_type].instance_of?(Studio) %>
+        <%= f.label :instructor%>
+        <%= f.select "instructor", content_tag(:option,'select instructor...',:value=>"") +options_from_collection_for_select(local_assigns[:account_type].staff, "id", "name" ), :required => true, :class => "form-control", :html => {:id => "memberships_select"} %></p> 
+         <%= f.hidden_field :studio_id, :value => local_assigns[:account_type].id %>
+         <% elsif local_assigns[:account_type].instance_of?(User) %>
+         <%= f.hidden_field :professional_id, :value => local_assigns[:account_type].id %>
+         <% end %>
+        </div>
+      </div><!-- End of form group -->
+    </div><!-- End of row -->
+
+  </div>
+
+    <div class="modal-footer">
+    <div class="actions">
+        <a class="btn" data-dismiss="modal" href="#">Cancel</a>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        <% end %>
+    </div>     
+    </div>     

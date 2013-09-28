@@ -1,21 +1,3 @@
-<script>
-$(document).ready(function() {
-$("#create_profile_area").hide();
-
-$('#toggle_form').on('click', function () {
-    $("#search_profile_area").hide();
-        $("#create_profile_area").show();
-
-});
-
-$('#toggle_search').on('click', function () {
-    $("#search_profile_area").show();
-        $("#create_profile_area").hide();
-
-});
-
-});
-</script>
 
 <div class="modal-body">
 
@@ -23,20 +5,26 @@ $('#toggle_search').on('click', function () {
 <a href="#" id="toggle_form" style="margin-left:100px;" class="center">
 Or add new profile
 </a>
-      <%= form_for 'search', :url => add_registration_studio_event_path(@studio, @event), :method => :get do |f| %>
+<% if @results.present? %>
+  <%= @results.first.name %>
+<% else %>
+      <%= form_for @search, :url => search_users_path, :method => 'post' do |f| %>
         <div class="input-group">
             <%= f.text_field :email_contains, :class => "form-control", :placeholder => "search by email"  %>
-            <span class="input-group-btn">
+            <%= hidden_field_tag "user_type", "student" %>
+            <%= hidden_field_tag "account_type", "studio" %>
+              <span class="input-group-btn">
               <button type="submit" class="btn btn-primary" id="profile_search">Search</button>
             </span>
           </div><!-- /input-group -->
       <% end %>
+<% end %>
 </div>
 
 <div id="create_profile_area">
 <a id="toggle_search">Search</a>
 
-<%= form_for(Profile.new, :url => new_registration_studio_event_path(@studio, @event)) do |p| %>
+<%= form_for(Profile.new) do |p| %>
 <div class="form-group">
 <div class="row">
       <div class="col-lg-12">
@@ -58,13 +46,6 @@ Or add new profile
 
           </div>
       </div>
-    </div>
-    <div class="col-lg-6">
-    <p><%= p.label :description %><br />
-    <%=h p.text_area :description, :class => "form-control", :cols => 20, :rows => 10 %></p>  
-    <p class="help-block">Note: This will appear in your profile.</p>
-    </div>
-    <div class="col-lg-6">
     <p><%= p.label :dob, "Date of Birth" %><br />
     <%=h p.text_field :dob, 'data-date' => Date.today, :class => "form_datetime form-control", 'data-date-format'=>"M d yyyy", :type => "text"%></p>
 
@@ -77,15 +58,11 @@ Or add new profile
     <p><%= p.label :emergency_contact_number %><br />
     <%=h p.text_field :emergency_contact_number, :class => "form-control"%></p>
 
-    </br><p><b> Certification </b></p></br>
-    <%= p.fields_for :photo do |asset| %>
-    <p><%= asset.label :image, "Profile Photo" %><br />
-    <%= asset.file_field :image, :class => "form-control"%></p>  
-    <% end %>
   </div><!-- End of row -->
 </div><!-- End of form-group -->
-<%= hidden_field_tag "user_type", "instructor" %>
+<%= hidden_field_tag "user_type", "student" %>
 <%= hidden_field_tag "account_type", "studio" %>
+
     </div><!-- End of body -->
     <div class="modal-footer">
     <div class="actions">
@@ -95,4 +72,3 @@ Or add new profile
     </div>     
     </div>     
   </div><!-- End of collapseable -->
-</div>

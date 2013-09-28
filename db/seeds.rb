@@ -29,8 +29,8 @@ account = Account.create! :plan_id => "studio-basic", :user_id => 1, :stripe_cus
 account2 = Account.create! :plan_id => "professional-basic", :user_id => 2, :stripe_customer_token => "cus_2LhxTeT79mll1r", :email => "kachina.gosselin@gmail.com", :is_active => true
 
 puts 'SETTING UP DEFAULT STUDIO'
-studio = Studio.create! :name => "Test Studio", :location => "29 Rausch Street San Francisco CA 94103", :address => "29 Rausch Street", :city => "San Francisco", :state => "CA", :account_id => account.id
-studio2 = Studio.create! :name => "Test Studio2", :location => "20 Rausch Street San Francisco CA 94103", :address => "20 Rausch Street", :city => "San Francisco", :state => "CA", :account_id => account.id
+studio = Studio.create! :name => "Test Studio", :address => "29 Rausch Street", :city => "San Francisco", :state => "CA", :account_id => account.id
+studio2 = Studio.create! :name => "Test Studio2", :address => "20 Rausch Street", :city => "San Francisco", :state => "CA", :account_id => account.id
 
 puts 'SETTING UP DEFAULT CUSTOMER'
 customer = Customer.create!(:id => 1, :user_id => 1, :studio_id => 1, :stripe_customer_token => "cus_2LhxTeT79mll1r", :last_4_digits => "4444", :plan_id => 1, :quantity => 1)

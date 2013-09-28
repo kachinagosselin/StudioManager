@@ -101,4 +101,11 @@ class Profile < ActiveRecord::Base
         Event.where(:instructor => self.name).where('start_at < ?', Date.today+7).order(:start_at)
     end
 
+
+    def canceled_by_student?(event)
+        registered = self.registered_events.where(:event_id => event.id).first
+        return registered.canceled_by_student
+    end
+
+
 end

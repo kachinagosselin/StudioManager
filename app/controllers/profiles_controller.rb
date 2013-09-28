@@ -33,6 +33,8 @@ class ProfilesController < ApplicationController
     
     def update
         @profile = Profile.find(params[:id])
+        
+        # Determine if user is 
         if params[:profile][:is_certified] == "1"
             @user.add_role :instructor
         elsif params[:profile][:is_certified] == "0"

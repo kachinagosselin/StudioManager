@@ -3,9 +3,10 @@ class Event < ActiveRecord::Base
     belongs_to :studio
     has_one :charge
     has_many :registered_events
-    has_many :users, foreign_key: "user_id", :through => :registered_events
-    accepts_nested_attributes_for :registered_events
-    attr_accessible :studio_id, :description, :end_at, :instructor, :start_at, :title, :registered_events, :registered_events_attributes, :archive, :price, :professional_id
+    has_many :students, foreign_key: "user_id", :through => :registered_events, :source => :user
+    attr_accessible :studio_id, :description, :end_at, :instructor, :start_at, :title, :registered_events, :registered_events_attributes, :archive, :price, :professional_id, :custom_url
+    
+    
     
     # need to override the json view to return what full_calendar is expecting.
     # http://arshaw.com/fullcalendar/docs/event_data/Event_Object/
@@ -17,7 +18,7 @@ class Event < ActiveRecord::Base
             :end => self.end_at.rfc822,  
             :allDay => false,  
             :recurring => false,  
-            :url => Rails.application.routes.url_helpers.studio_events_path(self.studio_id),  
+            :url => self.url,  
         }  
     end  
     
@@ -76,6 +77,14 @@ class Event < ActiveRecord::Base
         end
     end
 
+    def url
+        if self.custom_url.present?
+            return self.custom_url
+        else
+            Rails.application.routes.url_helpers.studio_event_path(self.studio_id, self.id)
+        end
+    end
+
     # Required to make sure all events have instructor field
     def instructor
         if self.professional_id.present?
@@ -85,6 +94,18 @@ class Event < ActiveRecord::Base
 
     def register!(student, studio)
         registered_event.create!(student_id: student.id, studio_id: studio.id)
+    end
+
+    def attendees
+        events = RegisteredEvent.where(:event_id => self.id).where(:attended => true )
+        attendees = []
+        
+        events.each do |e|
+            attendees.add(Profile.find(e.profile_id))
+        end
+        
+        return attendees
+        
     end
 
 end

@@ -45,7 +45,7 @@
               <td><%= @studio.address %></td>
               <td><%= event.duration %></td>
                 <td><%= link_to 'Edit', edit_studio_event_path(event.studio, event),  :data => {:toggle => "modal", :target => "#editModal#{event.id}"}, :remote => true, :class => 'btn btn-default btn-xs' %>  </td>
-                    <%= render :partial => 'events/edit_studio', :locals => {:event => event}%>
+                    <%= render :partial => 'events/edit', :locals => {:account_type => @studio, :event => event}%>
                   <td><%= button_to 'Delete', [event.studio, event], method: :delete, data: { confirm: 'Are you sure? This action cannot be undone.' }, :class => 'btn btn-default btn-xs' %></td>
               </tr>
             <% end %>
@@ -53,5 +53,5 @@
     </table>
 
 <div>
-    <%= render 'events/new_studio' %>
+    <%= render 'events/new', :locals => {:account_type => @studio } %>
 </div>

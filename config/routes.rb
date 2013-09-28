@@ -69,6 +69,10 @@ StudioManager::Application.routes.draw do
     
     resources :studios do
         resources :locations
+        resources :memberships
+        resources :packages
+        resources :coupons
+        resources :reports
         resources :events do
             member do
                 get :checkin  
@@ -77,10 +81,6 @@ StudioManager::Application.routes.draw do
                 post :new_registration
             end
         end
-        resources :memberships
-        resources :packages
-        resources :coupons
-        resources :reports
         
         collection do
         end
@@ -89,7 +89,7 @@ StudioManager::Application.routes.draw do
             get :instructors, :students
             post :new_instructor
             post :new_student
-            get :test
+            get :_embed_calendar, :test
             get :products, :controller => 'products', :action => 'studio_index'
         end
     end

@@ -22,16 +22,16 @@ class UsersController < ApplicationController
     
     
   def search
-      @search = User.search(params[:search]).first
+      @search = Profile.search(params[:search]).first
       @results = @search   # load all matching records
 
       if @results.present?
-          if params[:user_type] == "instructor"
+          if params[:search_user_type] == "instructor"
               @results.become_instructor!(current_user.account.studio)
-              else params[:user_type] == "student"
-              if params[:account_type] == "studio"
+              else params[:search_user_type] == "student"
+              if params[:search_account_type] == "studio"
                   @results.become_student!(current_user.account.studio)
-                  elsif params[:account_type] == "professional"
+                  elsif params[:search_account_type] == "professional"
                   @results.become_student!(current_user)    
               end
           end

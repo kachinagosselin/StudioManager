@@ -2,32 +2,35 @@
   <%= render "layouts/sidebar" %>
 
   <div class="col-lg-10">
-
-	<% if (current_user.has_role? :owner) || (current_user.has_role? :professional) %>
-
 	<h3><%= @event.title %></h3>
-    <p class="pull-right" style="margin-top:-30px;"><%= link_to 'Back', :back %> |
-    <% if @professional.present? %>
+    
+    <% if (current_user.has_role? :owner) || (current_user.has_role? :staff) || (current_user.has_role? :professional) %>
 
-    <% else %>
-     <%= link_to 'Edit', edit_studio_event_path(@studio, @event),  :data => {:toggle => "modal", :target => "#editModal#{@event.id}"}, :remote => true %>  |	
-     <%= link_to 'Delete', [@studio, @event], method: :delete, data: { confirm: 'Are you sure? This action cannot be undone.' } %></p>
-     <%= render :partial => 'show_edit', :locals => {:event => @event}%>
-     	    <div class="col-lg-12">
-	<%= link_to 'CheckIn Page', checkin_event_path(@studio, @event),
-        :class => 'btn btn-primary pull-right', :style => "margin-top:-38px;margin-right:-150px;"%></div>
-     <% end %>
+    	<p class="pull-right" style="margin-top:-30px;"><%= link_to 'Back', :back %> |
+
+	     <%= link_to 'Edit', edit_studio_event_path(@studio, @event),  :data => {:toggle => "modal", :target => "#editModal#{@event.id}"}, :remote => true %>  |	
+	     <%= link_to 'Delete', studio_event_path(@studio, @event), method: :delete, data: { confirm: 'Are you sure? This action cannot be undone.' } %></p>
+	     	    <div class="col-lg-12">
+		<%= link_to 'CheckIn Page', checkin_event_path(@studio, @event),
+	        :class => 'btn btn-primary pull-right', :style => "margin-top:-38px;margin-right:-150px;"%></div>
 
    	<div class="divider-horizontal-regular"></div>
 
 	<div class="row" style="margin-left:20px;margin-top:20px;">
 
     <div class="col-lg-4">
+<!-- Use professional_id in form instead of instructor, modal method for instructor-->
 	<p><b>Taught by:</b> <%= @event.instructor %><p>
 	<p><b>Date:</b>  <%= @event.date %><p>
 	<p><b>Time:</b>  <%= @event.start_time %> - <%= @event.end_time %><p>
-	<p><b>Website:</b> 	<i> enter to link to from calendar </i><p>
+	<p><b>Website:</b> 	
+		<% if @event.custom_url.present? %>
+		<a href="<%= @event.url %>"><%= @event.url %></a>
+		<% else %>
+		<i> enter remote link to embed in calendar </i><p>
+		<% end %>
 	</div>
+
 	<div class="col-lg-7">
 	<% if @event.description.present?%>	
 	<p><b>Description</b></p>
@@ -40,7 +43,9 @@
 		<div class="divider-horizontal-regular"></div>
 		<p class="lead"> Registration List </p>
 		<p class="pull-right" style="margin-top:-45px;">
-			<a style = "margin-top:5px;" href="#registerModal" id="#registerModal" data-toggle="modal">+ add new</a>
+		<a style = "margin-top:5px;" href="#registerModal" id="#registerModal" data-toggle="modal">+ add new</a>
+<!-- use locals in modal -->
+
 		<% if @registered.present? %>
 		<div class="divider-horizontal-regular"></div>
 		<table class="table table-hover">
@@ -52,16 +57,19 @@
 			</tr>
 		</thead>
 		<tbody>
+<!-- Make sure it shows canceled by student. Add cancel as model method-->
 			<% @registered.each do |registered| %>
-			<% if registered.has_role? :canceled, @event %>
-			<tr class="danger"><%else %><tr>
-			<%end %>
+				<% if registered.canceled_by_student?(@event) %>
+					<tr class="danger">
+				<%else %>
+					<tr>
+				<%end %>
 			<td><%= registered.name %></td>
         	<td><%= link_to 'CheckIn', 
         	add_attendance_studio_event_user_path(@studio, @event, registered), :method=> :get, :class=>'btn btn-default btn-mini pull-right' %>			
-        		<% if !registered.has_role? :canceled, @event %>
+        		<% if !registered.canceled_by_student?(@event) %>
 				<%= link_to 'Cancel', 
-        	cancel_registration_studio_event_user_path(@studio, @event, registered), :class=>'btn btn-default btn-mini pull-right' %>
+        		cancel_registration_studio_event_user_path(@studio, @event, registered), :class=>'btn btn-default btn-mini pull-right' %>
         		<%end %></td>
         	<td><%= link_to 'x', remove_registration_studio_event_user_path(@studio, @event, registered), :class=>"close", :type => 'button', :style=>"margin-top:-5px;"%></td>
         	</tr>
@@ -73,7 +81,7 @@
 
 		<div class="divider-horizontal-regular"></div>
 				<p class="lead"> Attendees </p>
-		<% @attendees = Profile.with_role(:attended, @event) %>
+		<% @attendees = @event.attendees %>
 		<% if @attendees.present? %>
 		<div class="divider-horizontal-regular"></div>
 
@@ -111,7 +119,7 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title">Register Basic Account</h4>
       </div>
-      <%= render "add_registration" %>
+      <%= render "add_registration", :account_type => "example" %>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
@@ -126,3 +134,9 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+		<% if @professional.present? %>
+	     <%= render :partial => 'events/edit', :locals => {:account_type => @professional, :event => @event}%>
+	    <% elsif @studio.present? %>
+	     <%= render :partial => 'events/edit', :locals => {:account_type => @studio, :event => @event}%>
+	     <% end %>

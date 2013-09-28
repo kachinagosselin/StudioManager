@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130926235927) do
+ActiveRecord::Schema.define(:version => 20130927002741) do
 
   create_table "accounts", :force => true do |t|
     t.string   "plan_id"
@@ -100,6 +100,7 @@ ActiveRecord::Schema.define(:version => 20130926235927) do
     t.integer  "price"
     t.integer  "professional_id"
     t.string   "url"
+    t.string   "custom_url"
   end
 
   create_table "instructors", :force => true do |t|
@@ -241,7 +242,7 @@ ActiveRecord::Schema.define(:version => 20130926235927) do
   add_index "purchases", ["studio_id"], :name => "index_purchases_on_studio_id"
 
   create_table "registered_events", :force => true do |t|
-    t.integer  "user_id"
+    t.integer  "profile_id"
     t.integer  "event_id"
     t.integer  "studio_id"
     t.boolean  "attended",            :default => false
@@ -254,9 +255,9 @@ ActiveRecord::Schema.define(:version => 20130926235927) do
   end
 
   add_index "registered_events", ["event_id"], :name => "index_registered_events_on_event_id"
+  add_index "registered_events", ["profile_id", "event_id", "studio_id"], :name => "student_events", :unique => true
+  add_index "registered_events", ["profile_id"], :name => "index_registered_events_on_profile_id"
   add_index "registered_events", ["studio_id"], :name => "index_registered_events_on_studio_id"
-  add_index "registered_events", ["user_id", "event_id", "studio_id"], :name => "student_events", :unique => true
-  add_index "registered_events", ["user_id"], :name => "index_registered_events_on_user_id"
 
   create_table "roles", :force => true do |t|
     t.string   "name"
@@ -283,7 +284,6 @@ ActiveRecord::Schema.define(:version => 20130926235927) do
 
   create_table "studios", :force => true do |t|
     t.string   "name"
-    t.string   "location"
     t.integer  "main_phone",          :limit => 8
     t.string   "website"
     t.datetime "created_at",                       :null => false

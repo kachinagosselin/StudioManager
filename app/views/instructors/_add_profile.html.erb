@@ -11,6 +11,8 @@ Or add new profile
       <%= form_for @search, :url => search_users_path, :method => 'post' do |f| %>
         <div class="input-group">
             <%= f.text_field :email_contains, :class => "form-control", :placeholder => "search by email"  %>
+            <%= hidden_field_tag "search_user_type", "instructor" %>
+            <%= hidden_field_tag "search_account_type", "studio" %>
             <span class="input-group-btn">
               <button type="submit" class="btn btn-primary" id="profile_search">Search</button>
             </span>

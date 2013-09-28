@@ -2759,7 +2759,9 @@ setDefaults({
 	defaultEventMinutes: 120,
 	axisFormat: 'h(:mm)tt',
 	timeFormat: {
-		agenda: 'h:mm{ - h:mm}'
+		agenda: 'h(:mm)tt { - h(:mm)tt}',
+		    '': 'h(:mm)tt  { - h(:mm)tt}'            // 7p
+
 	},
 	dragOpacity: {
 		agenda: .5
@@ -3995,6 +3997,9 @@ function AgendaEventRenderer() {
 			"<div class='fc-event-title'>" +
 			htmlEscape(event.title || '') +
 			"</div>" +
+			"<div class='fc-event-register'>" +
+			"<button class='btn btn-default btn-xs'>Register</button>" +
+			"</div>"
 			"</div>" +
 			"<div class='fc-event-bg'></div>";
 		if (seg.isEnd && isEventResizable(event)) {
@@ -5353,16 +5358,16 @@ function DayEventRenderer() {
 			"<div class='fc-event-inner'>";
 		if (!event.allDay && segment.isStart) {
 			html +=
-				"<span class='fc-event-time'>" +
+				"<div class='fc-event-time'>" +
 				htmlEscape(
 					formatDates(event.start, event.end, opt('timeFormat'))
 				) +
-				"</span>";
+				"</div>";
 		}
 		html +=
-			"<span class='fc-event-title'>" +
+			"<div class='fc-event-title'>" +
 			htmlEscape(event.title || '') +
-			"</span>" +
+			"</div>" +
 			"</div>";
 		if (segment.isEnd && isEventResizable(event)) {
 			html +=
