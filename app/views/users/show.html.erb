@@ -2,6 +2,7 @@
   <%= render "layouts/sidebar" %>
 
   <div class="col-lg-10">
+  		<div class="row">
 		<div class="col-lg-4">
 			<%= image_tag @profile.photo.image.url(:medium) %></h3>
 		</div>
@@ -10,7 +11,6 @@
 			<p>Email: <%= @profile.email if @profile.email %></p>
 	 		<p>Phone: <%= @profile.phone if @profile.phone %></p>
 			<p><%= @profile.description if @profile.description %></p>
-			<p> <%= @profile.description %></p>
 			<% if @profile.studios.present? %>
 		</br>
 			<h5> Current Employment at: </h5>
@@ -18,10 +18,10 @@
 			<p><%= studio.name %></p>
 			<% end %>
 			<% end %>
-
+		</div>
 		</div>
 
-		<% @events = @profile.teaching_events_this_week %>
+		<div class="col-lg-12">
 		<h4> Events for next Week </h4>
 		<table class="table table-hover">
 		    <thead>
@@ -47,6 +47,6 @@
 		        <% end %>
 		    </tbody>
 		</table>
-
+	</div>
 	</div>
 

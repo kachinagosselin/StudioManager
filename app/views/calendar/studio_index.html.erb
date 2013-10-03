@@ -1,10 +1,7 @@
-<%= javascript_include_tag "fullcalendar.js" %>
-
-
 <script> 
 $(document).ready(function() {
     // page is now ready, initialize the calendar...
-document.getElementById("event_instructor").classList.add('form-control');
+document.getElementById("event_professional_id").classList.add('form-control');
 
 $('#calendar').fullCalendar({
 	header: {
@@ -31,6 +28,11 @@ $('#calendar').fullCalendar({
         forceParse: 0,
         showMeridian: 1
       });
+
+$("#delete_event").observe('ajax:success', function(evt, status, data, xhr) {
+    $(this).closest('tr').fadeOut();  
+});
+
 });
 </script>
 

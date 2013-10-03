@@ -1,5 +1,4 @@
-<link rel="stylesheet" type="text/css" href="<%= File.join(root_url, 'assets/stylesheets', 'fullcalendar.css') %>"/>
-<script src="<%= File.join(root_url, 'assets/javascripts', 'fullcalendar.js') %>" type="text/javascript"></script>
+
 
 <script> 
 $(document).ready(function() {
@@ -12,12 +11,12 @@ $('#calendar').fullCalendar({
   	right: 'month,agendaWeek,agendaDay'
 	},
     eventSources: [{
-          url: '<%= studio_events_path(@studio) %>',
+              events: '<%= @events.as_json %>',
         }],
 
       eventColor: 'transparent'
 });
 });
 </script>
-
+<%= @events.as_json %>
     <div id='calendar'></div>

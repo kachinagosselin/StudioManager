@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130927002741) do
+ActiveRecord::Schema.define(:version => 20131002204634) do
 
   create_table "accounts", :force => true do |t|
     t.string   "plan_id"
@@ -27,6 +27,17 @@ ActiveRecord::Schema.define(:version => 20130927002741) do
   add_index "accounts", ["studio_id"], :name => "index_accounts_on_studio_id"
   add_index "accounts", ["user_id", "studio_id"], :name => "index_accounts_on_user_id_and_studio_id", :unique => true
   add_index "accounts", ["user_id"], :name => "index_accounts_on_user_id"
+
+  create_table "availabilities", :force => true do |t|
+    t.time     "start_at"
+    t.time     "end_at"
+    t.integer  "day_of_week"
+    t.integer  "profile_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "availabilities", ["profile_id"], :name => "index_availabilities_on_profile_id"
 
   create_table "charges", :force => true do |t|
     t.integer  "studio_id"
@@ -214,6 +225,8 @@ ActiveRecord::Schema.define(:version => 20130927002741) do
     t.float    "latitude"
     t.float    "longitude"
     t.boolean  "gmaps"
+    t.string   "certification"
+    t.boolean  "is_not_available",                      :default => false
   end
 
   add_index "profiles", ["email"], :name => "index_profiles_on_email", :unique => true

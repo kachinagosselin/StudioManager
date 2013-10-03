@@ -1,16 +1,17 @@
 # @start snippet
+require "twilio-ruby"
 
 class AppointmentreminderController < ApplicationController
 
   # your Twilio authentication credentials
-  ACCOUNT_SID = 'ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
-  ACCOUNT_TOKEN = 'YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY'
+  ACCOUNT_SID = 'AC01c958af473d4bf154e554c1aadf681f'
+  ACCOUNT_TOKEN = 'ebe0a98d4cd312fd7f138ccf9444618a'
 
   # base URL of this application
-  BASE_URL = "http://www.yourserver.com:3000/appointmentreminder"
+  BASE_URL = "http://0.0.0.0:3000/appointmentreminder"
 
   # Outgoing Caller ID you have previously validated with Twilio
-  CALLER_ID = 'NNNNNNNNNN'
+  CALLER_ID = '6176101988'
 
   def index
   end
@@ -18,7 +19,7 @@ class AppointmentreminderController < ApplicationController
   # Use the Twilio REST API to initiate an outgoing call
   def makecall
     if !params['number']
-      redirect_to :action => '.', 'msg' => 'Invalid phone number'
+        redirect_to :back, 'msg' => 'Invalid phone number'
       return
     end
 
@@ -33,11 +34,11 @@ class AppointmentreminderController < ApplicationController
       client = Twilio::REST::Client.new(ACCOUNT_SID, ACCOUNT_TOKEN)
       client.account.calls.create data
     rescue StandardError => bang
-      redirect_to :action => '.', 'msg' => "Error #{bang}"
+      redirect_to :back, 'msg' => "Error #{bang}"
       return
     end
 
-    redirect_to :action => '', 'msg' => "Calling #{params['number']}..."
+    redirect_to :back, 'msg' => "Calling #{params['number']}..."
   end
   # @end snippet
 

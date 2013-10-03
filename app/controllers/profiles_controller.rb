@@ -34,17 +34,22 @@ class ProfilesController < ApplicationController
     def update
         @profile = Profile.find(params[:id])
         
-        # Determine if user is 
-        if params[:profile][:is_certified] == "1"
-            @user.add_role :instructor
-        elsif params[:profile][:is_certified] == "0"
-            @user.remove_role :instructor
+        (0...6).each do |i|
+        n = i.to_s
+        subset = params[:profile][:availability_attributes][n]
+        availability = @profile.availabilities.where(:day_of_week => i).first
+            availability.update_attributes(:start_at => subset[:start_at], :end_at => subset[:end_at])
         end
+        params[:profile].delete :availability_attributes
         
         #Cannot change major attributes of profile
         if @profile.user.present?
+            if params[:name].present?
             params[:name].destroy
+            end
+            if params[:email].present?
             params[:email].destroy
+            end
         end
         
         respond_to do |format|
@@ -52,7 +57,7 @@ class ProfilesController < ApplicationController
                 format.html { redirect_to :back, notice: 'Profile was successfully updated.' }
                 format.json { head :no_content }
                 else
-                format.html { redirect_to :back }
+                format.html { redirect_to :back, alert: 'There was an error updating profile.' }
                 format.json { render json: @message.errors, status: :unprocessable_entity }
             end
         end

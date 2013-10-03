@@ -1,0 +1,5 @@
+
+<li id="event_<%= event.id %>">
+<%= link_to event.name, :action => 'show', :id => event.id %>
+<%= "(#{event.start_at})" -%>
+</li>

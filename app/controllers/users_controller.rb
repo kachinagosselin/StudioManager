@@ -4,11 +4,12 @@ class UsersController < ApplicationController
     auth_token = 'ebe0a98d4cd312fd7f138ccf9444618a'
     
   def index
-    @users = User.all
+      @users = User.all
   end
 
   def show
       @profile = Profile.where(:user_id => params[:id]).first
+      @events = @profile.teaching_events_this_week
   end 
 
   def history
@@ -24,21 +25,12 @@ class UsersController < ApplicationController
   def search
       @search = Profile.search(params[:search]).first
       @results = @search   # load all matching records
-
+      
       if @results.present?
-          if params[:search_user_type] == "instructor"
-              @results.become_instructor!(current_user.account.studio)
-              else params[:search_user_type] == "student"
-              if params[:search_account_type] == "studio"
-                  @results.become_student!(current_user.account.studio)
-                  elsif params[:search_account_type] == "professional"
-                  @results.become_student!(current_user)    
-              end
-          end
-          
+          @results.assign_role(params[:search_user_type], params[:search_account_type], current_user)
           format.html { redirect_to :back }
           format.json { render json: @results }
-    else
+          else
           format.html { redirect_to :back }
           format.json { render json: @message.errors, status: :unprocessable_entity }
       end

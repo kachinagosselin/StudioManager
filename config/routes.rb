@@ -37,6 +37,17 @@ StudioManager::Application.routes.draw do
     end
     
     resources :profiles
+    resources :appointmentreminder do
+        collection do
+        post :makecall
+        end
+    end
+    
+    resources :events do
+        collection do 
+            get :list
+        end
+    end
     
     resources :users do
         resources :accounts
@@ -89,7 +100,7 @@ StudioManager::Application.routes.draw do
             get :instructors, :students
             post :new_instructor
             post :new_student
-            get :_embed_calendar, :test
+            get :_embed, :test
             get :products, :controller => 'products', :action => 'studio_index'
         end
     end

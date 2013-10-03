@@ -3999,7 +3999,7 @@ function AgendaEventRenderer() {
 			"</div>" +
 			"<div class='fc-event-register'>" +
 			"<button class='btn btn-default btn-xs'>Register</button>" +
-			"</div>"
+			"</div>" +
 			"</div>" +
 			"<div class='fc-event-bg'></div>";
 		if (seg.isEnd && isEventResizable(event)) {
@@ -5367,6 +5367,9 @@ function DayEventRenderer() {
 		html +=
 			"<div class='fc-event-title'>" +
 			htmlEscape(event.title || '') +
+			"</div>" +
+			"<div class='fc-event-register'>" +
+			"<button class='btn btn-default btn-xs'>Register</button>" +
 			"</div>" +
 			"</div>";
 		if (segment.isEnd && isEventResizable(event)) {

@@ -2,21 +2,24 @@
 <div class="modal-body">
 
 <div id="search_profile_area">
-<a href="#" id="toggle_form" style="margin-left:100px;" class="center">
-Or add new profile
-</a>
-<% if @results.present? %>
-  <%= @results.first.name %>
-<% else %>
-      <%= form_for @search, :url => search_users_path, :method => 'post' do |f| %>
-        <div class="input-group">
-            <%= f.text_field :email_contains, :class => "form-control", :placeholder => "search by email"  %>
-            <span class="input-group-btn">
-              <button type="submit" class="btn btn-primary" id="profile_search">Search</button>
-            </span>
-          </div><!-- /input-group -->
-      <% end %>
+
+  <%= form_for @search, :url => search_users_path, :method => 'get', :remote => true, :id => "search_users" do |f| %>
+    <div class="input-group">
+      <%= f.text_field :email_contains, :class => "form-control", :placeholder => "search by email"  %>
+      <span class="input-group-btn">
+          <button type="submit" class="btn btn-primary" id="profile_search">Search Students</button>
+      </span>
+    </div><!-- /input-group -->
+  <% end %>
+  <a href="#" id="toggle_form" class="pull-right"> Or add new profile</a>
+
+<%= form_tag({:controller => 'users', :action => 'search'}, :remote => true, :'data-update-target' => 'update-container') do %>
+    <%= text_field_tag 'url', nil, :class => 'textinput', :placeholder => 'Paste the link URL here'  %>
+    <%= submit_tag 'Submit', :disable_with => 'Please wait...', :class => 'submit' %>
 <% end %>
+
+<div id="update-container">
+</div>
 </div>
 
 <div id="create_profile_area">

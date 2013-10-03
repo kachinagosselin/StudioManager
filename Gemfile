@@ -27,8 +27,10 @@ gem 'fullcalendar-rails'
 gem 'mandrill-api'
 gem 'bootstrap-datepicker-rails'
 gem 'bootstrap-datetimepicker-rails'
+gem 'bootstrap-timepicker-rails'
 gem 'omniauth-stripe-connect'
 gem 'googlecharts', :require => "gchart"
+gem 'twilio-ruby'
 
 group :development do
   gem 'better_errors'

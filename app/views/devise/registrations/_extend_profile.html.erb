@@ -13,6 +13,11 @@
                 <p><%= p.label :description %><br />
                 <%=h p.text_area :description, :class => "form-control", :cols => 20, :rows => 10 %></p>  
                 <p class="help-block">Note: This will appear in your profile.</p>
+
+                 <%= p.fields_for :availabilities do |available| %>
+                <p><%= available.label :start_at, "Start At" %><br />
+                <%= available.file_field :start_at, :class => "form-control"%></p>  
+                <% end %>
               </div>
               <div class="col-lg-6">
                 </br><p><b> Certification </b></p></br>

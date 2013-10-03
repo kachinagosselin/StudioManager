@@ -13,6 +13,23 @@ if (location_state) {
   location_state.classList.add('form-control');
 }
 
+$('#profile_is_not_available').click(function(){
+    if($(this).is(':checked')){
+     $("#availability_table").hide();
+    } else {
+     $("#availability_table").show();
+    }
+});
+
+    $('.schedule').datetimepicker({
+        weekStart: 1,
+        todayBtn:  0,
+        autoclose: 1,
+        todayHighlight: 0,
+        startView: 1,
+        forceParse: 0,
+        showMeridian: 1,
+    });
 
     var phone = document.getElementById('user_profile_attributes_phone').value.toString();
     if (phone != "" && phone != "0"){ 
@@ -29,7 +46,7 @@ if (location_state) {
         +num.charAt(6)+num.charAt(7)+num.charAt(8)+num.charAt(9)
     document.getElementById('user_profile_attributes_emergency_contact_number').value = number;
     }
-    $('.form_datetime').datetimepicker({
+    $('#birthday').datetimepicker({
         weekStart: 1,
         todayBtn:  0,
         autoclose: 1,
@@ -118,7 +135,7 @@ function stripeResponseHandler(status, response) {
 
   <div class="form-group col-lg-6">
     <p><%= p.label :dob, "Date of Birth" %><br />
-    <%=h p.text_field :dob, 'data-date' => Date.today, :class => "form_datetime form-control", 'data-date-format'=>"M d yyyy", :type => "text"%></p>
+    <%=h p.text_field :dob, 'data-date' => Date.today, :class => "form_datetime form-control", 'data-date-format'=>"M d yyyy", :id => "birthday"%></p>
 
     <p><%= p.label :phone %><br />
       <%=h p.telephone_field :phone, :class => "form-control" %></p>
@@ -169,37 +186,73 @@ function stripeResponseHandler(status, response) {
 <div class="divider-horizontal-regular"></div>
   <h3> Instructor Profile </h3>
 
-<% if (!current_user.has_role? :professional) && (!current_user.profile.has_role? :instructor, :any)%>
-  <a data-toggle="modal" href="#add-instructor" class="btn btn-primary pull-right" style="margin-top:-42px;" type="button">Create</a>
-  <%= render 'extend_profile' %>
-<% else %>
-
 <div class="divider-horizontal-regular"></div>
 <%= form_for([@user, @user.profile]) do |p| %>
-  
-<div class="row">
+    <div class="row">
   <div class="form-group">
+  <div class="row">
   <div class="col-lg-6">
     <p><%= p.label :description %><br />
-    <%=h p.text_area :description, :class => "form-control", :cols => 20, :rows => 10 %></p>  
+    <%=h p.text_area :description, :class => "form-control", :rows => 5 %></p>  
     <p class="help-block">Note: This will appear in your instructor profile.</p>
   </div>
   <div class="col-lg-6">
-    </br><p><b> Certification </b></p></br>
-    <%= p.check_box :is_certified, :class => "form-control"%>
-    <p style = "margin-top:-26px;margin-left:30px;"><b> Is certified? </b></p>
-    <%= p.check_box :is_available, :class => "form-control"%>
-    <p style = "margin-top:-26px;margin-left:30px;"><b> Is available? </b></p>
     <%= p.fields_for :photo do |asset| %>
     <p><%= asset.label :image, "Profile Photo" %><br />
     <%= asset.file_field :image, :class => "form-control"%></p>  
     <% end %>
+    <p><b> Certification </b></br>
+    <%= p.text_field :certification, :class => "form-control"%></p>
+    <%= p.check_box :is_not_available, :class => "form-control"%>
+    <p style = "margin-top:-26px;margin-left:30px;"><b> I am not available to teach elsewhere at this time </b></p>
   </div>
 </div>
+<div id="availability_table">
+       <h4>Set Availability to Teach:</h4>
+    <table class="table table-condensed">
+        <thead>
+            <tr>
+              <th></th>
+              <th>Monday</th>
+              <th>Tuesday</th>
+              <th>Wednesday</th>
+              <th>Thursday</th>
+              <th>Friday</th>
+              <th>Saturday</th>
+              <th>Sunday</th>
+            </tr>       
+        </thead>
+        <tbody>
+              <tr id ="start_availability">
+              <td>Starting</td>
+                <% @user.profile.availabilities.each do |availability| %>
+                <%= p.fields_for :availability_attributes, availability do |a| %>
+              <td><%= a.text_field :start_at, :class => "form_datetime schedule form-control", 'data-date-format'=>"H:ii p", :name => "profile[availability_attributes][" + availability.day_of_week.to_s + "][start_at]" %></td>
+                <% end %>
+                <% end %>
+              </tr>
+
+              <tr id ="end_availability">
+              <td>Ending</td>
+                <% @user.profile.availabilities.each do |availability| %>
+                <%= p.fields_for :availability_attributes, availability do |a| %>
+              <td><%= a.text_field :end_at, :class => "form_datetime schedule form-control", 'data-date-format'=>"H:ii p", :name => "profile[availability_attributes][" + availability.day_of_week.to_s + "][end_at]" %></td>
+                <% end %>
+                <% end %>
+              </tr>
+
+              </tr>
+
+
+        </tbody>
+    </table>  
+
+        <p class="help-block">Note: This will be used to indicate your availability in our instructor database.</p>
+
+     </div>
 <%= p.submit "Update", :class =>"submit-button btn btn-primary pull-right"%>
 </div>
-
-<% end %>
+</div>
 <% end %>
 
 <!-- This section is for adding in your billing information. -->

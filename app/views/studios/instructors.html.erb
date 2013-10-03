@@ -71,22 +71,23 @@ $('#toggle_search').on('click', function () {
 		          <th>Name</th>
 		          <th>Email</th>  
 		          <th>Phone</th>
-		          <th>City</th>                             
+		          <th>Location</th>                             
 		          <th>Certification</th>  
-		          <th>Availability? </th>                           
+		          <th></th>                           
+		          <th></th>                           
 		        </tr>
 		    </thead>
 		    <tbody>
 		        <% @instructors.each do |user| %>
 		        	<tr>
-		        		<td><%= image_tag user.photo.image.url(:thumb) if user.photo %></td>
+		        		<td><%= image_tag user.photo.image.url(:thumb), :width => "25px;"%></td>
 		        		<td><%=link_to user.name %></td>
 		        		<td><%=link_to user.email %></td>
 		        		<td><%=  user.phone if user.phone %></td>
-		        		<td><%= user.city %>, <%= user.state %></td>
-		        		<td></td>
-		        		<td></td>
-                  		<td><a class = 'btn btn-default btn-xs' href="mailto:<%=user.email%>">Message</a></td>
+		        		<td><%= user.location %></td>
+		        		<td><%= user.certification if user.certification %></td>
+		        		<td><a class='btn btn-default btn-xs' href="mailto:<%=user.email%>">Message</a></td>
+                  		<td><a class='btn btn-default btn-xs' href="#">X</a></td>
 		        	</tr>
 		        <% end %>
 		    </tbody>

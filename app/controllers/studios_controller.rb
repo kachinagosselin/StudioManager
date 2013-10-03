@@ -7,10 +7,6 @@ class StudiosController < ApplicationController
     def show
         @studio = Studio.find(params[:id])
         @events = @studio.events
-        respond_to do |format|
-            format.html # index.html.erb
-            format.json { render json: @events.as_json }
-        end
     end
     
     def new
@@ -81,7 +77,9 @@ class StudiosController < ApplicationController
     end 
 
     def instructors_database
-        @available_instructors = Profile.where('is_certified = ?',  true).where('is_available = ?',  true)
+        @available_instructors = Profile.available_instructors
+        # When able to take in account availability use:
+        # Profile.with_role(:instructor, :any).where(:is_available => true)
         if params[:search].present?
             if params[:search][:distance].present?
                 @distance = params[:search][:distance]
@@ -179,7 +177,7 @@ class StudiosController < ApplicationController
         end
     end
     
-    def _embed_calendar
+    def _embed
         @studio = Studio.find(params[:id])
     end
 

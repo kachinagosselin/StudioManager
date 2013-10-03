@@ -21,14 +21,14 @@
 
 <!-- Need to get rid of instructor field in favor of professional id, also add select location. For studio owner displays studio locations, for instructor displays booked rooms. How about a space for cost? -->
         <% if local_assigns[:account_type].instance_of?(Studio) %>
-        <%= f.label :instructor%>
-        <%= f.select "instructor", content_tag(:option,'select instructor...',:value=>"") +options_from_collection_for_select(local_assigns[:account_type].staff, "id", "name" ), :required => true, :class => "form-control", :html => {:id => "memberships_select"} %></p> 
+        <%= f.label :professional_id, "Class Instructor"%>
+        <%= f.select "professional_id", content_tag(:option,'select instructor...',:value=>"") +options_from_collection_for_select(local_assigns[:account_type].staff, "id", "name" ), :required => true, :class => "form-control", :html => {:id => "memberships_select"} %></p> 
          <%= f.hidden_field :studio_id, :value => local_assigns[:account_type].id %>
          <% elsif local_assigns[:account_type].instance_of?(User) %>
          <%= f.hidden_field :professional_id, :value => local_assigns[:account_type].id %>
          <% end %>
         </div>
-      </div><!-- End of form group -->
+      </div><!-- End of form -->
     </div><!-- End of row -->
 
   </div>
