@@ -23,7 +23,7 @@ class User < ActiveRecord::Base
   accepts_nested_attributes_for :profile
 
   # Setup accessible (or protected) attributes for your model
-    attr_accessible :name, :email, :password, :password_confirmation, :remember_me, :phone, :address, :city, :state, :description, :is_certified, :is_available, :profile, :profile_attributes, :stripe_code
+    attr_accessible :name, :email, :password, :password_confirmation, :remember_me, :phone, :address, :city, :state, :description, :is_certified, :is_available, :profile, :profile_attributes, :stripe_code, :active_role_id
     
     before_create :instantiate_profile
 
@@ -178,5 +178,21 @@ class User < ActiveRecord::Base
     
     def credits(studio)
         self.credits.customer.credits.where(:studio_id => studio.id)
+    end
+    
+    def change_active_role_to(role)
+        self.update_attributes(:active_role_id => role.id)
+    end
+    
+    def active_role
+        Role.find(self.active_role_id)
+    end
+    
+    def account_roles
+        self.roles.order("name ASC")
+    end
+    
+    def students
+        Profile.with_role(:student, self).uniq
     end
 end

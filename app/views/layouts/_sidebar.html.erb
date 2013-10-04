@@ -1,38 +1,16 @@
     <% if user_signed_in? %>
 	<div class="col-lg-2" style="padding-top:30px;">
     <% if current_user.account.present? %>
-	    <% if current_user.has_role? :owner %>
-	    	<% if current_user.account.studio.present? %>
-		    <% @studio = current_user.account.studio %>
-		    <h3>Manage Studio</h3>
-				<div class="divider-horizontal"></div>
-			<%= link_to 'Dashboard', root_path(), :style => "padding-top:10px;"%>
-				<div class="divider-horizontal"></div>
-			<%= link_to 'Calendar', studio_calendar_path(@studio)%>
-				<div class="divider-horizontal"></div>
-			<%= link_to 'Instructors', instructors_studio_path(@studio)%>
-				<div class="divider-horizontal"></div>
-			<%= link_to 'Students', students_studio_path(@studio)%>
-				<div class="divider-horizontal"></div>
-			<%= link_to 'Products', products_studio_path(@studio)%>
-				<div class="divider-horizontal"></div>
-			<%= link_to 'Coupons', studio_coupons_path(@studio)%>
-				<div class="divider-horizontal"></div>
-			<% end %>
-		<% end %>
-		<% if current_user.has_role? :professional %>
-	    <h3>Private Services</h3>
-			<div class="divider-horizontal"></div>
-		<%= link_to 'Private Dashboard', dashboard_user_path(current_user), :style => "padding-top:10px;"%>
-			<div class="divider-horizontal"></div>
-		<%= link_to 'Personal Calendar', professional_calendar_path(current_user)%>
-			<div class="divider-horizontal"></div>
-		<%= link_to 'Students', students_user_path(current_user)%>
-			<div class="divider-horizontal"></div>
-		<%= link_to 'Memberships', products_user_path(current_user)%>
-			<div class="divider-horizontal"></div>
-		<%= link_to 'Coupons', user_coupons_path(current_user)%>
-			<div class="divider-horizontal"></div>
+	    <% if current_user.active_role.name == "owner" %>
+	     <%= render "home/sidebars/owner_sidebar" %>
+		<% elsif current_user.active_role.name == "professional" %>
+		 <%= render "home/sidebars/professional_sidebar"%>
+		<% elsif current_user.active_role.name == "staff" %>
+
+		<% elsif current_user.active_role.name == "instructor" %>
+
+		<% elsif current_user.active_role.name == "student" %>
+
 		<% end %>
   		</div><div class="col-lg-9 rightspan" style="padding-top:30px;min-height:650px;">
 		<% else %>

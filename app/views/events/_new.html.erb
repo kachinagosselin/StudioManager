@@ -5,8 +5,7 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden=true>&times;</button>
         <h4 class="modal-title">New Event</h4>
       </div>
-
-        <%= render 'events/form', :account_type => locals[:account_type], :event => locals[:account_type].events.new %>
+        <%= render 'events/form', :account_type => local_assigns[:account_type], :event => Event.new %>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->

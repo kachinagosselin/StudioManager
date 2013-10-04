@@ -32,7 +32,7 @@ $('#calendar').fullCalendar({
   <div class="col-lg-11">
   <div id='calendar'></div>
 
-  <%= render 'events/professional_list' %>
+  <%= render 'list', :locals => {:url => professional_calendar_path, :new_url => new_user_event_path(current_user), :account_type => current_user} %>
 
 </div>
 </div>

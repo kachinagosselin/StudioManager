@@ -28,6 +28,18 @@ $("#registerModal").appendTo("body");
             </li>
           </ul>
 
+
+            <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown" role="menu">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Switch Account <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                  <% current_user.account_roles.each do |role|%>
+                  <li><%= link_to role.description, change_role_user_role_path(current_user, role)  %>
+                  </li>
+                  <% end %>
+              </ul>
+            </li>
+          </ul>
           <% else %>
             <%= render "devise/sessions/new" %>
         <% end %>

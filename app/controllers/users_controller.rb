@@ -21,6 +21,11 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
   end 
     
+  def change_role
+      role = Role.find(params[:id])
+      current_user.change_active_role_to(role)
+      redirect_to :back
+  end
     
   def search
       @search = Profile.search(params[:search]).first

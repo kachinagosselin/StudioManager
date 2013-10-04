@@ -37,12 +37,14 @@ StudioManager::Application.routes.draw do
     end
     
     resources :profiles
+    # Testing out use of twilio, if not necessary delete
     resources :appointmentreminder do
         collection do
         post :makecall
         end
     end
     
+    # Resources do not need to belong to user or studio, simplifying views and adding some authorization checks to controller
     resources :events do
         collection do 
             get :list
@@ -50,6 +52,12 @@ StudioManager::Application.routes.draw do
     end
     
     resources :users do
+        # Necessary to reduce complexity of view
+        resources :roles do
+            member do
+                get :change_role, :controller => 'users', :action => 'change_role'
+            end
+        end
         resources :accounts
         resources :customers
         resources :profiles
@@ -70,7 +78,6 @@ StudioManager::Application.routes.draw do
         
         member do
             get :registered_events, :attended_events, :purchases
-            get :dashboard
             get :students
             get :history
             get :products, :controller => 'products', :action => 'professional_index'
