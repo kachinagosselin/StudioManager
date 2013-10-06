@@ -4,10 +4,9 @@ document.getElementById("studio_state").classList.add('form-control');
 });
 </script>
 
-<%= form_for(@studio) do |s| %>
+<%= form_for(studio) do |s| %>
 
 <div class="row">
-<div class="row" style ="margin-left:0px;">
   <div class="form-group col-lg-6">
   <p><%=h s.label :name %><br />
     <%=h s.text_field :name, :class => "form-control"%></p>
@@ -21,11 +20,11 @@ document.getElementById("studio_state").classList.add('form-control');
         <div class="form-group col-lg-4">
           <p><%= s.label :state %><br />
               <%= s.select :state, STATES %></p>
-    </div>
-    </div>
-        <p><%= s.label :cancellation_policy %><br/>
+        </div>
+    </div> <!-- end of row -->
+  <p><%= s.label :cancellation_policy %><br/>
     <%= s.text_area :cancellation_policy, :class => "form-control", :cols => 20, :rows => 9 %></p>  
-</div>
+  </div>
   <div class="form-group col-lg-6">
     <p><%= s.label :main_phone %><br />
     <%= s.text_field :main_phone, :class => "form-control" %></p>  
@@ -34,6 +33,8 @@ document.getElementById("studio_state").classList.add('form-control');
     <p><%= s.label :student_waiver %><br/>
     <%= s.text_area :student_waiver, :class => "form-control", :cols => 20, :rows => 13 %></p>      
    </div>
+
+    <%= render 'locations/form', :studio => studio %>
 
 </div>
 

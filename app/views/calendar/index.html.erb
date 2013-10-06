@@ -1,8 +1,6 @@
 <script> 
 $(document).ready(function() {
     // page is now ready, initialize the calendar...
-document.getElementById("event_professional_id").classList.add('form-control');
-
 $('#calendar').fullCalendar({
 	header: {
   	left: 'prev,next today',
@@ -41,7 +39,7 @@ $("#delete_event").observe('ajax:success', function(evt, status, data, xhr) {
   <div class="col-lg-11">
   <div id='calendar'></div>
 
-  <%= render 'list' %>
+  <%= render 'list', :locals => {:url => calendar_path, :new_url => new_event_path} %>
 
 </div>
 </div>

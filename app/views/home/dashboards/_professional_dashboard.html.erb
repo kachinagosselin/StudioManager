@@ -1,0 +1,71 @@
+  <%= render "layouts/sidebar" %>
+  <div class="col-lg-10">
+	<% if !current_user.account.present? %>
+
+
+<div class="zero">
+  <div class=""></div>
+  <div class="box box-rounded box-inset">
+    <div class="box-content">
+      <h3 class="center">Welcome to Your Studio Manager</h3><!-- Originally h6 -->
+      <div class="col-lg-8 col-lg-offset-2">
+      <p class="center">To to use our full suite of services you need to register an account. There are a few steps to this process.</p>
+      </br>
+      <p> First add your credit card to start your free 14 day trial.</p>
+      <p> Next select either a professional or studio account.</br>
+        and connect your account to Stripe. Finally, once that is complete add in the details of your studio.</p>
+            <a href="https://connect.stripe.com/oauth/authorize?response_type=code&amp;scope=read_write&amp;stripe_landing=login&amp;client_id=ca_2Ksr3KRSkcnkhLjwUQPbFNKuAptJ5sSw" class="stripe-connect"><span>Connect with Stripe</span></a>
+      <%= link_to 'Create an Account', new_user_account_path(current_user.id),
+        :class => 'btn btn-primary btn-tall' ,  :data => {:toggle => "modal", :target => "#accountModal"} , :remote => true%>
+        </div>
+    </div>
+  </div>
+</div>
+
+
+    <% else %>
+
+    <script> 
+$(document).ready(function() {
+    //NOTE that I am selecting on a class here
+
+$('#calendar').fullCalendar({
+  	defaultView: 'agendaDay',
+	header: {
+  	left: '',
+  	center: '',
+  	right: ''
+	},
+    eventSources: [{
+          url: '<%= events_path() %>',
+        }],
+});
+});
+</script>
+
+
+      <h3>Schedule for this Afternoon</h3>
+  <div class="divider-horizontal-regular" style="margin-bottom:0px"></div>
+
+  <div id='dashboard-cal'>
+      <div id='calendar'></div>
+  </div>
+
+    <% if !current_user.account.studio.present? %>
+
+<div class="zero" >
+  <div class=""></div>
+  <div class="box box-rounded box-inset">
+    <div class="box-content">
+      <h3 class="center">Congratulations for authorizing your account!</h3><!-- Originally h6 -->
+      <div class="col-lg-10 col-lg-offset-1">
+      <p>You can continue to use our services to track private students, manage events and memberships. Or if you own a space you can add your studio details to be able to managing staff, instructors and booking available space.</p>
+      <p><a class="btn btn-primary" style="margin-top:-3px;margin-left:155px;"> Learn about Features </a>
+      <%= link_to 'Create a Studio', edit_user_registration_path(), class: 'pull-right btn btn-primary', style: 'margin-top:-3px;' %></p>
+      
+    </div>
+  </div>
+</div>
+
+    <% end %>
+    <% end %>

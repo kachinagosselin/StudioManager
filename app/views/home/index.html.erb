@@ -3,7 +3,15 @@
 <%= javascript_include_tag "fullcalendar.js" %>
 
 <% if user_signed_in? %>
-	<%= render 'dashboard' %>
+	<% if current_user.active_role.name == "owner" %>
+	<%= render 'home/dashboards/studio_dashboard' %>
+	<% elsif current_user.active_role.name == "professional" %>
+	<%= render 'home/dashboards/professional_dashboard' %>
+	<% elsif current_user.active_role.name == "staff" %>
+	<%= render 'home/dashboards/studio_dashboard' %>
+	<% elsif current_user.active_role.name == "student" %>
+	<%= render 'home/dashboards/student_dashboard' %>
+	<% end %>
 <% else %>
 	<%= render 'landing_page' %>
 <% end %>

@@ -26,6 +26,7 @@ class User < ActiveRecord::Base
     attr_accessible :name, :email, :password, :password_confirmation, :remember_me, :phone, :address, :city, :state, :description, :is_certified, :is_available, :profile, :profile_attributes, :stripe_code, :active_role_id
     
     before_create :instantiate_profile
+    after_create :initialize_role
 
     validates :name, :email, :presence => true
     validates :email, :uniqueness => true
@@ -43,14 +44,22 @@ class User < ActiveRecord::Base
     end
     
     # Required to save customer associated with user
-    def save_with_stripe_account
-        code = self.stripe_code
-        params = ActiveSupport::JSON.decode(`curl -X POST https://connect.stripe.com/oauth/token -d client_secret=sk_test_I4Ci5lTRq3QtUQsejxMZBk71 -d code=#{self.stripe_code} -d grant_type=authorization_code`)
+    def save_with_stripe_account(stripe_code)
+        if !self.customer.present?
+            stripe_customer = Stripe::Customer.create(description: "Create account through Stripe Connect", plan: 1, email: self.email)
+            self.create_customer(:stripe_customer_token => stripe_customer.id, :email => self.email, :plan_id => 1, :quantity => 1)
+            self.customer.save
+        end
+        
+        params = ActiveSupport::JSON.decode(`curl -X POST https://connect.stripe.com/oauth/token -d client_secret=sk_test_I4Ci5lTRq3QtUQsejxMZBk71 -d code=#{stripe_code} -d grant_type=authorization_code`)
         self.customer.access_token = params['access_token']
         self.customer.refresh_token = params['refresh_token']
         self.customer.stripe_publishable_key = params['stripe_publishable_key']
         self.customer.stripe_user_id = params['stripe_user_id']
-        self.customer.save
+        
+        if (self.customer.save) && (!self.account.present?)
+            self.create_account(:plan_id => 1, :user_id => self.id, :email => self.email)
+        end
     end
     
     # Methods required to register for events
@@ -184,6 +193,15 @@ class User < ActiveRecord::Base
         self.update_attributes(:active_role_id => role.id)
     end
     
+    # Managing roles for user: owner, staff, professional, student
+    # Default role: student
+    
+    def initialize_role
+        self.add_role :student
+        role = self.roles.first.id
+        self.update_attributes(:active_role_id => role.id)
+    end
+    
     def active_role
         Role.find(self.active_role_id)
     end
@@ -194,5 +212,23 @@ class User < ActiveRecord::Base
     
     def students
         Profile.with_role(:student, self).uniq
+    end
+    
+    def make_professional
+        if !self.has_role? :professional
+            self.add_role :professional
+        end
+    end
+    
+    def is_professional?
+        return self.has_role? :professional
+    end
+    
+    def is_owner?
+        return self.has_role? :owner, :any
+    end
+    
+    def is_staff?
+        return self.has_role? :staff, :any
     end
 end

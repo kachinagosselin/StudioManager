@@ -6,51 +6,18 @@
       <%= f.hidden_field :user_id, :value => current_user.id %>
       <%= f.hidden_field :email, :value => current_user.email %>
 
-      <% if !current_user.customer.present? %>
-          <h4>Add Credit Card </h4>
-        <div class="form-group" >
-          <%= label_tag :card_number, "Credit Card Number" %>
-          <%=h text_field_tag :card_number, nil, name: nil, :class => "form-control"  %>
- 
          <div class="row">
-          <div class="form-group col-lg-4">
-          <%= label_tag :card_code, "Security Code (CVV)" %>
-          <%=h text_field_tag :card_code, nil, name: nil, :class => "form-control"  %>
-          </div>
-          <div class="form-group col-lg-4">
-          <%= label_tag :card_month, "Card Expiration" %>
-          <%=h text_field_tag :card_month, nil, name: nil, :class => 'form-control'  %>
-          </div>
-          <div class="form-group col-lg-4">
-          <%= label_tag :card_year, " " %>
-          <%=h text_field_tag :card_year, nil, name: nil, :class => 'form-control'  %>
-          </div>
-        </div><!-- end of row -->
-        <% end %>
-
-         <div class="row">
-          <p class="lead center"> Sign up for your 14 day free trial! </p>
-          <div class="col-lg-5 col-lg-offset-1">
-          <%= f.label :plan_id, "Studio Owner Account" %>
-          <%= f.radio_button :plan_id, "studio-basic", :checked => 1%>
-          </div>
-          <div class="col-lg-5">
-          <%= f.label :plan_id, "Independent Professional" %>
-          <%= f.radio_button :plan_id, "professional-basic"%>
-          </div>
+          <p class="lead center"> Sign up with stripe connect to activate your account!</p>
         </div><!-- end of row -->
       <div id="stripe_error">
         <noscript>JavaScript is not enabled and is required for this form. First enable it in your web browser settings.</noscript>
       </div>
       </div>
-      <div class="modal-footer">
+    <div class="modal-footer">
     <div class="actions">
-
-        <%= link_to_function "Back", "history.back()", :class =>"btn btn-default" %>
         <%= f.submit "Continue", :class =>"submit-button btn btn-primary", :id => "new_account"%>
-
     </div>
-        </div>
+    </div>
   <% end %>
 </div>
 

@@ -10,7 +10,7 @@
 
 		<h3> Coupons</h3>
 			<div class="pull-right" style="margin-top:-40px;">
-				  <%= link_to 'New Coupon', new_studio_coupon_path(@studio),
+				  <%= link_to 'New Coupon', new_coupon_path,
         :class => 'btn btn-primary btn-sm' ,  :data => {:toggle => "modal", :target => "#myModal"} , :remote => true, :html => {:style => "margin-top:5px;"}%>
 
 			</div>
@@ -29,7 +29,6 @@
 				        </tr>
 				    </thead>
 				    <tbody>
-				    	<% @coupons = @studio.coupons.find(:all)%>
 				        <% @coupons.each do |coupon| %>
 				        	<tr>
 				        		<td><%= coupon.title %></td>

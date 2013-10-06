@@ -21,13 +21,12 @@ class CustomersController < ApplicationController
         end
     end
     
-    def register
+    def stripe_authorization
         @user = current_user
-        @user.stripe_code = params[:code]
-        @user.save_with_stripe_account
+        @user.save_with_stripe_account(params[:code])
         if @user.save 
             @user.add_role :owner
-            redirect_to root_path, :notice => "Thank you for giving us access to your stripe account."
+            redirect_to root_path, :notice => "Thank you for giving us access to your stripe account. Please add Studio details!"
             else
             redirect_to :back, :alert => "Failed to register your stripe account."
         end        

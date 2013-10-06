@@ -17,6 +17,7 @@ class StudiosController < ApplicationController
         @studio = current_user.account.build_studio(params[:studio])
         respond_to do |format|
             if @studio.save
+                current_user.add_role :owner, @studio
                 format.html { redirect_to :back, notice: 'Studio was successfully created.' }
                 format.json { head :no_content }
             else
@@ -69,12 +70,6 @@ class StudiosController < ApplicationController
         @user = User.find(params[:user_id])
         @user.remove_instructor!(@studio)
     end
-    
-    def instructors
-        @studio = Studio.find(params[:id])
-        @search = @studio.staff.search(params[:search])
-        @instructors = @search.all   # load all matching records
-    end 
 
     def instructors_database
         @available_instructors = Profile.available_instructors
@@ -96,12 +91,6 @@ class StudiosController < ApplicationController
         end
         
         @instructors_database = @search_database   # load all matching records
-    end 
-    
-    def students
-        @studio = Studio.find(params[:id])
-        @search = @studio.students.search(params[:search])
-        @students = @search.all   # load all matching records
     end 
     
     def checkin

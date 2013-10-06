@@ -1,17 +1,15 @@
     <% if user_signed_in? %>
 	<div class="col-lg-2" style="padding-top:30px;">
-    <% if current_user.account.present? %>
 	    <% if current_user.active_role.name == "owner" %>
 	     <%= render "home/sidebars/owner_sidebar" %>
 		<% elsif current_user.active_role.name == "professional" %>
 		 <%= render "home/sidebars/professional_sidebar"%>
 		<% elsif current_user.active_role.name == "staff" %>
-
-		<% elsif current_user.active_role.name == "instructor" %>
-
+	     <%= render "home/sidebars/staff_sidebar" %>
 		<% elsif current_user.active_role.name == "student" %>
-
 		<% end %>
+
+	<% if current_user.account.present? %>
   		</div><div class="col-lg-9 rightspan" style="padding-top:30px;min-height:650px;">
 		<% else %>
 		</div><div class="col-lg-9" style="padding-top:30px;min-height:650px;">

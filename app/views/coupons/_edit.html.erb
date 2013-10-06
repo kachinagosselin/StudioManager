@@ -1,4 +1,3 @@
-  <% @coupon = coupon %>
   <div class="modal fade" id="editModal<%= coupon.id%>" tabindex="-1" role="dialog" aria-labelledby="editModalLabel<%= coupon.id%>" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -6,7 +5,7 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title">Edit Coupon</h4>
       </div>
- 		<%= render :partial => 'form', :locals => {:coupon => @coupon}%>
+ 		<%= render :partial => 'form', :locals => {:coupon => coupon}%>
 
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->

@@ -1,5 +1,7 @@
 .map_container {
   padding: 6px;
+  width:1186px !important;
+  height:515px;
   border-width: 1px;
   border-style: solid;
   border-color: #ccc #ccc #999 #ccc;
@@ -10,8 +12,8 @@
 }
 
 .gmaps4rails_map {
-  width: 800px;
-  height: 400px;
+  width:1172px;
+  height:500px;
 }
 
 .bing_map {

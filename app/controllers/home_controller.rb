@@ -1,11 +1,15 @@
 class HomeController < ApplicationController
   def index
-    if current_user.present?
-    if current_user.account.present?
-    if current_user.account.studio.present?
-        @studio = current_user.account.studio
-    end
-    end
-    end
+      @json = Studio.all.to_gmaps4rails do |studio, marker|
+          marker.json({ :id => studio.id,
+                      :name => studio.name,
+                      :html => "<p> Test HTML insert</p>" 
+                      })
+      end
+      respond_to do |format|
+          format.html # index.html.erb
+          format.json { render json: @json }
+      end
   end
+    
 end

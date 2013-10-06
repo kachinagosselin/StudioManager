@@ -14,21 +14,7 @@
         <%= form_for([current_user, current_user.customer]) do |f| %>
         <%= f.hidden_field :user_id, :value => current_user.id %>
         <%= f.hidden_field :email, :value => current_user.email %>
-        <div class="form-group" >
-          <p><%= label_tag :card_number, "Credit Card Number" %></br>
-          <%=h text_field_tag :card_number, nil, name: nil, :class => "form-control"%></p>
-          <div class="row">
-          <div class="col-lg-4">
-          <p><%= label_tag :card_code, "Security Code (CVV)" %></br>
-          <%=h text_field_tag :card_code, nil, name: nil, :class => "form-control"%></p>
-          </div>
-          <div class="col-lg-4">
-          <p><%= label_tag :card_month, "Card Expiration" %></br>
-          <%=h text_field_tag :card_month, nil, name: nil, :class => 'datepicker form-control'%></p></div>
-          <div class="col-lg-4">
-          <p><%= label_tag :card_year, " " %></br>
-          <%=h text_field_tag :card_year, nil, name: nil, :class => 'datepicker form-control'  %></p></div>
-        </div>
+        <%= render "customers/card_form" %>
       </div><!-- End of Form Group -->
       <div id="stripe_error">
         <noscript>JavaScript is not enabled and is required for this form. First enable it in your web browser settings.</noscript>

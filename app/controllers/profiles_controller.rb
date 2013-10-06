@@ -16,6 +16,7 @@ class ProfilesController < ApplicationController
     def create
         @profile = Profile.create(params[:profile])
         
+        d
         if params[:user_type].present? && params[:account_type].present?
         @profile.assign_role(params[:user_type], params[:account_type])
         end
@@ -34,6 +35,11 @@ class ProfilesController < ApplicationController
     def update
         @profile = Profile.find(params[:id])
         
+        if params[:add_professional_role] == "yes"
+            @profile.user.make_professional
+        end
+        
+        if params[:profile][:availability_attributes].present?
         (0...6).each do |i|
         n = i.to_s
         subset = params[:profile][:availability_attributes][n]
@@ -41,6 +47,7 @@ class ProfilesController < ApplicationController
             availability.update_attributes(:start_at => subset[:start_at], :end_at => subset[:end_at])
         end
         params[:profile].delete :availability_attributes
+        end
         
         #Cannot change major attributes of profile
         if @profile.user.present?

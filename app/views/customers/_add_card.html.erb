@@ -44,27 +44,11 @@ function stripeResponseHandler(status, response) {
 }
 
 </script>
+<%= form_for([@user, @user.build_customer], :method => :post, :html => { :remote => true, :id => "add_card" }) do |f| %>
+<div class="form-group" >
+    <div class="row">
 
-<%= form_for([@user, @user.build_customer], :method => :post, :html => { :remote => true, :id => "add_card" }) do |c| %>
-        <div class="form-group" >
-          <p><%= label_tag :card_number, "Credit Card Number" %>
-          <%=h text_field_tag :card_number, nil, name: nil, :class => "form-control"  %></p>
-
-         <div class="row">
-          <div class="col-lg-4">
-          <p><%= label_tag :card_code, "Security Code (CVV)" %>
-          <%=h text_field_tag :card_code, nil, name: nil, :class => "form-control"  %></p>
-          </div>
-          <div class="col-lg-4">
-          <p><%= label_tag :card_month, "Card Expiration" %></br>
-          <%=h text_field_tag :card_month, nil, name: nil, :class => 'datepicker form-control'  %></p>
-          </div>
-          <div class="col-lg-4">
-          <p style = "margin-top:5px;"><%= label_tag :card_year, " "%></br>
-          <%=h text_field_tag :card_year, nil, name: nil, :class => 'datepicker form-control'  %></p>
-          </div>
-          <div><p style="margin-right:15px;"><%= c.submit "Add Card", :class =>"submit-button btn btn-primary pull-right", :id => "add_card"%> </p></div>
-
-        </div>
-        </div>
+        <%= render "customers/card_form" %>
+        <p><%= f.submit "Add Card", :class =>"submit-button btn btn-primary pull-right", :id => "add_card"%> </p>
+</div>
 <% end %>

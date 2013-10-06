@@ -7,35 +7,8 @@
         <h4 class="modal-title">Create Coupon</h4>
       </div>
 
-<div class="modal-body">
-    <%= form_for([@studio, Coupon.new], :html => { :class => 'form-horizontal'} ) do |f| %>
-              <div class="form-group">   
-                <%= f.label :title %>
-                <%= f.text_field :title, :class => "form-control"  %>
-                <%= f.label :redeem_by %>
-                <%= f.text_field :redeem_by, 'data-behaviour' => 'datepicker',:class => "form-control" %>
-                <div class="form-group  col-lg-6">
-                <%= f.label :percent_off %>
-                <%= f.text_field :percent_off, :class => "form-control" %>
-                <%= f.label :max_redemptions %>
-                <%= f.text_field :max_redemptions, :class => "form-control" %>
-                </div>
-
-                <div class="form-group  col-lg-5" style ="margin-left:10px;">
-                <%= f.label :duration %>
-                <%= f.text_field :duration, :class => "form-control"  %>
-                <%= f.label :duration_in_months %>
-                <%= f.text_field :duration_in_months, :class => "form-control"  %>
-                </div>
-
-      </div>
-      <div class="modal-footer">
-    <div class="actions">
-        <a class="btn" data-dismiss="modal" href="#">Cancel</a>
-          <button type="submit" class="btn btn-primary">Submit</button>
-        <% end %>
-    </div>     
-    </div>     
+    <%= render :partial => 'form', :locals => {:coupon => Coupon.new}%>
+   
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->

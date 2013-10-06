@@ -17,10 +17,10 @@ class AccountsController < ApplicationController
             stripe_customer = Stripe::Customer.retrieve(@user.customer.stripe_customer_token)
             @account = @user.build_account(params[:account])
             @account.update_attribute(:is_active, true)
-            stripe_customer.update_subscription(:plan => params[:account][:plan_id], :quantity => 1)  
+            stripe_customer.update_subscription(:plan => 1, :quantity => 1)  
         else
         # if the credit card is valid create new customer and accounts
-            @account = @user.build_account(:plan_id => params[:account][:plan_id], :user_id => params[:account][:user_id], :email => params[:account][:email])
+            @account = @user.build_account(:plan_id => 1, :user_id => params[:account][:user_id], :email => params[:account][:email])
             @stripe_customer = Stripe::Customer.create(description: params[:account][:email], plan: params[:account][:plan_id], card: params[:stripe_card_token], email: params[:account][:email])
             @customer = @user.build_customer(:stripe_customer_token => @stripe_customer.id, :email => @user.email, :plan_id => params[:account][:plan_id], :quantity => 1)
             @customer.last_4_digits = params[:last_4_digits]

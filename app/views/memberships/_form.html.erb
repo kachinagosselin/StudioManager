@@ -1,5 +1,5 @@
     <div class="modal-body">
-    <%= form_for([@studio, membership], :html => { :id => "add_membership", :class => 'form-horizontal'} ) do |f| %>
+    <%= form_for(membership, :html => { :id => "add_membership", :class => 'form-horizontal'} ) do |f| %>
         <div class="form-group">
           <%= f.label :name %>
             <%=h f.text_field :name, :class => "form-control" %>
@@ -31,8 +31,6 @@
                 <%= f.check_box :prorate%>
                 </div>
                 </div>
-
-                <%= f.hidden_field :studio_id, :value => @studio.id %>
                 </div>
 
             </div><!-- End of row -->

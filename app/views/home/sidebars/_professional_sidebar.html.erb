@@ -1,12 +1,14 @@
+<% if current_user.account.present? %>
 	    <h3>Private Services</h3>
 			<div class="divider-horizontal"></div>
 		<%= link_to 'Private Dashboard', root_path(), :style => "padding-top:10px;"%>
 			<div class="divider-horizontal"></div>
 		<%= link_to 'Personal Calendar', professional_calendar_path(current_user)%>
 			<div class="divider-horizontal"></div>
-		<%= link_to 'Students', students_user_path(current_user)%>
+		<%= link_to 'Students', students_path %>
 			<div class="divider-horizontal"></div>
-		<%= link_to 'Memberships', products_user_path(current_user)%>
+		<%= link_to 'Memberships', products_path %>
 			<div class="divider-horizontal"></div>
-		<%= link_to 'Coupons', user_coupons_path(current_user)%>
+		<%= link_to 'Coupons', coupons_path %>
 			<div class="divider-horizontal"></div>
+<% end %>

@@ -1,6 +1,5 @@
-<div class="divider-horizontal-regular"></div>
-<%= form_for([@studio, @studio.locations.new]) do |p| %>
-  
+    <%= fields_for studio.locations.new do |p| %>
+
     <p><%= p.label :address %><br />
     <%=h p.text_field :address, :class => "form-control" %></p>
       
@@ -13,7 +12,6 @@
             <p><%= p.label :state %><br />
               <%= p.select :state, STATES, {:class => "form-control"} %></p>
           </div>
-<%= p.submit "Create", :class =>"submit-button btn btn-primary pull-right"%>
       </div>
 
 <% end %>

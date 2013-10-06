@@ -1,8 +1,13 @@
 class CouponsController < ApplicationController
  
-    def studio_index
-        @studio = Studio.find(params[:studio_id])
-        @coupons = @studio.coupons.find(:all)
+    def index
+        if current_user.active_role.name == "owner" || current_user.active_role.name == "staff"
+            @studio = Studio.find(current_user.active_role.resource_id)
+            @coupons = Coupon.where(:studio_id => @studio.id)
+        elsif current_user.active_role.name == "professional"
+            @professional = current_user
+            @coupons = Coupon.where(:professional_id => @professional.id)
+        end
         
         respond_to do |format|
             format.html # index.html.erb

@@ -1,5 +1,5 @@
 <div class="modal-body">
-    <%= form_for([@studio, @coupon], :html => { :class => 'form-horizontal'} ) do |f| %>
+    <%= form_for(coupon, :html => { :class => 'form-horizontal'} ) do |f| %>
               <div class="form-group">   
                 <%= f.label :title %>
                 <%= f.text_field :title, :class => "form-control"  %>

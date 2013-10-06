@@ -16,7 +16,6 @@ class Profile < ActiveRecord::Base
     attr_accessible :phone, :address, :city, :state, :description, :certification, :is_available, :is_not_available, :hide_map, :emergency_contact_name, :emergency_contact_number, :dob, :name, :email, :photo, :photo_attributes, :availabilities, :availability_attributes
     before_create :create_photo
     before_create :initialize_availability
-    after_save :set_availability
 
     def create_photo
         self.build_photo

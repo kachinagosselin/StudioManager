@@ -16,7 +16,7 @@ document.getElementById("package_expires_at").classList.add('form-control');
 </script>
 
 <div class="modal-body">
-    <%= form_for([@professional, package], :html => { :id => "add_package", :class => 'form-horizontal'} ) do |f| %>
+    <%= form_for(package, :html => { :id => "add_package", :class => 'form-horizontal'} ) do |f| %>
         <div class="form-group">
           <p><%= f.label :name %><br />
             <%=h f.text_field :name, :class => "form-control" %></p>
@@ -44,8 +44,6 @@ document.getElementById("package_expires_at").classList.add('form-control');
                     <p><%= f.label :interval %><br />
                     <%= f.select :interval, INTERVALS, :html => {:id => "membership_interval_select"} %></p>
                </div>
-
-                <%= f.hidden_field :professional_id, :value => @professional.id %>
 
             </div>
         </div>

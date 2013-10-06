@@ -8,6 +8,7 @@ class UsersController < ApplicationController
   end
 
   def show
+      @user = User.find(params[:id])
       @profile = Profile.where(:user_id => params[:id]).first
       @events = @profile.teaching_events_this_week
   end 

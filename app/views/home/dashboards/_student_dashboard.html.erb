@@ -1,0 +1,73 @@
+
+<script> 
+$(document).ready(function() {
+    //NOTE that I am selecting on a class here
+    $('.toggle').click(function(e) {
+        //You also need to prevent the default behaviour of 
+        e.preventDefault();
+        $("#map-container").toggle();
+    });
+
+	$('#calendar').fullCalendar({
+		defaultView: 'agendaWeek',
+		minTime: 6,
+		height: 500,
+		header: {
+	  	left: 'prev,next today',
+	  	center: 'title',
+	  	right: 'month,agendaWeek,agendaDay',
+	  	}
+	});
+});
+</script>
+
+  <div class="col-lg-10 col-lg-offset-1">
+  	<a href="#" class="toggle pull-right" style="margin-top:30px;">Toggle Map</a>
+    <div id="map-container">
+		<h3 class="center">Search for your studio on the map and start getting organized.</h3> 
+		<p class="center"> If you can't find yours send an invitation so that they can sign up for our services. <a> Send Invite </a> </p>
+
+	 	<%= gmaps(:map_options => {:do_clustering => false}, :markers => {:data => @json}, :width => "960px") %>
+	</div>
+
+	<div class="panel panel-primary" style="margin-top:60px;">
+		<div class="panel-heading">
+	        <h5 class="panel-title">List of Classes for <%= current_user.name %> </h5>
+	    </div>
+
+		<div id='calendar'></div>
+	</br>
+
+		<!-- TO DO: Update calendar with the events for the studio selected (show in muted color). When a class is selected show the payment options in the section below. Have the payment options link to a purchase form. When the student purchases a payment plan this section is only displayed if the payment plan doesn't apply. Otherwise button shows [Register Class] and changes color of event.
+		-->
+
+		<div class="row">
+  		<div class="col-lg-6" style="padding-right:30px;">
+  			<h3> Offers for Studio One </h3>
+  			<p> Look through the offered payment options for the classes that you have selected </p>
+  		</div>
+	  	<div class="col-lg-5" style="margin-top:25px;">
+			<div class="panel panel-primary" >
+				<div class="panel-heading">
+	        		<h5 class="panel-title">Studio Offerings </h5>
+	    		</div>
+			<ul class="list-group" style="list-style-type:none;">
+			  <li><a href="#" class="list-group-item ">
+			    <p class="list-group-item-heading">Monthly Membership</p>
+			    <!--<p class="list-group-item-text">...</p>--></a></li>
+			    <li><a href="#" class="list-group-item">
+			    <p class="list-group-item-heading">Drop-In Class</p>
+			    <!--<p class="list-group-item-text">...</p>--></a></li>
+			</ul>
+			</div>
+		</div>
+		</div>
+	</div>
+
+	<% if !current_user.has_role? :owner, :any %>
+		<p class="center"><b>Are you a studio owner?</b> To be able to use our full suite of services,
+			<%= link_to 'Add an Account', new_user_account_path(current_user), style: 'margin-top:-3px;'  %></p>
+	<% end %>
+
+	</div>
+		

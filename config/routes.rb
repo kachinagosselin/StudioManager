@@ -1,7 +1,7 @@
 StudioManager::Application.routes.draw do
 
   devise_for :views
-  devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks" }
+  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
     
     #Check In Classes in Studio
     match 'studios/:id/events/:event_id/checkin/' => 'studios#checkin_event', :controller => 'studios', :action => 'checkin_event', :via => [:get], :as => 'checkin_event'
@@ -11,7 +11,7 @@ StudioManager::Application.routes.draw do
     match 'studios/:id/invoice/:user_id' => 'studios#invoice', :controller => 'studios', :action => 'invoice', :via => [:get], :as => 'invoice'
     
     #Studio and professional calendars
-    match 'studios/:studio_id/calendar(/:year(/:month))' => 'calendar#studio_index', :as => 'studio_calendar', :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
+    match 'calendar(/:year(/:month))' => 'calendar#index', :as => 'calendar', :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
     match 'users/:user_id/calendar(/:year(/:month))' => 'calendar#professional_index', :as => 'professional_calendar', :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
     
     match '/studios/:id/create_for_client(/:user_id)' => 'customers#create_for_client', :controller => 'customers', :action => 'create_for_client', :via => [:post], :as => 'new_client_customer'
@@ -33,7 +33,7 @@ StudioManager::Application.routes.draw do
   root :to => "home#index"
     
     devise_scope :user do
-        get '/auth/stripe_connect/callback', to: 'customers#register'
+        get '/auth/stripe_connect/callback', to: 'users/omniauth_callbacks#stripe_connect'
     end
     
     resources :profiles
@@ -43,6 +43,7 @@ StudioManager::Application.routes.draw do
         post :makecall
         end
     end
+    resources :pictures
     
     # Resources do not need to belong to user or studio, simplifying views and adding some authorization checks to controller
     resources :events do
@@ -51,6 +52,17 @@ StudioManager::Application.routes.draw do
         end
     end
     
+    # Currently other method is used to access products - simplify?
+    resources :products
+    resources :memberships
+    resources :packages
+    resources :charges
+    resources :coupons
+    resources :reports
+    resources :staff
+    resources :students
+    resources :calendar
+
     resources :users do
         # Necessary to reduce complexity of view
         resources :roles do
@@ -60,17 +72,14 @@ StudioManager::Application.routes.draw do
         end
         resources :accounts
         resources :customers
-        resources :profiles
-        resources :pictures
-        resources :events do
-            member do
-                get :checkin
-            end
-        end
-        resources :memberships
-        resources :packages
-        resources :charges
-        resources :coupons
+        # Do we need this second iteration of profiles?
+        # resources :profiles
+        
+        #resources :events do
+        #    member do
+        #        get :checkin
+        #    end
+        #end
         
         collection do
             post :search
@@ -80,35 +89,24 @@ StudioManager::Application.routes.draw do
             get :registered_events, :attended_events, :purchases
             get :students
             get :history
-            get :products, :controller => 'products', :action => 'professional_index'
         end
     end 
-    resources :plans
     
     resources :studios do
         resources :locations
-        resources :memberships
-        resources :packages
-        resources :coupons
-        resources :reports
-        resources :events do
-            member do
-                get :checkin  
-                get :add_registration
+        #resources :events do
+        #    member do
+        #        get :checkin  
+        #        get :add_registration
                 #For users without an account with our software
-                post :new_registration
-            end
-        end
-        
-        collection do
-        end
-        
+        #        post :new_registration
+        #    end
+        #end
         member do
             get :instructors, :students
             post :new_instructor
             post :new_student
             get :_embed, :test
-            get :products, :controller => 'products', :action => 'studio_index'
         end
     end
     

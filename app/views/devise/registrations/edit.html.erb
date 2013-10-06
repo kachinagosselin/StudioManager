@@ -181,13 +181,11 @@ function stripeResponseHandler(status, response) {
 <% end %>
 <% end %>
 
-
-<!-- This section is for creating your instructor profile. It will require that you fill out a description of yourself and a type of certification and availability in order to be listed. -->
 <div class="divider-horizontal-regular"></div>
-  <h3> Instructor Profile </h3>
+  <h3> Extend Profile </h3>
 
 <div class="divider-horizontal-regular"></div>
-<%= form_for([@user, @user.profile]) do |p| %>
+<%= form_for(@user.profile) do |p| %>
     <div class="row">
   <div class="form-group">
   <div class="row">
@@ -203,8 +201,15 @@ function stripeResponseHandler(status, response) {
     <% end %>
     <p><b> Certification </b></br>
     <%= p.text_field :certification, :class => "form-control"%></p>
+    <% if !@user.is_professional? %>
+    <%= check_box_tag "add_professional_role", "yes", false, :class => "form-control" %>
+    <p style = "margin-top:-27px;margin-left:30px;"><b> Create account to manage my professional services </b></p>
+    </div>
+    </div>
+
+    <% else %>
     <%= p.check_box :is_not_available, :class => "form-control"%>
-    <p style = "margin-top:-26px;margin-left:30px;"><b> I am not available to teach elsewhere at this time </b></p>
+    <p style = "margin-top:-27px;margin-left:30px;"><b> I am not available to teach elsewhere at this time </b></p>
   </div>
 </div>
 <div id="availability_table">
@@ -250,6 +255,7 @@ function stripeResponseHandler(status, response) {
         <p class="help-block">Note: This will be used to indicate your availability in our instructor database.</p>
 
      </div>
+<% end %>
 <%= p.submit "Update", :class =>"submit-button btn btn-primary pull-right"%>
 </div>
 </div>
@@ -261,32 +267,29 @@ function stripeResponseHandler(status, response) {
 <div class="divider-horizontal-regular"></div>
 
   <% if current_user.customer.present? %>
-          <p class= "lead" style="padding-top:25px;">Credit card has been provided. Last four digits are: <%= current_user.customer.last_4_digits %></p>
-          <%= link_to 'Update', edit_user_customer_path(@user, @user.customer),  :data => {:toggle => "modal", :target => "#updateCardModal"}, :class=>"btn btn-primary pull-right", :style=>"margin-top:-50px;", :remote => true %>
-          <%= render 'customers/update_card'%> 
-  <% else %>  
-     <%= render 'customers/add_card' %>  
-  <% end %>
+    <% if current_user.customer.last_4_digits.present? %>
 
-<% if current_user.has_role? :owner %>
+          <p class= "lead" style="padding-top:25px;">Credit card has been provided. Last four digits are: <%= current_user.customer.last_4_digits %></p>
+  <% end %>
+  <% end %>
+     <%= render 'customers/add_card' %>  
+
+<% if current_user.account.present? %>
 
     <div class="divider-horizontal-regular"></div>
     <h3> Studio Details </h3>
-    <%= link_to 'Create', edit_user_customer_path(@user, @user.customer),  :data => {:toggle => "modal", :target => "#updateCardModal"}, :class=>"btn btn-primary pull-right", :style=>"margin-top:-42px;", :remote => true %>
-
-    <% if current_user.account.studio.present? %>
     <div class="divider-horizontal-regular"></div>
-    <%= render 'studios/form', :user => current_user  %>
-    <%= render 'locations/form' %>
-  <% end %>
+    <% if !current_user.account.studio.present? %>
+    <%= render 'studios/form', :user => current_user, :studio => current_user.account.build_studio  %>
+    <% else %>
+    <%= render 'studios/form', :user => current_user, :studio => current_user.account.studio  %>
+    <% end %>
   <% end %>
 
-  <% if current_user.customer.present? %>
     <% if !current_user.account.present? %>
       <%= render 'upgrade_account', :account => current_user.build_account %>
       <% else %>
-      <%= render 'upgrade_account', :locals => {:account => current_user.account} %>
-  <% end %>
+      <%= render 'upgrade_account', :account => current_user.account %>
   <% end %>
 <div class="divider-horizontal-regular"></div>
 
