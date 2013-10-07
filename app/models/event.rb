@@ -81,7 +81,7 @@ class Event < ActiveRecord::Base
         if self.custom_url.present?
             return self.custom_url
         else
-            Rails.application.routes.url_helpers.studio_event_path(self.studio_id, self.id)
+            Rails.application.routes.url_helpers.event_path(self.id)
         end
     end
 

@@ -14,10 +14,10 @@ class CalendarController < ApplicationController
     end
       
     @events = @search.all   # load all matching records
-      respond_to do |format|
+    respond_to do |format|
           format.html # index.html.erb
           format.json { render json: @events.as_json }
-      end
+    end
   end
 
 end

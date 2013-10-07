@@ -44,7 +44,7 @@ function stripeResponseHandler(status, response) {
 }
 
 </script>
-<%= form_for([@user, @user.build_customer], :method => :post, :html => { :remote => true, :id => "add_card" }) do |f| %>
+<%= form_for([@user, customer], :method => :post, :html => { :remote => true, :id => "add_card" }) do |f| %>
 <div class="form-group" >
     <div class="row">
 

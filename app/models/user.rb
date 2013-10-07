@@ -47,17 +47,19 @@ class User < ActiveRecord::Base
     def save_with_stripe_account(stripe_code)
         if !self.customer.present?
             stripe_customer = Stripe::Customer.create(description: "Create account through Stripe Connect", plan: 1, email: self.email)
-            self.create_customer(:stripe_customer_token => stripe_customer.id, :email => self.email, :plan_id => 1, :quantity => 1)
-            self.customer.save
+            customer = self.build_customer(:stripe_customer_token => stripe_customer.id, :email => self.email, :plan_id => 1, :quantity => 1)
+            customer.save
         end
         
+        customer = self.customer
         params = ActiveSupport::JSON.decode(`curl -X POST https://connect.stripe.com/oauth/token -d client_secret=sk_test_I4Ci5lTRq3QtUQsejxMZBk71 -d code=#{stripe_code} -d grant_type=authorization_code`)
-        self.customer.access_token = params['access_token']
-        self.customer.refresh_token = params['refresh_token']
-        self.customer.stripe_publishable_key = params['stripe_publishable_key']
-        self.customer.stripe_user_id = params['stripe_user_id']
+        customer.access_token = params['access_token']
+        customer.refresh_token = params['refresh_token']
+        customer.stripe_publishable_key = params['stripe_publishable_key']
+        customer.stripe_user_id = params['stripe_user_id']
+        customer.save
         
-        if (self.customer.save) && (!self.account.present?)
+        if !self.account.present?
             self.create_account(:plan_id => 1, :user_id => self.id, :email => self.email)
         end
     end
@@ -198,7 +200,7 @@ class User < ActiveRecord::Base
     
     def initialize_role
         self.add_role :student
-        role = self.roles.first.id
+        role = self.roles.first
         self.update_attributes(:active_role_id => role.id)
     end
     

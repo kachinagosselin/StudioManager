@@ -37,4 +37,17 @@ class Membership < ActiveRecord::Base
             return "recurring"
         end
     end
+    
+    def create_plan(client)
+        stripe_membership = 
+        Stripe::Plan.create({
+                            :amount => self.price,
+                            :interval => self.interval,
+                            :name => self.name,
+                            :currency => 'usd',
+                            :id => ' #{self.:name}-#{self.id}'
+                            }, client.customer.access_token
+                            )
+        
+    end
 end

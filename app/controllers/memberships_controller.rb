@@ -10,18 +10,11 @@ class MembershipsController < ApplicationController
         end
     
         def create
-            @client = current_user
             @membership = Membership.new(params[:membership])
-            @stripe_membership = Stripe::Plan.create({
-                                                     :amount => params[:membership][:price],
-                                                     :interval => params[:membership][:interval],
-                                                     :name => params[:membership][:name],
-                                                     :currency => 'usd',
-                                                     :id => params[:membership][:name]
-                                                     }, @client.customer.access_token
-                                                   )
+
             respond_to do |format|
-                if @membership.save
+                if (@membership.save) && (current_user.customer.access_token.present?)
+                    @membership.create_plan(current_user)
                     format.html { redirect_to :back }
                     format.json { head :no_content }
                     else

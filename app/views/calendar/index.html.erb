@@ -8,7 +8,7 @@ $('#calendar').fullCalendar({
   	right: 'month,agendaWeek,agendaDay'
 	},
     eventSources: [{
-          url: '/studios/<%= @studio.id %>/calendar.json',
+          url: '/calendar.json',
         }],
     eventClick: function(event) {
         if (event.url) {

@@ -17,7 +17,7 @@ class EventsController < ApplicationController
         @event = Event.create(params[:event])
         
         if @event.save
-            render :partial => 'event', :object => @event
+            redirect_to :back
         end 
     end
     
