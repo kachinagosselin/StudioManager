@@ -3,7 +3,7 @@ class Membership < ActiveRecord::Base
   has_many :purchases, foreign_key: "product_id"
   has_many :customers, :through => :purchase
     
-    attr_accessible :studio_id, :name, :price, :interval, :interval_count, :trial_period_days, :title, :one_time_app, :prorate
+    attr_accessible :studio_id, :name, :price, :interval, :interval_count, :trial_period_days, :title, :one_time_app, :prorate, :resource_type, :resource_id
     
     
     def title
@@ -39,13 +39,14 @@ class Membership < ActiveRecord::Base
     end
     
     def create_plan(client)
+        membership_id = "#{self.name}-#{self.id}-#{self.created_at.to_i}"
         stripe_membership = 
         Stripe::Plan.create({
                             :amount => self.price,
                             :interval => self.interval,
                             :name => self.name,
                             :currency => 'usd',
-                            :id => ' #{self.:name}-#{self.id}'
+                            :id => membership_id
                             }, client.customer.access_token
                             )
         

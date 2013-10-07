@@ -3,6 +3,8 @@
         <div class="form-group">
           <%= f.label :name %>
             <%=h f.text_field :name, :class => "form-control" %>
+            <%= f.hidden_field :resource_type, :value => current_user.active_role.resource_type %>
+            <%= f.hidden_field :resource_id, :value => current_user.active_role.resource_id %>
             <div class="row">
                 <div class="col-lg-6">
                 <%= f.label :price %>

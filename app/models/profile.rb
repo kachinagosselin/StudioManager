@@ -8,7 +8,9 @@ class Profile < ActiveRecord::Base
     belongs_to :user
     has_one :photo, :as => :imageable, :dependent => :destroy
     has_many :availabilities, :dependent => :destroy
-    
+    has_many :registered_events
+    has_many :registered, foreign_key: "event_id", :through => :registered_events, :source => :event
+
     accepts_nested_attributes_for :photo
     accepts_nested_attributes_for :availabilities
 

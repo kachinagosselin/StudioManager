@@ -19,6 +19,8 @@
                 <%= f.text_field :duration_in_months, :class => "form-control"  %>
                 </div>
 
+            <%= f.hidden_field :resource_type, :value => current_user.active_role.resource_type %>
+            <%= f.hidden_field :resource_id, :value => current_user.active_role.resource_id %>
       </div>
       <div class="modal-footer">
     <div class="actions">

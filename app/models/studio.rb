@@ -9,11 +9,7 @@ class Studio < ActiveRecord::Base
     belongs_to :account
     
     has_many :locations
-    has_many :events
-    has_many :coupons
-    has_many :memberships
     has_many :purchases
-    has_many :packages
     has_many :registered_events
     
     has_many :users, foreign_key: "user_id", :through => :registered_events
@@ -59,4 +55,20 @@ class Studio < ActiveRecord::Base
       user.profile.become_student!(self)
    end
     
+    
+   def events 
+       Event.where(:resource_type => "Studio").where(:resource_id => self.id)
+   end
+
+    def coupons 
+        Coupon.where(:resource_type => "Studio").where(:resource_id => self.id)
+    end
+    
+    def memberships 
+        Membership.where(:resource_type => "Studio").where(:resource_id => self.id)
+    end
+    
+    def packages 
+        Package.where(:resource_type => "Studio").where(:resource_id => self.id)
+    end
 end

@@ -25,7 +25,11 @@ class UsersController < ApplicationController
   def change_role
       role = Role.find(params[:id])
       current_user.change_active_role_to(role)
-      redirect_to :back
+      if current_user.active_role.name == "student"
+          redirect_to root_path
+      else
+          redirect_to :back
+      end
   end
     
   def search

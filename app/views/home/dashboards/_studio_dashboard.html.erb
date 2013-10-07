@@ -36,9 +36,9 @@ $(document).ready(function() {
 $('#calendar').fullCalendar({
   	defaultView: 'agendaDay',
 	header: {
-  	left: '',
+  	left: 'prev',
   	center: '',
-  	right: ''
+  	right: 'next'
 	},
     eventSources: [{
           url: '<%= events_path() %>',
@@ -52,7 +52,6 @@ $('#calendar').fullCalendar({
 
       <h3>Schedule for this Afternoon</h3>
   <div class="divider-horizontal-regular" style="margin-bottom:0px"></div>
-
   <div id='dashboard-cal'>
       <div id='calendar'></div>
   </div>

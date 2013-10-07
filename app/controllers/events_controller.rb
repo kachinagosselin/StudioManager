@@ -6,8 +6,8 @@ class EventsController < ApplicationController
     def show
         @event = Event.find(params[:id])
         @registered = Profile.find_registered(@event)
-        if @event.professional_id.present?
-        @professional = User.find(@event.professional_id)
+        if @event.instructor_id.present?
+        @professional = User.find(@event.instructor_id)
         else
         @studio = @event.studio
         end

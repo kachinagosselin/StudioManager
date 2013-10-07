@@ -4,7 +4,7 @@ class Event < ActiveRecord::Base
     has_one :charge
     has_many :registered_events
     has_many :students, foreign_key: "user_id", :through => :registered_events, :source => :user
-    attr_accessible :studio_id, :description, :end_at, :instructor, :start_at, :title, :registered_events, :registered_events_attributes, :archive, :price, :professional_id, :custom_url
+    attr_accessible :studio_id, :description, :end_at, :instructor_id, :start_at, :title, :registered_events, :registered_events_attributes, :archive, :price, :resource_type, :resource_id, :custom_url
     
     
     
@@ -87,8 +87,8 @@ class Event < ActiveRecord::Base
 
     # Required to make sure all events have instructor field
     def instructor
-        if self.professional_id.present?
-            User.find(self.professional_id).name
+        if self.instructor_id.present?
+            User.find(self.instructor_id).name
         end
     end
 

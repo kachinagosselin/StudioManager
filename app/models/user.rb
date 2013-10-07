@@ -13,12 +13,8 @@ class User < ActiveRecord::Base
     
   has_many :charges
   has_many :credits
-  has_many :registered_events
   has_many :purchases
-    has_many :memberships, foreign_key: "professional_id"
-    has_many :packages, foreign_key: "professional_id"
-    has_many :events, foreign_key: "professional_id"
-  has_many :registered, foreign_key: "event_id", :through => :registered_events, :source => :event
+  has_many :events, foreign_key: "instructor_id"
 
   accepts_nested_attributes_for :profile
 
@@ -71,6 +67,10 @@ class User < ActiveRecord::Base
     
     def is_registered?(event)
         self.registered_events.where(:event_id => event.id).first.present?
+    end
+    
+    def registered
+        self.profile.registered
     end
     
     # Methods required to mark user as attended 

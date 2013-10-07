@@ -1,10 +1,14 @@
 StudioManager::Application.routes.draw do
 
+    unless Rails.application.config.consider_all_requests_local
+        match '*not_found', to: 'errors#error_404'
+    end
+
   devise_for :views
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
     
     #Check In Classes in Studio
-    match 'studios/:id/events/:event_id/checkin/' => 'studios#checkin_event', :controller => 'studios', :action => 'checkin_event', :via => [:get], :as => 'checkin_event'
+    match 'events/:event_id/checkin/' => 'events#checkin', :controller => 'events', :action => 'checkin_event', :via => [:get], :as => 'checkin_event'
     match 'studios/:id/events/:event_id/checkin_user' => 'studios#checkin_user', :controller => 'studios', :action => 'checkin_user', :via => [:post], :as => 'checkin_studio_user'
     match 'studios/:id/events/:event_id/checkin_user/:user_id' => 'studios#checkin_user_directly', :controller => 'studios', :action => 'checkin_user_directly', :via => [:post], :as => 'checkin_studio_user_directly'
     
@@ -22,15 +26,16 @@ StudioManager::Application.routes.draw do
 
     match '/login_new_student' => 'users#login_new_student', :controller => 'users', :action => 'login_new_student', :via => [:post], :as => 'login_new_student'
 
-    match 'studios/:studio_id/events/:id/cancel_registration/:profile_id' => 'events#cancel_registration', :controller => 'events', :action => 'cancel_registration', :via => [:get], :as => 'cancel_registration_studio_event_user'
-    match 'studios/:studio_id/events/:id/remove_registration/:profile_id' => 'events#remove_registration', :controller => 'events', :action => 'remove_registration', :via => [:get], :as => 'remove_registration_studio_event_user'
-    match 'studios/:studio_id/events/:id/checkin/:profile_id' => 'events#add_attendance', :controller => 'events', :action => 'add_attendance', :via => [:get], :as => 'add_attendance_studio_event_user'
+    match '/events/:id/cancel_registration/:profile_id' => 'events#cancel_registration', :controller => 'events', :action => 'cancel_registration', :via => [:get], :as => 'cancel_registration_event_user'
+    match '/events/:id/remove_registration/:profile_id' => 'events#remove_registration', :controller => 'events', :action => 'remove_registration', :via => [:get], :as => 'remove_registration_event_user'
+    match '/events/:id/checkin/:profile_id' => 'events#add_attendance', :controller => 'events', :action => 'add_attendance', :via => [:get], :as => 'add_attendance_event_user'
 
     
   authenticated :user do
     root :to => 'home#index'
   end
   root :to => "home#index"
+    get :index, :controller => "home", :action => "index"
     
     devise_scope :user do
         get '/auth/stripe_connect/callback', to: 'users/omniauth_callbacks#stripe_connect'
@@ -49,6 +54,13 @@ StudioManager::Application.routes.draw do
     resources :events do
         collection do 
             get :list
+        end
+        
+        member do
+            get :checkin  
+            get :add_registration
+        #For users without an account with our software
+            post :new_registration
         end
     end
     

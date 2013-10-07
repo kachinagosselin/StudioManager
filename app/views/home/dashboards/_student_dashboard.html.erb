@@ -17,6 +17,7 @@ $(document).ready(function() {
     	m = Gmaps.map.markers[index];
     	alert(m.name);
      	document.getElementById('test').innerHTML = m.html;
+     	$('#calendar').fullCalendar( 'addEventSource', m.events );
       }
     })(marker,i));
 
@@ -32,8 +33,12 @@ $(document).ready(function() {
 	  	left: 'prev,next today',
 	  	center: 'title',
 	  	right: 'month,agendaWeek,agendaDay',
-	  	}
+	  	},
+    eventSources: [{
+          url: '/index.json',
+        }],
 	});
+
 });
 </script>
 
@@ -49,6 +54,7 @@ $(document).ready(function() {
 
 	<div class="panel panel-primary" style="margin-top:60px;">
 		<div class="panel-heading">
+
 	        <h5 class="panel-title">List of Classes for <%= current_user.name %> </h5>
 	    </div>
 

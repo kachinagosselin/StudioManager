@@ -64,7 +64,8 @@ ActiveRecord::Schema.define(:version => 20131003231742) do
     t.text     "description"
     t.datetime "created_at",         :null => false
     t.datetime "updated_at",         :null => false
-    t.integer  "professional_id"
+    t.integer  "resource_id"
+    t.string   "resource_type"
   end
 
   create_table "credits", :force => true do |t|
@@ -95,21 +96,23 @@ ActiveRecord::Schema.define(:version => 20131003231742) do
     t.string   "refresh_token"
     t.string   "stripe_publishable_key"
     t.string   "stripe_user_id"
-    t.integer  "professional_id"
+    t.integer  "resource_id"
+    t.string   "resource_type"
   end
 
   create_table "events", :force => true do |t|
     t.datetime "start_at"
     t.datetime "end_at"
-    t.string   "instructor"
+    t.integer  "instructor_id"
     t.text     "description"
     t.string   "title"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
     t.integer  "studio_id"
     t.boolean  "archive"
     t.integer  "price"
-    t.integer  "professional_id"
+    t.integer  "resource_id"
+    t.string   "resource_type"
     t.string   "url"
     t.string   "custom_url"
   end
@@ -153,7 +156,8 @@ ActiveRecord::Schema.define(:version => 20131003231742) do
     t.string   "title"
     t.boolean  "one_time_app",      :default => false
     t.boolean  "prorate",           :default => false
-    t.integer  "professional_id"
+    t.integer  "resource_id"
+    t.string   "resource_type"
   end
 
   create_table "packages", :force => true do |t|
@@ -165,11 +169,12 @@ ActiveRecord::Schema.define(:version => 20131003231742) do
     t.integer  "price"
     t.boolean  "archived"
     t.datetime "expires_at"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
     t.string   "interval"
     t.integer  "interval_count"
-    t.integer  "professional_id"
+    t.integer  "resource_id"
+    t.string   "resource_type"
   end
 
   add_index "packages", ["studio_id"], :name => "index_packages_on_studio_id"

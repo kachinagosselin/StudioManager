@@ -12,6 +12,8 @@
         <p><%= f.label :custom_url %></br>
         <%=h f.text_field :custom_url, :class => "form-control" %></p>
         </div>
+            <%= f.hidden_field :resource_type, :value => current_user.active_role.resource_type %>
+            <%= f.hidden_field :resource_id, :value => current_user.active_role.resource_id %>
 
         <div class="col-lg-6">
         <p><%= f.label :start_at, "Start Time" %><br />
@@ -19,13 +21,11 @@
         <p><%= f.label :end_at, "End Time" %><br />
         <%=h f.text_field :end_at, 'data-date' => Date.today, :class => "form_datetime form-control", :type => "text"%></p>
 
-<!-- Need to get rid of instructor field in favor of professional id, also add select location. For studio owner displays studio locations, for instructor displays booked rooms. How about a space for cost? -->
-        <% if local_assigns[:account_type].instance_of?(Studio) %>
-        <%= f.label :professional_id, "Class Instructor"%>
-        <%= f.select "professional_id", content_tag(:option,'select instructor...',:value=>"") +options_from_collection_for_select(local_assigns[:account_type].staff, "id", "name" ), :required => true, :class => "form-control", :html => {:id => "memberships_select"} %></p> 
-         <%= f.hidden_field :studio_id, :value => local_assigns[:account_type].id %>
-         <% elsif local_assigns[:account_type].instance_of?(User) %>
-         <%= f.hidden_field :professional_id, :value => local_assigns[:account_type].id %>
+        <% if current_user.active_role.resource_type == "Studio" %>
+        <%= f.label :instructor_id, "Class Instructor"%>
+        <%= f.select "instructor_id", content_tag(:option,'select instructor...',:value=>"") +options_from_collection_for_select(Studio.find(current_user.active_role.resource_id).staff, "id", "name" ), :required => true, :class => "form-control", :html => {:id => "memberships_select"} %></p> 
+        <% elsif current_user.active_role.name == "professional" %>
+            <%= f.hidden_field :instructor_id, :value => current_user.id %>
          <% end %>
         </div>
       </div><!-- End of form -->
