@@ -233,4 +233,6 @@ class User < ActiveRecord::Base
     def is_staff?
         return self.has_role? :staff, :any
     end
+    
+
 end

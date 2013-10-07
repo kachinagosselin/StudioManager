@@ -164,4 +164,13 @@ class Profile < ActiveRecord::Base
         return registered.canceled_by_student
     end
 
+# Set preferences
+def toggle_map
+    if (self.hide_map.nil?) || (self.hide_map == false)
+        self.update_attributes(:hide_map => true)
+        else
+        self.update_attributes(:hide_map => false)
+    end
+end
+
 end

@@ -101,6 +101,7 @@ StudioManager::Application.routes.draw do
             get :registered_events, :attended_events, :purchases
             get :students
             get :history
+            get :set_map_view
         end
     end 
     

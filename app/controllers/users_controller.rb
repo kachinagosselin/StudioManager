@@ -32,6 +32,11 @@ class UsersController < ApplicationController
       end
   end
     
+  def set_map_view
+      @profile = current_user.profile
+      @profile.toggle_map
+  end
+    
   def search
       @search = Profile.search(params[:search]).first
       @results = @search   # load all matching records

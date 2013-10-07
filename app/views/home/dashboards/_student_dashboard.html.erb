@@ -2,10 +2,18 @@
 <script> 
 $(document).ready(function() {
     //NOTE that I am selecting on a class here
+    if (document.getElementById("hide_map").value == "false"){
+    	$("#map-container").hide();
+    	}
+    else {
+    	$("#map-container").show();
+    }
+
     $('.toggle').click(function(e) {
         //You also need to prevent the default behaviour of 
         e.preventDefault();
         $("#map-container").toggle();
+
     });
 
   Gmaps.map.callback = function() {
@@ -28,7 +36,6 @@ $(document).ready(function() {
 	$('#calendar').fullCalendar({
 		defaultView: 'agendaWeek',
 		minTime: 6,
-		height: 500,
 		header: {
 	  	left: 'prev,next today',
 	  	center: 'title',
@@ -43,7 +50,9 @@ $(document).ready(function() {
 </script>
 
   <div class="col-lg-10 col-lg-offset-1">
-  	<a href="#" class="toggle pull-right" style="margin-top:30px;">Toggle Map</a>
+  	<%= link_to "Toggle Map", set_map_view_user_path(current_user), method: :get, :remote => true, :class=>"toggle pull-right", :style=>"margin-top:30px;"%>
+  	<%= hidden_field_tag "hide_map", "#{current_user.profile.hide_map}" %>
+
     <div id="map-container">
 		<h3 class="center">Search for your studio on the map and start getting organized.</h3> 
 		<p class="center"> If you can't find yours send an invitation so that they can sign up for our services. <a> Send Invite </a> </p>
