@@ -57,7 +57,7 @@
 				        </tr>
 				    </thead>
 				    <tbody>
-				        <% @studio.memberships.each do |membership| %>
+				        <% @memberships.each do |membership| %>
 				        	<tr>
 				        		<td><%= membership.title %></td>
 				        		<td><%= membership.format_price%></td>
@@ -89,7 +89,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<% @studio.packages.each do |package| %>
+			<% @packages.each do |package| %>
 			<tr>
 
 				<td><%= package.title if package.name %></td> 

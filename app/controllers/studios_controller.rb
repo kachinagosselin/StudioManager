@@ -33,7 +33,9 @@ class StudiosController < ApplicationController
     
     def update
         @studio = Studio.find(params[:id])
-        
+        if params[:location]
+            @studio.locations.create!(params[:location])
+        end
         respond_to do |format|
             if @studio.update_attributes(params[:studio])
                 format.html { redirect_to :back, notice: 'Studio was successfully updated.' }

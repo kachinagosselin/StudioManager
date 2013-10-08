@@ -51,15 +51,14 @@ function stripeResponseHandler(status, response) {
 </script>
 
 <div class="section bluebackground" style="height:640px;margin-top: -30px;">
- <h1 class="center">Welcome to <%= @studio.name %>!</h1>
-<p class="center" style="padding:0px;"> Feel free to check yourself into class
-	<%= @event.title %></p>
+ <h1 class="center">Welcome to <%= @event.title %>!</h1>
+<p class="center" style="padding:0px;"> Feel free to check yourself into class!</p>
 
 
 
-<% if current_user.has_role? :owner %>
+<% if current_user.active_role.resource_type == "Studio" %>
 	<div style="margin-top:50px;margin-left:auto;margin-right:auto;width:366px;">
-	<%= form_for @search, :url => checkin_studio_user_path(@studio, @event), :html => {:method => :post, :class => 'form-vertical'} do |f| %>
+	<%= form_for "User", :url => checkin_path(@event), :html => {:method => :post, :class => 'form-vertical'} do |f| %>
       	<%= f.text_field :name_contains, :placeholder => "your name", :class => "form-control", :style => "width:275px;"  %>
 
           <button type="submit" class="btn btn-default" style="margin-top:-56px;margin-left:282px;">Submit</button>    
@@ -84,7 +83,7 @@ function stripeResponseHandler(status, response) {
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title">Register Basic Account</h4>
-                    <%= render "users/new_student", :locals => {:studio => @studio} %>
+                    <%= render "users/new_student" %>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->

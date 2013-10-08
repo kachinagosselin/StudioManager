@@ -3,5 +3,6 @@ class RegisteredEvent < ActiveRecord::Base
     belongs_to :event
     belongs_to :studio
     
-    attr_accessible :profile_id, :event_id, :studio_id, :attended, :canceled
+    attr_accessible :profile_id, :event_id, :studio_id, :attended, :canceled, :canceled_by_student
+            
 end

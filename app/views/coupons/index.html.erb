@@ -6,8 +6,6 @@
 
   <%= render "layouts/sidebar" %>
 
-<script src="http://localhost:3000/studios/1.js" width="200" height="200"></script>
-
 		<h3> Coupons</h3>
 			<div class="pull-right" style="margin-top:-40px;">
 				  <%= link_to 'New Coupon', new_coupon_path,
@@ -38,9 +36,9 @@
 				        		</td>						
 				        		<td><%= coupon.duration_in_months if coupon.duration_in_months?%></td>		        		<td><%= coupon.max_redemptions if coupon.max_redemptions?%></td>
 								<td><%= coupon.redeem_by if coupon.redeem_by?%></td>
-								<td><%= link_to 'Edit', edit_studio_coupon_path(coupon.studio, coupon),  :data => {:toggle => "modal", :target => "#editModal#{ coupon.id}"}, :remote => true, :class => 'btn btn-default btn-xs' %>	</td>
+								<td><%= link_to 'Edit', edit_coupon_path(coupon),  :data => {:toggle => "modal", :target => "#editModal#{ coupon.id}"}, :remote => true, :class => 'btn btn-default btn-xs' %>	</td>
 								 		<%= render :partial => 'edit', :locals => {:coupon => coupon}%>
-     							<td><%= button_to 'Delete', [coupon.studio, coupon], method: :delete, data: { confirm: 'Are you sure? This action cannot be undone.' }, :class => 'btn btn-default btn-xs' %></td>
+     							<td><%= button_to 'Delete', coupon, method: :delete, data: { confirm: 'Are you sure? This action cannot be undone.' }, :class => 'btn btn-default btn-xs' %></td>
 				        	</tr>
 				        <% end %>
 				</table>

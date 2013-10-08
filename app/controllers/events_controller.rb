@@ -1,8 +1,5 @@
 class EventsController < ApplicationController
     
-    def index
-    end
-    
     def show
         @event = Event.find(params[:id])
         @registered = Profile.find_registered(@event)
@@ -19,10 +16,6 @@ class EventsController < ApplicationController
         if @event.save
             redirect_to :back
         end 
-    end
-    
-    def edit
-
     end
     
     def list
@@ -62,13 +55,13 @@ class EventsController < ApplicationController
 
     end
     
-    def remote_checkin
-        @event = Event.find(params[:id])
-        if params[:studio_id].present?
-            @studio = Studio.find(params[:studio_id])
+    def checkin
+        @event = Event.find(params[:event_id])
+        if @event.resource_type == "Studio"
+            @studio = Studio.find(@event.resource_id)
             @search = @studio.students.search(params[:search]).first
-        elsif params[:user_id].present?
-            @professional = User.find(params[:user_id])
+        elsif @event.resource_type == "User"
+            @professional = User.find(@event.resource_id)
             @search = @professional.students.search(params[:search]).first
         end
     end
@@ -84,7 +77,7 @@ class EventsController < ApplicationController
         @event = Event.find(params[:id])
         @profile = Profile.find(params[:profile_id])
         if !@profile.has_been_canceled?(@event)
-        @profile.add_attendance(@event)
+        @profile.attend!(@event)
         end
         redirect_to :back
     end
@@ -101,7 +94,7 @@ class EventsController < ApplicationController
     def remove_registration
         @event = Event.find(params[:id])
         @profile = Profile.find(params[:profile_id])
-        @profile.remove_registraion(@event)
+        @profile.remove_registration(@event)
         redirect_to :back
     end
     
@@ -110,16 +103,7 @@ class EventsController < ApplicationController
         @search = Profile.search(params[:search])
         @profile = @search.first
         if @profile.present?
-            @profile.add_registraion(@event)
-        if params[:studio_id].present?
-            @studio = Studio.find(params[:studio_id])
-            @instructor = Profile.where(:name => @event.instructor).first
-            @profile.add_role :student, @studio
-            @profile.add_role :student, @instructor
-        elsif params[:user_id].present?
-            @professional = User.find(params[:user_id]).profile
-            @profile.add_role :student, @professional
-        end    
+            @profile.register!(@event, false) 
             redirect_to :back, notice: 'User was successfully added to class registration list.'
         else
             redirect_to :back, alert: 'User is not apart of our the system and must register a new account.'

@@ -18,7 +18,7 @@ class Studio < ActiveRecord::Base
 
 
     attr_accessible :address, :city, :state
-    attr_accessible :location, :main_phone, :name, :website, :account_id, :cancellation_policy, :student_waiver, :instructor_waiver, :default_event_price
+    attr_accessible :location, :main_phone, :name, :website, :account_id, :cancellation_policy, :student_waiver, :instructor_waiver, :default_event_price, :description
     
     def instantiate_first_location
         self.locations.create!(:address => address, :city => city, :state => state)
@@ -70,5 +70,58 @@ class Studio < ActiveRecord::Base
     
     def packages 
         Package.where(:resource_type => "Studio").where(:resource_id => self.id)
+    end
+    
+    def html
+        html = "<div class='row'>
+        <div class='col-lg-6' style='padding-right:30px;'>
+        <h3>#{self.name} </h3>"
+        @locations = self.locations
+        if @locations.count == 1
+            html = html +
+            "<p> Address: #{self.address} #{self.city}, #{self.state} </p>"
+        elsif @locations.count > 1 
+            html = html + "<p> Located at the following addresses: </p>" 
+            @locations.each do |loc|
+            html = html + 
+            "<p> #{loc.address} #{loc.city}, #{loc.state} </p>"
+            end
+        end
+        
+        if self.main_phone.present?
+            html = html +
+            "<p> Phone: #{self.main_phone} </p>"
+        end
+
+        if self.website.present?
+            html = html +
+            "<p> Website: <a>#{self.website}</a></p>"
+        end
+        
+        if false
+            html = html + 
+            "<p> #{self.description} </p>"
+        end
+        
+        html = html +
+        "</div>
+        
+        <div class='col-lg-5' style='margin-top:25px;'>
+        <div class='panel panel-primary' >
+        <div class='panel-heading'>
+        <h5 class='panel-title'>Studio Offerings </h5>
+        </div>
+        
+        <ul class='list-group' style='list-style-type:none;'>"
+        
+        self.memberships.each do |membership|
+            name = membership.name
+            html = html + "
+            <li><a href='#' class='list-group-item'>
+            <p class='list-group-membership-membership'>#{name}</p></a></li>"
+        end
+        
+        html = html + "</ul></div></div></div>"
+        return html
     end
 end

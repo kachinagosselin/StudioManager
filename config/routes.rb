@@ -8,9 +8,8 @@ StudioManager::Application.routes.draw do
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
     
     #Check In Classes in Studio
-    match 'events/:event_id/checkin/' => 'events#checkin', :controller => 'events', :action => 'checkin_event', :via => [:get], :as => 'checkin_event'
-    match 'studios/:id/events/:event_id/checkin_user' => 'studios#checkin_user', :controller => 'studios', :action => 'checkin_user', :via => [:post], :as => 'checkin_studio_user'
-    match 'studios/:id/events/:event_id/checkin_user/:user_id' => 'studios#checkin_user_directly', :controller => 'studios', :action => 'checkin_user_directly', :via => [:post], :as => 'checkin_studio_user_directly'
+    match 'events/:event_id/checkin/' => 'events#checkin', :controller => 'events', :action => 'checkin', :via => [:get], :as => 'checkin'
+    match 'events/:event_id/checkin/remote' => 'events#checkin_remote', :controller => 'events', :action => 'checkin_remote', :via => [:post], :as => 'checkin_remote'
     
     match 'studios/:id/invoice/:user_id' => 'studios#invoice', :controller => 'studios', :action => 'invoice', :via => [:get], :as => 'invoice'
     
@@ -26,6 +25,7 @@ StudioManager::Application.routes.draw do
 
     match '/login_new_student' => 'users#login_new_student', :controller => 'users', :action => 'login_new_student', :via => [:post], :as => 'login_new_student'
 
+    # Managing adding and removing registration and cancelation by user
     match '/events/:id/cancel_registration/:profile_id' => 'events#cancel_registration', :controller => 'events', :action => 'cancel_registration', :via => [:get], :as => 'cancel_registration_event_user'
     match '/events/:id/remove_registration/:profile_id' => 'events#remove_registration', :controller => 'events', :action => 'remove_registration', :via => [:get], :as => 'remove_registration_event_user'
     match '/events/:id/checkin/:profile_id' => 'events#add_attendance', :controller => 'events', :action => 'add_attendance', :via => [:get], :as => 'add_attendance_event_user'
@@ -59,8 +59,7 @@ StudioManager::Application.routes.draw do
         member do
             get :checkin  
             get :add_registration
-        #For users without an account with our software
-            post :new_registration
+            get :new_registration
         end
     end
     

@@ -15,7 +15,8 @@ class UsersController < ApplicationController
 
   def history
       @profile = Profile.where(:user_id => params[:id]).first
-      
+      @attended = @profile.find_attended
+      @registered = @profile.find_registered
   end 
     
   def dashboard

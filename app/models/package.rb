@@ -1,7 +1,7 @@
 class Package < ActiveRecord::Base
     belongs_to :studio
     
-    attr_accessible :studio_id, :quantity, :percent_off, :name, :title, :price, :archived, :expires_at, :interval_count, :interval, 
+    attr_accessible :studio_id, :quantity, :percent_off, :name, :title, :price, :archived, :expires_at, :interval_count, :interval, :resource_type, :resource_id
     
     def title
             self.title = "#{self.name} - #{self.format_price}"
@@ -21,7 +21,7 @@ class Package < ActiveRecord::Base
     end
 
     def expiration
-        if (self.expires_at.present?) && (self.expires_at != null)
+        if (self.expires_at.present?) && (!self.expires_at.nil?)
             return self.expires_at
         elsif (self.interval_count.present?) && (self.interval_count > 0)
             if self.interval_count > 1

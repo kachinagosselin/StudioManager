@@ -31,9 +31,16 @@ document.getElementById("studio_state").classList.add('form-control');
     <p><%= s.label :website %><br />
     <%= s.url_field :website, :class => "form-control" %></p>  
     <p><%= s.label :student_waiver %><br/>
-    <%= s.text_area :student_waiver, :class => "form-control", :cols => 20, :rows => 13 %></p>      
+    <%= s.text_area :student_waiver, :class => "form-control", :cols => 20, :rows => 14 %></p>      
    </div>
-
+   <br />
+    <% studio.locations.each do |loc| %>
+    <% if loc.id != 1 %>
+    <p class="lead">
+      <%if loc.name.present? %>
+      <%= loc.address %> <%= loc.city %>, <%= loc.state %></p>
+    <% end %>
+    <% end %>
     <%= render 'locations/form', :studio => studio %>
 
 </div>

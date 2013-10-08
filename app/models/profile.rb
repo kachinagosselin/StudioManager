@@ -51,7 +51,7 @@ class Profile < ActiveRecord::Base
         end
     end
     
-    # Return instructor studios
+    # Return professional studios and students
     def studios
         Studio.with_role(:instructor, self)
     end
@@ -60,12 +60,19 @@ class Profile < ActiveRecord::Base
         Profile.with_role(:student, self)
     end
     
-    def become_student!(this)
+    # Student roles
+    def become_student!(this, signed)
         if (signed == true) && (!self.has_role? :student, this)
         self.add_role :student, this
         end
     end
 
+    def become_student!(this)
+        if !self.has_role? :student, this
+            self.add_role :student, this
+        end
+    end
+    
     def remove_student(this)
         if (self.has_role? :student, this)
         self.remove_role :student, this
@@ -84,19 +91,32 @@ class Profile < ActiveRecord::Base
         self.remove_role :instructor, studio
         end
     end
+
+    # Staff roles
+    def become_staff!(studio)
+        if (!self.has_role? :staff, studio)
+            self.user.add_role :staff, studio
+        end
+    end
+    
+    def remove_staff(studio)
+        if (self.has_role? :staff, studio)
+            self.user.remove_role :staff, studio
+        end
+    end
     
     # Assigns role: instructor or student of professional or studio
     # Checks on each of the methods (above) prevents double assignment
-    def assign_role(user_type, account_type, client)
-    if user_type == "instructor"
-        self.become_instructor!(client.account.studio)
-    else user_type == "student"
-        if account_type == "studio"
-            self.become_student!(client.account.studio)
-        elsif account_type == "professional"
-            self.become_student!(client)
+    def assign_role(user_type, resource_type, resource_id)
+        if user_type == "instructor"
+            self.become_instructor!(Studio.find(resource_id))
+        else user_type == "student"
+            if resource_type == "Studio"
+                self.become_student!(Studio.find(resource_id))
+            elsif resource_type == "User"
+                self.become_student!(User.find(resource_id))
+            end
         end
-    end
     end
     
     # Returns available instructors for studio database
@@ -130,38 +150,80 @@ class Profile < ActiveRecord::Base
     end
 
     def self.find_registered(event)
-    @registered = Profile.with_role(:registered, event).all
-    @registered.each do |profile|
-        if profile.has_role? :attended, event
-        @registered.delete(profile)
+        @profiles = []
+        @registered = RegisteredEvent.where(:attended => false).where(:event_id => event.id)
+        @registered.each do |r|
+            @profiles << Profile.find(r.profile_id)
         end
-    end
-    return @registered
+    
+        return @profiles
     end
 
     def find_registered
-        @registered = Event.with_role(:registered, self).all
-    @registered.each do |event|
-        if self.has_role? :attended, event
-            @registered.delete(event)
+        @events = []
+        @registered = self.registered_events.where(:attended => false)
+        @registered.each do |r|
+            @events << Event.find(r.event_id)
         end
-    end
-    return @registered
+
+        return @events
     end
 
     def find_attended
-        Event.with_role(:attended, self).all
+        @events = []
+        @registered = self.registered_events.where(:attended => true)
+        @registered.each do |r|
+            @events << Event.find(r.event_id)
+        end
+        return @events
+    end
+
+    def find_canceled_by_student
+        self.registered_events.where(:canceled_by_student => true)
+    end
+
+    def find_canceled
+        self.registered_events.where(:canceled => true)
+    end
+
+    def remove_registration(event)
+        RegisteredEvent.where(:event_id => event.id).where(:profile_id => self.id).first.destroy
     end
 
     # Required for creating reports 
     def teaching_events_this_week
-        Event.where(:instructor => self.name).where('start_at < ?', Date.today+7).order(:start_at)
+        Event.where(:instructor_id => self.id).where('start_at < ?', Date.today+7).order(:start_at)
     end
 
+    def student_cancel(event)
+        registered = self.registered_events.where(:event_id => event.id).first
+        registered.update_attributes(:canceled_by_student => true)
+        registered.save
+    end
 
     def canceled_by_student?(event)
         registered = self.registered_events.where(:event_id => event.id).first
         return registered.canceled_by_student
+    end
+
+    def register!(event, checkin)
+        self.registered_events.create!(event_id: event.id, attended: checkin)
+        self.assign_role("student", event.resource_type, event.resource_id)  
+    end
+
+    def attend!(event)
+        registered = self.registered_events.where(:event_id => event.id).first
+        registered.update_attributes(:attended => true)
+    end
+
+    def has_been_canceled?(event)
+        if self.registered_events.where(:event_id => event.id).first.canceled
+            return true
+        elsif self.registered_events.where(:event_id => event.id).first.canceled_by_student
+            return true
+        else
+            return false
+        end
     end
 
 # Set preferences

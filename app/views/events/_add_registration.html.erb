@@ -23,7 +23,7 @@ $('#toggle_search').on('click', function () {
 <a href="#" id="toggle_form" style="margin-left:100px;" class="center">
 Or add new profile
 </a>
-      <%= form_for 'search', :url => add_registration_studio_event_path(@studio, @event), :method => :get do |f| %>
+      <%= form_for 'search', :url => add_registration_event_path(@event), :method => :get do |f| %>
         <div class="input-group">
             <%= f.text_field :email_contains, :class => "form-control", :placeholder => "search by email"  %>
             <span class="input-group-btn">
@@ -36,7 +36,7 @@ Or add new profile
 <div id="create_profile_area">
 <a id="toggle_search">Search</a>
 
-<%= form_for(Profile.new, :url => new_registration_studio_event_path(@studio, @event)) do |p| %>
+<%= form_for(Profile.new, :url => new_registration_event_path(@event)) do |p| %>
 <div class="form-group">
 <div class="row">
       <div class="col-lg-12">
@@ -84,8 +84,7 @@ Or add new profile
     <% end %>
   </div><!-- End of row -->
 </div><!-- End of form-group -->
-<%= hidden_field_tag "user_type", "instructor" %>
-<%= hidden_field_tag "account_type", "studio" %>
+
     </div><!-- End of body -->
     <div class="modal-footer">
     <div class="actions">

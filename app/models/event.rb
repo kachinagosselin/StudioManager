@@ -101,7 +101,7 @@ class Event < ActiveRecord::Base
         attendees = []
         
         events.each do |e|
-            attendees.add(Profile.find(e.profile_id))
+            attendees << Profile.find(e.profile_id)
         end
         
         return attendees

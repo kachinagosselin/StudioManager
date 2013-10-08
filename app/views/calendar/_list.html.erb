@@ -42,10 +42,14 @@
               <td><%= event.day_of_week %>, <%= event.date_condensed %></td>
               <td><%= link_to event.title, event_path(event)%></td>
               <td><%= event.start_time %></td>
-              <td><%= @studio.address %></td>
+              <td><%= event.url %></td>
               <td><%= event.duration %></td>
                 <td><%= link_to 'Edit', edit_event_path(event),  :data => {:toggle => "modal", :target => "#editModal#{event.id}"}, :remote => true, :class => 'btn btn-default btn-xs' %>  </td>
+                    <% if current_user.active_role.resource_type == "User" %>
+                    <%= render :partial => 'events/edit', :locals => {:account_type => @professional, :event => event}%>
+                    <% elsif current_user.active_role.resource_type == "Studio"%>
                     <%= render :partial => 'events/edit', :locals => {:account_type => @studio, :event => event}%>
+                    <% end %>
                   <td><%= button_to 'Delete', [event], method: :delete, data: { confirm: 'Are you sure? This action cannot be undone.' }, :class => 'btn btn-default btn-xs', :id=>'delete_event', :remote => true  %></td>
               </tr>
             <% end %>

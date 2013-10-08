@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
   has_many :charges
   has_many :credits
   has_many :purchases
-  has_many :events, foreign_key: "instructor_id"
+  has_many :teaching_events, foreign_key: "instructor_id"
 
   accepts_nested_attributes_for :profile
 
@@ -61,12 +61,8 @@ class User < ActiveRecord::Base
     end
     
     # Methods required to register for events
-    def register!(event, studio, checkin)
-        self.registered_events.create!(event_id: event.id, studio_id: studio.id, attended: checkin)
-    end
-    
     def is_registered?(event)
-        self.registered_events.where(:event_id => event.id).first.present?
+        self.profile.registered_events.where(:event_id => event.id).first.present?
     end
     
     def registered
@@ -93,9 +89,21 @@ class User < ActiveRecord::Base
         return events.count
     end
 
-    # Required for displaying instructor activity
-    def teaching_events
-        return Event.where(:instructor => self.name)
+    # Required for recording professional objects
+    def events
+        Event.where(:resource_type => "User").where(:resource_id => self.profile.id)
+    end
+    
+    def memberships
+        Membership.where(:resource_type => "User").where(:resource_id => self.profile.id)
+    end
+    
+    def packages
+        Package.where(:resource_type => "User").where(:resource_id => self.profile.id)
+    end
+    
+    def coupons
+        Coupon.where(:resource_type => "User").where(:resource_id => self.profile.id)
     end
     
     #
@@ -217,8 +225,8 @@ class User < ActiveRecord::Base
     end
     
     def make_professional
-        if !self.has_role? :professional
-            self.add_role :professional
+        if !self.has_role? :professional, self
+            self.add_role :professional, self
         end
     end
     
