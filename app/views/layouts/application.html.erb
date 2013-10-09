@@ -15,9 +15,9 @@
     <%= javascript_include_tag "bootstrap-datetimepicker.js" %>
     <%= javascript_include_tag "fullcalendar.js" %>
     <%= javascript_include_tag "jquery.js" %>
-    <%= javascript_include_tag "jquery.min.js" %>
     <%= favicon_link_tag '/favicon.ico' %>
-
+    <%= javascript_include_tag  "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" %>
+    <%= javascript_include_tag  "http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js" %>
     <%= javascript_include_tag "https://js.stripe.com/v1/", "application" %>
     <% if Rails.env.development? %>
     <% Stripe.api_key %>

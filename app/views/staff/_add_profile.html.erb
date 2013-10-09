@@ -5,20 +5,20 @@
 <a href="#" id="toggle_form" style="margin-left:100px;" class="center">
 Or add new profile
 </a>
-<% if @results.present? %>
-  <%= @results.first.name %>
-<% else %>
-      <%= form_for @search, :url => search_users_path, :method => 'post' do |f| %>
+
+      <%= form_for @search, :url => search_users_path, :remote => true do |f| %>
         <div class="input-group">
             <%= f.text_field :email_contains, :class => "form-control", :placeholder => "search by email"  %>
-            <%= hidden_field_tag "search_user_type", "instructor" %>
-            <%= hidden_field_tag "search_account_type", "studio" %>
+            <%= hidden_field_tag "role", "instructor" %>
+            <%= hidden_field_tag "resource_type", current_user.active_role.resource_type %>
+            <%= hidden_field_tag "resource_id", current_user.active_role.resource_id %>
             <span class="input-group-btn">
               <button type="submit" class="btn btn-primary" id="profile_search">Search</button>
             </span>
           </div><!-- /input-group -->
       <% end %>
-<% end %>
+
+      <div id="user-profile"></div>
 </div>
 
 <div id="create_profile_area">

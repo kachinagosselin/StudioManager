@@ -41,16 +41,31 @@ $('#toggle_search').on('click', function () {
 
 });
 
+$('#profile_search').bind('ajax:success', function() { 
+	var create_profile = present;
+	if (create_profile == "true"){
+    $("#search_profile_area").hide();
+    $("#create_profile_area").show();
+     document.getElementById('profile_email').value = document.getElementById('search_email_contains').value 
+	}
+	else {
+		//$('#addInstructor').modal('hide');
+		//$('body').removeClass('modal-open');
+		//$('.modal-backdrop').remove();
+		location.reload();
+	}
+});  
+
 });
 </script>
 
   <%= render "layouts/sidebar" %>
-
+<div id="test"></div>
 		<div class="col-lg-9" >
 			<h3> Studio Instructors </h3> 
 			<p style="margin-top:-32px;margin-left:225px;">
 			<%= link_to '+ add new', '',  
-				:data => {:toggle => "modal", :target => "#addInstructor"} , :remote => true, :html => {:style => "margin-top:5px;"}%></p>
+				:data => {:toggle => "modal", :target => "#addInstructor"}, :html => {:style => "margin-top:5px;"}%></p>
 
 		<div class="col-lg-7" style="margin-left:650px;margin-top:-40px;" >
 			<%= form_for @search, :url => staff_index_path, :html => {:method => :get, :id => "user_search"} do |f| %>

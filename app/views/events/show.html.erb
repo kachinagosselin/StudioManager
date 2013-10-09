@@ -24,10 +24,11 @@ document.getElementById("event_professional_id").classList.add('form-control');
 
 	     <%= link_to 'Edit', edit_event_path(@event),  :data => {:toggle => "modal", :target => "#editModal#{@event.id}"}, :remote => true %>  |	
 	     <%= link_to 'Delete', event_path(@event), method: :delete, data: { confirm: 'Are you sure? This action cannot be undone.' } %></p>
-	     	    <div class="col-lg-12">
+	    <div class="col-lg-12">
 		<%= link_to 'CheckIn Page', checkin_event_path(@event),
 	        :class => 'btn btn-primary pull-right', :style => "margin-top:-38px;margin-right:-150px;"%></div>
-
+		<%= link_to 'Request A Sub', '',
+	        :class => 'btn btn-default pull-right'%>
    	<div class="divider-horizontal-regular"></div>
 
 	<div class="row" style="margin-left:20px;margin-top:20px;">

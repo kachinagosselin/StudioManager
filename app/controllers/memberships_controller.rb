@@ -7,7 +7,7 @@ class MembershipsController < ApplicationController
             if (@membership.save) && (current_user.customer.access_token.present?)
                 @membership.create_plan(current_user)
                 format.html { redirect_to products_path }
-                format.json { head :no_content }
+                format.js
             else
                 format.html { redirect_to products_path, alert: 'Membership was unsuccessfully created.' }
                 format.json { render json: @message.errors, status: :unprocessable_entity }
@@ -27,11 +27,13 @@ class MembershipsController < ApplicationController
 
         respond_to do |format|
             if @purchase.save
+                flash[:notice] = "Good"
 
-                format.html { redirect_to products_path }
-                format.json { head :no_content }
+                format.js
+                format.html { render :action => "purchase", notice: 'Successful completed purchase.'  }
+
             else
-                format.html { redirect_to products_path, alert: 'Membership was unsuccessfully created.' }
+                format.html { redirect_to root_path, alert: 'Membership was unsuccessfully created.' }
                 format.json { render json: @message.errors, status: :unprocessable_entity }
             end 
         end

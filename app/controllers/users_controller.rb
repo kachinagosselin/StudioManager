@@ -40,16 +40,19 @@ class UsersController < ApplicationController
     
   def search
       @search = Profile.search(params[:search]).first
-      @results = @search   # load all matching records
-      
-      if @results.present?
-          @results.assign_role(params[:search_user_type], params[:search_account_type], current_user)
-          format.html { redirect_to :back }
-          format.json { render json: @results }
-          else
-          format.html { redirect_to :back }
-          format.json { render json: @message.errors, status: :unprocessable_entity }
+      @result = @search   # load all matching records
+      if @result.present?
+        if params[:resource_type] == "Studio"
+          object = Studio.find(params[:resource_id])
+        elsif params[:resource_type] == "User"
+          object = User.find(params[:resource_id])
+        end
+        @result.assign_role(params[:role], object)
       end
+      @json = !@result.present?
+      respond_to do |format|
+          format.js
+    end
   end
     
   def new_student

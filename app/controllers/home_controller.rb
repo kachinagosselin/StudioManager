@@ -42,7 +42,13 @@ class HomeController < ApplicationController
         <div class='col-lg-5' style='margin-top:25px;'>
         <div class='panel panel-primary' >
         <div class='panel-heading'>
-        <h5 class='panel-title'>Studio Offerings </h5>
+        <h5 class='panel-title'>Studio Offerings" 
+        if !studio.packages.present? && !studio.memberships.present?
+          html = html + " - there are none available through this site"
+           html = html + "</h5>
+        </div>"
+        else
+        html = html + "</h5>
         </div>
         
         <ul class='list-group' style='list-style-type:none;'>"
@@ -59,10 +65,12 @@ class HomeController < ApplicationController
             <li class='list-group-item'>#{name} <a href='/memberships/#{id}/purchase/#{profile_id}' style='margin-top:-5px;' class='btn btn-primary btn-sm pull-right'>
             Purchase</a></li>"
             end
-            # Add a purchase button
         end
         
-        html = html + "</ul></div></div></div>"          
+        html = html + "</ul>"
+
+        end 
+        html = html + "</div></div></div>"          
           marker.json({:id => studio.id,
                       :name => studio.name,
                       :html => html,

@@ -28,6 +28,12 @@
     <script> 
 $(document).ready(function() {
     //NOTE that I am selecting on a class here
+$('#purchase').bind('ajax:success', function() {  
+    alert("Success"); 
+    alert('<%= escape_javascript(flash[:notice]) %>'); 
+    $("#notice").replaceWith("<%= escape_javascript(render 'layouts/messages') %>")
+
+});  
 
 $('#calendar').fullCalendar({
   	defaultView: 'agendaDay',
@@ -43,7 +49,9 @@ $('#calendar').fullCalendar({
 });
 </script>
 
-<%= link_to 'Purchase', purchase_membership_path(Membership.first, current_user.profile), :class => "btn btn-primary"%>
+<%= link_to 'Purchase', purchase_membership_path(Membership.first, current_user.profile), :id => "purchase", :class => "btn btn-primary", :remote => true%>
+      
+      <div id='notice'></div>
 
       <h3>Schedule for this Afternoon</h3>
   <div class="divider-horizontal-regular" style="margin-bottom:0px"></div>

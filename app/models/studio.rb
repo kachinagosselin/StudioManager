@@ -12,7 +12,7 @@ class Studio < ActiveRecord::Base
     has_many :purchases
     has_many :registered_events
     
-    has_many :students, foreign_key: "user_id", :through => :registered_events
+    has_many :students
 
     after_create :instantiate_first_location
 
@@ -68,7 +68,10 @@ class Studio < ActiveRecord::Base
         Package.where(:resource_type => "Studio").where(:resource_id => self.id)
     end
     
-
+    def students 
+        Student.where(:resource_type => "Studio").where(:resource_id => self.id)
+    end
+    
     # This creates the html for the Studio display on the student dashboard
     def html
         html = "<div class='row'>
