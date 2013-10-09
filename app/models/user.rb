@@ -8,13 +8,9 @@ class User < ActiveRecord::Base
             :recoverable, :rememberable, :trackable, :validatable
     
   has_one :account
-  has_one :customer, :dependent => :destroy
   has_one :profile
     
-  has_many :charges
-  has_many :credits
-  has_many :purchases
-  has_many :teaching_events, foreign_key: "instructor_id"
+  has_many :teaching_events, foreign_key: "instructor_id", :through => :events, :source => :event
 
   accepts_nested_attributes_for :profile
 
@@ -38,16 +34,69 @@ class User < ActiveRecord::Base
             self.create_profile(:name => name, :email => email)
         end
     end
+
+    def initialize_role     # Default role: student
+        self.add_role :student
+        role = self.roles.first
+        self.update_attributes(:active_role_id => role.id)
+    end
+
+    # Managing roles for user: owner, staff, professional, student
+    def active_role
+        Role.find(self.active_role_id)
+    end
     
+    def account_roles # For display in navigation
+        self.roles.order("name ASC")
+    end
+    
+    def assign_role(role, this) # User for: owner, staff, professional, student
+        if !self.has_role? role, this
+            self.add_role role, this
+        end
+    end
+    
+    def unassign_role(role, this)
+        self.remove_role role, this
+    end
+
+    def belongs_to_role?(role, this)
+        return self.has_role? role, this
+    end   
+    
+    # Retrieve objects assigned to user profile:
+    #   many of these need to exist in the case of a user not having an account with our software
+    def customer 
+        self.profile.customer
+    end
+
+    def studio
+        self.account.studio
+    end
+
+    def registered
+        self.profile.find_registered
+    end
+
+    ### PROFESSIONAL METHODS ###
+    def add_student(profile, signed)
+        if signed == true
+            # create Student object with resource type and resource id
+            Student.create!(:resource_type => "User", :resource_id => self.id, :profile_id => profile.id)
+            profile.add_role(student, self)
+        end
+    end
+
     # Required to save customer associated with user
-    def save_with_stripe_account(stripe_code)
-        if !self.customer.present?
-            stripe_customer = Stripe::Customer.create(description: "Create account through Stripe Connect", plan: 1, email: self.email)
-            customer = self.build_customer(:stripe_customer_token => stripe_customer.id, :email => self.email, :plan_id => 1, :quantity => 1)
+    def save_with_stripe_account(stripe_code) 
+        if !self.profile.customer.present?
+            plan_id = 1 # Automatically assigns to free plan
+            stripe_customer = Stripe::Customer.create(description: "Create account through Stripe Connect", plan: plan_id, email: self.email)
+            customer = self.profile.build_customer(:stripe_customer_token => stripe_customer.id, :email => self.email, :plan_id => plan_id, :quantity => 1)
             customer.save
         end
         
-        customer = self.customer
+        customer = self.profile.customer
         params = ActiveSupport::JSON.decode(`curl -X POST https://connect.stripe.com/oauth/token -d client_secret=sk_test_I4Ci5lTRq3QtUQsejxMZBk71 -d code=#{stripe_code} -d grant_type=authorization_code`)
         customer.access_token = params['access_token']
         customer.refresh_token = params['refresh_token']
@@ -56,17 +105,8 @@ class User < ActiveRecord::Base
         customer.save
         
         if !self.account.present?
-            self.create_account(:plan_id => 1, :user_id => self.id, :email => self.email)
+            self.create_account(:plan_id => plan_id, :user_id => self.id, :email => self.email)
         end
-    end
-    
-    # Methods required to register for events
-    def is_registered?(event)
-        self.profile.registered_events.where(:event_id => event.id).first.present?
-    end
-    
-    def registered
-        self.profile.registered
     end
     
     # Methods required to mark user as attended 
@@ -113,17 +153,18 @@ class User < ActiveRecord::Base
     
     # Required to save customer of studio and/or indepedent professional
     # options = {stripe_card_token, last_4_digits, studio, instructor}
-    def save_customer!(client, options = {})
-        if self.customer.present?
-        stripe_customer = Stripe::Customer.create({description: self.email, card: self.customer.stripe_card_token, email: self.email}, client.customer.access_token)
+    def save_as_customer!(client, options = {})
+        if self.customer.present? && self.customer.stripe_customer_token.present?
+            stripe_customer = Stripe::Customer.create({description: "Customer of #{client.account.studio.name}: saved card information", card: self.customer.stripe_card_token, email: self.email}, client.customer.access_token)
+        elsif options[:last_4_digits].present?
+            stripe_customer = Stripe::Customer.create({description: "Customer of #{client.account.studio.name}: did not save card information - last 4 digits are #{options[:last_4_digits]}", card: stripe_card_token, email: self.email}, client.customer.access_token)
+            customer = self.build_customer(:stripe_customer_token => stripe_customer.id, :email => self.email)
+            customer.save
         else
-            stripe_customer = Stripe::Customer.create({description: self.email, card: stripe_card_token, email: self.email}, client.customer.access_token)
-            if  !self.customer.present?
-                customer = self.create_customer(:stripe_customer_token => stripe_customer.id, :email => self.email, :last_4_digits => last_4_digits)
-            end
+            stripe_customer = Stripe::Customer.create({description: "Customer of #{client.account.studio.name}: card information not available", email: self.email}, client.customer.access_token)
+            customer = self.build_customer(:stripe_customer_token => stripe_customer.id, :email => self.email)
+            customer.save
         end
-       
-        self.profile.become_student!(instructor)
     end
     
     def add_credits(client, package)
@@ -177,7 +218,6 @@ class User < ActiveRecord::Base
     
     def paid_for_class?(studio)
         if self.customer.credits(studio).present?
-            self.spend_credit(studio)
             return true
         else
             return false
@@ -185,14 +225,29 @@ class User < ActiveRecord::Base
     end
         
     def active_membership(studio)
-        client = User.find(studio.account.user_id)
+        client = studio.account.user
         stripe_customer = Stripe::Customer.retrieve({:id => self.customer.stripe_customer_token}, client.customer.access_token)
-        status = stripe_customer.status
+        status = stripe_customer.subscription.status
         if status == "active"
             return true
         else
             return false
         end
+    end
+
+    def active_memberships
+        active = []
+        memberships = self.profile.find_purchased(Membership)
+        memberships.each do |membership|
+            client = membership.client
+            stripe_customer = Stripe::Customer.retrieve({:id => self.customer.stripe_customer_token}, client.customer.access_token)
+            status = stripe_customer.subscription.status
+            if status == "active"
+            active << membership
+            end
+        end
+    
+        return active
     end
     
     def credits(studio)
@@ -202,45 +257,9 @@ class User < ActiveRecord::Base
     def change_active_role_to(role)
         self.update_attributes(:active_role_id => role.id)
     end
-    
-    # Managing roles for user: owner, staff, professional, student
-    # Default role: student
-    
-    def initialize_role
-        self.add_role :student
-        role = self.roles.first
-        self.update_attributes(:active_role_id => role.id)
+
+    def subscription_details(client)
+        return Stripe::Customer.retrieve({:id => self.customer.stripe_customer_token}, client.customer.access_token)
     end
-    
-    def active_role
-        Role.find(self.active_role_id)
-    end
-    
-    def account_roles
-        self.roles.order("name ASC")
-    end
-    
-    def students
-        Profile.with_role(:student, self).uniq
-    end
-    
-    def make_professional
-        if !self.has_role? :professional, self
-            self.add_role :professional, self
-        end
-    end
-    
-    def is_professional?
-        return self.has_role? :professional
-    end
-    
-    def is_owner?
-        return self.has_role? :owner, :any
-    end
-    
-    def is_staff?
-        return self.has_role? :staff, :any
-    end
-    
 
 end

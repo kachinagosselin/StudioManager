@@ -1,0 +1,63 @@
+  <%= render "layouts/sidebar" %>
+
+<div class="col-lg-6" >
+	<h3> Students of <%= current_user.name %></h3>
+		<p style="margin-top:-32px;margin-left:325px;">
+			<%= link_to '+ add new', new_user_membership_path(current_user),  
+				:data => {:toggle => "modal", :target => "#addStudent"} , :remote => true, :html => {:style => "margin-top:5px;"}%></p>
+</div>
+<div class="col-lg-6" style="margin-top:20px;" >
+	<%= form_for @search, :url => students_user_path(@professional), :html => {:method => :get} do |f| %>
+		<div class="input-group">
+      	<%= f.text_field :name_or_email_contains, :class => "form-control"  %>
+      	<span class="input-group-btn">
+          <button type="submit" class="btn btn-primary">Search</button>
+      	</span>
+    	</div><!-- /input-group -->
+	<% end %>
+</div>
+
+		<table class="table table-hover">
+		    <thead>
+		        <tr>
+		          <th>Name</th>
+		          <th>Email</th>  
+		          <th>Phone</th>
+		          <th>Date Joined?</th>                             
+		        </tr>
+		    </thead>
+		    <tbody>
+		        <% @students.each do |profile| %>
+		        	<tr>
+		        		<% if profile.user_id.present? %>
+		        		<% user = User.find(profile.user_id) %>
+		        		<td><%=link_to profile.name, user %></td>
+		        		<% else %>
+		        		<td><%= profile.name %></td>
+		        		<% end %>
+		        		<td><%= profile.email %></td>
+		        		<td><%= profile.phone %></td>
+		        		<td></td>
+		        	</tr>
+		        <% end %>
+		    </tbody>
+		</table>
+
+</div>
+
+
+
+  <div class="modal" id="addStudent" tabindex="-1" role="dialog" aria-labelledby="addInstructorLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Add Student</h4>
+      </div>
+      <%= render :partial => 'students/add_profile_professional'%>
+ 
+
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+

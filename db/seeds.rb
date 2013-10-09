@@ -11,11 +11,10 @@ puts 'CREATING ROLES'
 Role.create([
             { :name => 'admin' }, 
             { :name => 'owner' }, 
-            { :name => 'instructor' }
+            { :name => 'staff' },
+            { :name => 'student' }
             ], :without_protection => true)
 
-puts 'CREATING PLANS'
-Plan.create!(:name => "StudioManager Account", :price => 30)
 
 puts 'SETTING UP DEFAULT USER LOGIN'
 user = User.create! :name => 'Kachina Gosselin', :email => 'kachina@alum.mit.edu', :password => 'password', :password_confirmation => 'password'

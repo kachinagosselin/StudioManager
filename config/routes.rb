@@ -11,7 +11,7 @@ StudioManager::Application.routes.draw do
     match 'events/:event_id/checkin/' => 'events#checkin', :controller => 'events', :action => 'checkin', :via => [:get], :as => 'checkin'
     match 'events/:event_id/checkin/remote' => 'events#checkin_remote', :controller => 'events', :action => 'checkin_remote', :via => [:post], :as => 'checkin_remote'
     
-    match 'studios/:id/invoice/:user_id' => 'studios#invoice', :controller => 'studios', :action => 'invoice', :via => [:get], :as => 'invoice'
+    match 'memberships/:id/purchase/:profile_id' => 'memberships#purchase', :controller => 'memberships', :action => 'purchase', :via => [:get], :as => 'purchase_membership'
     
     #Studio and professional calendars
     match 'calendar(/:year(/:month))' => 'calendar#index', :as => 'calendar', :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
@@ -41,7 +41,9 @@ StudioManager::Application.routes.draw do
         get '/auth/stripe_connect/callback', to: 'users/omniauth_callbacks#stripe_connect'
     end
     
-    resources :profiles
+    resources :profiles do
+        resources :customers
+    end
     # Testing out use of twilio, if not necessary delete
     resources :appointmentreminder do
         collection do
@@ -82,7 +84,6 @@ StudioManager::Application.routes.draw do
             end
         end
         resources :accounts
-        resources :customers
         # Do we need this second iteration of profiles?
         # resources :profiles
         

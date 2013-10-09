@@ -6,7 +6,7 @@ class CustomersController < ApplicationController
         else
             Stripe.api_key = ENV['STRIPE_API_KEY']
         end
-        @user = User.find(params[:user_id])        
+        @user = Profile.find(params[:profile_id])        
         @stripe_customer = Stripe::Customer.create(description: @user.email, card: params[:stripe_card_token])
         @customer = @user.build_customer(:stripe_customer_token => @stripe_customer.id, :email => @user.email, :last_4_digits => params[:last_4_digits])
         respond_to do |format|
@@ -25,7 +25,6 @@ class CustomersController < ApplicationController
         @user = current_user
         @user.save_with_stripe_account(params[:code])
         if @user.save 
-            @user.add_role :owner
             redirect_to root_path, :notice => "Thank you for giving us access to your stripe account. Please add Studio details!"
             else
             redirect_to :back, :alert => "Failed to register your stripe account."
@@ -75,7 +74,7 @@ class CustomersController < ApplicationController
             else
             Stripe.api_key = ENV['STRIPE_API_KEY']
         end
-        @user = User.find(params[:user_id])
+        @user = Profile.find(params[:profile_id])
         @customer = @user.customer    
         @customer.last_4_digits = params[:last_4_digits]
         stripe_customer = Stripe::Customer.retrieve(@customer.stripe_customer_token)
@@ -84,8 +83,8 @@ class CustomersController < ApplicationController
 
         respond_to do |format|
         if @customer.save && @customer.stripe_customer_token.present?
-                format.html { redirect_to :back, notice: 'Card successfully updated.' }
-        format.json { head :no_content }
+            format.html { redirect_to :back, notice: 'Card successfully updated.' }
+            format.json { head :no_content }
         else
             format.html { render :back, alert: 'Card was unsuccessfully updated.' }
             format.json { render json: @message.errors, status: :unprocessable_entity }

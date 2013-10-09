@@ -49,6 +49,30 @@ class Membership < ActiveRecord::Base
                             :id => membership_id
                             }, client.customer.access_token
                             )
-        
     end
+
+    def stripe_id
+        return "#{self.name}-#{self.id}-#{self.created_at.to_i}"
+    end
+
+    def client
+        if self.resource_type == "Studio"
+            return Studio.find(self.resource_id).account.user
+        elsif self.resource_type == "User"
+            return User.find(self.resource_id)
+        end
+    end
+
+    def purchase(client, customer)
+        stripe_customer = Stripe::Customer.retrieve(
+                                            customer.stripe_customer_token,
+                                            client.customer.access_token)
+        stripe_customer.update_subscription(:plan => self.stripe_id, 
+                                            :prorate => self.prorate, 
+                                            :application_fee_percent => 20)
+        if self.one_time_app 
+            stripe_customer.cancel_subscription(:at_period_end => true)
+        end
+    end
+
 end

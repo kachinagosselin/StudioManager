@@ -1,5 +1,5 @@
     <%= fields_for studio.locations.new do |p| %>
-
+<div class="form-group col-lg-12">
     <p><%= p.label :address %><br />
     <%=h p.text_field :address, :class => "form-control" %></p>
       
@@ -13,5 +13,5 @@
               <%= p.select :state, STATES, {:class => "form-control"} %></p>
           </div>
       </div>
-
+</div>
 <% end %>

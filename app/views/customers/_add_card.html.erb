@@ -1,8 +1,8 @@
 <script>
-var id = "#add_card";
 Stripe.setPublishableKey($('meta[name="stripe-key"]').attr('content'));
 
 $(document).ready(function() {
+
   $("#add_card").submit(function(event) {
     // disable the submit button to prevent repeated clicks
     $('.submit-button').attr("disabled", "disabled");
@@ -10,11 +10,11 @@ $(document).ready(function() {
     var card_code = document.getElementById('card_code').value;
     var card_month = document.getElementById('card_month').value;
     var card_year = document.getElementById('card_year').value;
-    
+
     var end = card_number.length;
     var last_4_digits = card_number[end-4]+card_number[end-3]+card_number[end-2]+card_number[end-1];
     $("#add_card").append("<input type='hidden' name='last_4_digits' value='" + last_4_digits + "'/>");
-    
+
     Stripe.createToken({
         number: $('#card_number').val(),
         cvc: $('#card_code').val(),
@@ -32,6 +32,7 @@ function stripeResponseHandler(status, response) {
     if (response.error) {
         $(".payment-errors").text(response.error.message);
         $(".submit-button").removeAttr("disabled");
+                            alert(response.error.message);
     } else {
         var token = response['id'];
         // insert the token into the form so it gets submitted to the server
@@ -44,7 +45,7 @@ function stripeResponseHandler(status, response) {
 }
 
 </script>
-<%= form_for([@user, customer], :method => :post, :html => { :remote => true, :id => "add_card" }) do |f| %>
+<%= form_for([profile, customer], :method => :put, :html => { :remote => true, :id => "add_card" }) do |f| %>
 <div class="form-group" >
     <div class="row">
 

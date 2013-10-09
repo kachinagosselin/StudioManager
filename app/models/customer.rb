@@ -1,5 +1,5 @@
 class Customer < ActiveRecord::Base
-    belongs_to :user
+    belongs_to :profile
     
     has_many :purchases
     has_many :charges
@@ -11,4 +11,11 @@ class Customer < ActiveRecord::Base
         purchases.find_by(product_type: product_type).present?
     end
 
+    def packages
+        purchases.find_by(product_type: product_type).present?
+    end
+
+    def memberships
+        purchases.find_by(product_type: product_type).present?
+    end
 end

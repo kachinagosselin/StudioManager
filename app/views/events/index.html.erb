@@ -2,7 +2,7 @@
 
 	 <p> This is the list of events that belong to this studio. </p>
 
-      <%= link_to 'Create an Event', new_studio_event_path(), class: 'btn btn-mini'  %>
+      <%= link_to 'Create an Event', new_event_path(), class: 'btn btn-mini'  %>
 
 
 <table class="table table-condensed">
@@ -17,12 +17,5 @@
         </tr>       
     </thead>
     <tbody>
-        <% @events.each do |event| %>
-          <tr>
-            <td><%=link_to event.start_at, studio_event_path(@studio, event) %></td>
-        		<td><%=link_to event.title, studio_event_path(@studio, event)%></td>
-            <td><%=link_to event.instructor %></td>
-          </tr>
-        <% end %>
     </tbody>
 </table>

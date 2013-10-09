@@ -34,6 +34,7 @@ document.getElementById("studio_state").classList.add('form-control');
     <%= s.text_area :student_waiver, :class => "form-control", :cols => 20, :rows => 14 %></p>      
    </div>
    <br />
+   <% if studio.locations.present? %>
     <% studio.locations.each do |loc| %>
     <% if loc.id != 1 %>
     <p class="lead">
@@ -41,11 +42,11 @@ document.getElementById("studio_state").classList.add('form-control');
       <%= loc.address %> <%= loc.city %>, <%= loc.state %></p>
     <% end %>
     <% end %>
+    <% end %>
     <%= render 'locations/form', :studio => studio %>
+    <% end %>
 
+    <%= s.submit "Update", :class => "submit-button btn btn-primary pull-right", :id => "add_studio" %>
 </div>
-
-  <div class="form-actions">
-  <div><%= s.submit "Update", :class => "submit-button btn btn-primary pull-right", :id => "add_studio" %></div>  </div>
 <% end %>
 </div>

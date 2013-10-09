@@ -43,6 +43,7 @@ $('#calendar').fullCalendar({
 });
 </script>
 
+<%= link_to 'Purchase', purchase_membership_path(Membership.first, current_user.profile), :class => "btn btn-primary"%>
 
       <h3>Schedule for this Afternoon</h3>
   <div class="divider-horizontal-regular" style="margin-bottom:0px"></div>

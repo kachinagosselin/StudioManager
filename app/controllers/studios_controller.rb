@@ -17,7 +17,7 @@ class StudiosController < ApplicationController
         @studio = current_user.account.build_studio(params[:studio])
         respond_to do |format|
             if @studio.save
-                current_user.add_role :owner, @studio
+                current_user.assign_role("owner", @studio)
                 format.html { redirect_to :back, notice: 'Studio was successfully created.' }
                 format.json { head :no_content }
             else

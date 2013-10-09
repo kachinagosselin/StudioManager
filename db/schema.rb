@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131003231742) do
+ActiveRecord::Schema.define(:version => 20131008202148) do
 
   create_table "accounts", :force => true do |t|
     t.string   "plan_id"
@@ -80,8 +80,6 @@ ActiveRecord::Schema.define(:version => 20131003231742) do
   add_index "credits", ["customer_id"], :name => "index_credits_on_customer_id"
 
   create_table "customers", :force => true do |t|
-    t.integer  "studio_id"
-    t.integer  "user_id"
     t.string   "stripe_customer_token"
     t.string   "last_4_digits"
     t.integer  "plan_id"
@@ -96,8 +94,7 @@ ActiveRecord::Schema.define(:version => 20131003231742) do
     t.string   "refresh_token"
     t.string   "stripe_publishable_key"
     t.string   "stripe_user_id"
-    t.integer  "resource_id"
-    t.string   "resource_type"
+    t.integer  "profile_id"
   end
 
   create_table "events", :force => true do |t|
@@ -191,26 +188,6 @@ ActiveRecord::Schema.define(:version => 20131003231742) do
     t.datetime "updated_at",         :null => false
   end
 
-  create_table "plans", :force => true do |t|
-    t.string   "name"
-    t.decimal  "price"
-    t.integer  "limit"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  create_table "private_students", :force => true do |t|
-    t.integer  "user_id"
-    t.integer  "professional_id"
-    t.boolean  "signed_waiver"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
-  end
-
-  add_index "private_students", ["professional_id"], :name => "index_private_students_on_professional_id"
-  add_index "private_students", ["user_id", "professional_id"], :name => "index_private_students_on_user_id_and_professional_id", :unique => true
-  add_index "private_students", ["user_id"], :name => "index_private_students_on_user_id"
-
   create_table "profiles", :force => true do |t|
     t.integer  "phone",                    :limit => 8
     t.string   "address"
@@ -264,7 +241,6 @@ ActiveRecord::Schema.define(:version => 20131003231742) do
     t.integer  "event_id"
     t.integer  "studio_id"
     t.boolean  "attended",            :default => false
-    t.boolean  "canceled",            :default => false
     t.datetime "created_at",                             :null => false
     t.datetime "updated_at",                             :null => false
     t.boolean  "canceled_by_student", :default => false
@@ -289,16 +265,16 @@ ActiveRecord::Schema.define(:version => 20131003231742) do
   add_index "roles", ["name"], :name => "index_roles_on_name"
 
   create_table "students", :force => true do |t|
-    t.integer  "user_id"
-    t.integer  "studio_id"
+    t.integer  "profile_id"
+    t.integer  "resource_type"
+    t.integer  "resource_id"
     t.boolean  "signed_waiver"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
   end
 
-  add_index "students", ["studio_id"], :name => "index_students_on_studio_id"
-  add_index "students", ["user_id", "studio_id"], :name => "index_students_on_user_id_and_studio_id", :unique => true
-  add_index "students", ["user_id"], :name => "index_students_on_user_id"
+  add_index "students", ["profile_id", "resource_type", "resource_id"], :name => "index_students_on_profile_id_and_resource_type_and_resource_id", :unique => true
+  add_index "students", ["profile_id"], :name => "index_students_on_profile_id"
 
   create_table "studios", :force => true do |t|
     t.string   "name"
@@ -317,25 +293,6 @@ ActiveRecord::Schema.define(:version => 20131003231742) do
     t.text     "instructor_waiver"
     t.text     "cancellation_policy"
     t.integer  "default_event_price"
-  end
-
-  create_table "subscriptions", :force => true do |t|
-    t.integer  "studio_id"
-    t.integer  "user_id"
-    t.string   "status"
-    t.string   "stripe_customer_token"
-    t.boolean  "cancel_at_period_end"
-    t.integer  "plan_id"
-    t.integer  "quantity"
-    t.datetime "started_at"
-    t.datetime "canceled_at"
-    t.datetime "current_period_end"
-    t.datetime "current_period_start"
-    t.datetime "ended_at"
-    t.datetime "trial_end_at"
-    t.datetime "trial_start_at"
-    t.datetime "created_at",            :null => false
-    t.datetime "updated_at",            :null => false
   end
 
   create_table "users", :force => true do |t|

@@ -1,4 +1,4 @@
-<script>
+<!-- <script>
 Stripe.setPublishableKey($('meta[name="stripe-key"]').attr('content'));
 $(document).ready(function() {
 
@@ -99,8 +99,8 @@ function stripeResponseHandler(status, response) {
 
 <%= render "layouts/sidebar" %>
 <div class="col-lg-10">
-
-<!-- This section is for editing the main details for the user. It also includes main fields borrowed from the profile object. Filling out this section of the form requires confirming with your password -->
+-->
+<!-- This section is for editing the main details for the user. It also includes main fields borrowed from the profile object. Filling out this section of the form requires confirming with your password
 <h3> Personal Details </h3>
 <div class="divider-horizontal-regular"></div>
 
@@ -180,7 +180,7 @@ function stripeResponseHandler(status, response) {
 
 <% end %>
 <% end %>
-
+<!--
 <div class="divider-horizontal-regular"></div>
   <h3> Extend Profile </h3>
 
@@ -261,7 +261,7 @@ function stripeResponseHandler(status, response) {
 </div>
 <% end %>
 
-<!-- This section is for adding in your billing information. -->
+<!-- This section is for adding in your billing information. 
 <div class="divider-horizontal-regular"></div>
     <h3> Billing Details </h3>
 <div class="divider-horizontal-regular"></div>
@@ -271,12 +271,12 @@ function stripeResponseHandler(status, response) {
 
           <p class= "lead" style="padding-top:25px;">Credit card has been provided. Last four digits are: <%= current_user.customer.last_4_digits %></p>
   <% end %>
-       <%= render 'customers/add_card', :profile => current_user.profile, :customer => current_user.profile.customer %>  
+       <%= render 'customers/add_card', :customer => current_user.profile.customer %>  
   <% else %>
-       <%= render 'customers/add_card', :profile => current_user.profile, :customer => current_user.profile.build_customer  %>  
+       <%= render 'customers/add_card', :customer => current_user.profile.build_customer  %>  
 
-  <% end %> 
-
+  <% end %> -->
+<!--
 <% if current_user.account.present? %>
 
     <div class="divider-horizontal-regular"></div>
@@ -297,7 +297,7 @@ function stripeResponseHandler(status, response) {
       <%= render "devise/registrations/stripe_button" %>
   <% end %>
 <div class="divider-horizontal-regular"></div>
-
+-->
 <p>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), :data => { :confirm => "Are you sure?" }, :method => :delete %>.</p>
 </div>
 

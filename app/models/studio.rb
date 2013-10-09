@@ -12,7 +12,7 @@ class Studio < ActiveRecord::Base
     has_many :purchases
     has_many :registered_events
     
-    has_many :users, foreign_key: "user_id", :through => :registered_events
+    has_many :students, foreign_key: "user_id", :through => :registered_events
 
     after_create :instantiate_first_location
 
@@ -30,12 +30,8 @@ class Studio < ActiveRecord::Base
     
     def add_student(user, signed)
         if signed == true
-            user.add_role :student, self
+            # create Student object with resource type and resource id
         end
-    end
-    
-    def students
-        Profile.with_role(:student, self).uniq
     end
     
     def staff
@@ -72,6 +68,8 @@ class Studio < ActiveRecord::Base
         Package.where(:resource_type => "Studio").where(:resource_id => self.id)
     end
     
+
+    # This creates the html for the Studio display on the student dashboard
     def html
         html = "<div class='row'>
         <div class='col-lg-6' style='padding-right:30px;'>
@@ -116,9 +114,12 @@ class Studio < ActiveRecord::Base
         
         self.memberships.each do |membership|
             name = membership.name
+            id = membership.id
             html = html + "
-            <li><a href='#' class='list-group-item'>
-            <p class='list-group-membership-membership'>#{name}</p></a></li>"
+            <li class='list-group-item'>#{name} <a href='/memberships/#{id}/purchase/1' style='margin-top:-5px;' class='btn btn-primary btn-sm pull-right'>
+            Purchase</a></li>"
+
+            # Add a purchase button
         end
         
         html = html + "</ul></div></div></div>"

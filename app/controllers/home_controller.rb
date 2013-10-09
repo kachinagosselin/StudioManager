@@ -1,6 +1,7 @@
 class HomeController < ApplicationController
   def index
-      @user_events = current_user.registered.all
+      if user_signed_in?
+      @user_events = current_user.registered
       
       @json = Location.all.to_gmaps4rails do |location, marker|
           studio = location.studio
@@ -17,6 +18,7 @@ class HomeController < ApplicationController
           format.html # index.html.erb
           format.json { render json: @user_events.as_json }
       end
+    end
   end
     
 end

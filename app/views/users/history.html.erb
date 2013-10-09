@@ -75,9 +75,10 @@
 		<div class="panel-heading">
 	        <h5 class="panel-title">Active Memberships & Credits</h5>
 	    </div>
-	    <ul>
-	    	<li>membership name</li>
-	    </ul>
+	    <% @active = @profile.user.active_memberships %>
+	    <% @active.each do |active| %>
+	    <p><%= active.name %> with <%= active.client.name %></p>
+	    <% end %>
 
 	    <div class="panel-heading">
 	        <h5 class="panel-title">Recent Purchases</h5>
@@ -99,7 +100,7 @@
 				        	<tr>
 				        		<td><%= membership.name %></td>
 				        		<td><%= membership.price%></td>
-				        		<td></td>						
+				        		<td><%= purchase.created_at.to_s %></td>						
 				        	</tr>
 				        <% end %>
 				</table>

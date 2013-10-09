@@ -6,20 +6,24 @@ class Profile < ActiveRecord::Base
     search_methods :distance
     
     belongs_to :user
+
     has_one :photo, :as => :imageable, :dependent => :destroy
+    has_one :customer, :dependent => :destroy
+
     has_many :availabilities, :dependent => :destroy
     has_many :registered_events
     has_many :registered, foreign_key: "event_id", :through => :registered_events, :source => :event
+    has_many :purchases
 
     accepts_nested_attributes_for :photo
     accepts_nested_attributes_for :availabilities
 
   # Setup accessible (or protected) attributes for your model
     attr_accessible :phone, :address, :city, :state, :description, :certification, :is_available, :is_not_available, :hide_map, :emergency_contact_name, :emergency_contact_number, :dob, :name, :email, :photo, :photo_attributes, :availabilities, :availability_attributes
-    before_create :create_photo
-    before_create :initialize_availability
+    before_create :initialize_photo, :initialize_availability
 
-    def create_photo
+    # Intialize upon create
+    def initialize_photo
         self.build_photo
     end
     
@@ -33,6 +37,7 @@ class Profile < ActiveRecord::Base
         "#{self.address}, #{self.city}, #{self.state}" 
     end
     
+    # Determine if profile is associated with active user
     def user
         if User.exists?(id: self.user_id)
         User.find(self.user_id)
@@ -60,88 +65,36 @@ class Profile < ActiveRecord::Base
         Profile.with_role(:student, self)
     end
     
-    # Student roles
-    def become_student!(this, signed)
-        if (signed == true) && (!self.has_role? :student, this)
-        self.add_role :student, this
+    # Manage profile roles
+    def assign_role(role, this) # User for: instructor or student of professional or studio
+        if !self.has_role? role, this
+            self.add_role role, this
         end
+    end
+    
+    def unassign_role(role, this)
+        self.remove_role role, this
     end
 
-    def become_student!(this)
-        if !self.has_role? :student, this
-            self.add_role :student, this
-        end
-    end
+    def belongs_to_role?(role, this)
+        return self.has_role? role, this
+    end  
     
-    def remove_student(this)
-        if (self.has_role? :student, this)
-        self.remove_role :student, this
-        end
-    end
-    
-    # Instructor roles
-    def become_instructor!(studio)
-        if (!self.has_role? :instructor, studio)
-        self.add_role :instructor, studio
-        end
-    end
-    
-    def remove_instructor(studio)
-        if (self.has_role? :instructor, studio)
-        self.remove_role :instructor, studio
-        end
-    end
-
-    # Staff roles
-    def become_staff!(studio)
-        if (!self.has_role? :staff, studio)
-            self.user.add_role :staff, studio
-        end
-    end
-    
-    def remove_staff(studio)
-        if (self.has_role? :staff, studio)
-            self.user.remove_role :staff, studio
-        end
-    end
-    
-    # Assigns role: instructor or student of professional or studio
-    # Checks on each of the methods (above) prevents double assignment
-    def assign_role(user_type, resource_type, resource_id)
-        if user_type == "instructor"
-            self.become_instructor!(Studio.find(resource_id))
-        else user_type == "student"
-            if resource_type == "Studio"
-                self.become_student!(Studio.find(resource_id))
-            elsif resource_type == "User"
-                self.become_student!(User.find(resource_id))
-            end
-        end
-    end
-    
-    # Returns available instructors for studio database
-    def self.available_instructors
-    #Profile.with_role(:instructor, :any)
-        # When able to take in account availability use:
-        Profile.with_role(:instructor, :any).where(:is_available => true)
-    end
-    
-
     def set_availability
-        self.availabilities.each do |timeslot|
-            if self.is_not_available == true
+        if self.is_not_available == true
                 self.update_attributes(:is_available => false)
-            else
+                return
+        else
+        self.availabilities.each do |timeslot|
             if !timeslot.start_at.nil?
                 self.update_attributes(:is_available => true)
-            else
-                self.update_attributes(:is_available => false)
+                return
             end
-            end
+        end
         end
     end
         
-    def dow_available?
+    def display_availability
         available = ""
         self.availabilities.each do |timeslot|
                 available = available + ", " + timeslot.week_day
@@ -149,41 +102,39 @@ class Profile < ActiveRecord::Base
         return available
     end
 
-    def self.find_registered(event)
-        @profiles = []
-        @registered = RegisteredEvent.where(:attended => false).where(:event_id => event.id)
-        @registered.each do |r|
-            @profiles << Profile.find(r.profile_id)
-        end
-    
-        return @profiles
-    end
-
+    # Find all events by specific status: registered, attended, canceled, and canceled by student
     def find_registered
-        @events = []
-        @registered = self.registered_events.where(:attended => false)
-        @registered.each do |r|
-            @events << Event.find(r.event_id)
-        end
-
-        return @events
+        registered = self.registered_events.where(:attended => false)
+        return self.convert_to_events(registered)
     end
 
     def find_attended
-        @events = []
-        @registered = self.registered_events.where(:attended => true)
-        @registered.each do |r|
-            @events << Event.find(r.event_id)
-        end
-        return @events
+        registered = self.registered_events.where(:attended => true)
+        return self.convert_to_events(registered)
     end
 
     def find_canceled_by_student
-        self.registered_events.where(:canceled_by_student => true)
+        registered = self.registered_events.where(:canceled_by_student => true)
+        return self.convert_to_events(registered)
     end
 
     def find_canceled
-        self.registered_events.where(:canceled => true)
+        events = []
+        self.registered_events.each do |r|
+            event = Event.find(r.event_id)
+            if event.canceled
+            events << event
+            end
+        end
+        return events
+    end
+
+    def convert_to_events(registered)
+        events = []
+        registered.each do |r|
+            events << Event.find(r.event_id)
+        end
+        return events
     end
 
     def remove_registration(event)
@@ -217,7 +168,7 @@ class Profile < ActiveRecord::Base
     end
 
     def has_been_canceled?(event)
-        if self.registered_events.where(:event_id => event.id).first.canceled
+        if Event.find(event.id).canceled
             return true
         elsif self.registered_events.where(:event_id => event.id).first.canceled_by_student
             return true
@@ -234,5 +185,32 @@ def toggle_map
         self.update_attributes(:hide_map => false)
     end
 end
+
+# Find purchased memberships and packages
+def find_purchased(object)
+    @products = []
+    @purchases = Purchase.where(:customer_id => self.id).where(:product_type => object.to_s.downcase)
+    @purchases.each do |r|
+        @products << object.find(r.product_id)
+    end
+    return @products
+end
+
+    ### MODEL METHODS: across all profiles ###
+    # Returns available instructors for studio database
+    def self.available_instructors
+        # When able to take in account availability use:
+        Profile.with_role(:instructor, :any).where(:is_available => true)
+    end
+
+    def self.find_registered(event)
+        @profiles = []
+        @registered = RegisteredEvent.where(:attended => false).where(:event_id => event.id)
+        @registered.each do |r|
+            @profiles << Profile.find(r.profile_id)
+        end
+    
+        return @profiles
+    end
 
 end

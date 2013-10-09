@@ -36,7 +36,7 @@ class ProfilesController < ApplicationController
         @profile = Profile.find(params[:id])
         
         if params[:add_professional_role] == "yes"
-            @profile.user.make_professional
+            @profile.user.assign_role("professional", @profile.user)
         end
         
         if params[:profile][:availability_attributes].present?
