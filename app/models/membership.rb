@@ -75,4 +75,8 @@ class Membership < ActiveRecord::Base
         end
     end
 
+    def purchased?(customer)
+        Purchase.where(:customer_id => customer.id).where(:product_type => "membership").where(:product_id => self.id).first.present?
+    end
+
 end
