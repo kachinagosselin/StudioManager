@@ -2,10 +2,10 @@ var profile_present = '<%= escape_javascript(@profile_present.to_json) %>'
 var student_present = '<%= escape_javascript(@student_present.to_json) %>'
 var active_membership = '<%= escape_javascript(@active.to_json) %>'
 var payment_present = '<%= escape_javascript(@payment.to_json) %>'
-alert("Profile: " + profile_present + ", Student: " + student_present + ", Membership: " + active_membership + ", Customer: " + payment_present);
+//alert("Profile: " + profile_present + ", Student: " + student_present + ", Membership: " + active_membership + ", Customer: " + payment_present);
  
 if (profile_present == "true"){
-   	document.getElementById('profile_name').value = '<%= escape_javascript(raw @result.to_json) if @results.present?%>'
+   	document.getElementById('profile_name').value = '<%= escape_javascript(raw @result.name.to_json) if @profile_present%>'
 	$("#search_profile_area").hide();
     $("#existing_profile_area").show();
 
@@ -13,15 +13,20 @@ if (profile_present == "true"){
     	if (!active_membership){
     		$("#product-display").show();
     	} else {
-    		document.getElementById('product_info').innerHTML = '<% if @membership.present? %> <p class="lead center">You have an active membership: <%= escape_javascript(raw @membership.to_json) %></p><% end %>'
-    	}
+    		document.getElementById('product_info').innerHTML = '<% if @membership.present? %> <p class="lead center">You have an active membership: <%= escape_javascript(raw @membership.name.to_json) %></p><% end %>'
+		}
   	} else {
-  		document.getElementById('waiver').innerHTML = "<div class='well' style='height:200px;overflow-y:scroll;'>
-  			<h4> Studio Waiver </h4><p><%=@event.object.student_waiver %></p></div>
-    		<%= check_box_tag :signed_waiver%><p style='margin-left:20px;margin-top:-19px;'>I have read and accept the conditions</p>"
+  		$("#product-display").show();
+  		$("#waiver").show();
   	}
+
+  	if (payment_present == "false"){
+  		$("#payment-details").show();
+  	}
+
 } else{
     $("#search_profile_area").hide();
     $("#create_profile_area").show();
+    $("#product-display").show();
      document.getElementById('new_profile_email').value = document.getElementById('search_email_contains').value 
 }

@@ -3,6 +3,7 @@ $(document).ready(function() {
 $("#create_profile_area").hide();
 $("#existing_profile_area").hide();
 $("#product-display").hide();
+$("#payment-details").hide();
 
 $('#toggle_form').on('click', function () {
     $("#search_profile_area").hide();
@@ -54,21 +55,31 @@ $('#profile_search').bind('ajax:success', function() {
   </div>
 
 <div id="product-display">
-<p><b>Select Product to Purchase: </b></p>
+
+  <p><b>Select Product to Purchase: </b></p>
     <div class="row">
       <div class="col-lg-6">
       <p><b>Memberships</b></p>
-      <%= p.select "memberships", content_tag(:option,'select one...',:value=>"")+options_from_collection_for_select(@object.memberships, "id", "name" ), :required => true, :class => "form-control", :html => {:id => "memberships_select"}%></p> 
+      <%= select_tag "memberships", content_tag(:option,'select one...',:value=>"")+options_from_collection_for_select(@object.memberships, "id", "name" ), :required => true, :class => "form-control", :html => {:id => "memberships_select"}%></p> 
       </div>
     
       <div class="col-lg-6">
       <p><b>Pay Per Class</b></p>
-      <%= p.select "packages", content_tag(:option,'select one...',:value=>"")+options_from_collection_for_select(@object.packages, "id", "name" ), :required => true, :class => "form-control", :html => {:id => "memberships_select"}%></p>
+      <%= select_tag "packages", content_tag(:option,'select one...',:value=>"")+options_from_collection_for_select(@object.packages, "id", "name" ), :required => true, :class => "form-control", :html => {:id => "memberships_select"}%></p>
       </div>
     </div>
 </div>
 
 <div id="product_info"></div>
+
+<div id="payment-details">
+  <%= render "customers/card_form" %>
+</div>
+
+<div id="waiver">
+  <%= render "events/waiver", :event => @event %>
+</div>
+
 
 
   </div><!-- End of row -->
@@ -128,6 +139,25 @@ $('#profile_search').bind('ajax:success', function() {
 
   </div><!-- End of row -->
 </div><!-- End of form-group -->
+
+  <p><b>Select Product to Purchase: </b></p>
+    <div class="row">
+      <div class="col-lg-6">
+      <p><b>Memberships</b></p>
+      <%= select_tag "memberships", content_tag(:option,'select one...',:value=>"")+options_from_collection_for_select(@object.memberships, "id", "name" ), :required => true, :class => "form-control", :html => {:id => "memberships_select"}%></p> 
+      </div>
+    
+      <div class="col-lg-6">
+      <p><b>Pay Per Class</b></p>
+      <%= select_tag "packages", content_tag(:option,'select one...',:value=>"")+options_from_collection_for_select(@object.packages, "id", "name" ), :required => true, :class => "form-control", :html => {:id => "memberships_select"}%></p>
+      </div>
+    </div>
+
+        <p><b>Add Payment Information: </b></p>
+
+          <%= render "customers/card_form" %>
+
+        <%= render "events/waiver", :event => @event %>
 
     </div><!-- End of body -->
     <div class="modal-footer">
