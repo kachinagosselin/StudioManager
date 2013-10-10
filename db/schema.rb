@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131008202148) do
+ActiveRecord::Schema.define(:version => 20131010210202) do
 
   create_table "accounts", :force => true do |t|
     t.string   "plan_id"
@@ -112,6 +112,7 @@ ActiveRecord::Schema.define(:version => 20131008202148) do
     t.string   "resource_type"
     t.string   "url"
     t.string   "custom_url"
+    t.boolean  "canceled"
   end
 
   create_table "instructors", :force => true do |t|
@@ -266,14 +267,13 @@ ActiveRecord::Schema.define(:version => 20131008202148) do
 
   create_table "students", :force => true do |t|
     t.integer  "profile_id"
-    t.integer  "resource_type"
     t.integer  "resource_id"
     t.boolean  "signed_waiver"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
+    t.string   "resource_type"
   end
 
-  add_index "students", ["profile_id", "resource_type", "resource_id"], :name => "index_students_on_profile_id_and_resource_type_and_resource_id", :unique => true
   add_index "students", ["profile_id"], :name => "index_students_on_profile_id"
 
   create_table "studios", :force => true do |t|

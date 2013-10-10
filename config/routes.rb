@@ -6,7 +6,10 @@ StudioManager::Application.routes.draw do
 
   devise_for :views
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
-    
+ 
+    #Check In Classes in Studio
+    match 'events/:id/register/:profile_id' => 'events#register', :controller => 'events', :action => 'register', :via => [:post], :as => 'user_register'
+   
     #Check In Classes in Studio
     match 'events/:event_id/checkin/' => 'events#checkin', :controller => 'events', :action => 'checkin', :via => [:get], :as => 'checkin'
     match 'events/:event_id/checkin/remote' => 'events#checkin_remote', :controller => 'events', :action => 'checkin_remote', :via => [:post], :as => 'checkin_remote'
@@ -15,15 +18,14 @@ StudioManager::Application.routes.draw do
     
     #Studio and professional calendars
     match 'calendar(/:year(/:month))' => 'calendar#index', :as => 'calendar', :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
-    match 'users/:user_id/calendar(/:year(/:month))' => 'calendar#professional_index', :as => 'professional_calendar', :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
+   # match 'users/:user_id/calendar(/:year(/:month))' => 'calendar#professional_index', :as => 'professional_calendar', :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
     
-    match '/studios/:id/create_for_client(/:user_id)' => 'customers#create_for_client', :controller => 'customers', :action => 'create_for_client', :via => [:post], :as => 'new_client_customer'
-    match '/studios/:id/new_customer' => 'customers#new_customer', :controller => 'customers', :action => 'new_customer', :via => [:get], :as => 'new_customer'
+    #match '/studios/:id/create_for_client(/:user_id)' => 'customers#create_for_client', :controller => 'customers', :action => 'create_for_client', :via => [:post], :as => 'new_client_customer'
+    #match '/studios/:id/new_customer' => 'customers#new_customer', :controller => 'customers', :action => 'new_customer', :via => [:get], :as => 'new_customer'
     match '/instructors/' => 'studios#instructors_database', :controller => 'studios', :action => 'instructors_database', :via => [:get], :as => 'instructors_database'
 
-    match '/studios/:studio_id/new_student/:event_id' => 'users#new_student', :controller => 'users', :action => 'new_student', :via => [:post], :as => 'new_student'
-
-    match '/login_new_student' => 'users#login_new_student', :controller => 'users', :action => 'login_new_student', :via => [:post], :as => 'login_new_student'
+    #match '/studios/:studio_id/new_student/:event_id' => 'users#new_student', :controller => 'users', :action => 'new_student', :via => [:post], :as => 'new_student'
+    #match '/login_new_student' => 'users#login_new_student', :controller => 'users', :action => 'login_new_student', :via => [:post], :as => 'login_new_student'
 
     # Managing adding and removing registration and cancelation by user
     match '/events/:id/cancel_registration/:profile_id' => 'events#cancel_registration', :controller => 'events', :action => 'cancel_registration', :via => [:get], :as => 'cancel_registration_event_user'
@@ -47,7 +49,7 @@ StudioManager::Application.routes.draw do
     # Testing out use of twilio, if not necessary delete
     resources :appointmentreminder do
         collection do
-        post :makecall
+            post :makecall
         end
     end
     resources :pictures
@@ -61,7 +63,7 @@ StudioManager::Application.routes.draw do
         member do
             get :checkin  
             get :add_registration
-            get :new_registration
+            post :new_registration
         end
     end
     
@@ -73,7 +75,11 @@ StudioManager::Application.routes.draw do
     resources :coupons
     resources :reports
     resources :staff
-    resources :students
+    resources :students do
+            collection do
+            get :search
+        end
+    end
     resources :calendar
 
     resources :users do
@@ -84,14 +90,6 @@ StudioManager::Application.routes.draw do
             end
         end
         resources :accounts
-        # Do we need this second iteration of profiles?
-        # resources :profiles
-        
-        #resources :events do
-        #    member do
-        #        get :checkin
-        #    end
-        #end
         
         collection do
             get :search
@@ -107,18 +105,10 @@ StudioManager::Application.routes.draw do
     
     resources :studios do
         resources :locations
-        #resources :events do
-        #    member do
-        #        get :checkin  
-        #        get :add_registration
-                #For users without an account with our software
-        #        post :new_registration
-        #    end
-        #end
         member do
-            get :instructors, :students
-            post :new_instructor
-            post :new_student
+            # get :instructors, :students
+            # post :new_instructor
+            # post :new_student
             get :_embed, :test
         end
     end

@@ -87,6 +87,9 @@ class User < ActiveRecord::Base
         end
     end
 
+    def students 
+        Student.where(:resource_type => "User").where(:resource_id => self.id)
+    end
     # Required to save customer associated with user
     def save_with_stripe_account(stripe_code) 
         if !self.profile.customer.present?
@@ -225,14 +228,7 @@ class User < ActiveRecord::Base
     end
         
     def active_membership(studio)
-        client = studio.account.user
-        stripe_customer = Stripe::Customer.retrieve({:id => self.customer.stripe_customer_token}, client.customer.access_token)
-        status = stripe_customer.subscription.status
-        if status == "active"
-            return true
-        else
-            return false
-        end
+        self.profile.active_membership(studio)
     end
 
     def active_memberships

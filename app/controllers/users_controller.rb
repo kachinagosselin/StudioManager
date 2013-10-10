@@ -41,14 +41,22 @@ class UsersController < ApplicationController
   def search
       @search = Profile.search(params[:search]).first
       @result = @search   # load all matching records
-      if @result.present?
+
         if params[:resource_type] == "Studio"
           object = Studio.find(params[:resource_id])
         elsif params[:resource_type] == "User"
           object = User.find(params[:resource_id])
         end
+      # In the case that we are using search to assign a role to the user
+      if @result.present? && params[:role].present?
         @result.assign_role(params[:role], object)
       end
+
+      # In the case that we are using search to register the user for a class
+      if @result.present? && params[:event].present?
+        @active = @result.active_membership(object)
+      end
+      
       @json = !@result.present?
       respond_to do |format|
           format.js

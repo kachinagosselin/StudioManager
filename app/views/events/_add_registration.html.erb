@@ -1,6 +1,8 @@
 <script>
 $(document).ready(function() {
 $("#create_profile_area").hide();
+$("#existing_profile_area").hide();
+$("#product-display").hide();
 
 $('#toggle_form').on('click', function () {
     $("#search_profile_area").hide();
@@ -11,39 +13,91 @@ $('#toggle_form').on('click', function () {
 $('#toggle_search').on('click', function () {
     $("#search_profile_area").show();
         $("#create_profile_area").hide();
-
 });
+
+$('#profile_search').bind('ajax:success', function() { 
+  alert("Success!");
+});  
 
 });
 </script>
 
 <div class="modal-body">
 
-<div id="search_profile_area">
-<a href="#" id="toggle_form" style="margin-left:100px;" class="center">
-Or add new profile
-</a>
-      <%= form_for 'search', :url => add_registration_event_path(@event), :method => :get do |f| %>
+<div class="row" id="search_profile_area">
+      <%= form_for 'search', :url => search_students_path, :html => {:id => "profile_search"}, :method => :get, :remote => true do |f| %>
         <div class="input-group">
             <%= f.text_field :email_contains, :class => "form-control", :placeholder => "search by email"  %>
+            <%= hidden_field_tag "resource_type", current_user.active_role.resource_type %>
+            <%= hidden_field_tag "resource_id", current_user.active_role.resource_id %>
             <span class="input-group-btn">
               <button type="submit" class="btn btn-primary" id="profile_search">Search</button>
             </span>
           </div><!-- /input-group -->
       <% end %>
+
+    <div class="divider-horizontal-regular"></div>
+      <p class="center"><a href="#" id="toggle_form" class="btn btn-default btn-sm">
+      Or add new profile</a></p>
 </div>
 
-<div id="create_profile_area">
-<a id="toggle_search">Search</a>
 
-<%= form_for(Profile.new, :url => new_registration_event_path(@event)) do |p| %>
+<div id="existing_profile_area">
+<%= form_for('profile', :url => user_register_path(@event, Profile.find(1))) do |p| %>
+<div class="form-group">
+<div class="row">
+  <div class="col-lg-12">
+    <p><%= p.label :name %><br />
+    <%=h p.text_field :name, :class => "form-control"%></p>
+    <p><%= p.label :email %><br />
+    <%=h p.email_field :email, :class => "form-control" %></p>
+  </div>
+
+<div id="product-display">
+<p><b>Select Product to Purchase: </b></p>
+    <div class="row">
+      <div class="col-lg-6">
+      <p><b>Memberships</b></p>
+      <%= p.select "memberships", content_tag(:option,'select one...',:value=>"")+options_from_collection_for_select(@object.memberships, "id", "name" ), :required => true, :class => "form-control", :html => {:id => "memberships_select"}%></p> 
+      </div>
+    
+      <div class="col-lg-6">
+      <p><b>Pay Per Class</b></p>
+      <%= p.select "packages", content_tag(:option,'select one...',:value=>"")+options_from_collection_for_select(@object.packages, "id", "name" ), :required => true, :class => "form-control", :html => {:id => "memberships_select"}%></p>
+      </div>
+    </div>
+</div>
+
+<div id="product_info"></div>
+
+
+  </div><!-- End of row -->
+</div><!-- End of form-group -->
+    <div class="modal-footer">
+    <div class="actions">
+        <a class="btn" data-dismiss="modal" href="#">Cancel</a>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        <% end %>
+    </div>     
+    </div>     
+  </div><!-- End of collapseable -->
+
+
+
+<div id="create_profile_area">
+
+      <p class="center"><a href="#" id="toggle_search" class="btn btn-primary btn-sm">
+      Search Existing Students</a></p>
+      <div class="divider-horizontal-regular"></div>
+
+<%= form_for(Profile.new, :url => new_registration_event_path(@event), :id => "search_students") do |p| %>
 <div class="form-group">
 <div class="row">
       <div class="col-lg-12">
     <p><%= p.label :name %><br />
     <%=h p.text_field :name, :class => "form-control"%></p>
     <p><%= p.label :email %><br />
-    <%=h p.email_field :email, :class => "form-control" %></p>
+    <%=h p.email_field :email, :class => "form-control", :id => "new_profile_email" %></p>
     <p><%= p.label :address %><br />
     <%=h p.text_field :address, :class => "form-control" %></p>
       
@@ -59,12 +113,7 @@ Or add new profile
           </div>
       </div>
     </div>
-    <div class="col-lg-6">
-    <p><%= p.label :description %><br />
-    <%=h p.text_area :description, :class => "form-control", :cols => 20, :rows => 10 %></p>  
-    <p class="help-block">Note: This will appear in your profile.</p>
-    </div>
-    <div class="col-lg-6">
+    <div class="col-lg-12">
     <p><%= p.label :dob, "Date of Birth" %><br />
     <%=h p.text_field :dob, 'data-date' => Date.today, :class => "form_datetime form-control", 'data-date-format'=>"M d yyyy", :type => "text"%></p>
 
@@ -77,11 +126,6 @@ Or add new profile
     <p><%= p.label :emergency_contact_number %><br />
     <%=h p.text_field :emergency_contact_number, :class => "form-control"%></p>
 
-    </br><p><b> Certification </b></p></br>
-    <%= p.fields_for :photo do |asset| %>
-    <p><%= asset.label :image, "Profile Photo" %><br />
-    <%= asset.file_field :image, :class => "form-control"%></p>  
-    <% end %>
   </div><!-- End of row -->
 </div><!-- End of form-group -->
 

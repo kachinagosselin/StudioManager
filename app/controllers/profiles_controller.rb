@@ -15,8 +15,7 @@ class ProfilesController < ApplicationController
 
     def create
         @profile = Profile.create(params[:profile])
-        
-        d
+    
         if params[:user_type].present? && params[:account_type].present?
         @profile.assign_role(params[:user_type], params[:account_type])
         end

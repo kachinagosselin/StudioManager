@@ -12,8 +12,6 @@ class Studio < ActiveRecord::Base
     has_many :purchases
     has_many :registered_events
     
-    has_many :students
-
     after_create :instantiate_first_location
 
 

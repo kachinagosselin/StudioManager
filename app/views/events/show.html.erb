@@ -1,6 +1,5 @@
 <script> 
 $(document).ready(function() {
-document.getElementById("event_professional_id").classList.add('form-control');
 
     $('.form_datetime').datetimepicker({
         weekStart: 1,
@@ -10,6 +9,7 @@ document.getElementById("event_professional_id").classList.add('form-control');
         forceParse: 0,
         showMeridian: 1
       });
+
 });
 </script>
 
@@ -26,9 +26,9 @@ document.getElementById("event_professional_id").classList.add('form-control');
 	     <%= link_to 'Delete', event_path(@event), method: :delete, data: { confirm: 'Are you sure? This action cannot be undone.' } %></p>
 	    <div class="col-lg-12">
 		<%= link_to 'CheckIn Page', checkin_event_path(@event),
-	        :class => 'btn btn-primary pull-right', :style => "margin-top:-38px;margin-right:-150px;"%></div>
-		<%= link_to 'Request A Sub', '',
-	        :class => 'btn btn-default pull-right'%>
+	        :class => 'btn btn-primary pull-right', :style => "margin-top:-38px;margin-right:-150px;"%>
+		<%= link_to ' Request Sub ', '',
+	        :class => 'btn btn-default pull-right', :style => "margin-right:-150px;"%></div>
    	<div class="divider-horizontal-regular"></div>
 
 	<div class="row" style="margin-left:20px;margin-top:20px;">
@@ -132,7 +132,7 @@ document.getElementById("event_professional_id").classList.add('form-control');
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">Register Basic Account</h4>
+        <h4 class="modal-title">Register for <%= @event.title %></h4>
       </div>
       <%= render "add_registration", :account_type => "example" %>
     </div><!-- /.modal-content -->

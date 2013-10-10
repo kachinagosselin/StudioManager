@@ -2,6 +2,13 @@ class EventsController < ApplicationController
     
     def show
         @event = Event.find(params[:id])
+
+        if @event.resource_type == "Studio"
+        @object = Studio.find(@event.resource_id)
+        elsif @event.resource_type == "User"
+        @object = User.find(@event.resource_id)
+        end
+
         @registered = Profile.find_registered(@event)
         if @event.instructor_id.present?
         @professional = User.find(@event.instructor_id)
@@ -110,6 +117,16 @@ class EventsController < ApplicationController
         end
     end
     
+    def register
+        @event = Event.find(params[:id])
+        @profile = Profile.find(params[:profile_id])
+        if @profile.register!(@event, false) 
+            redirect_to :back, notice: 'User was successfully added to class registration list.'
+        else
+            redirect_to :back, alert: 'User needs to speak with studio staff.'
+        end
+    end
+
     def new_registration
         @event = Event.find(params[:id])
         @profile = Profile.create(params[:profile])

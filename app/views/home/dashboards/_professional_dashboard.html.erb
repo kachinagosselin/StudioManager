@@ -29,9 +29,7 @@
 $(document).ready(function() {
     //NOTE that I am selecting on a class here
 $('#purchase').bind('ajax:success', function() {  
-    alert("Success"); 
-    alert('<%= escape_javascript(flash[:notice]) %>'); 
-    $("#notice").replaceWith("<%= escape_javascript(render 'layouts/messages') %>")
+  $("#notice").replaceWith("<%= escape_javascript(render 'layouts/messages') %>")
 
 });  
 

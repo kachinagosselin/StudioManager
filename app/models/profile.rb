@@ -159,7 +159,7 @@ class Profile < ActiveRecord::Base
 
     def register!(event, checkin)
         self.registered_events.create!(event_id: event.id, attended: checkin)
-        self.assign_role("student", event.resource_type, event.resource_id)  
+        self.assign_role("student", event.object)  
     end
 
     def attend!(event)
@@ -195,6 +195,17 @@ def find_purchased(object)
     end
     return @products
 end
+
+def active_membership(studio)
+    client = studio.account.user
+        stripe_customer = Stripe::Customer.retrieve({:id => self.customer.stripe_customer_token}, client.customer.access_token)
+        status = stripe_customer.subscription.status
+        if status == "active"
+            return true
+        else
+            return false
+        end
+    end
 
     ### MODEL METHODS: across all profiles ###
     # Returns available instructors for studio database

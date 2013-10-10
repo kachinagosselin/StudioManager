@@ -96,6 +96,16 @@ class Event < ActiveRecord::Base
         registered_event.create!(student_id: student.id, studio_id: studio.id)
     end
 
+    def object
+        if self.resource_type == "Studio"
+            return Studio.find(self.resource_id)
+        elsif self.resource_type == "User"
+            return User.find(self.resource_id)
+        else
+            return nil
+        end
+    end
+
     def attendees
         events = RegisteredEvent.where(:event_id => self.id).where(:attended => true )
         attendees = []
