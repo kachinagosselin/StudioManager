@@ -31,6 +31,7 @@ $('#profile_search').bind('ajax:success', function() {
             <%= f.text_field :email_contains, :class => "form-control", :placeholder => "search by email"  %>
             <%= hidden_field_tag "resource_type", current_user.active_role.resource_type %>
             <%= hidden_field_tag "resource_id", current_user.active_role.resource_id %>
+
             <span class="input-group-btn">
               <button type="submit" class="btn btn-primary" id="profile_search">Search</button>
             </span>
@@ -44,15 +45,11 @@ $('#profile_search').bind('ajax:success', function() {
 
 
 <div id="existing_profile_area">
-<%= form_for('profile', :url => user_register_path(@event, Profile.find(1))) do |p| %>
+<%= form_for('profile', :url => register_event_path(@event), :method => :get) do |p| %>
 <div class="form-group">
 <div class="row">
-  <div class="col-lg-12">
-    <p><%= p.label :name %><br />
-    <%=h p.text_field :name, :class => "form-control"%></p>
-    <p><%= p.label :email %><br />
-    <%=h p.email_field :email, :class => "form-control" %></p>
-  </div>
+
+<div id="user_info"></div>
 
 <div id="product-display">
 

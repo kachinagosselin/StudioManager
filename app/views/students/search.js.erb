@@ -9,11 +9,13 @@ if (profile_present == "true"){
 	$("#search_profile_area").hide();
     $("#existing_profile_area").show();
 
+    document.getElementById('user_info').innerHTML = '<p class = "lead center"><%= @result.name %>, thanks for signing in.</p><p> <%= hidden_field_tag "profile_id", @result.id %>'
+
   	if (student_present == "true"){
     	if (!active_membership){
     		$("#product-display").show();
     	} else {
-    		document.getElementById('product_info').innerHTML = '<% if @membership.present? %> <p class="lead center">You have an active membership: <%= escape_javascript(raw @membership.name.to_json) %></p><% end %>'
+    		document.getElementById('product_info').innerHTML = '<% if @membership.present? %> <p class="lead center">You have an active membership: <%= @membership.name %></p><% end %>'
 		}
   	} else {
   		$("#product-display").show();

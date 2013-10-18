@@ -8,7 +8,6 @@ StudioManager::Application.routes.draw do
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
  
     #Check In Classes in Studio
-    match 'events/:id/register/:profile_id' => 'events#register', :controller => 'events', :action => 'register', :via => [:post], :as => 'user_register'
    
     #Check In Classes in Studio
     match 'events/:event_id/checkin/' => 'events#checkin', :controller => 'events', :action => 'checkin', :via => [:get], :as => 'checkin'
@@ -64,6 +63,7 @@ StudioManager::Application.routes.draw do
             get :checkin  
             get :add_registration
             post :new_registration
+            get :register
         end
     end
     
