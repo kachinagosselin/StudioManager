@@ -1,8 +1,6 @@
 StudioManager::Application.routes.draw do
 
-    unless Rails.application.config.consider_all_requests_local
-        match '*not_found', to: 'errors#error_404'
-    end
+
 
   devise_for :views
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
