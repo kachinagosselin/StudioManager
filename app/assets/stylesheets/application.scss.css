@@ -44,6 +44,49 @@ body {
   padding-bottom: 20px;
 }
 
+/* MAIN NAVIGATION */
+.main-nav {
+  background: #f5f5f5;
+  padding-top: 4px;
+  border-bottom: 1px solid #E1E1E1;
+  margin-bottom: 15px;
+}
+
+.container {
+  margin-right: auto;
+  margin-left: auto;
+  padding-top: 0;
+  z-index: 5;
+}
+
+.main-nav ul {
+  margin: auto;
+  padding:0px;
+  height: 40px;
+  overflow: hidden;
+}
+
+.main-nav ul li {
+  list-style-type: none;
+  margin: 0;
+  display: table-cell;
+  width: 1%;
+}
+
+.main-nav ul a {
+  display: block;
+  text-align: center;
+  font-weight: normal;
+  height: 38px;
+  line-height: 34px;
+  color: #777;
+  text-shadow: 0 1px 1px white;
+  padding: 0 10px;
+  text-decoration: none;
+  padding-top: 2px;
+}
+
+/* */
 .leftspan{
 border-right: 1px solid #ccc;
 }
@@ -52,21 +95,6 @@ border-right: 1px solid #ccc;
 border-left: 1px solid #ccc;
 }
 
-.divider-horizontal {
-height: 1px;
-width: 120%;
-margin: 10px 0px 10px -40px;
-background-color: gainsboro;
-border-right: 1px solid white;
-}
-
-.divider-horizontal-regular {
-height: 1px;
-width: 100%;
-margin: 20px 0px 10px 0px;
-background-color: gainsboro;
-border-right: 1px solid white;
-}
 
 .learn-button {
 color: #333;
@@ -131,41 +159,6 @@ font-weight: 300;
 padding-bottom: 30px;
 }
 
-.section h2{
-padding: 55px 0;
-}
-
-.beigebackground h2 {
-color: #999999;
-padding-top: 50px;
-padding-bottom: 15px;
-}
-
-.beigebackground h2 {
-color: #395a6f;
-}
-
-.bluebackground p {
-color: #fff;
-font-size: 15px;
-line-height: 1.6em;
-font-weight: 100;
-display: block;
--webkit-margin-before: 1em;
--webkit-margin-after: 1em;
--webkit-margin-start: 0px;
--webkit-margin-end: 0px;}
-
-.beigebackground p {
-color: #333;
-font-size: 15px;
-line-height: 1.6em;
-font-weight: 100;
-display: block;
--webkit-margin-before: 1em;
--webkit-margin-after: 1em;
--webkit-margin-start: 0px;
--webkit-margin-end: 0px;}
 
 .section .header-subscript {
 text-align: center;
@@ -222,8 +215,28 @@ body {
   background-color: #fff;   /*#FAFAFB !important;*/
 }
 
+/* GLYPHICONS */
+@import url("//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc2/css/bootstrap-glyphicons.css");
 
+/* IMAGE */
+.avatar {
+  float: left;
+  margin-right: 12px;
+  width: 40px;
+  border: 1px solid #ddd;
+  padding: 1px;
+}
 
+img {
+  max-width: 100%;
+  width: auto\9;
+  height: auto;
+  vertical-align: middle;
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+}
+
+/* SIDE NAV */
 nav#sidebar, nav.sidebar {
 z-index: 2;
 position: fixed;
@@ -287,7 +300,36 @@ a.btn.btn-blue:active,button.btn.btn-blue:active,button[type=submit].btn-blue:ac
 
 a.btn.btn-tall,button.btn.btn-tall,button[type=submit].btn-tall,button[type=reset].btn-tall{padding:10px 12px}
 
+/* DIVIDERS */
+hr {
+  margin: 18px 0;
+  border: 0;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #fff;
+  display: block;
+  -webkit-margin-before: 0.5em;
+  -webkit-margin-after: 0.5em;
+  -webkit-margin-start: auto;
+  -webkit-margin-end: auto;
+}
 
+.divider-horizontal {
+height: 1px;
+width: 120%;
+margin: 10px 0px 10px -40px;
+background-color: gainsboro;
+border-right: 1px solid white;
+}
+
+.divider-horizontal-regular {
+height: 1px;
+width: 100%;
+margin: 20px 0px 10px 0px;
+background-color: gainsboro;
+border-right: 1px solid white;
+}
+
+/* STYLE SHORTCUTS */
 .fr{float:right!important}
 .ma{margin:0 auto!important;float:none!important}
 .mt{margin-top:20px!important}
