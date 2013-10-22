@@ -14,8 +14,6 @@
       <p> Next select either a professional or studio account.</br>
         and connect your account to Stripe. Finally, once that is complete add in the details of your studio.</p>
             <a href="https://connect.stripe.com/oauth/authorize?response_type=code&amp;scope=read_write&amp;stripe_landing=login&amp;client_id=ca_2Ksr3KRSkcnkhLjwUQPbFNKuAptJ5sSw" class="stripe-connect"><span>Connect with Stripe</span></a>
-      <%= link_to 'Create an Account', new_user_account_path(current_user.id),
-        :class => 'btn btn-primary btn-tall' ,  :data => {:toggle => "modal", :target => "#accountModal"} , :remote => true%>
         </div>
     </div>
   </div>
