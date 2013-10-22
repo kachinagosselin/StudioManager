@@ -28,7 +28,7 @@ $(document).ready(function() {
             :width => "900", :height => "300")%>"/>
         </br>
             <% total = 0 %>
-            <% @events = @studio.events.where('start_at >= ?', Date.today-7) %>
+            <% @events = @resource.events.where('start_at >= ?', Date.today-7) %>
             <% @events.each do |event| %>
             <% total = total + event.users.count %>
             <% end %>

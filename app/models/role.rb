@@ -11,4 +11,8 @@ class Role < ActiveRecord::Base
         end
         return text
     end
+
+    def resource
+      self.resource_type.constantize.find(self.resource_id)
+    end
 end
