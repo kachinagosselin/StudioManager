@@ -34,7 +34,7 @@ $("#registerModal").appendTo("body");
             <li class="dropdown" role="menu">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="padding-bottom:9px;">
                 <% if current_user.profile.photo.present?  %>
-                <%= image_tag current_user.profile.photo.image.url(:thumb), :width => "25px;"%>
+                <%= image_tag current_user.profile.photo.image.url(:thumb), :class => "avatar", :width => "25px;"%>
                 <% else %>
                 <%= current_user.name %> 
                 <% end %>

@@ -34,6 +34,7 @@ gem 'twilio-ruby'
 gem "twitter-bootstrap-rails"
 gem "therubyracer"
 gem "less-rails"
+gem "font-awesome-rails"
 
 group :development do
   gem 'better_errors'
