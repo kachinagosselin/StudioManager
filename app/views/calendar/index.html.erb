@@ -36,9 +36,7 @@ $("#delete_event").observe('ajax:success', function(evt, status, data, xhr) {
 });
 </script>
 
-  <%= render "layouts/sidebar" %>
-
-  <div class="col-lg-11">
+  <div class="col-lg-8 col-lg-offset-2">
   <div id='calendar'></div>
 
   <%= render 'list', :locals => {:url => calendar_path, :new_url => new_event_path} %>

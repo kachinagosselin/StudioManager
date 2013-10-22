@@ -13,13 +13,13 @@ $(document).ready(function() {
 </script>
 
 
-  <%= render "layouts/sidebar" %>
+  <div class="col-lg-8 col-lg-offset-2">
 
     <h3> Reports</h3>
-    <div class="divider-horizontal-regular"></div>
+    <hr>
 
     <h4> Attendence this Week</h4>
-    <div class="divider-horizontal-regular"></div>
+    <hr>
 
 <img src="<%= Gchart.line( :data => [17, 17, 11, 8, 2], 
               :axis_with_labels => ['x', 'y'], 

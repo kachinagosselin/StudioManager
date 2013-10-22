@@ -59,15 +59,13 @@ $('#profile_search').bind('ajax:success', function() {
 });
 </script>
 
-  <%= render "layouts/sidebar" %>
-<div id="test"></div>
-		<div class="col-lg-9" >
+  <div class="col-lg-8 col-lg-offset-2">
 			<h3> Studio Instructors </h3> 
 			<p style="margin-top:-32px;margin-left:225px;">
 			<%= link_to '+ add new', '',  
 				:data => {:toggle => "modal", :target => "#addInstructor"}, :html => {:style => "margin-top:5px;"}%></p>
 
-		<div class="col-lg-7" style="margin-left:650px;margin-top:-40px;" >
+		<div class="col-lg-7 pull-right" style="margin-top:-40px;" >
 			<%= form_for @search, :url => staff_index_path, :html => {:method => :get, :id => "user_search"} do |f| %>
 				<div class="input-group">
 		      	<%= f.text_field :name_or_email_contains, :class => "form-control"  %>
@@ -77,8 +75,9 @@ $('#profile_search').bind('ajax:success', function() {
 		    	</div><!-- /input-group -->
 			<% end %>
 		</div>
-		</div>
 
+		<hr>
+		
 		<table class="table table-hover">
 		    <thead>
 		        <tr>

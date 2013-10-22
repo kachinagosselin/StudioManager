@@ -31,6 +31,9 @@ gem 'bootstrap-timepicker-rails'
 gem 'omniauth-stripe-connect'
 gem 'googlecharts', :require => "gchart"
 gem 'twilio-ruby'
+gem "twitter-bootstrap-rails"
+gem "therubyracer"
+gem "less-rails"
 
 group :development do
   gem 'better_errors'
