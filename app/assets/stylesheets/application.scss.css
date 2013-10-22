@@ -99,6 +99,11 @@ body {
   padding-top: 2px;
 }
 
+.main-nav ul li.active a:after{
+  content:'';
+  display:
+  block;p
+  osition:relative;bottom:8px;left:50%;width:0;height:0;border-color:transparent transparent #777 transparent;border-style:solid;border-width:6px;margin-left:-6px}.main-nav ul li:hover a{color:#474d57}
 /* */
 .leftspan{
 border-right: 1px solid #ccc;
@@ -425,6 +430,9 @@ h3.page-title {
 .ui-box ul {
   margin: 0;
 }
+
+.ui-box .title .nav-pills>li.active>a{background:#D5D5D5;color:#474d57;-webkit-border-radius:0;-moz-border-radius:0;-ms-border-radius:0;-o-border-radius:0;border-radius:0;border-radius:0;border-left:1px solid #CCC;border-right:1px solid #CCC}
+
 
 .well-list {
   margin: 0;

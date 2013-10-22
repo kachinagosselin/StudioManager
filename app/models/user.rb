@@ -226,11 +226,8 @@ class User < ActiveRecord::Base
             return false
         end 
     end
-        
-    def active_membership(studio)
-        self.profile.active_membership(studio)
-    end
 
+    ## For history page
     def active_memberships
         active = []
         memberships = self.profile.find_purchased(Membership)

@@ -187,17 +187,20 @@ def toggle_map
 end
 
 # Find purchased memberships and packages
-def find_purchased(object)
+def find_purchased(object, resource)
     @products = []
     @purchases = Purchase.where(:customer_id => self.id).where(:product_type => object.to_s.downcase)
     @purchases.each do |r|
-        @products << object.find(r.product_id)
+        product = object.find(r.product_id)
+        if product.resource_id == resource.id && product.resource_type == resource.to_s.downcase
+        @products << product
+        end
     end
     return @products
 end
 
-def active_membership(studio)
-    client = studio.account.user
+def active_membership(resource)
+    client = resource.user
         stripe_customer = Stripe::Customer.retrieve({:id => self.customer.stripe_customer_token}, client.customer.access_token)
         status = stripe_customer.subscription.status
         if status == "active"
@@ -207,6 +210,19 @@ def active_membership(studio)
         end
     end
 
+    def active_memberships(resource)
+        active = []
+        memberships = self.find_purchased(Membership, resource)
+        memberships.each do |membership|
+            client = membership.client
+            stripe_customer = Stripe::Customer.retrieve({:id => self.customer.stripe_customer_token}, client.customer.access_token)
+            status = stripe_customer.subscription.status
+            if status == "active"
+            active << membership
+            end
+        end
+    end
+    
     ### MODEL METHODS: across all profiles ###
     # Returns available instructors for studio database
     def self.available_instructors

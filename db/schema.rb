@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131010210202) do
+ActiveRecord::Schema.define(:version => 20131022210549) do
 
   create_table "accounts", :force => true do |t|
     t.string   "plan_id"
@@ -210,6 +210,8 @@ ActiveRecord::Schema.define(:version => 20131010210202) do
     t.boolean  "gmaps"
     t.string   "certification"
     t.boolean  "is_not_available",                      :default => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "profiles", ["email"], :name => "index_profiles_on_email", :unique => true

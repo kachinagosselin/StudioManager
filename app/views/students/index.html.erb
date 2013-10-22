@@ -1,6 +1,7 @@
-  <script>
+<script>
 $(document).ready(function() {
-document.getElementById("profile_state").classList.add('form-control');
+    document.getElementById("profile_state").classList.add('form-control');
+
     $("#create_profile_area").hide();
 
     var phone = document.getElementById('profile_phone').value.toString();
@@ -44,19 +45,14 @@ $('#toggle_search').on('click', function () {
 });
 </script>
 
-  <div class="col-lg-8 col-lg-offset-2">
+<div class="col-lg-8 col-lg-offset-2">
 <div class="row">
 <div class="col-lg-6" >
-  <% if current_user.active_role.resource_type == "Studio" %>
-	  <h3> Students of <%= Studio.find(current_user.active_role.resource_id).name %></h3>
-  <% elsif current_user.active_role.resource_type == "User" %>
-    <h3> Students of <%= User.find(current_user.active_role.resource_id).name %></h3>
-  <% end %>
-	<p style="margin-top:-32px;margin-left:325px;">
-			<%= link_to '+ add new', '',  
-				:data => {:toggle => "modal", :target => "#addStudent"} , :remote => true, :html => {:style => "margin-top:5px;"}%></p>
+	  <span><h3 class="page-title"> <%= current_user.active_role.name.to_s.capitalize %> Students </h3>
+
+	</span>
 </div>
-<div class="col-lg-6" style="margin-top:20px;" >
+<div class="col-lg-6">
 	<%= form_for @search, :url => students_path, :html => {:method => :get} do |f| %>
 		<div class="input-group">
       	<%= f.text_field :name_or_email_contains, :class => "form-control"  %>
@@ -74,12 +70,17 @@ $('#toggle_search').on('click', function () {
 		        <tr>
 		          <th>Name</th>
 		          <th>Email</th>  
-		          <th>Phone</th>
-		          <th>Date Joined?</th>                             
+              <th>Active Membership</th>   
+              <th>Last Class</th>   
+		          <th>Date Joined</th>   
+              <th><%= link_to raw("<span class=\"glyphicon glyphicon-plus-sign\" style=\"font-size:18px;\"></span>".html_safe), '',  :data => {:toggle => "modal", :target => "#addStudent"} , :remote => true %>
+</th>                          
 		        </tr>
 		    </thead>
 		    <tbody>
 		        <% @students.each do |profile| %>
+                  <% @active = profile.active_memberships(current_user.active_role.resource).first %>
+
 		        	<tr>
 		        		<% if profile.user_id.present? %>
 		        		<% user = User.find(profile.user_id) %>
@@ -88,8 +89,16 @@ $('#toggle_search').on('click', function () {
 		        		<td><%= profile.name %></td>
 		        		<% end %>
 		        		<td><%= profile.email %></td>
-		        		<td><%= profile.phone %></td>
-		        		<td></td>
+		        		<td>
+                  <% if @active.present? %>
+                    <%= @active.name %>
+                  <% else %>
+                    None current
+                  <% end %>
+                </td>
+                <td></td>
+                <td><%= profile.created_at.to_time.strftime('%b %d, %Y') %></td>
+		        		<td><a href="mailto:kachina@alum.mit.edu"><span class="glyphicon glyphicon-send" style="color:black;"></span></a></td>
 		        	</tr>
 		        <% end %>
 		    </tbody>
