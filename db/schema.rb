@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131022210549) do
+ActiveRecord::Schema.define(:version => 20131022233546) do
 
   create_table "accounts", :force => true do |t|
     t.string   "plan_id"
@@ -212,6 +212,7 @@ ActiveRecord::Schema.define(:version => 20131022210549) do
     t.boolean  "is_not_available",                      :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "student_waiver"
   end
 
   add_index "profiles", ["email"], :name => "index_profiles_on_email", :unique => true

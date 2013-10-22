@@ -80,6 +80,9 @@ class User < ActiveRecord::Base
         self.profile.find_registered
     end
 
+    def student_waiver 
+        self.profile.student_waiver
+    end
     ### PROFESSIONAL METHODS ###
     def add_student(profile, signed)
         if signed == true
