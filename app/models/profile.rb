@@ -6,6 +6,7 @@ class Profile < ActiveRecord::Base
     search_methods :distance
     
     belongs_to :user
+    has_many :students
 
     has_one :photo, :as => :imageable, :dependent => :destroy
     has_one :customer, :dependent => :destroy
@@ -22,6 +23,8 @@ class Profile < ActiveRecord::Base
     attr_accessible :phone, :address, :city, :state, :description, :certification, :is_available, :is_not_available, :hide_map, :emergency_contact_name, :emergency_contact_number, :dob, :name, :email, :photo, :photo_attributes, :availabilities, :availability_attributes
     before_create :initialize_photo, :initialize_availability
 
+    scope :available, where(:is_available => 1)
+    scope :sorted, order(:date => :desc)
     # Intialize upon create
     def initialize_photo
         self.build_photo

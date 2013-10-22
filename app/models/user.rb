@@ -24,6 +24,8 @@ class User < ActiveRecord::Base
     validates :email, :uniqueness => true
     validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+.)+[a-z]{2,})$/i
 
+    scope :student_of, lambda{|resource_ids| joins(:student).where(:resource_id => {:id => resource_ids}) unless resource_ids.nil?}
+
     # Required to create complete profile for user
     def instantiate_profile
         @profile = Profile.where(:email => email).first
@@ -88,7 +90,7 @@ class User < ActiveRecord::Base
     end
 
     def students 
-        Student.where(:resource_type => "User").where(:resource_id => self.id)
+        Profile.joins(:students).where(["students.resource_id = ? AND students.resource_type = ?", self.id, "User"])
     end
     # Required to save customer associated with user
     def save_with_stripe_account(stripe_code) 

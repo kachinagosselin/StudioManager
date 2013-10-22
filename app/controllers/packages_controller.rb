@@ -2,7 +2,7 @@ class PackagesController < ApplicationController
 
     def create
       @package = Package.new(params[:package])
-      d
+      
       respond_to do |format|
           if @package.save
               format.html { redirect_to products_path }

@@ -53,7 +53,7 @@ $('#toggle_search').on('click', function () {
 	</span>
 </div>
 <div class="col-lg-6">
-	<%= form_for @search, :url => students_path, :html => {:method => :get} do |f| %>
+	<%= form_for @search, :url => students_path do |f| %>
 		<div class="input-group">
       	<%= f.text_field :name_or_email_contains, :class => "form-control"  %>
       	<span class="input-group-btn">
@@ -73,8 +73,7 @@ $('#toggle_search').on('click', function () {
               <th>Active Membership</th>   
               <th>Last Class</th>   
 		          <th>Date Joined</th>   
-              <th><%= link_to raw("<span class=\"glyphicon glyphicon-plus-sign\" style=\"font-size:18px;\"></span>".html_safe), '',  :data => {:toggle => "modal", :target => "#addStudent"} , :remote => true %>
-</th>                          
+              <th><%= link_to raw("<span class=\"glyphicon glyphicon-plus-sign\" style=\"font-size:18px;\"></span>".html_safe), '',  :data => {:toggle => "modal", :target => "#addStudent"} , :remote => true %></th>                          
 		        </tr>
 		    </thead>
 		    <tbody>
@@ -114,7 +113,7 @@ $('#toggle_search').on('click', function () {
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title">Add Student</h4>
       </div>
-      <%= render :partial => 'students/add_profile_studio'%>
+      <%= render :partial => 'students/add_profile'%>
  
 
     </div><!-- /.modal-content -->

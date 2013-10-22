@@ -1,28 +1,72 @@
+<script>
+$(document).ready(function() {
+$("#create_profile_area").hide();
+$("#existing_profile_area").hide();
+$("#product-display").hide();
+$("#payment-details").hide();
+
+$('#toggle_form').on('click', function () {
+    $("#search_profile_area").hide();
+        $("#create_profile_area").show();
+
+});
+
+$('#toggle_search').on('click', function () {
+    $("#search_profile_area").show();
+        $("#create_profile_area").hide();
+});
+
+$('#profile_search').bind('ajax:success', function() { 
+  alert("Success!");
+});  
+
+});
+</script>
 
 <div class="modal-body">
 
 <div id="search_profile_area">
-<a href="#" id="toggle_form" style="margin-left:100px;" class="center">
-Or add new profile
-</a>
-<% if @results.present? %>
-  <%= @results.first.name %>
-<% else %>
-      <%= form_for @search, :url => search_users_path, :method => 'post' do |f| %>
+  <%= form_for 'search', :url => students_path, :html => {:id => "profile_search"}, :method => "post" do |f| %>
         <div class="input-group">
             <%= f.text_field :email_contains, :class => "form-control", :placeholder => "search by email"  %>
-            <%= hidden_field_tag "user_type", "student" %>
-            <%= hidden_field_tag "account_type", "studio" %>
-              <span class="input-group-btn">
+            <%= hidden_field_tag "resource_type", current_user.active_role.resource_type %>
+            <%= hidden_field_tag "resource_id", current_user.active_role.resource_id %>
+
+            <span class="input-group-btn">
               <button type="submit" class="btn btn-primary" id="profile_search">Search Students</button>
             </span>
           </div><!-- /input-group -->
       <% end %>
-<% end %>
+
+      <hr>
+      <p class="center"><a href="#" id="toggle_form" class="btn btn-default btn-sm">
+      Or add new profile</a></p>
 </div>
 
+<div id="existing_profile_area">
+<%= form_for('profile', :method => :get) do |p| %>
+<div class="form-group">
+<div class="row">
+
+<div id="user_info"></div>
+
+  </div><!-- End of row -->
+</div><!-- End of form-group -->
+    <div class="modal-footer">
+    <div class="actions">
+        <a class="btn" data-dismiss="modal" href="#">Cancel</a>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        <% end %>
+    </div>     
+    </div>     
+  </div><!-- End of collapseable -->
+
+
 <div id="create_profile_area">
-<a id="toggle_search">Search</a>
+
+      <p class="center"><a href="#" id="toggle_search" class="btn btn-primary btn-sm">
+      Search Existing Students</a></p>
+      <div class="divider-horizontal-regular"></div>
 
 <%= form_for(Profile.new) do |p| %>
 <div class="form-group">
@@ -61,7 +105,7 @@ Or add new profile
   </div><!-- End of row -->
 </div><!-- End of form-group -->
 <%= hidden_field_tag "user_type", "student" %>
-<%= hidden_field_tag "account_type", "studio" %>
+<%= hidden_field_tag "resource", current_user.active_role.resource %>
 
     </div><!-- End of body -->
     <div class="modal-footer">

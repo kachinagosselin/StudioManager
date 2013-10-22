@@ -1,13 +1,10 @@
 class StudentsController < ApplicationController
   
   def index
-    if (current_user.active_role.name == "owner" || current_user.active_role.name == "staff")
-      @studio = Studio.find(current_user.active_role.resource_id)
-      @search = User.search(params[:search])
-    elsif current_user.active_role.name == "professional"
-        @search = current_user.profile.students.search(params[:search])
-    end
-    @students = Profile.all   # load all matching records  
+    @object = current_user.active_role.resource
+    @search = @object.students.search(params[:search])
+
+    @students = @search.all   # load all matching records  
   end
     
   def show
@@ -19,10 +16,8 @@ class StudentsController < ApplicationController
     @active = nil
     @student = nil
 
-    if params[:resource_type] == "Studio"
-      object = Studio.find(params[:resource_id])
-    elsif params[:resource_type] == "User"
-      object = User.find(params[:resource_id])
+    if params[:resource_type].present? && params[:resource_id].present?
+      object = params[:resource_type].constantize.find(params[:resource_id])
     end
 
     @search = Profile.search(params[:search])
@@ -43,5 +38,18 @@ class StudentsController < ApplicationController
       format.js
     end
   end
+
+  def create
+    @search = Profile.search(params[:search])
+    @result = @search.first   # load all matching records
+
+    if !@result.nil?
+       @student = Student.create!(:profile_id => @result.id, :resource_id => params[:resource_id], :signed_waiver => true, :resource_type => params[:resource_type])
+       redirect_to :back
+    else
+      format.js
+    end
+  end
+
 
 end
