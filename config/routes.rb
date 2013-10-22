@@ -69,7 +69,6 @@ StudioManager::Application.routes.draw do
     resources :packages
     resources :charges
     resources :coupons
-    resources :reports
     resources :staff
     resources :students do
             collection do
@@ -108,5 +107,9 @@ StudioManager::Application.routes.draw do
             get :_embed, :test
         end
     end
+
+    get 'reports'        => 'reports#index'
+    get 'reports#attendance'   => 'reports#attendance'
+    get 'reports#revenue'   => 'reports#revenue'
     
 end

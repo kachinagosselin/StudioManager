@@ -9,7 +9,19 @@ $(document).ready(function() {
         $("#container").toggle();
     });
 
+    $(".report").hide();
+    $("#overview").show();
+
     });
+
+    function hidealldivs(){
+        $(".report").hide();
+        $("#overview").hide();
+    }
+
+    function showdiv(id){
+        document.getElementById(id).style.display = "block";
+    }
 </script>
 
 
@@ -27,8 +39,8 @@ $(document).ready(function() {
             </div>
 
             <ul class="well-list">
-                <li> <strong><a href="/help/uses#personal">Attendance</a></strong></li>
-                <li> <strong><a href="/help/competitions">Revenue</a></strong></li>            
+                <li> <strong><a href="#attendance" onclick="hidealldivs(); showdiv('attendance')">Attendance</a></strong></li>
+                <li> <strong><a href="#revenue" onclick="hidealldivs(); showdiv('revenue')">Revenue</a></strong></li>            
             </ul>
 
         </div>
@@ -50,15 +62,35 @@ $(document).ready(function() {
 
     <div class="col-lg-9 pull-right">
 
-    <h3 class="page-title"> Attendance Graph</h3>
-    <hr>
+        <div id="overview">
+        <h3 class="page-title">Overview</h3>
+        <hr>
+            <p class="light"> We know that you're so busy running your business that sometimes it's difficult not to get lost in daily details. 
+            </p>
 
-<img src="<%= Gchart.line( :data => [17, 17, 11, 8, 2], 
-              :axis_with_labels => ['x', 'y'], 
-              :axis_labels => [((Date.today - 7).to_date..Date.today.to_date).map{ |date| date.strftime("%b %d")}], 
-              :axis_range => [nil, [2,17,5]], 
+            <p class="light"> Here we aim to help you get the bigger picture.
+            </p>
+
+            <p class="light"> 
+            </p>
+
+        </div>
+
+        <div class="report" id="attendance">
+        <h3 class="page-title"> Attendance Graph</h3>
+        <hr>
+
+        <img src="<%= Gchart.line( :data => [17, 17, 11, 8, 2], 
+            :axis_with_labels => ['x', 'y'], 
+            :axis_labels => [((Date.today - 7).to_date..Date.today.to_date).map{ |date| date.strftime("%b %d")}], 
+            :axis_range => [nil, [2,17,5]], 
             :width => "900", :height => "300")%>"/>
-</div>
+        </div>
+
+         <div class="report" id="revenue">
+        </div>
+
+    </div>
 </div>
 <hr>
 
