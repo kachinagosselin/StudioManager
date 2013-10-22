@@ -67,7 +67,7 @@ class Studio < ActiveRecord::Base
     end
     
     def students 
-        Student.where(:resource_type => "Studio").where(:resource_id => self.id)
+        Profile.joins(:students).where(["students.resource_id = ? AND students.resource_type = ?", self.id, "Studio"])
     end
     
     # This creates the html for the Studio display on the student dashboard
