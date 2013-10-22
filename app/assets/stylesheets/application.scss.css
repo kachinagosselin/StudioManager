@@ -380,6 +380,15 @@ background-color: gainsboro;
 border-right: 1px solid white;
 }
 
+/* HEADERS */
+h3.page-title {
+  color: #474d57;
+  font-size: 20px;
+  line-height: 1.5;
+  margin-top: 0px;
+  margin-bottom: 15px;
+}
+
 /* STYLE SHORTCUTS */
 .fr{float:right!important}
 .ma{margin:0 auto!important;float:none!important}
@@ -420,6 +429,7 @@ border-right: 1px solid white;
 .well-list {
   margin: 0;
   list-style: none;
+  padding:0px;
 }
 
 .well-list li {

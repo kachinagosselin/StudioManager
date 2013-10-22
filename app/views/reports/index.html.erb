@@ -13,12 +13,44 @@ $(document).ready(function() {
 </script>
 
 
-  <div class="col-lg-8 col-lg-offset-2">
+  <div class="col-lg-9 col-lg-offset-2">
+    <h3 class="page-title">Custom Reports</h3>
 
-    <h3> Reports</h3>
-    <hr>
+<p class="light"> Get at a glance information about your studio - use our reports to track attendance and revenue. Optimize your business for success. </p>
+<hr>
 
-    <h4> Attendence this Week</h4>
+<div class="row">
+    <div class="col-lg-3">
+        <div class="ui-box">
+            <div class="title">
+            <strong> <%= current_user.active_role.name.to_s.capitalize %> Reports  </strong>
+            </div>
+
+            <ul class="well-list">
+                <li> <strong><a href="/help/uses#personal">Attendance</a></strong></li>
+                <li> <strong><a href="/help/competitions">Revenue</a></strong></li>            
+            </ul>
+
+        </div>
+
+        <div class="ui-box">
+            <div class="title">
+            <strong> Stats at a Glance </strong>
+            </div>
+
+            <ul class="well-list">
+                <li> <strong>20</strong> students in the past week</li>
+                <li>  Memberships up by <strong>20%</strong> </li>
+                <li> Average <strong> 5 </strong> classes a day </li>
+                <li> <strong> $7.50 </strong> per student per class </li>
+                <li> Revenue last month: <strong> $4,380 </strong></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="col-lg-9 pull-right">
+
+    <h3 class="page-title"> Attendance Graph</h3>
     <hr>
 
 <img src="<%= Gchart.line( :data => [17, 17, 11, 8, 2], 
@@ -26,16 +58,11 @@ $(document).ready(function() {
               :axis_labels => [((Date.today - 7).to_date..Date.today.to_date).map{ |date| date.strftime("%b %d")}], 
               :axis_range => [nil, [2,17,5]], 
             :width => "900", :height => "300")%>"/>
-        </br>
-            <% total = 0 %>
-            <% @events = @resource.events.where('start_at >= ?', Date.today-7) %>
-            <% @events.each do |event| %>
-            <% total = total + event.users.count %>
-            <% end %>
-            <p>Total # Students: 
-            <%= total %>
-            </p>
-            <p>Revenue this Week: </p>
-            <p>Total # Students: </p>
+</div>
+</div>
+<hr>
+
+    <p class="center"> <strong> Can't find the custom report you need above?</strong> Send a request to <a href="mailto:kachina@alum.mit.edu">our team</a></p>
+
 </div>
 
