@@ -1,0 +1,18 @@
+<nav class="main-nav">
+	<div class="container">
+		<% if current_user.account.present? %>
+		<ul>
+			<li><%= link_to raw("<span class=\"glyphicon glyphicon-home\"></span>".html_safe), root_path() %></li>
+			<li><strong>Private Services</strong></li>
+    		<li><%= link_to 'Private Dashboard', root_path(), :style => "padding-top:10px;"%></li>
+    		<li><%= link_to 'Personal Calendar', calendar_path %></li>
+    		<li><%= link_to 'Students', students_path %></li>
+    		<li><%= link_to 'Memberships', products_path %></li>
+    		<li><%= link_to 'Coupons', coupons_path %></li>
+		</ul>
+		<% end %>
+	</div>
+</nav>
+
+
+			
