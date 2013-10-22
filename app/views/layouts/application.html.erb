@@ -40,10 +40,13 @@
         </div><!--/.navbar-collapse -->
       </div>
     </div>
-<div class="container-non-responsive">
 
+    <%= render 'layouts/nav/logic' %>
+
+    <div class="container-non-responsive">
       <%= yield %>
-</div>
+    </div>
+    
     <footer>
       <%= yield :scripts %>
     </footer>
