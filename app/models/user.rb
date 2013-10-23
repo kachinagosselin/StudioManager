@@ -235,7 +235,7 @@ class User < ActiveRecord::Base
     ## For history page
     def active_memberships
         active = []
-        memberships = self.profile.find_purchased(Membership)
+        memberships = self.profile.find_purchased(Membership, self.studio)
         memberships.each do |membership|
             client = membership.client
             stripe_customer = Stripe::Customer.retrieve({:id => self.customer.stripe_customer_token}, client.customer.access_token)

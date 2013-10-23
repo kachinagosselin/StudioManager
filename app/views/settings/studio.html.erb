@@ -1,0 +1,21 @@
+<% content_for :nav do %>
+  <%= render 'layouts/nav/settings' %>
+<% end %>
+
+<div class="col-lg-8 col-lg-offset-2">
+
+	<% if current_user.account.present? %>
+    <h3 class="page-title"> Studio Details </h3>
+  	<hr>
+
+    <% if !current_user.account.studio.present? %>
+    <%= render 'studios/form', :user => current_user, :studio => current_user.account.build_studio  %>
+    <% else %>
+    <%= render 'studios/form', :user => current_user, :studio => current_user.account.studio  %>
+    <% end %>
+
+  <% end %>
+ 
+<hr>
+ 
+ </div>

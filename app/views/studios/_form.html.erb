@@ -4,49 +4,57 @@ document.getElementById("studio_state").classList.add('form-control');
 });
 </script>
 
+<div class="row">
 <%= form_for(studio) do |s| %>
 
-<div class="row">
   <div class="form-group col-lg-6">
-  <p><%=h s.label :name %><br />
+    <p><%=h s.label :name %><br />
     <%=h s.text_field :name, :class => "form-control"%></p>
-  <p><%= s.label :address %><br />
+
+    <p><%= s.label :address %><br />
     <%= s.text_field :address, :class => "form-control" %></p>
+
     <div class="row">
         <div class="form-group col-lg-8">
           <p><%= s.label :city %><br />
-            <%= s.text_field :city, :class => "form-control" %></p>  
+          <%= s.text_field :city, :class => "form-control" %></p>  
         </div>
+
         <div class="form-group col-lg-4">
           <p><%= s.label :state %><br />
-              <%= s.select :state, STATES %></p>
+          <%= s.select :state, STATES %></p>
         </div>
     </div> <!-- end of row -->
-  <p><%= s.label :cancellation_policy %><br/>
+
+    <p><%= s.label :cancellation_policy %><br/>
     <%= s.text_area :cancellation_policy, :class => "form-control", :cols => 20, :rows => 9 %></p>  
   </div>
+
   <div class="form-group col-lg-6">
     <p><%= s.label :main_phone %><br />
     <%= s.text_field :main_phone, :class => "form-control" %></p>  
+
     <p><%= s.label :website %><br />
-    <%= s.url_field :website, :class => "form-control" %></p>  
+    <%= s.url_field :website, :class => "form-control" %></p> 
+
     <p><%= s.label :student_waiver %><br/>
     <%= s.text_area :student_waiver, :class => "form-control", :cols => 20, :rows => 14 %></p>      
+   
    </div>
-   <br />
+   <hr>
+
    <% if studio.locations.present? %>
-    <% studio.locations.each do |loc| %>
-    <% if loc.id != 1 %>
-    <p class="lead">
-      <%if loc.name.present? %>
-      <%= loc.address %> <%= loc.city %>, <%= loc.state %></p>
-    <% end %>
-    <% end %>
-    <% end %>
+      <% studio.locations.each do |loc| %>
+        <% if loc.id != 1 %>
+          <p class="lead">
+            <%if loc.name.present? %>
+            <%= loc.address %> <%= loc.city %>, <%= loc.state %></p>
+            <% end %>
+        <% end %>
+      <% end %>
     <%= render 'locations/form', :studio => studio %>
     <% end %>
 
     <%= s.submit "Update", :class => "submit-button btn btn-primary pull-right", :id => "add_studio" %>
-</div>
 <% end %>
 </div>

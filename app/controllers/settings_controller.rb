@@ -5,10 +5,13 @@ class SettingsController < ApplicationController
   end
   
   def upgrade
-      @resource = current_user.active_role.resource
   end
 
   def studio
-      @resource = current_user.active_role.resource
+      @studio = current_user.account.studio
   end
+
+  def notifications
+  end
+
 end

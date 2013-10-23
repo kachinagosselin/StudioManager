@@ -279,18 +279,6 @@ function stripeResponseHandler(status, response) {
 
   <% end %> 
 
-<% if current_user.account.present? %>
-
-<hr>
-    <h3> Studio Details </h3>
-<hr>
-    <% if !current_user.account.studio.present? %>
-    <%= render 'studios/form', :user => current_user, :studio => current_user.account.build_studio  %>
-    <% else %>
-    <%= render 'studios/form', :user => current_user, :studio => current_user.account.studio  %>
-    <% end %>
-  <% end %>
-
 <hr>
 <p>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), :data => { :confirm => "Are you sure?" }, :method => :delete %>.</p>
 </div>

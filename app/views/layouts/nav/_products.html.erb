@@ -1,0 +1,20 @@
+
+<% if user_signed_in? %>
+<nav class="main-nav">
+	<div class="container">
+		<% if current_user.active_role.name != "student" %>
+
+		<ul>
+			<li><%= link_to raw("<span class=\"glyphicon glyphicon-home\"></span>".html_safe), root_path() %></li>
+            <li><a>Overview</a></li>
+    		<li><a>Memberships</a></li>
+            <li><a>Packages</a></li>
+    		<li><a>Coupons</a></li>
+            <li><a>Store</a></li>
+		</ul>
+		<% end %>
+	</div>
+</nav>
+<% end %>
+
+			

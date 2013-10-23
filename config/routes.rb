@@ -112,6 +112,10 @@ StudioManager::Application.routes.draw do
     get 'reports#attendance'   => 'reports#attendance'
     get 'reports#revenue'   => 'reports#revenue'
   
+    get 'settings/studio' => 'settings#studio'
     get 'settings/upgrade' => 'settings#upgrade'
+    get 'settings/notifications' => 'settings#notifications'
+
+    get 'support' => 'support#index'
 
 end

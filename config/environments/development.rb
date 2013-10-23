@@ -36,11 +36,6 @@ StudioManager::Application.configure do
 
   # Do not compress assets
   config.assets.compress = false
-<<<<<<< HEAD
-
-  config.assets.compile = true
-=======
->>>>>>> nav-ui
 
   # Expands the lines which load the assets
   config.assets.debug = true

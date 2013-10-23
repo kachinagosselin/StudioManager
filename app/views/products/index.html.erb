@@ -36,7 +36,11 @@
 });
 </script>
 
-  <%= render "layouts/sidebar" %>
+<% content_for :nav do %>
+  <%= render 'layouts/nav/products' %>
+<% end %>
+<div class="col-lg-9 col-lg-offset-2">
+
 <div>
 <h3> Memberships</h3>
 <div class="pull-right" style="margin-top:-40px;">
