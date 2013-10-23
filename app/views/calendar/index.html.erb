@@ -36,6 +36,10 @@ $("#delete_event").observe('ajax:success', function(evt, status, data, xhr) {
 });
 </script>
 
+<% content_for :nav do %>
+  <%= render 'layouts/nav/main' %>
+<% end %>
+
   <div class="col-lg-8 col-lg-offset-2">
   <div id='calendar'></div>
 
