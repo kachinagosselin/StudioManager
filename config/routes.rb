@@ -118,5 +118,6 @@ StudioManager::Application.routes.draw do
     get 'settings/notifications' => 'settings#notifications'
 
     get 'support' => 'support#index'
+    get 'support#start' => 'support#start'
 
 end

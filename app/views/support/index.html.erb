@@ -9,14 +9,14 @@ $(document).ready(function() {
         $("#container").toggle();
     });
 
-    $(".report").hide();
-    $("#overview").show();
+    $(".docs").hide();
+    $("#all-support").show();
 
     });
 
     function hidealldivs(){
-        $(".report").hide();
-        $("#overview").hide();
+        $(".docs").hide();
+        $("#all-support").hide();
     }
 
     function showdiv(id){
@@ -36,6 +36,27 @@ $(document).ready(function() {
 <hr>
 
 <div class="row">
+
+	<div class="col-lg-4">
+		<div class="ui-box">
+			<div class="title">
+			<strong>User Documentation</strong>
+			</div>
+
+			<ul class="well-list">
+                <li> <strong><a href="#start" onclick="hidealldivs(); showdiv('start')">Getting Started</a></strong>
+					<p> Coordinate projects across your companies team.</p>
+				</li>
+
+				<li> <strong><a href="#student">As a Student</a></strong>
+					<p> Coordinate projects across your companies team.</p>
+				</li>
+
+			</ul>
+		</div>
+	</div>
+
+<div id="all-support">
 	<div class="col-lg-4">
 		<div class="ui-box">
 			<div class="title">
@@ -111,32 +132,6 @@ $(document).ready(function() {
 	<div class="col-lg-4">
 		<div class="ui-box">
 			<div class="title">
-			<strong>User Documentation</strong>
-			</div>
-
-			<ul class="well-list">
-				<li> <strong><a href="/help/uses#management">Project Management</a></strong>
-					<p> Coordinate projects across your companies team.</p>
-				</li>
-
-				<li> <strong><a href="/help/uses#management">Project Management</a></strong>
-					<p> Coordinate projects across your companies team.</p>
-				</li>
-
-				<li> <strong><a href="/help/uses#management">Project Management</a></strong>
-					<p> Coordinate projects across your companies team.</p>
-				</li>
-
-				<li> <strong><a href="/help/uses#management">Project Management</a></strong>
-					<p> Coordinate projects across your companies team.</p>
-				</li>
-			</ul>
-		</div>
-	</div>
-
-	<div class="col-lg-4">
-		<div class="ui-box">
-			<div class="title">
 			<strong>Contact Us</strong>
 			</div>
 
@@ -146,6 +141,10 @@ $(document).ready(function() {
 			</ul>
 		</div>
 	</div>
+</div>
+</div>
+
+<div class="docs col-lg-8" id="start">
 </div>
 
 </div>
