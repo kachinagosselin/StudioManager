@@ -1,0 +1,86 @@
+<% content_for :nav do %>
+  <%= render 'layouts/nav/settings' %>
+<% end %>
+
+<div class="col-lg-8 col-lg-offset-2">
+
+  <h3 class="page-title"> Extend Profile </h3>
+
+<hr>
+  <div class="row">
+<%= form_for(current_user.profile) do |p| %>
+  <div class="form-group">
+  <div class="col-lg-6">
+    <p><%= p.label :description %><br />
+    <%=h p.text_area :description, :class => "form-control", :rows => 5 %></p>  
+    <p class="help-block">Note: This will appear in your instructor profile.</p>
+  </div>
+  <div class="col-lg-6">
+    <%= p.fields_for :photo do |asset| %>
+    <p><%= asset.label :image, "Profile Photo" %><br />
+    <%= asset.file_field :image, :class => "form-control"%></p>  
+    <% end %>
+    <p><b> Certification </b></br>
+    <%= p.text_field :certification, :class => "form-control"%></p>
+    <% if !current_user.belongs_to_role?("professional", current_user) %>
+    <%= check_box_tag "add_professional_role", "yes", false, :class => "form-control" %>
+    <p style = "margin-top:-27px;margin-left:30px;"><b> Create account to manage my professional services </b></p>
+    </div>
+    </div>
+
+    <% else %>
+    <%= p.check_box :is_not_available, :class => "form-control"%>
+    <p style = "margin-top:-27px;margin-left:30px;"><b> I am not available to teach elsewhere at this time </b></p>
+  </div>
+<hr>
+<div class="col-lg-12" id="availability_table">
+       <h4>Set Availability to Teach:</h4>
+    <table class="table table-condensed">
+        <thead>
+            <tr>
+              <th></th>
+              <th>Monday</th>
+              <th>Tuesday</th>
+              <th>Wednesday</th>
+              <th>Thursday</th>
+              <th>Friday</th>
+              <th>Saturday</th>
+              <th>Sunday</th>
+            </tr>       
+        </thead>
+        <tbody>
+              <tr id ="start_availability">
+              <td>Starting</td>
+                <% current_user.profile.availabilities.each do |availability| %>
+                <%= p.fields_for :availability_attributes, availability do |a| %>
+              <td><%= a.text_field :start_at, :class => "form_datetime schedule form-control", 'data-date-format'=>"H:ii p", :name => "profile[availability_attributes][" + availability.day_of_week.to_s + "][start_at]" %></td>
+                <% end %>
+                <% end %>
+              </tr>
+
+              <tr id ="end_availability">
+              <td>Ending</td>
+                <% current_user.profile.availabilities.each do |availability| %>
+                <%= p.fields_for :availability_attributes, availability do |a| %>
+              <td><%= a.text_field :end_at, :class => "form_datetime schedule form-control", 'data-date-format'=>"H:ii p", :name => "profile[availability_attributes][" + availability.day_of_week.to_s + "][end_at]" %></td>
+                <% end %>
+                <% end %>
+              </tr>
+
+              </tr>
+
+
+        </tbody>
+    </table>  
+
+        <p class="help-block">Note: This will be used to indicate your availability in our instructor database.</p>
+
+<% end %>
+<%= p.submit "Update", :class =>"submit-button btn btn-primary pull-right"%>
+</div>     </div>
+
+</div>
+<% end %>
+
+
+</div>

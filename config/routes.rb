@@ -113,6 +113,7 @@ StudioManager::Application.routes.draw do
     get 'reports#revenue'   => 'reports#revenue'
   
     get 'settings/studio' => 'settings#studio'
+    get 'settings/profile' => 'settings#profile'
     get 'settings/upgrade' => 'settings#upgrade'
     get 'settings/notifications' => 'settings#notifications'
 

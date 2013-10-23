@@ -11,6 +11,9 @@ class SettingsController < ApplicationController
       @studio = current_user.account.studio
   end
 
+  def profile
+  end
+  
   def notifications
   end
 
