@@ -13,6 +13,10 @@ $(document).ready(function() {
 });
 </script>
 
+<% content_for :nav do %>
+  <%= render 'layouts/nav/professional' %>
+<% end %>
+
   <div class="col-lg-8 col-lg-offset-2">
 	<h3><%= @event.title %></h3>
     

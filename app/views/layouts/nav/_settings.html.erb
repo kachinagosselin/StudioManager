@@ -1,0 +1,31 @@
+
+<% if user_signed_in? %>
+<nav class="main-nav">
+	<div class="container">
+		<% if current_user.active_role.name != "student" %>
+
+		<ul>
+			<li><%= link_to raw("<span class=\"glyphicon glyphicon-home\"></span>".html_safe), root_path() %></li>
+    		<li><%= link_to 'Accounts Settings', edit_user_registration_path() %></li>
+
+            <% if current_user.account.present? && !current_user.account.studio.present?%>
+            <li><%= link_to 'Add Studio', staff_index_path %></li>
+            <% elsif current_user.account.present? && current_user.account.studio.present?%>
+            <li><%= link_to 'Studio', staff_index_path %></li>
+            <% end %>
+
+            <li><%= link_to 'Profile', user_path(current_user) %></li>
+            <li><%= link_to 'History', history_user_path(current_user) %></li>
+    		<li><a>Notifcations</a></li>
+
+            <% if !current_user.account.present? %>
+    		<li><%= link_to 'Upgrade Services', root_path() %></li>
+            <% end %>
+    		<li><a>Support</a></li>
+		</ul>
+		<% end %>
+	</div>
+</nav>
+<% end %>
+
+			

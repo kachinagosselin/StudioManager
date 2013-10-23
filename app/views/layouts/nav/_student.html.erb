@@ -1,0 +1,19 @@
+
+<% if user_signed_in? %>
+<nav class="main-nav">
+	<div class="container">
+        <% if current_user.active_role.name == "student"%>
+        <ul>
+            <li><%= link_to raw("<span class=\"glyphicon glyphicon-home\"></span>".html_safe), root_path() %></li>
+            <li><a>About</a></li>
+            <li><a>Personal Calendar</a></li>
+            <li><a>Discover Studios</a></li>
+            <li><a>Find Classes</a></li>
+            <li><a>Support</a></li>
+        </ul>
+		<% end %>
+	</div>
+</nav>
+<% end %>
+
+			

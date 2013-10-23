@@ -1,0 +1,11 @@
+<% content_for :nav do %>
+  <%= render 'layouts/nav/settings' %>
+<% end %>
+
+<% if !current_user.account.present? %>
+<hr>
+<h3> Connect your account with Stripe Connect</h3>
+<hr>
+    <p> Activating your account allows you to be able to create </p>
+    <%= render "devise/registrations/stripe_button" %>
+<% end %>

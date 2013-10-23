@@ -97,11 +97,15 @@ function stripeResponseHandler(status, response) {
 
 </script>
 
+<% content_for :nav do %>
+  <%= render 'layouts/nav/settings' %>
+<% end %>
+
 <div class="col-lg-8 col-lg-offset-2">
 
 <!-- This section is for editing the main details for the user. It also includes main fields borrowed from the profile object. Filling out this section of the form requires confirming with your password -->
 <h3> Personal Details </h3>
-<div class="divider-horizontal-regular"></div>
+<hr>
 
 <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, :multipart => true}) do |f| %>
   <%= f.fields_for :profile do |p| %>
@@ -180,14 +184,13 @@ function stripeResponseHandler(status, response) {
 <% end %>
 <% end %>
 
-<div class="divider-horizontal-regular"></div>
+<hr>
   <h3> Extend Profile </h3>
 
-<div class="divider-horizontal-regular"></div>
-<%= form_for(@user.profile) do |p| %>
-    <div class="row">
-  <div class="form-group">
+<hr>
   <div class="row">
+<%= form_for(@user.profile) do |p| %>
+  <div class="form-group">
   <div class="col-lg-6">
     <p><%= p.label :description %><br />
     <%=h p.text_area :description, :class => "form-control", :rows => 5 %></p>  
@@ -210,8 +213,8 @@ function stripeResponseHandler(status, response) {
     <%= p.check_box :is_not_available, :class => "form-control"%>
     <p style = "margin-top:-27px;margin-left:30px;"><b> I am not available to teach elsewhere at this time </b></p>
   </div>
-</div>
-<div id="availability_table">
+<hr>
+<div class="col-lg-12" id="availability_table">
        <h4>Set Availability to Teach:</h4>
     <table class="table table-condensed">
         <thead>
@@ -253,17 +256,17 @@ function stripeResponseHandler(status, response) {
 
         <p class="help-block">Note: This will be used to indicate your availability in our instructor database.</p>
 
-     </div>
 <% end %>
 <%= p.submit "Update", :class =>"submit-button btn btn-primary pull-right"%>
-</div>
+</div>     </div>
+
 </div>
 <% end %>
 
 <!-- This section is for adding in your billing information. -->
-<div class="divider-horizontal-regular"></div>
+<hr>
     <h3> Billing Details </h3>
-<div class="divider-horizontal-regular"></div>
+<hr>
 
   <% if current_user.customer.present? %>
     <% if current_user.customer.last_4_digits.present? %>
@@ -278,9 +281,9 @@ function stripeResponseHandler(status, response) {
 
 <% if current_user.account.present? %>
 
-    <div class="divider-horizontal-regular"></div>
+<hr>
     <h3> Studio Details </h3>
-    <div class="divider-horizontal-regular"></div>
+<hr>
     <% if !current_user.account.studio.present? %>
     <%= render 'studios/form', :user => current_user, :studio => current_user.account.build_studio  %>
     <% else %>
@@ -288,15 +291,7 @@ function stripeResponseHandler(status, response) {
     <% end %>
   <% end %>
 
-    <% if !current_user.account.present? %>
-    <div class="divider-horizontal-regular"></div>
-      <h3> Connect your account with Stripe Connect</h3>
-    <div class="divider-horizontal-regular"></div>
-      <p> Activating your account allows you to be able to create </p>
-      <%= render "devise/registrations/stripe_button" %>
-  <% end %>
-<div class="divider-horizontal-regular"></div>
-
+<hr>
 <p>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), :data => { :confirm => "Are you sure?" }, :method => :delete %>.</p>
 </div>
 
