@@ -1,8 +1,151 @@
+<script> 
+$(document).ready(function() {
+
+    //NOTE that I am selecting on a class here
+    $('#toggle').click(function(e) {
+        //You also need to prevent the default behaviour of 
+        e.preventDefault();
+
+        $("#container").toggle();
+    });
+
+    $(".report").hide();
+    $("#overview").show();
+
+    });
+
+    function hidealldivs(){
+        $(".report").hide();
+        $("#overview").hide();
+    }
+
+    function showdiv(id){
+        document.getElementById(id).style.display = "block";
+    }
+</script>
 
 <% content_for :nav do %>
   <%= render 'layouts/nav/settings' %>
 <% end %>
 
-<div class="col-lg-8 col-lg-offset-2">
+<div class="col-lg-10 col-lg-offset-1">
+
+
+<h3 class="page-title"> All about Studio Manager </h3>
+<p class="light"> Software designed to make it simpler to manage your classes, products and students. </p>
+<hr>
+
+<div class="row">
+	<div class="col-lg-4">
+		<div class="ui-box">
+			<div class="title">
+			<strong>Feature Set at a Glance</strong>
+			</div>
+
+			<ul class="well-list">
+
+				<li> <strong><a href="#">Scalable Services</a></strong>
+					<p> Built in flexibility for your business - we serve independent professionals and studio owners alike. </p>
+				</li>
+
+				<li> <strong><a href="#">List Unlimited Locations</a></strong>
+					<p> We know the true measure of business is the number of students you serve and not your square footage.</p>
+				</li>
+
+				<li> <strong><a href="#">Calendar and Events</a></strong>
+					<p>Create events: classes, workshops and series. Display on your calendar and embed on your website.</p>
+				</li>
+
+				<li> <strong><a href="#">Memberships and Packages</a></strong>
+					<p>Create custom products for your students - unlimited memberships and credit-based packages.</p>
+				</li>
+
+				<li> <strong><a href="#">Coupons and Discounts</a></strong>
+					<p>Create coupon codes for early bird prices, as loyalty gifts and to attract new students to your practice.</p>
+				</li>
+
+				<li> <strong><a href="#">Visual Reports and Stats</a></strong>
+					<p> Track what matters. At a glance stats to give you the bird's eye view of your business allowing you to optimize for better attendance and more revenue. </p>
+				</li>
+
+				<li> <strong><a href="#">Personal Account</a></strong>
+					<p> You're a student as well as a teacher. Manage your personal practice. Access your own calendar, history and profile. Get notified of future events and deals. </p>
+				</li>	
+
+			</ul>
+
+			<div class="title">
+			<strong>Potential Features</strong><span class="light"> (we're growing to meet your needs) </span> 
+			</div>
+
+			<ul class="well-list">
+
+				<li> <strong><a href="/help/uses#management">Class series and Recurring Events</a></strong>
+					<p>Offering support for more intricate class schedules - taking some of the pressure off your staff. </p>
+				</li>
+
+				<li> <strong><a href="/help/uses#opensource">SMS Sub Notifcations</a></strong>
+					<p> Never worry about who's teaching your next event - streamlined process solves your problem with a txt. </p>
+				</li>
+
+
+				<li> <strong><a href="/help/uses#personal">Offer Open Space for Rent</a></strong>
+					<p> Add your open rooms to a searchable database for independent professionals to book (and earn money).</p>
+				</li>
+
+				<li> <strong><a href="/help/uses#workspace">Mobile App Checkin</a></strong>
+					<p> No more waiting in lines! Students will be able to check-in from their mobile devices at the studio.</p>
+				</li>
+
+				<li> <strong><a href="/help/uses#competitions">Your Request Here</a></strong>
+					<p> We are always looking to our customers for direction - we're here because of and for you! </p>
+				</li>
+
+				<li><p class="center"> Speed up the request for any particular feature: </p>
+					<p class="center" ><strong><a href="/help/uses#porfolio">Contact our Team</a></strong></p>
+				</li>	
+			</ul>
+		</div>
+	</div>
+
+	<div class="col-lg-4">
+		<div class="ui-box">
+			<div class="title">
+			<strong>User Documentation</strong>
+			</div>
+
+			<ul class="well-list">
+				<li> <strong><a href="/help/uses#management">Project Management</a></strong>
+					<p> Coordinate projects across your companies team.</p>
+				</li>
+
+				<li> <strong><a href="/help/uses#management">Project Management</a></strong>
+					<p> Coordinate projects across your companies team.</p>
+				</li>
+
+				<li> <strong><a href="/help/uses#management">Project Management</a></strong>
+					<p> Coordinate projects across your companies team.</p>
+				</li>
+
+				<li> <strong><a href="/help/uses#management">Project Management</a></strong>
+					<p> Coordinate projects across your companies team.</p>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="col-lg-4">
+		<div class="ui-box">
+			<div class="title">
+			<strong>Contact Us</strong>
+			</div>
+
+			<ul class="well-list">
+				<li> Email our <a href="mailto:kachina@alum.mit.edu">support contact</a> with site suggestions. </li>
+				<li> For press inquires email our fearless leader, <a href="mailto:kachina@alum.mit.edu">Kachina</a>. </li>
+			</ul>
+		</div>
+	</div>
+</div>
 
 </div>
