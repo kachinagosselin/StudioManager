@@ -1,0 +1,183 @@
+<script> 
+$(document).ready(function() {
+
+    //NOTE that I am selecting on a class here
+    $('#toggle').click(function(e) {
+        //You also need to prevent the default behaviour of 
+        e.preventDefault();
+
+        $("#container").toggle();
+    });
+
+    $(".docs").hide();
+    $("#overview").show();
+
+	if(window.location.hash) {
+    	var hash = window.location.hash.substring(1);
+    	$("#overview").hide();
+		showdiv(hash);
+	}
+
+    });
+
+    function hidealldivs(){
+        $(".docs").hide();
+        $("#overview").hide();
+    }
+
+    function showdiv(id){
+        document.getElementById(id).style.display = "block";
+    }
+</script>
+
+<% content_for :nav do %>
+  <%= render 'layouts/nav/settings' %>
+<% end %>
+
+<div class="col-lg-10 col-lg-offset-1">
+
+
+<h3 class="page-title"> All about Studio Manager </h3>
+<p class="light"> Software designed to make it simpler to manage your classes, products and students. </p>
+<hr>
+
+<div class="row">
+
+	<div class="col-lg-3">
+		<div class="ui-box">
+			<div class="title">
+			<strong>User Documentation</strong>
+			</div>
+
+			<ul class="well-list">
+                <li> <strong><a href="#start" onclick="hidealldivs(); showdiv('start')">Getting Started</a></strong>
+					<p> It's as simple as 1-2-3</p>
+				</li>
+
+				<li> <strong><a href="#start" onclick="hidealldivs(); showdiv('start')">Student Services</a></strong>
+					<p> We're all students</p>
+				</li>
+
+				<li> <strong><a href="#stripe" onclick="hidealldivs(); showdiv('stripe')">Upgrade your Account</a></strong>
+					<p> a.k.a. learn about Stripe</p>
+				</li>
+
+				<li> <strong><a href="#start" onclick="hidealldivs(); showdiv('start')">Creating Events</a></strong>
+					<p> Search events - manage purchases.</p>
+				</li>
+
+				<li> <strong><a href="#faq" onclick="hidealldivs(); showdiv('faq')">FAQ</a></strong>
+					<p> Have questions? Find answers.</p>
+				</li>
+
+			</ul>
+		</div>
+	</div>
+
+<div class="col-lg-9">
+
+<div id="overview">
+        <h3 class="page-title">Documentation Overview</h3>
+        <hr>
+            <p class="light"> Welcome to Studio Manager. Here you can find all the tools that you need to be . 
+            </p>
+
+            <p class="light"> Here we aim to help you get the bigger picture.
+            </p>
+
+            <p class="light"> 
+            </p>
+</div>
+
+<div class="docs" id="start">
+        <h3 class="page-title">Getting Started</h3>
+        <hr>
+            <p class="light"> Studio Manager is versatile and designed to give you as little or as much functonality as you need. Follow the instructions below to get the most out of it as a student, independent professional or studio owner. 
+            </p>
+			<hr>
+
+			<div class="numberCircle">1</div>
+			<div style="margin-left:45px;margin-right:45px;margin-top:-36px;">
+			<h3 class="page-title">Register an account</h3>
+			<p class="light"> It's as easy as that ... <strong>if you're a student</strong>. Now you can search studios in your area, register for classes, manage your own personal calendar and keep track of your attendance/purchase history. </p>
+			</div>
+			<hr>
+
+			<div class="numberCircle">2</div>
+			<div style="margin-left:45px;margin-right:45px;margin-top:-36px;">
+			<h3 class="page-title">Connect with Stripe</h3>
+			<p class="light"> If you have an account with Stripe it's as simple as clicking a single button to give our app permissions to manage billing and payments through our system. Stripe is simple, secure and focuses on supreme service. Once you've completed that step you can use all of our services as an <strong> independent professional</strong>. Signing up is <strong> FREE</strong>. Click here to <a href="#stripe" onclick="hidealldivs(); showdiv('stripe')">learn more about it</a>.</p> 
+			<p class="light"> To complete activation click the "create account to manage my professional services" link under your 
+				<% if user_signed_in? %>
+				<%= link_to 'profile settings page', settings_profile_path() %>.
+				<% else %>
+				profile settings page.
+				<% end %>
+			</p>
+			</div>
+			<hr>
+
+			<div class="numberCircle">3</div>
+			<div style="margin-left:45px;margin-right:45px;margin-top:-36px;">
+			<h3 class="page-title">Share Studio Details</h3>
+			<p class="light"> For <strong>studio owners</strong> who organizes events at one or more locations, need to manage staff and instructors, or has available space for professionals to book all you need to do to access additional services is to add studio details through the
+				<% if user_signed_in? %>
+				<%= link_to 'appropriate settings page', settings_studio_path() %>.
+				<% else %>
+				appropriate settings page.
+				<% end %>
+			</p>
+			</div>
+</div>
+
+
+<div class="docs" id="stripe">
+        <h3 class="page-title">Stripe Connect Integration</h3>
+        <hr>
+            <p class="light"> You may not have heard about Stripe yet, but it's important that you do. It's the future of online payment processing - fast, secure, versatile and designed to be user friendly.
+            </p>
+
+            <p> Yes, I know that you're more familiar with Paypal, but that doesn't mean it's better. Trust us.
+            </p>
+
+            <hr>
+            <p class="light">Our software integrates very closely with Stripe and uses Stripe Connect to collect and distribute payments. What this means is that you need to create an account with Stripe so that we can upgrade your account to the professional and/or owner level.</p>
+
+            <p> The cost to you, nothing! It's <strong>FREE</strong>. </p>
+        </br>
+
+        <h3 class="page-title">Stripe Authentication</h3>
+        <hr>	
+            <p class="light"> If you are an independent professional or a studio owner you will want to upgrade your account. Here's how:
+            </p>
+
+            <div style="margin-left:40px;">
+            <p><strong>1.</strong> Click the avatar image</p>
+            <p><strong>2.</strong> Navigate to the <strong>Settings</strong> link</p>
+            <p><strong>3.</strong> On the navigation bar select <strong>Upgrade Services</strong></p>
+            <p><strong>4.</strong> Click on the <strong>Stripe Connect</strong> button</p>
+            <p><strong>5.</strong> <strong>Register</strong> or <strong>Sign In</strong> to your account to allow permissions</p>
+            <p><strong>6.</strong> Continue along your way!</p>
+        	</div>
+
+            <p class="light"> If you are a studio owner your work is not yet done. Now that your account has been activated you need to create a studio to manage your students and services. Don't worry if your studio doesn't have an official location but do note that you have to register a studio to manage staff. Otherwise continue with your independent professional account. It will meet all your needs, and if it doesn't you can contact us. </p>
+
+</div>
+
+<div class="docs" id="faq">
+        <h3 class="page-title">Opps! We got a little ahead of ourselves.</h3>
+        <hr>
+            <p> Studio Manager is a young new startup. We're being tried and tested right now by users like you, and it's your feedback that is going into designing our software and it's services. We're happy to answer your questions, we just haven't received that many as of yet.
+            </p>
+
+            <p> If you have a burning question or comment - we're happy to chat with you. Just drop us a line and we'll be in touch. 
+            </p>
+
+            <hr>
+            <p class="light center"><strong>StudioManager</strong> is built and designed by one lone yogi, Kachina Gosselin. </br>To learn more about the company and its roots <a>click here</a>
+            </p>
+</div>
+
+</div>
+
+</div>
