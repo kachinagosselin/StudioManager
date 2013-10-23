@@ -4,7 +4,11 @@
         });
     </script>
 
-  <%= render "layouts/sidebar" %>
+<% content_for :nav do %>
+  <%= render 'layouts/nav/main' %>
+<% end %>
+
+<div class="col-lg-8 col-lg-offset-2">
 
 		<h3> Coupons</h3>
 			<div class="pull-right" style="margin-top:-40px;">
@@ -43,8 +47,8 @@
 				        <% end %>
 				</table>
 </div>
+</div>
 
 <div>
  		<%= render 'new' %>
 </div>
-

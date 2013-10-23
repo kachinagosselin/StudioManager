@@ -6,10 +6,10 @@
 
 		<ul>
 			<li><%= link_to raw("<span class=\"glyphicon glyphicon-home\"></span>".html_safe), root_path() %></li>
-            <li><a>Overview</a></li>
+            <li><%= link_to 'Overview', products_path() %></li>
     		<li><a>Memberships</a></li>
             <li><a>Packages</a></li>
-    		<li><a>Coupons</a></li>
+    		<li><%= link_to 'Coupons', coupons_path() %></li>
             <li><a>Store</a></li>
 		</ul>
 		<% end %>
