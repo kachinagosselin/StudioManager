@@ -112,6 +112,7 @@ ActiveRecord::Schema.define(:version => 20131024041040) do
     t.string   "resource_type"
     t.string   "url"
     t.string   "custom_url"
+    t.boolean  "canceled"
   end
 
   create_table "instructors", :force => true do |t|
