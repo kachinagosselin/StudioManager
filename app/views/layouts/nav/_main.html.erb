@@ -13,7 +13,7 @@
             <li><%= link_to 'Coupons', coupons_path %></li>
 
     		<% if current_user.active_role.name == "owner"%>
-    		<li><%= link_to 'Staff', staff_index_path %></li>
+    		<li><%= link_to 'Instructors', staff_index_path %></li>
     		<% end %>
 
     		<li><%= link_to 'Students', students_path %></li>

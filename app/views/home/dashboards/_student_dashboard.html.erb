@@ -45,7 +45,7 @@ $(document).ready(function() {
 	  	right: 'month,agendaWeek,agendaDay',
 	  	},
     eventSources: [{
-          url: '/index.json',
+          url: '/calendar.json',
         }],
 	});
 
@@ -74,14 +74,7 @@ $(document).ready(function() {
 	    </div>
 
 		<div id='calendar'></div>
-	</br>
 
-		<!-- TO DO: Update calendar with the events for the studio selected (show in muted color). When a class is selected show the payment options in the section below. Have the payment options link to a purchase form. When the student purchases a payment plan this section is only displayed if the payment plan doesn't apply. Otherwise button shows [Register Class] and changes color of event.
-		-->
-
-		<div class="row">
-			<div id="studio_offerings"></div>
-		</div>
 	</div>
 
 	<% if !current_user.has_role? :owner, :any %>

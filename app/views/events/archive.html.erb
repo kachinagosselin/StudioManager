@@ -63,9 +63,9 @@ $(document).ready(function() {
               <td><%= event.start_time %></td>
               <td><%= event.day_of_week %> <%= event.date_condensed %></td>
               <td><%= link_to event.title, event_path(event)%></td>
-              <td><%= event.url %></td>
+              <td><%= event.location %></td>
               <td><%= event.duration %></td>
-              <td><%= event.duration %></td>
+              <td><%= event.cost %></td>
               <td><%= event.attendance_descriptor %></td>
               <td><%= link_to raw("<span class=\"glyphicon glyphicon-remove\" style=\"font-size:18px;color:#999;\"></span>".html_safe), [event], method: :delete, data: { confirm: 'Are you sure? This action cannot be undone.' }, :id=>'delete_event', :remote => true  %></td>
               </tr>

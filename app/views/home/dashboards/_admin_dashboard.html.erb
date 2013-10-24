@@ -1,10 +1,8 @@
 <% content_for :nav do %>
-  <%= render 'layouts/nav/main' %>
+  <%= render 'layouts/nav/admin' %>
 <% end %>
 
   <div class="col-lg-8 col-lg-offset-2">
-	<% if !current_user.account.present? %>
-
 
 <div class="zero">
   <div class=""></div>
@@ -26,35 +24,4 @@
   </div>
 </div>
 
-
-         		<%= render 'accounts/new' %>
-    <% else %>
-     <% if !current_user.account.studio.present? %>
-    	 <%= link_to 'Create a Studio', edit_user_registration_path(), class: 'btn btn-mini', style: 'margin-top:-3px;' %>
-    <% else %>
-    <script> 
-$(document).ready(function() {
-    //NOTE that I am selecting on a class here
-
-$('#calendar').fullCalendar({
-  	defaultView: 'agendaDay',
-	header: {
-  	left: 'prev',
-  	center: '',
-  	right: 'next'
-	},
-    eventSources: [{
-          url: '<%= events_path() %>',
-        }],
-});
-});
-</script>
-    <% end %>
-    <% end %>
-
-
-      <h3>Schedule for this Afternoon</h3>
-  <div class="divider-horizontal-regular" style="margin-bottom:0px"></div>
-  <div id='dashboard-cal'>
-      <div id='calendar'></div>
   </div>

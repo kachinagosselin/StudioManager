@@ -1,7 +1,8 @@
 class StudiosController < ApplicationController
 
     def index
-        @studios = Studio.all
+        @search = Studio.search(params[:search])
+        @studios = @search
     end
     
     def show

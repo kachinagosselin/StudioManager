@@ -4,16 +4,19 @@ class SettingsController < ApplicationController
       @resource = current_user.active_role.resource
   end
   
+  def profile
+  end
+
   def upgrade
   end
 
   def studio
       @studio = current_user.account.studio
   end
-
-  def profile
-  end
   
+  def billing
+  end
+
   def notifications
   end
 

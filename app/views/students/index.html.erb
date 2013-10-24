@@ -101,7 +101,7 @@ $('#toggle_search').on('click', function () {
                 </td>
                 <td></td>
                 <td><%= profile.created_at.to_time.strftime('%b %d, %Y') %></td>
-		        		<td><a href="mailto:kachina@alum.mit.edu"><span class="glyphicon glyphicon-send" style="color:black;"></span></a></td>
+		        		<td><a href="mailto:#{profile.email}"><span class="glyphicon glyphicon-send" style="color:black;"></span></a></td>
 		        	</tr>
 		        <% end %>
 		    </tbody>

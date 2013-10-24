@@ -1,34 +1,23 @@
 <script> 
 $(document).ready(function() {
 
-    document.getElementById('event_instructor_id').classList.add('form-control'); 
-
-    $('.form_datetime').datetimepicker({
-        weekStart: 1,
-        autoclose: 1,
-        maxView: 3,
-        startView: 2,
-        forceParse: 0,
-        showMeridian: 1
-      });
-
 });
 </script>
 
 <% content_for :nav do %>
-  <%= render 'layouts/nav/calendar' %>
+  <%= render 'layouts/nav/admin' %>
 <% end %>
 
 <div class="col-lg-8 col-lg-offset-2">
   <div class="row">
   <div class="col-lg-6">
-    <h3 class="page-title">Studio Classes</h3>
+    <h3 class="page-title">All Studios</h3>
   </div>
 
   <div class="col-lg-6">
-    <%= form_for @search, :url => calendar_path, :html => {:method => :get} do |f| %>
+    <%= form_for @search, :url => studios_path, :html => {:method => :get} do |f| %>
       <div class="input-group">
-          <%= f.text_field :title_contains, :class => "form-control"  %>
+          <%= f.text_field :name_contains, :class => "form-control"  %>
           <span class="input-group-btn">
             <button type="submit" class="btn btn-primary">Search</button>
           </span>
@@ -41,20 +30,16 @@ $(document).ready(function() {
     <table class="table table-hover">
         <thead>
             <tr>
-              <th>Start Time</th>
-              <th>Date</th>
-              <th>Title</th>
+              <th>Name</th>
               <th>Location</th>
-              <th>Duration</th>
-              <th>Registered</th>
-              <th>Cost</th>
+              <th>#</th>
               <th></th>
               <th><%= link_to raw("<span class=\"glyphicon glyphicon-plus-sign\" style=\"font-size:18px;\"></span>".html_safe), '',  :data => {:toggle => "modal", :target => "#newModal"} , :remote => true %></th>                          
             </tr>       
         </thead>
         <tbody>
 
-          <% if !@events.present? %>
+          <% if !@studios.present? %>
           <div class="zero" style="z-index: 0;">
             <div class=""></div>
             <div class="box box-rounded box-inset">
@@ -74,18 +59,21 @@ $(document).ready(function() {
           </div>
           <% else %>
 
-            <% @events.each do |event| %>
+            <% @studios.each do |studio| %>
               <tr>
 
-              <td><%= event.start_time %></td>
-              <td><%= event.day_of_week %> <%= event.date_condensed %></td>
-              <td><%= link_to event.title, event_path(event)%></td>
-              <td><%= event.location %></td>
-              <td><%= event.duration %></td>
-              <td><%= event.registered.count %> students</td>
-              <td><%= event.cost %></td>
-              <td><%= raw("<a href='http://#{event.custom_url}' target=\"_blank\"><span class=\"glyphicon glyphicon-globe\" style=\"font-size:18px;color:#999;\"></span></a>".html_safe) if event.custom_url %> </td>
-              <td><%= link_to raw("<span class=\"glyphicon glyphicon-remove\" style=\"font-size:18px;color:#999;\"></span>".html_safe), [event], method: :delete, data: { confirm: 'Are you sure? This action cannot be undone.' }, :id=>'delete_event', :remote => true  %></td>
+              <td><%= link_to studio.name, '',  :data => {:toggle => "modal", :target => "#editModal#{studio.id}"}, :remote => true %>  </td>
+                    <%= render :partial => 'studios/edit', :locals => {:studio => studio}%>
+
+              <td><%= studio.locations.first.gmaps4rails_address %></td>
+              <td><%= studio.locations.count.to_s %></td>
+
+              <td><%= raw("<a href='http://#{studio.website}' target=\"_blank\"><span class=\"glyphicon glyphicon-globe\" style=\"font-size:18px;color:#999;\"></span></a>".html_safe) if studio.website %> </td>
+              <td>
+                <% if !studio.account_id.present? %>
+                <%= link_to raw("<span class=\"glyphicon glyphicon-remove\" style=\"font-size:18px;color:#999;\"></span>".html_safe), [studio], method: :delete, data: { confirm: 'Are you sure? This action cannot be undone.' }, :id=>'delete_event', :remote => true  %>
+                <% end %>
+              </td>
               <% end %>
               </tr>
             <% end %>
@@ -94,5 +82,5 @@ $(document).ready(function() {
 </div>
 
 <div>
-    <%= render 'events/new'%>
+    <%= render 'studios/new'%>
 </div>

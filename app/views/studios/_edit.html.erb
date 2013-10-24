@@ -1,0 +1,13 @@
+<div class="modal fade" id="editModal<%= studio.id%>" tabindex="-1" role="dialog" aria-labelledby="editModalLabel<%= studio.id%>" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden=true>&times;</button>
+        <h4 class="modal-title">Edit <%= studio.name %></h4>
+      </div>
+      <div class="modal-body">
+        <%= render 'studios/form', :studio => studio %>
+       </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

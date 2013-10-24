@@ -4,7 +4,10 @@ class UsersController < ApplicationController
     auth_token = 'ebe0a98d4cd312fd7f138ccf9444618a'
     
   def index
-      @users = User.all
+      @search = User.search(params[:search])
+      @users = @search
+      @search_profiles = Profile.without_user.search(params[:search])
+      @profiles = @search_profiles
   end
 
   def show
@@ -26,7 +29,7 @@ class UsersController < ApplicationController
   def change_role
       role = Role.find(params[:id])
       current_user.change_active_role_to(role)
-      if current_user.active_role.name == "student"
+      if current_user.active_role.name == "student" || current_user.active_role.name == "admin"
           redirect_to root_path
       else
           redirect_to :back

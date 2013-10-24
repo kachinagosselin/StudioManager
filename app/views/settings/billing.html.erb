@@ -1,0 +1,20 @@
+<% content_for :nav do %>
+  <%= render 'layouts/nav/settings' %>
+<% end %>
+
+<div class="col-lg-8 col-lg-offset-2">
+
+	<h3 class="page-title"> Billing Details</h3>
+	<hr>
+
+ <% if current_user.customer.present? %>
+    <% if current_user.customer.last_4_digits.present? %>
+
+          <p class= "light">Credit card has been provided. Last four digits are: <%= current_user.customer.last_4_digits %></p>
+  <% end %>
+       <%= render 'customers/add_card', :profile => current_user.profile, :customer => current_user.profile.customer %>  
+  <% else %>
+       <%= render 'customers/add_card', :profile => current_user.profile, :customer => current_user.profile.build_customer  %>  
+
+  <% end %> 
+</div>

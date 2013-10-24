@@ -123,6 +123,24 @@ class Event < ActiveRecord::Base
         end
     end
 
+    def resource
+        if self.resource_id.present?
+            self.resource_type.constantize.find(self.resource_id)
+        end
+    end
+
+    def location
+        if self.resource_type == "Studio"
+            return self.resource.location.first.gmaps4rails_address
+        else
+            return ""
+        end
+    end
+
+    def cost
+        return ""
+    end
+
     def register!(student, studio)
         registered_event.create!(student_id: student.id, studio_id: studio.id)
     end

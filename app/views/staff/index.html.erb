@@ -59,12 +59,12 @@ $('#profile_search').bind('ajax:success', function() {
 });
 </script>
 
-  <div class="col-lg-8 col-lg-offset-2">
-			<h3> Studio Instructors </h3> 
-			<p style="margin-top:-32px;margin-left:225px;">
-			<%= link_to '+ add new', '',  
-				:data => {:toggle => "modal", :target => "#addInstructor"}, :html => {:style => "margin-top:5px;"}%></p>
+<% content_for :nav do %>
+  <%= render 'layouts/nav/main' %>
+<% end %>
 
+  <div class="col-lg-8 col-lg-offset-2">
+			<h3 class="page-title"> Studio Instructors </h3> 
 		<div class="col-lg-7 pull-right" style="margin-top:-40px;" >
 			<%= form_for @search, :url => staff_index_path, :html => {:method => :get, :id => "user_search"} do |f| %>
 				<div class="input-group">
@@ -77,7 +77,7 @@ $('#profile_search').bind('ajax:success', function() {
 		</div>
 
 		<hr>
-		
+
 		<table class="table table-hover">
 		    <thead>
 		        <tr>
@@ -88,10 +88,34 @@ $('#profile_search').bind('ajax:success', function() {
 		          <th>Location</th>                             
 		          <th>Certification</th>  
 		          <th></th>                           
-		          <th></th>                           
+              	  <th><%= link_to raw("<span class=\"glyphicon glyphicon-plus-sign\" style=\"font-size:18px;\"></span>".html_safe), '',  :data => {:toggle => "modal", :target => "#addInstructor"} , :remote => true %></th>
 		        </tr>
 		    </thead>
 		    <tbody>
+				  <% if !@instructors.present? %>
+		          <div class="zero" style="z-index: 0;">
+		            <div class=""></div>
+		            <div class="box box-rounded box-inset">
+		              <div class="box-content">
+		                <h3 class="center">Welcome to the Staff Page</h3><!-- Originally h6 -->
+		                <div class="col-lg-10 col-lg-offset-1">
+		                <p class="light">This is where you can add instructors and staff to your studio. </br> This is a necessary step before creating events for your students.</p>
+		                <p class="light">To create an instructor click the plus icon at the end of the table <%= link_to raw("<span class=\"glyphicon glyphicon-plus-sign\" style=\"font-size:14px;\"></span>".html_safe), '',  :data => {:toggle => "modal", :target => "#addInstructor"} , :remote => true %> </p>
+		                <p class="light">Search for an existing user by email address. If they don't have an account you can create a profile for them, otherwise on "Add New Profile" to skip straight to that step. </p>
+						<!-- Profile.available_instructors -->
+		                <% if true %>
+		                <p class="light">If you are looking for new instructors to hire check our database: </p>
+
+						<p class="center"><%= link_to 'Search Database', instructors_database_path(), class: 'btn btn-primary btn-large', :style => "width:260px;" %></p>
+						</br>
+						<% end %>
+
+						<p class="light">We have more functionality planned here for managing studio staff. If you have any suggestions or requests please <a href="mailto:kachina@alum.mit.edu">contact us</a>. </p>
+		                  </div>
+		              </div>
+		            </div>
+		          </div>
+		          <% else %>
 		        <% @instructors.each do |user| %>
 		        	<tr>
 		        		<td><%= image_tag user.photo.image.url(:thumb), :width => "25px;"%></td>
@@ -103,11 +127,11 @@ $('#profile_search').bind('ajax:success', function() {
 		        		<td><a class='btn btn-default btn-xs' href="mailto:<%=user.email%>">Message</a></td>
                   		<td><a class='btn btn-default btn-xs' href="#">X</a></td>
 		        	</tr>
+		        	    <% end %>
 		        <% end %>
 		    </tbody>
 		</table>
-    <div class="divider-horizontal-regular"></div>
-
+    <hr>
 
 		<div style="margin-top:0px; margin-left:auto; margin-right:auto; width:231px;">
 		<%= link_to 'Search Database', instructors_database_path(), class: 'btn btn-primary btn-large', :style => "width:260px;margin-top:50px;" %>

@@ -1,5 +1,18 @@
 class EventsController < ApplicationController
-     def index        
+     def all        
+        @search = Event.upcoming.search(params[:search])
+        @events = @search.all   # load all matching records
+
+        @search_archived = Event.past.search(params[:search])
+        @archived = @search_archived.all
+
+        respond_to do |format|
+              format.html # index.html.erb
+              format.json { render json: @events.as_json }
+        end
+    end
+
+    def index        
         @resource = current_user.active_role.resource
         @search = @resource.events.upcoming.search(params[:search])
           

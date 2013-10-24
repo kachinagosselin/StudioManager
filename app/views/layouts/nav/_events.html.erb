@@ -6,12 +6,12 @@
 
 		<ul>
 			<li><%= link_to raw("<span class=\"glyphicon glyphicon-home\"></span>".html_safe), root_path() %></li>
-            <li><%= link_to 'Event', calendar_path %></li>
+            <li><%= link_to 'Event Page', calendar_path %></li>
     		<li><%= link_to 'Manage', events_path %>></li>
     		<li><%= link_to 'Edit', events_path %>></li>
+    		<li><%= link_to 'Find Sub', events_path %>></li>
     		<li><%= link_to 'Cancel', events_path %>></li>
-    		<li><%= link_to 'Archive', archive_events_path %>></li>
-    		<li><%= link_to 'Remote Checkin', events_path %>></li>
+    		<li><%= link_to 'Checkin', events_path %>></li>
 		</ul>
 		<% end %>
 	</div>

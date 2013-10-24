@@ -55,7 +55,7 @@ StudioManager::Application.routes.draw do
     # Resources do not need to belong to user or studio, simplifying views and adding some authorization checks to controller
     resources :events do
         collection do 
-            get :list
+            get :all
             get :archive
             get :manage
         end
@@ -123,8 +123,9 @@ StudioManager::Application.routes.draw do
     get 'reports#attendance'   => 'reports#attendance'
     get 'reports#revenue'   => 'reports#revenue'
   
-    get 'settings/studio' => 'settings#studio'
     get 'settings/profile' => 'settings#profile'
+    get 'settings/studio' => 'settings#studio'
+    get 'settings/billing' => 'settings#billing'
     get 'settings/upgrade' => 'settings#upgrade'
     get 'settings/notifications' => 'settings#notifications'
 
