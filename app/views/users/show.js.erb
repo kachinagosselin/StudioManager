@@ -1,0 +1,2 @@
+//document.write("<%= escape_javascript(content_tag(:iframe, :src => 'http://0.0.0.0:3000/studios/1/calendar').html_safe) %>");
+document.write("<%= escape_javascript(render(:partial => 'users/embed', :locals => {:user => @user}).html_safe) %>");
