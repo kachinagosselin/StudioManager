@@ -53,6 +53,27 @@ $(document).ready(function() {
             </tr>       
         </thead>
         <tbody>
+
+          <% if !@events.present? %>
+          <div class="zero" style="z-index: 0;">
+            <div class=""></div>
+            <div class="box box-rounded box-inset">
+              <div class="box-content">
+                <h3 class="center">Welcome to the Events Page</h3><!-- Originally h6 -->
+                <div class="col-lg-10 col-lg-offset-1">
+                <p class="light">This is where you can create events for your students. When you create an event it will be automatically added to your embeddable calendar and added to the searchable database for students.</p>
+                <p class="light">To create an event click the plus icon at the end of the table columns. </p>
+                <p class="light">Add the event name, description, price, location, start and end time. 
+                  <% if current_user.active_role.resource_type == "Studio" %> Make sure that you have instructors added to your studio before you continue making events. <% end %> </p>
+
+                <p class="light">Select the checkbox if you do not want unlimited memberships or package credits to apply to this event. Click on the Manage link to take care of managing applicable coupons for events.</p>
+
+                  </div>
+              </div>
+            </div>
+          </div>
+          <% else %>
+
             <% @events.each do |event| %>
               <tr>
 
@@ -65,6 +86,7 @@ $(document).ready(function() {
               <td><%= event.duration %></td>
               <td><%= raw("<a href='http://#{event.custom_url}' target=\"_blank\"><span class=\"glyphicon glyphicon-globe\" style=\"font-size:18px;color:#999;\"></span></a>".html_safe) if event.custom_url %> </td>
               <td><%= link_to raw("<span class=\"glyphicon glyphicon-remove\" style=\"font-size:18px;color:#999;\"></span>".html_safe), [event], method: :delete, data: { confirm: 'Are you sure? This action cannot be undone.' }, :id=>'delete_event', :remote => true  %></td>
+              <% end %>
               </tr>
             <% end %>
         </tbody>
