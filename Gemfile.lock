@@ -80,6 +80,7 @@ GEM
     daemons (1.1.9)
     database_cleaner (1.1.1)
     debug_inspector (0.0.2)
+    default_value_for (2.0.3)
     devise (3.0.1)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.1)
@@ -294,6 +295,7 @@ DEPENDENCIES
   coffee-rails (~> 3.2.1)
   cucumber-rails
   database_cleaner
+  default_value_for
   devise (>= 2.0.0)
   email_spec
   factory_girl_rails

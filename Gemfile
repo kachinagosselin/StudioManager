@@ -35,6 +35,7 @@ gem "twitter-bootstrap-rails"
 gem "therubyracer"
 gem "less-rails"
 gem "font-awesome-rails"
+gem "default_value_for"
 
 group :development do
   gem 'better_errors'
