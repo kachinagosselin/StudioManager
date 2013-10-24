@@ -1,5 +1,5 @@
 <% content_for :nav do %>
-  <%= render 'layouts/nav/student' %>
+  <%= render "layouts/nav/#{current_user.active_role.name}" %>
 <% end %>
 
 <script> 
@@ -39,7 +39,6 @@ $(document).ready(function() {
 </script>
 
   <div class="col-lg-10 col-lg-offset-1">
-    <h3 class="page-title">Interactive Studio Discovery Tool</h3>
     <div id="map-container">
 		<%= gmaps4rails(@json) %>
 	</div>
