@@ -41,7 +41,7 @@
 <% end %>
 <div class="col-lg-8 col-lg-offset-2">
 <div>
-	<% if !@memberships.present? || !@packages.present?%>
+	<% if !@memberships.present? && !@packages.present?%>
 				          <div class="zero" style="z-index:0;display:block;">
 				            <div class=""></div>
 				            <div class="box box-rounded box-inset">
@@ -80,7 +80,7 @@
 				        		<td><%= membership.billing_frequency%></td>	
 				        		<td><%= membership.type %></td>					
 				        		<td><%= membership.trial_period %></td>
-                				<%= link_to raw("<span class=\"glyphicon glyphicon-remove\" style=\"font-size:18px;color:#999;\"></span>".html_safe), [membership], method: :delete, data: { confirm: 'Are you sure? This action cannot be undone.' }, :id=>'delete_event', :remote => true  %>
+                				<td><%= link_to raw("<span class=\"glyphicon glyphicon-remove\" style=\"font-size:18px;color:#999;\"></span>".html_safe), [membership], method: :delete, data: { confirm: 'Are you sure? This action cannot be undone.' }, :id=>'delete_event', :remote => true  %></td>
 				        	</tr>
 				        <% end %>
 				    </tbody>
@@ -100,7 +100,7 @@
 				<th>Quantity</th>  
 				<th>Expiration</th>
 				<th>Price</th>
-				<th></th>
+				<th> </th>
                 <th><%= link_to raw("<span class=\"glyphicon glyphicon-plus-sign\" style=\"font-size:18px;\"></span>".html_safe), '',  :data => {:toggle => "modal", :target => "#newModalPackage"} , :remote => true %></th>                          
 			</tr>
 		</thead>
@@ -114,14 +114,19 @@
 				<td><%= package.format_price%></td>		        		
 				<td><%= link_to 'Edit', edit_package_path(package),  :data => {:toggle => "modal", :target => "#editModalPackage#{ package.id}"}, :remote => true, :class => 'btn btn-default btn-xs' %>	</td>
  				<%= render :partial => 'packages/edit', :locals => {:package => package}%>
-                <%= link_to raw("<span class=\"glyphicon glyphicon-remove\" style=\"font-size:18px;color:#999;\"></span>".html_safe), [package], method: :delete, data: { confirm: 'Are you sure? This action cannot be undone.' }, :remote => true  %>
+                <td><%= link_to raw("<span class=\"glyphicon glyphicon-remove\" style=\"font-size:18px;color:#999;\"></span>".html_safe), [package], method: :delete, data: { confirm: 'Are you sure? This action cannot be undone.' }, :remote => true  %></td>
 			</tr>
 			<% end %>
 		</tbody>
 	</table>
+
+<hr>
+	 <p class="center"><%= link_to 'Embed Purchase Form', '',  :data => {:toggle => "modal", :target => "#embedPurchase"}, :class => "btn btn-default", :remote => true %></p>
+
 </div>
 
 <div>
  		<%= render 'memberships/new' %>
  		<%= render 'packages/new' %>
+    	<%= render 'products/embed'%>
 </div>
