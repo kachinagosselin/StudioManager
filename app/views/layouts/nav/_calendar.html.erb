@@ -8,8 +8,8 @@
 			<li><%= link_to raw("<span class=\"glyphicon glyphicon-home\"></span>".html_safe), root_path() %></li>
             <li><%= link_to 'Calendar', calendar_path %></li>
     		<li><%= link_to 'Events', events_path %>></li>
-    		<li><%= link_to 'Archive', archive_events_path %>></li>
-    		<li><%= link_to 'Embed', events_path %>></li>
+    		<li><%= link_to 'Manage', manage_events_path %>></li>
+    		<li><%= link_to 'Archives', archive_events_path %>></li>
     		<li><%= link_to 'Embed', '',  :data => {:toggle => "modal", :target => "#embedCalendar"}, :remote => true %></li>
 
 		</ul>

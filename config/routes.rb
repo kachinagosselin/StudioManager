@@ -56,6 +56,7 @@ StudioManager::Application.routes.draw do
         collection do 
             get :list
             get :archive
+            get :manage
         end
         
         member do

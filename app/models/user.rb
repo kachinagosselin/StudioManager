@@ -261,6 +261,6 @@ class User < ActiveRecord::Base
     end
 
     def embed_script
-        "<script src=" + Rails.application.routes.url_helpers.user_url(self) + ".js" + "></script>"
+        "<script src='" + Rails.application.routes.url_helpers.user_url(self) + ".js'" + "></script>"
     end
 end
