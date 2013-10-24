@@ -10,7 +10,6 @@
     		<li><%= link_to 'Calendar', calendar_path %></li>
     		<li><%= link_to 'Events', events_path %></li>
     		<li><%= link_to 'Products', products_path %></li>
-            <li><%= link_to 'Coupons', coupons_path %></li>
 
     		<% if current_user.active_role.name == "owner"%>
     		<li><%= link_to 'Instructors', staff_index_path %></li>
