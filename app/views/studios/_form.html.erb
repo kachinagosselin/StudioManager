@@ -41,20 +41,22 @@ document.getElementById("studio_state").classList.add('form-control');
     <%= s.text_area :student_waiver, :class => "form-control", :cols => 20, :rows => 14 %></p>      
    
    </div>
-   <hr>
 
    <% if studio.locations.present? %>
+    <hr>
+    <h4 style="margin-left:20px;"> Add New Location </h4>
+    <hr>
+    <%= render 'locations/form', :studio => studio %>
       <% studio.locations.each do |loc| %>
-        <% if loc.id != 1 %>
-          <p class="lead">
-            <%if loc.name.present? %>
-            <%= loc.address %> <%= loc.city %>, <%= loc.state %></p>
-            <% end %>
+        <% if loc == studio.locations.first %>
+          <p class="light" style="margin-left:20px;">
+            <strong><%= loc.gmaps4rails_address %></strong></h3>
         <% end %>
       <% end %>
-    <%= render 'locations/form', :studio => studio %>
     <% end %>
-
+    <hr>
+        <div class="form-actions">
     <%= s.submit "Update", :class => "submit-button btn btn-primary pull-right", :id => "add_studio" %>
+  </dvi>
 <% end %>
 </div>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131024041040) do
+ActiveRecord::Schema.define(:version => 20131024214140) do
 
   create_table "accounts", :force => true do |t|
     t.string   "plan_id"
@@ -113,6 +113,7 @@ ActiveRecord::Schema.define(:version => 20131024041040) do
     t.string   "url"
     t.string   "custom_url"
     t.boolean  "canceled"
+    t.integer  "location_id"
   end
 
   create_table "instructors", :force => true do |t|
@@ -296,6 +297,7 @@ ActiveRecord::Schema.define(:version => 20131024041040) do
     t.text     "instructor_waiver"
     t.text     "cancellation_policy"
     t.integer  "default_event_price"
+    t.text     "description"
   end
 
   create_table "users", :force => true do |t|
