@@ -1,7 +1,7 @@
 class EventsController < ApplicationController
      def index        
         @resource = current_user.active_role.resource
-        @search = @resource.events.search(params[:search])
+        @search = @resource.events.upcoming.search(params[:search])
           
         @events = @search.all   # load all matching records
         respond_to do |format|

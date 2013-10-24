@@ -4,7 +4,7 @@ class Event < ActiveRecord::Base
     has_one :charge
     has_many :registered_events
     has_many :students, foreign_key: "user_id", :through => :registered_events, :source => :user
-    attr_accessible :studio_id, :description, :end_at, :instructor_id, :start_at, :title, :registered_events, :registered_events_attributes, :archive, :price, :resource_type, :resource_id, :custom_url
+    attr_accessible :studio_id, :description, :end_at, :instructor_id, :start_at, :title, :registered_events, :registered_events_attributes, :archive, :price, :resource_type, :resource_id, :custom_url, :canceled
     
     
     
@@ -23,13 +23,23 @@ class Event < ActiveRecord::Base
     end  
     
     scope :between, lambda {|start_time, end_time|  
-    {:conditions => ["? < starts_at < ?", Event.format_date(start_time),      Event.format_date(end_time)] }  
+    {:conditions => ["? < start_at < ?", start_time, end_time] }  
     }  
 
-    scope :past, where("start_at < ?", Time.now + 15.minutes).order('events.start_at DESC')
-    scope :sorted, order(:created_at => :desc)
+    scope :not_canceled, where(:canceled => false).order('events.start_at DESC')
     scope :canceled, where(:canceled => true).order('events.start_at DESC')
+
+    scope :past, not_canceled.where("start_at < ?", Time.now + 15.minutes).order('events.start_at DESC')
+    scope :upcoming, not_canceled.where("start_at >= ?", Time.now - 15.minutes).order('events.start_at DESC')
+    scope :sorted, order('events.created_at DESC')
+
     scope :archived, past.joins(canceled)
+
+    scope :next_week, upcoming.where("start_at <= ?", Time.now + 7.days).order('events.start_at DESC')
+    scope :next_month, upcoming.where("start_at >= ?", Time.now + 1.month).order('events.start_at DESC')
+
+    scope :last_week, past.where("start_at > ?", Time.now - 7.days).order('events.start_at DESC')
+    scope :last_month, past.where("start_at < ?", Time.now - 1.month).order('events.start_at DESC')
 
     def self.format_date(date_time)  
     Time.at(date_time.to_i).to_formatted_s(:long_ordinal) 
