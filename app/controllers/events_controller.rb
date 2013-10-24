@@ -155,9 +155,10 @@ class EventsController < ApplicationController
     
     def archive
         @resource = current_user.active_role.resource
-        @search = @resource.events.search(params[:search])
-          
-        @events = @search.all   # load all matching records
+        @search = @resource.events.archived.search(params[:search])
+
+        @events = @search.all   # load all matching records          
+
         respond_to do |format|
               format.html # index.html.erb
               format.json { render json: @events.as_json }

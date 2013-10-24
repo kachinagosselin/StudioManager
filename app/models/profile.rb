@@ -24,7 +24,7 @@ class Profile < ActiveRecord::Base
     before_create :initialize_photo, :initialize_availability
 
     scope :available, where(:is_available => 1)
-    scope :sorted, order(:date => :desc)
+    scope :sorted, order(:created_at => :desc)
     # Intialize upon create
     def initialize_photo
         self.build_photo

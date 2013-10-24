@@ -25,7 +25,12 @@ class Event < ActiveRecord::Base
     scope :between, lambda {|start_time, end_time|  
     {:conditions => ["? < starts_at < ?", Event.format_date(start_time),      Event.format_date(end_time)] }  
     }  
-    
+
+    scope :past, where("start_at < ?", Time.now + 15.minutes).order('events.start_at DESC')
+    scope :sorted, order(:created_at => :desc)
+    scope :canceled, where(:canceled => true).order('events.start_at DESC')
+    scope :archived, past.joins(canceled)
+
     def self.format_date(date_time)  
     Time.at(date_time.to_i).to_formatted_s(:long_ordinal) 
     end
