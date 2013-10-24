@@ -50,6 +50,21 @@ $('#toggle_search').on('click', function () {
 <% end %>
 
 <div class="col-lg-8 col-lg-offset-2">
+          <% if !@students.present? %>
+          <div class="zero" style="z-index: 0;">
+            <div class=""></div>
+            <div class="box box-rounded box-inset">
+              <div class="box-content">
+                <h3 class="center">Welcome to Your Roster</h3><!-- Originally h6 -->
+                <div class="col-lg-10 col-lg-offset-1">
+                <p class="light">This is where we keep track of all your students for you. You can add students manually by clicking the plus icon at the end of the table. Otherwise as students explore your site, make purchases and register for events their details will automatically be loaded into this database.</p>
+                <p class="light">Sort through this database to find students that have been active in the past year, month, week or day. Track their active memberships, remaining credits and last purchases. Go to the reports page for more information at a glance about the health of your <% if current_user.active_role.resource_type == "Studio" %> studio <% else %> private practice<%end%>.</p>
+                  </div>
+              </div>
+            </div>
+          </div>
+          <% end %>
+
 <div class="row">
 <div class="col-lg-6" >
 	  <span><h3 class="page-title"> <%= current_user.active_role.name.to_s.capitalize %> Students </h3>
@@ -81,20 +96,6 @@ $('#toggle_search').on('click', function () {
 		        </tr>
 		    </thead>
 		    <tbody>
-          <% if !@students.present? %>
-          <div class="zero" style="z-index: 0;">
-            <div class=""></div>
-            <div class="box box-rounded box-inset">
-              <div class="box-content">
-                <h3 class="center">Welcome to your Roster</h3><!-- Originally h6 -->
-                <div class="col-lg-10 col-lg-offset-1">
-                <p class="light">This is where we keep track of all your students for you. You can add students manually by clicking the plus icon at the end of the table. Otherwise as students explore your site, make purchases and register for events their details will automatically be loaded into this database.</p>
-                <p class="light">Sort through this database to find students that have been active in the past year, month, week or day. Track their active memberships, remaining credits and last purchases. Go to the reports page for more information at a glance about the health of your <% if current_user.active_role.resource_type == "Studio" %> studio <% else %> private practice<%end%>.</p>
-                  </div>
-              </div>
-            </div>
-          </div>
-          <% else %>
 		        <% @students.each do |profile| %>
                   <% @active = profile.active_memberships(current_user.active_role.resource).first %>
 
@@ -118,7 +119,6 @@ $('#toggle_search').on('click', function () {
 		        		<td><a href="mailto:#{profile.email}"><span class="glyphicon glyphicon-send" style="color:black;"></span></a></td>
 		        	</tr>
 		        <% end %>
-            <% end %>
 		    </tbody>
 		</table>
 

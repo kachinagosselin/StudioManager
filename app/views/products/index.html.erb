@@ -39,16 +39,27 @@
 <% content_for :nav do %>
   <%= render 'layouts/nav/main' %>
 <% end %>
-<div class="col-lg-9 col-lg-offset-2">
-
+<div class="col-lg-8 col-lg-offset-2">
 <div>
-<h3> Memberships</h3>
-<div class="pull-right" style="margin-top:-40px;">
-	<%= link_to 'New membership', new_membership_path,
-        :class => 'btn btn-primary btn-sm' ,  :data => {:toggle => "modal", :target => "#newModalMembership"} , :remote => true, :html => {:style => "margin-top:5px;"}%>
+	<% if !@memberships.present? || !@packages.present?%>
+				          <div class="zero" style="z-index:0;display:block;">
+				            <div class=""></div>
+				            <div class="box box-rounded box-inset">
+				              <div class="box-content">
+				                <h3 class="center">Add Product Offerings for Your Students</h3><!-- Originally h6 -->
+				                <div class="col-lg-10 col-lg-offset-1">
+				                <p class="light">You can create a variety of memberships and packages, automatically renewed or as one-time purchases, for your students to purchase. </p>
+				                <p class="light"><strong> Memberships: </strong> Allow students to have unlimited access to your regularly scheduled events. They do not apply to workshops.</p>
+				                <p class="light"><strong> Packages: </strong> Provide the student with a limited number of class credits which can be applied to regular classes. They may have an expiration.</p>
+				                <p class="light">You can create memberships and packages by clicking the plus sign at the end of their respective tables.</p>
+				                <p class="light">Your products will be displayed to users when they are browsing our interactive map and on your studio homepage. To enable students to purchase from your website click the button at the bottom of the page.</p>
+				                  </div>
+				              </div>
+				            </div>
+				          </div>
+				          <% end %>
 
-			</div>
-			<div class="divider-horizontal-regular"></div>
+				          <h3 class="page-title"> Unlimited Memberships</h3>
 				<table class="table table-hover">
 				    <thead>
 				        <tr>
@@ -57,10 +68,11 @@
 				          <th>Billing Frequency</th>
 				          <th>Subscription Type</th>                        
 				          <th>Trial Period</th>
-				          <th></th>                          
+              			  <th><%= link_to raw("<span class=\"glyphicon glyphicon-plus-sign\" style=\"font-size:18px;\"></span>".html_safe), '',  :data => {:toggle => "modal", :target => "#newModalMembership"} , :remote => true %></th>                          
 				        </tr>
 				    </thead>
 				    <tbody>
+
 				        <% @memberships.each do |membership| %>
 				        	<tr>
 				        		<td><%= membership.title %></td>
@@ -68,19 +80,19 @@
 				        		<td><%= membership.billing_frequency%></td>	
 				        		<td><%= membership.type %></td>					
 				        		<td><%= membership.trial_period %></td>
-    							<td><%= button_to 'Delete', [membership], method: :delete, data: { confirm: 'Are you sure? This action cannot be undone.' }, :class => 'btn btn-default btn-xs' %></td>
+                				<%= link_to raw("<span class=\"glyphicon glyphicon-remove\" style=\"font-size:18px;color:#999;\"></span>".html_safe), [membership], method: :delete, data: { confirm: 'Are you sure? This action cannot be undone.' }, :id=>'delete_event', :remote => true  %>
 				        	</tr>
 				        <% end %>
 				    </tbody>
 				</table>
 			</div>
 <div>
-<h3> Packages</h3>
-<div class="pull-right" style="margin-top:-40px;">
-	<%= link_to 'New package', new_package_path,
-        :class => 'btn btn-primary btn-sm' ,  :data => {:toggle => "modal", :target => "#newModalPackage"} , :remote => true, :html => {:style => "margin-top:5px;"}%></div>
-<div class="divider-horizontal-regular"></div>
-				
+
+</br>	
+<hr>
+<h3 class="page-title">Class Packages</h3>
+<hr>
+
 	<table class="table table-hover">
 		<thead>
 			<tr>
@@ -89,7 +101,7 @@
 				<th>Expiration</th>
 				<th>Price</th>
 				<th></th>
-				<th></th>                          
+                <th><%= link_to raw("<span class=\"glyphicon glyphicon-plus-sign\" style=\"font-size:18px;\"></span>".html_safe), '',  :data => {:toggle => "modal", :target => "#newModalPackage"} , :remote => true %></th>                          
 			</tr>
 		</thead>
 		<tbody>
@@ -102,7 +114,7 @@
 				<td><%= package.format_price%></td>		        		
 				<td><%= link_to 'Edit', edit_package_path(package),  :data => {:toggle => "modal", :target => "#editModalPackage#{ package.id}"}, :remote => true, :class => 'btn btn-default btn-xs' %>	</td>
  				<%= render :partial => 'packages/edit', :locals => {:package => package}%>
-    			<td><%= button_to 'Delete', [package], method: :delete, data: { confirm: 'Are you sure? This action cannot be undone.' }, :class => 'btn btn-default btn-xs' %></td>
+                <%= link_to raw("<span class=\"glyphicon glyphicon-remove\" style=\"font-size:18px;color:#999;\"></span>".html_safe), [package], method: :delete, data: { confirm: 'Are you sure? This action cannot be undone.' }, :remote => true  %>
 			</tr>
 			<% end %>
 		</tbody>
