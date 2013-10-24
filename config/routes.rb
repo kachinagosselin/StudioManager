@@ -43,6 +43,7 @@ StudioManager::Application.routes.draw do
     resources :profiles do
         resources :customers
     end
+
     # Testing out use of twilio, if not necessary delete
     resources :appointmentreminder do
         collection do
@@ -75,7 +76,7 @@ StudioManager::Application.routes.draw do
     resources :coupons
     resources :staff
     resources :students do
-            collection do
+        collection do
             get :search
         end
     end
@@ -111,6 +112,12 @@ StudioManager::Application.routes.draw do
             get :_embed, :test
         end
     end
+
+    get 'about' => 'home#about'
+    get 'personal_calendar' => 'home#calendar'
+    get 'discover' => 'home#map'
+    get 'classes' => 'home#events'
+
 
     get 'reports'        => 'reports#index'
     get 'reports#attendance'   => 'reports#attendance'

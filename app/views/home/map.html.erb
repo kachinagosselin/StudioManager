@@ -1,0 +1,53 @@
+<% content_for :nav do %>
+  <%= render 'layouts/nav/student' %>
+<% end %>
+
+<script> 
+$(document).ready(function() {
+
+  Gmaps.map.callback = function() {
+  for (var i = 0; i <  Gmaps.map.markers.length; ++i) {
+    marker = Gmaps.map.markers[i];
+    google.maps.event.addListener(
+     marker.serviceObject, 'click', (function(event, index) {
+    return function(){
+    	m = Gmaps.map.markers[index];
+    	alert(m.name);
+     	document.getElementById('test').innerHTML = m.html;
+     	$('#calendar').fullCalendar( 'addEventSource', m.events );
+      }
+    })(marker,i));
+
+  }
+}
+
+
+	$('#calendar').fullCalendar({
+		defaultView: 'agendaWeek',
+		minTime: 6,
+		header: {
+	  	left: 'prev,next today',
+	  	center: 'title',
+	  	right: 'month,agendaWeek,agendaDay',
+	  	},
+    eventSources: [{
+          url: '/index.json',
+        }],
+	});
+
+});
+</script>
+
+  <div class="col-lg-10 col-lg-offset-1">
+    <h3 class="page-title">Interactive Studio Discovery Tool</h3>
+    <div id="map-container">
+		<%= gmaps4rails(@json) %>
+	</div>
+
+	<div id="test"></div>
+		<p class="light center"> Didn't find your studio? <a> Send an Invite </a> so they can sign up for our services! </p>
+
+</div>
+
+	</div>
+		

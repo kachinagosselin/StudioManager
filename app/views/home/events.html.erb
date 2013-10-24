@@ -1,0 +1,91 @@
+<script> 
+$(document).ready(function() {
+
+    document.getElementById('event_instructor_id').classList.add('form-control'); 
+
+    $('.form_datetime').datetimepicker({
+        weekStart: 1,
+        autoclose: 1,
+        maxView: 3,
+        startView: 2,
+        forceParse: 0,
+        showMeridian: 1
+      });
+
+});
+</script>
+
+<% content_for :nav do %>
+  <%= render 'layouts/nav/student' %>
+<% end %>
+
+<div class="col-lg-8 col-lg-offset-2">
+  <div class="row">
+  <div class="col-lg-6">
+    <h3 class="page-title">Discover Classes in your Area</h3>
+  </div>
+
+  <div class="col-lg-6">
+    <%= form_for @search, :url => classes_path, :html => {:method => :get} do |f| %>
+      <div class="input-group">
+          <%= f.text_field :title_contains, :class => "form-control"  %>
+          <span class="input-group-btn">
+            <button type="submit" class="btn btn-primary">Search</button>
+          </span>
+        </div><!-- /input-group -->
+    <% end %>
+  </div> 
+</div>
+<hr>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+              <th>Start Time</th>
+              <th>Date</th>
+              <th>Title</th>
+              <th>Location</th>
+              <th>Duration</th>
+              <th>Registered</th>
+              <th>Cost</th>
+              <th></th>
+            </tr>       
+        </thead>
+        <tbody>
+
+          <% if !@events.present? %>
+          <div class="zero" style="z-index: 0;">
+            <div class=""></div>
+            <div class="box box-rounded box-inset">
+              <div class="box-content">
+                <h3 class="center">Opps, there are no events in your area!</h3><!-- Originally h6 -->
+                <div class="col-lg-10 col-lg-offset-1">
+                <p class="light center">We're so sorry that you stumbled upon an empty page.</p>
+                <p class="light center">Studio Manager is a new startup and just getting on it's feet. If you think that we have potential and could improve the experience of discovering new studios and events to go to in your neighborhood, please feel free to reach out to organizations around you.</p>
+                <p class="light center">It's <strong>FREE</strong> for studios to sign up! </p>
+
+                <p class="light center">In the meantime, drop us a line. We really appreciate you taking the time to stop by our shop. We hope to take root in your city soon.</p>
+
+                  </div>
+              </div>
+            </div>
+          </div>
+          <% else %>
+
+            <% @events.each do |event| %>
+              <tr>
+
+              <td><%= event.start_time %></td>
+              <td><%= event.day_of_week %> <%= event.date_condensed %></td>
+              <td><%= link_to event.title, event_path(event)%></td>
+              <td><%= event.duration %></td>
+              <td><%= event.duration %></td>
+              <td><%= event.registered.count %> students</td>
+              <td><%= event.duration %></td>
+              <td><%= raw("<a href='http://#{event.custom_url}' target=\"_blank\"><span class=\"glyphicon glyphicon-globe\" style=\"font-size:18px;color:#999;\"></span></a>".html_safe) if event.custom_url %> </td>
+              <% end %>
+              </tr>
+            <% end %>
+        </tbody>
+    </table>
+</div>

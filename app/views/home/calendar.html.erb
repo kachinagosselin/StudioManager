@@ -1,0 +1,41 @@
+<% content_for :nav do %>
+  <%= render 'layouts/nav/student' %>
+<% end %>
+
+<script> 
+$(document).ready(function() {
+
+	$('#calendar').fullCalendar({
+		defaultView: 'agendaWeek',
+		minTime: 6,
+		header: {
+	  	left: 'prev,next today',
+	  	center: 'title',
+	  	right: 'month,agendaWeek,agendaDay',
+	  	},
+    eventSources: [{
+          url: '/calendar.json',
+        }],
+	});
+
+});
+</script>
+
+  <div class="col-lg-8 col-lg-offset-2">
+
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+	        <h5 class="panel-title">Classes for <%= current_user.name %> </h5>
+	    </div>
+
+		<div id='calendar'></div>
+	</div>
+
+	<% if !current_user.has_role? :owner, :any %>
+		<p class="center"><b>Are you a studio owner?</b> To be able to use our full suite of services,
+		 <a href="https://connect.stripe.com/oauth/authorize?response_type=code&amp;scope=read_write&amp;stripe_landing=login&amp;client_id=ca_2Ksr3KRSkcnkhLjwUQPbFNKuAptJ5sSw" class="stripe-connect"><span>Connect with Stripe</span></a>
+		</p>
+	<% end %>
+
+	</div>
+		
