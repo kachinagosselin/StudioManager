@@ -103,8 +103,8 @@ ActiveRecord::Schema.define(:version => 20131024041040) do
     t.integer  "instructor_id"
     t.text     "description"
     t.string   "title"
-    t.datetime "created_at",                       :null => false
-    t.datetime "updated_at",                       :null => false
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
     t.integer  "studio_id"
     t.boolean  "archive"
     t.integer  "price"
@@ -112,7 +112,6 @@ ActiveRecord::Schema.define(:version => 20131024041040) do
     t.string   "resource_type"
     t.string   "url"
     t.string   "custom_url"
-    t.boolean  "canceled",      :default => false
   end
 
   create_table "instructors", :force => true do |t|
