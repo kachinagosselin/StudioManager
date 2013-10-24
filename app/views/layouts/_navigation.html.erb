@@ -20,7 +20,7 @@ $("#registerModal").appendTo("body");
 
             <% if current_user.roles.count > 1 %>
             <li class="dropdown" role="menu">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Switch Account <b class="caret"></b></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <%= current_user.active_role.description %> View<b class="caret"></b></a>
               <ul class="dropdown-menu">
                   <% current_user.account_roles.each do |role|%>
                   <li><%= link_to role.description, change_role_user_role_path(current_user, role)  %>
