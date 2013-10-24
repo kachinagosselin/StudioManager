@@ -1,5 +1,15 @@
 class EventsController < ApplicationController
-    
+     def index        
+        @resource = current_user.active_role.resource
+        @search = @resource.events.search(params[:search])
+          
+        @events = @search.all   # load all matching records
+        respond_to do |format|
+              format.html # index.html.erb
+              format.json { render json: @events.as_json }
+        end
+    end
+
     def show
         @event = Event.find(params[:id])
 
@@ -23,10 +33,6 @@ class EventsController < ApplicationController
         if @event.save
             redirect_to :back
         end 
-    end
-    
-    def list
-        @events = Event.find(:all)
     end
     
     def update
@@ -148,7 +154,14 @@ class EventsController < ApplicationController
     end
     
     def archive
-        
+        @resource = current_user.active_role.resource
+        @search = @resource.events.search(params[:search])
+          
+        @events = @search.all   # load all matching records
+        respond_to do |format|
+              format.html # index.html.erb
+              format.json { render json: @events.as_json }
+        end
     end
     
     def destroy

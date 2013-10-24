@@ -1,5 +1,7 @@
 StudioManager::Application.routes.draw do
 
+  default_url_options :host => "studiostaging.herokuapp.com"
+
   devise_for :views
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
  
@@ -53,6 +55,7 @@ StudioManager::Application.routes.draw do
     resources :events do
         collection do 
             get :list
+            get :archive
         end
         
         member do

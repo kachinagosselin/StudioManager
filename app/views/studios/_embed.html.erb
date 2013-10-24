@@ -11,12 +11,12 @@ $('#calendar').fullCalendar({
   	right: 'month,agendaWeek,agendaDay'
 	},
     eventSources: [{
-              events: '<%= @events.as_json %>',
+              url: '#{@events.as_json}',
         }],
 
       eventColor: 'transparent'
 });
 });
 </script>
-<%= @events.as_json %>
+
     <div id='calendar'></div>

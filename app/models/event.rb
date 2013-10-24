@@ -70,11 +70,27 @@ class Event < ActiveRecord::Base
         hours_remaining = ((end_at-start_at) / 3600).round % 24
         hours = ((end_at-start_at) / 3600).round
         minutes_remaining = ((end_at-start_at)/ 60).round % 60
-        if days != 0
-            return "#{days} days #{hours_remaining} hrs #{minutes_remaining} mins"
-        else
-            return "#{hours} hrs #{minutes_remaining} mins"
+
+        string = ""
+        if days != 0 && days != 1
+            string = string + "#{days} days "
+        elsif days == 1
+            string = string + "#{days} day "
         end
+
+        if hours != 0 && hours != 1
+            string = string + "#{hours} hrs "
+        elsif hours == 1
+            string = string + "60 mins"
+        end
+
+        if minutes_remaining != 0 && minutes_remaining != 1
+            string = string + "#{minutes_remaining} mins"
+        elsif minutes_remaining == 1
+            string = string + "#{minutes_remaining} min"
+        end
+
+        return string
     end
 
     def url
@@ -106,6 +122,18 @@ class Event < ActiveRecord::Base
         end
     end
 
+    def registered
+        events = RegisteredEvent.where(:event_id => self.id)
+        registered = []
+        
+        events.each do |e|
+            registered << Profile.find(e.profile_id)
+        end
+        
+        return registered
+        
+    end
+
     def attendees
         events = RegisteredEvent.where(:event_id => self.id).where(:attended => true )
         attendees = []
@@ -116,6 +144,14 @@ class Event < ActiveRecord::Base
         
         return attendees
         
+    end
+
+    def attendance_descriptor
+        if self.registered.count == 0 
+            return "none"
+        else
+            return "#{event.attendees.count} of #{event.registered.count}"
+        end
     end
 
 end

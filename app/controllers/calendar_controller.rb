@@ -19,5 +19,5 @@ class CalendarController < ApplicationController
           format.json { render json: @events.as_json }
     end
   end
-
+  
 end

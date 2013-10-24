@@ -1,8 +1,6 @@
 <script> 
 $(document).ready(function() {
   
-    document.getElementById('event_instructor_id').classList.add('form-control');
-
 $('#calendar').fullCalendar({
 	header: {
   	left: 'prev,next today',
@@ -20,30 +18,15 @@ $('#calendar').fullCalendar({
     },
 });
 
-    $('.form_datetime').datetimepicker({
-        weekStart: 1,
-        autoclose: 1,
-        maxView: 3,
-        startView: 2,
-        forceParse: 0,
-        showMeridian: 1
-      });
-
-$("#delete_event").observe('ajax:success', function(evt, status, data, xhr) {
-    $(this).closest('tr').fadeOut();  
-});
-
 });
 </script>
 
 <% content_for :nav do %>
-  <%= render 'layouts/nav/main' %>
+  <%= render 'layouts/nav/calendar' %>
 <% end %>
 
   <div class="col-lg-8 col-lg-offset-2">
   <div id='calendar'></div>
-
-  <%= render 'list', :locals => {:url => calendar_path, :new_url => new_event_path} %>
 
 </div>
 </div>

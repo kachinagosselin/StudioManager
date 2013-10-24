@@ -105,4 +105,7 @@ class UsersController < ApplicationController
         @students = @search.all   # load all matching records
     end 
 
+    def _embed
+        @user = User.find(params[:id])
+    end
 end

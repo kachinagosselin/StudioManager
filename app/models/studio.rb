@@ -126,4 +126,8 @@ class Studio < ActiveRecord::Base
         html = html + "</ul></div></div></div>"
         return html
     end
+
+    def embed_script
+        "<script src=" + Rails.application.routes.url_helpers.studio_url(self) + ".js" + "></script>"
+    end
 end

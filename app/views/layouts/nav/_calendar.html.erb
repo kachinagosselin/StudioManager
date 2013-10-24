@@ -6,16 +6,18 @@
 
 		<ul>
 			<li><%= link_to raw("<span class=\"glyphicon glyphicon-home\"></span>".html_safe), root_path() %></li>
-            <li><%= link_to 'Event', calendar_path %></li>
-    		<li><%= link_to 'Manage', events_path %>></li>
-    		<li><%= link_to 'Edit', events_path %>></li>
-    		<li><%= link_to 'Cancel', events_path %>></li>
+            <li><%= link_to 'Calendar', calendar_path %></li>
+    		<li><%= link_to 'Events', events_path %>></li>
     		<li><%= link_to 'Archive', archive_events_path %>></li>
-    		<li><%= link_to 'Remote Checkin', events_path %>></li>
+    		<li><%= link_to 'Embed', events_path %>></li>
+    		<li><%= link_to 'Embed', '',  :data => {:toggle => "modal", :target => "#embedCalendar"}, :remote => true %></li>
+
 		</ul>
 		<% end %>
 	</div>
 </nav>
 <% end %>
+
+    <%= render 'calendar/embed'%>
 
 			

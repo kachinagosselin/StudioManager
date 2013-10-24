@@ -260,4 +260,7 @@ class User < ActiveRecord::Base
         return Stripe::Customer.retrieve({:id => self.customer.stripe_customer_token}, client.customer.access_token)
     end
 
+    def embed_script
+        "<script src=" + Rails.application.routes.url_helpers.user_url(self) + ".js" + "></script>"
+    end
 end
