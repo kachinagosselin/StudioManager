@@ -19,6 +19,7 @@ class User < ActiveRecord::Base
     
     before_create :instantiate_profile
     after_create :initialize_role
+    after_create :set_values
 
     validates :name, :email, :presence => true
     validates :email, :uniqueness => true
@@ -41,6 +42,11 @@ class User < ActiveRecord::Base
         self.add_role :student
         role = self.roles.first
         self.update_attributes(:active_role_id => role.id)
+    end
+
+    def set_values
+        self.canceled = false
+        self.save
     end
 
     # Managing roles for user: owner, staff, professional, student
@@ -139,7 +145,7 @@ class User < ActiveRecord::Base
 
     # Required for recording professional objects
     def events
-        Event.where(:resource_type => "User").where(:resource_id => self.profile.id)
+        Event.where(:resource_type => "User").where(:resource_id => self.id)
     end
     
     def memberships

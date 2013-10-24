@@ -6,8 +6,9 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden=true>&times;</button>
         <h4 class="modal-title">Edit Event</h4>
       </div>
+      	<div class="modal-body">
  		  <%= render :partial => 'events/form', :locals => {:account_type => local_assigns[:account_type], :event => event } %>
-
+ 		</div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->

@@ -4,7 +4,8 @@ class Event < ActiveRecord::Base
     has_one :charge
     has_many :registered_events
     has_many :students, foreign_key: "user_id", :through => :registered_events, :source => :user
-    attr_accessible :studio_id, :description, :end_at, :instructor_id, :start_at, :title, :registered_events, :registered_events_attributes, :archive, :price, :resource_type, :resource_id, :custom_url, :canceled
+    attr_accessible :studio_id, :description, :end_at, :instructor_id, :start_at, :title, :registered_events, :registered_events_attributes, 
+    :archive, :price, :resource_type, :resource_id, :custom_url, :canceled, :location_id
     
     
     
@@ -131,14 +132,16 @@ class Event < ActiveRecord::Base
 
     def location
         if self.resource_type == "Studio"
-            return self.resource.location.first.gmaps4rails_address
+            return Location.find(self.location_id).address
         else
-            return ""
+            return self.location_id
         end
     end
 
     def cost
-        return ""
+        if self.price.present?
+        return "$#{self.price}"
+        end
     end
 
     def register!(student, studio)

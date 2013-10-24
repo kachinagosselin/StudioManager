@@ -1,9 +1,9 @@
 
 
 <div class="modal-body">
+<div class="form-group">   
 <%= form_for([local_assigns[:event]], :html => {:class => 'form-horizontal'}) do |f| %>
     <div class="row">
-      <div class="form-group">   
         <div class="col-lg-6">
         <p><%= f.label :title %></br>
         <%= f.text_field :title, :as => :string, :input_html => { :style => 'width: 330px'}, :class => "form-control"  %></p>
@@ -21,14 +21,24 @@
         <p><%= f.label :end_at, "End Time" %><br />
         <%=h f.text_field :end_at, 'data-date' => Date.today, :class => "form_datetime form-control", :type => "text"%></p>
 
+        <p><%= f.label :price, "Price" %><br />
+        <%=h f.text_field :price, :class => "form-control" %></p>
+
         <% if current_user.active_role.resource_type == "Studio" %>
-        <%= f.label :instructor_id, "Class Instructor"%>
-        <%= f.select "instructor_id", content_tag(:option,'select instructor...',:value=>"") +options_from_collection_for_select(Studio.find(current_user.active_role.resource_id).staff, "id", "name" ), :required => true, :class => "form-control", :html => {:id => "memberships_select"} %></p> 
+            <p><%= f.label :location_id, "Location" %><br />
+            <%= f.select "location_id", content_tag(:option,'select location...',:value=>"") +options_from_collection_for_select(current_user.active_role.resource.locations, "id", "address" ), :required => true, :class => "form-control" %></p> 
+
+            <p><%= f.label :instructor_id, "Class Instructor"%><br />
+            <%= f.select "instructor_id", content_tag(:option,'select instructor...',:value=>"") +options_from_collection_for_select(current_user.active_role.resource.staff, "id", "name" ), :required => true, :class => "form-control" %></p> 
+
         <% elsif current_user.active_role.name == "professional" %>
+            <p><%= f.label :location_id, "Location" %><br />
+            <%=h f.text_field :location_id, :class => "form-control" %></p>
+
+            <%= f.label :instructor_id, "Class Instructor: "%><span> <%= current_user.name %></span>
             <%= f.hidden_field :instructor_id, :value => current_user.id %>
          <% end %>
         </div>
-      </div><!-- End of form -->
     </div><!-- End of row -->
 
   </div>
@@ -40,3 +50,4 @@
         <% end %>
     </div>     
     </div>     
+      </div><!-- End of form -->

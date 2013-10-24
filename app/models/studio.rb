@@ -16,7 +16,8 @@ class Studio < ActiveRecord::Base
 
 
     attr_accessible :address, :city, :state
-    attr_accessible :location, :main_phone, :name, :website, :account_id, :cancellation_policy, :student_waiver, :instructor_waiver, :default_event_price, :description
+    attr_accessible :location, :main_phone, :name, :website, :account_id, 
+    :cancellation_policy, :student_waiver, :instructor_waiver, :default_event_price, :description
     
     def instantiate_first_location
         self.locations.create!(:address => address, :city => city, :state => state)

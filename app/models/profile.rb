@@ -26,10 +26,6 @@ class Profile < ActiveRecord::Base
     scope :available, where(:is_available => 1)
     scope :sorted, order(:created_at => :desc)
     scope :without_user, where(:user_id => nil)
-    
-    default_value_for :created_at do
-        self.user.created_at
-    end
 
     # Intialize upon create
     def initialize_photo
