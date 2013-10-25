@@ -9,15 +9,22 @@
     		<li><%= link_to 'Dashboard', root_path() %></li>
     		<li><%= link_to 'Calendar', calendar_path %></li>
     		<li><%= link_to 'Events', events_path %></li>
-    		<li><%= link_to 'Products', products_path %></li>
+            
+            <% if current_user.customer.present? && current_user.customer.access_token.present? %>
+            <li><%= link_to 'Products', products_path %></li>
+            <% end %>
 
     		<% if current_user.active_role.name == "owner"%>
     		<li><%= link_to 'Instructors', staff_index_path %></li>
     		<% end %>
 
     		<li><%= link_to 'Students', students_path %></li>
-    		<li><%= link_to 'Reports', reports_path %></li>
-		</ul>
+
+            <% if current_user.customer.present? && !current_user.customer.access_token.present? %>
+           <li><%= link_to 'Upgrade Services', settings_upgrade_path() %></li>
+            <% end %>
+
+    		</ul>
 		<% end %>
 	</div>
 </nav>

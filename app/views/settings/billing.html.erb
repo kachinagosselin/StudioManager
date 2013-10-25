@@ -35,7 +35,7 @@ $(document).ready(function() {
        <%= render 'customers/add_card', :profile => current_user.profile, :customer => current_user.profile.customer %>
        </div> 
   <% else %>
-       <%= render 'customers/add_card', :profile => current_user.profile, :customer => current_user.profile.build_customer  %>  
+       <%= render 'customers/update_card', :profile => current_user.profile, :customer => current_user.profile.build_customer  %>  
 
   <% end %> 
 </div>

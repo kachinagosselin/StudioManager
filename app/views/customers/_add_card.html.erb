@@ -47,7 +47,7 @@ function stripeResponseHandler(status, response) {
 </script>
 
 <div class="form-group" >
-<%= form_for([profile, customer], :method => :put, :html => { :remote => true, :id => "add_card" }) do |f| %>
+<%= form_for([profile, customer], :html => { :remote => true, :id => "add_card" }) do |f| %>
         <%= render "customers/card_form" %>
         <div class="col-lg-12">
         <p><%= f.submit "Add Card", :class =>"submit-button btn btn-primary pull-right", :id => "add_card"%> </p>
