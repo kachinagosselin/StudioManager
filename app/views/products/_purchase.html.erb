@@ -1,0 +1,67 @@
+<% @resource = current_user.active_role.resource %>
+
+<div style="width:300px;">
+  <div class="panel panel-primary" style="margin-top:60px;">
+      <div class="panel-heading">
+          <h5 class="panel-title">Products from <%= @resource.name %></h5>
+      </div>
+
+<%= form_for("user", :url => new_user_path(), :html => {:id => "new_student", :class => 'form-vertical' }) do |form| %>
+  <div class="form-group" style="margin: 5px 10px;">   
+  <p><%= form.label :name %><br />
+  <%= form.text_field :name, :autofocus => true, :class => "form-control", :id => "user_name_register"%></p>  
+
+ 
+  <p><%= form.label :email %><br />
+  <%= form.text_field :email, :required => true, :class => "form-control", :id => "user_email_register"%></p>  
+
+  <p><%= form.label :password %><br />
+  <%= form.password_field :password, :required => true, :class => "form-control", :id => "user_password_register"%></p>  
+
+  <p><%= form.label :password_confirmation %><br />
+  <%= form.password_field :password_confirmation, :required => true, :class => "form-control", :id => "user_passwordconfirm_register"%></p> 
+
+<hr> 
+
+  <h4><strong>Select Product to Purchase: </strong></h4>
+  <div class="row">
+    <div class="col-lg-6">
+    <p><b>Memberships</b></p>
+    <%= form.select "memberships", content_tag(:option,'select one...',:value=>"")+options_from_collection_for_select(@resource.memberships, "id", "name" ), :required => true, :class => "form-control", :html => {:id => "memberships_select"}%></p> 
+    </div>
+
+    <div class="col-lg-6">
+    <p><b>Pay Per Class</b></p>
+    <%= form.select "packages", content_tag(:option,'select one...',:value=>"")+options_from_collection_for_select(@resource.packages, "id", "name" ), :required => true, :class => "form-control", :html => {:id => "memberships_select"}%></p> 
+    </div>
+  </div>
+
+<hr>
+  <h4><strong>Enter Credit Card Details: </strong></h4>
+        <div class="enter-card form-group" >
+          <p><%= label_tag :card_number, "Credit Card Number" %>
+          <%=h text_field_tag :card_number, nil, name: nil, :class => "form-control"  %></p>
+
+         <div class="row">
+          <div class="col-lg-4">
+          <p><%= label_tag :card_code, "Security Code (CVV)" %>
+          <%=h text_field_tag :card_code, nil, name: nil, :class => "form-control"  %></p>
+          </div>
+          <div class="col-lg-4">
+          <p><%= label_tag :card_month, "Card Expiration" %></br>
+          <%=h text_field_tag :card_month, nil, name: nil, :class => 'datepicker form-control'  %></p>
+          </div>
+          <div class="col-lg-4">
+          <p style = "margin-top:5px;"><%= label_tag :card_year, " "%></br>
+          <%=h text_field_tag :card_year, nil, name: nil, :class => 'datepicker form-control'  %></p>
+          </div>
+
+        </div>
+        </div>
+
+</div>
+<% end %>
+
+</div>     
+</div>     
+

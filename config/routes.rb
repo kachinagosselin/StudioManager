@@ -70,6 +70,7 @@ StudioManager::Application.routes.draw do
     
     # Currently other method is used to access products - simplify?
     resources :products
+    get 'reports/index'        => 'reports#index'
     resources :memberships
     resources :packages
     resources :charges
@@ -105,12 +106,6 @@ StudioManager::Application.routes.draw do
     
     resources :studios do
         resources :locations
-        member do
-            # get :instructors, :students
-            # post :new_instructor
-            # post :new_student
-            get :_embed, :test
-        end
     end
 
     get 'about' => 'home#about'
