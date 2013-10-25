@@ -6,17 +6,21 @@
 	<% if !current_user.account.present? %>
 
 
-<div class="zero">
+<div class="zero" style="margin-top:-100px;">
   <div class=""></div>
   <div class="box box-rounded box-inset">
     <div class="box-content">
       <h3 class="center">Welcome to Your Studio Manager</h3><!-- Originally h6 -->
       <div class="col-lg-8 col-lg-offset-2">
-      <p class="center">To to use our full suite of services you need to register an account. There are a few steps to this process.</p>
-      </br>
-      <p> First add your credit card to start your free 14 day trial.</p>
-      <p> Next select either a professional or studio account.</br>
-        and connect your account to Stripe. Finally, once that is complete add in the details of your studio.</p>
+      <p class="center">To to use our full suite of services you need to upgrade your account. There are a few steps to this process:</p>
+      <p class="light"> <strong>First</strong> add your credit card to start your free 14 day trial.</p>
+      <p class="light"> <strong>Second</strong> click on the <%= link_to 'Upgrade Services', settings_upgrade_path() %> link above.</br>
+      <p class="light"> <strong>Next</strong> select the services you would like to register for and connect your account to Stripe. You'll need to go through the process of creating a Stripe account first.</p> 
+
+
+      <p class="light"> Once you've completed that step you'll be able to create products for your students and embed our purchase form into your website. You can also create a studio and list multiple locations on our interactive map.</p>
+
+      <p class="light"> If you're happy with simply being accessible in our instructor database you can continue to use the site without upgrading your account
             <a href="https://connect.stripe.com/oauth/authorize?response_type=code&amp;scope=read_write&amp;stripe_landing=login&amp;client_id=ca_2Ksr3KRSkcnkhLjwUQPbFNKuAptJ5sSw" class="stripe-connect"><span>Connect with Stripe</span></a>
         </div>
     </div>
