@@ -19,7 +19,6 @@ class User < ActiveRecord::Base
     
     before_create :instantiate_profile
     after_create :initialize_role
-    after_create :set_values
 
     validates :name, :email, :presence => true
     validates :email, :uniqueness => true
@@ -42,11 +41,6 @@ class User < ActiveRecord::Base
         self.add_role :student
         role = self.roles.first
         self.update_attributes(:active_role_id => role.id)
-    end
-
-    def set_values
-        self.canceled = false
-        self.save
     end
 
     # Managing roles for user: owner, staff, professional, student
@@ -80,6 +74,10 @@ class User < ActiveRecord::Base
 
     def studio
         self.account.studio
+    end
+
+    def user
+        self
     end
 
     def registered

@@ -2,14 +2,6 @@
 $(document).ready(function() {
     $(".enter-card").hide();
 
-  $('#cash').on('click', function () {
-    $(".enter-card").hide();
-});
-
-$('#card').on('click', function () {
-    $(".enter-card").show();
-});
-
 });
 </script>
 
@@ -41,12 +33,6 @@ $('#card').on('click', function () {
   <%= form.select "packages", content_tag(:option,'select one...',:value=>"")+options_from_collection_for_select(@studio.packages, "id", "name" ), :required => true, :class => "form-control", :html => {:id => "memberships_select"}%></p> 
   </div>
 </div>
-
-    <p><b>Add Payment Information: </b>
-      <input type="radio" name="payment-info" id="cash" value="cash"> Cash
-      <input type="radio" name="payment-info" id="card" value="card"> Card<br>
-    </p>
-
         <div class="enter-card form-group" >
           <p><%= label_tag :card_number, "Credit Card Number" %>
           <%=h text_field_tag :card_number, nil, name: nil, :class => "form-control"  %></p>

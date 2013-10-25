@@ -1,5 +1,4 @@
 <script>    
-Stripe.setPublishableKey($('meta[name="stripe-key"]').attr('content'));
 
 $(document).ready(function() {
 
@@ -13,61 +12,7 @@ $(document).ready(function() {
         forceParse: 0,
         showMeridian: 1,
     });
-
-  $("#signin").hide();
-
-    $('#toggle_register').on('click', function () {
-        $("#signin").hide();
-            $("#register").show();
-
-    });
-
-    $('#toggle_signin').on('click', function () {
-        $("#signin").show();
-            $("#register").hide();
-    });
-
-  $("#remote_purchase").submit(function(event) {
-    // disable the submit button to prevent repeated clicks
-    $('.submit-button').attr("disabled", "disabled");
-    var card_number = document.getElementById('card_number').value;
-    var card_code = document.getElementById('card_code').value;
-    var card_month = document.getElementById('card_month').value;
-    var card_year = document.getElementById('card_year').value;
-
-    var end = card_number.length;
-    var last_4_digits = card_number[end-4]+card_number[end-3]+card_number[end-2]+card_number[end-1];
-    $("#remote_purchase").append("<input type='hidden' name='last_4_digits' value='" + last_4_digits + "'/>");
-
-    Stripe.createToken({
-        number: $('#card_number').val(),
-        cvc: $('#card_code').val(),
-        exp_month: $('#card_month').val(),
-        exp_year: $('#card_year').val()
-    }, stripeResponseHandler);
-
-    // prevent the form from submitting with the default action
-    return false;
-  });
-
 });
-
-function stripeResponseHandler(status, response) {
-    if (response.error) {
-        $(".payment-errors").text(response.error.message);
-        $(".submit-button").removeAttr("disabled");
-                            alert(response.error.message);
-    } else {
-        var token = response['id'];
-        alert(token);
-        // insert the token into the form so it gets submitted to the server
-        $("#remote_purchase").append("<input id='stripe_card_token' name='stripe_card_token' type='hidden' value='" + token + "'>");
-        //document.getElementById('subscription_stripe_card_token').value = response['id']
-        // and submit
-        $('#remote_purchase').get(0).submit();
-    }
-    return false;
-}
 </script>
 
 <% @resource = current_user.active_role.resource %>
@@ -78,11 +23,8 @@ function stripeResponseHandler(status, response) {
           <h5 class="panel-title">Products from <%= @resource.name %></h5>
       </div>
 
-
-<%= form_for("", :url => remote_purchase_products_path(), :html => {:remote => true, :id => 'remote_purchase'}) do |form| %>
+<%= form_for("user", :url => new_user_path(), :html => {:id => "new_student", :class => 'form-vertical' }) do |form| %>
   <div class="form-group" style="margin: 5px 10px;">   
-  
-  <div id="register">
   <p><%= form.label :name %><br />
   <%= form.text_field :name, :autofocus => true, :class => "form-control", :id => "user_name_register"%></p>  
 
@@ -95,16 +37,6 @@ function stripeResponseHandler(status, response) {
 
   <p><%= form.label :password_confirmation %><br />
   <%= form.password_field :password_confirmation, :required => true, :class => "form-control", :id => "user_passwordconfirm_register"%></p> 
-
-  <p class="center light">Have an account? <strong><a href="#" id="toggle_signin">
-      Sign In</a></strong></p>
-    </div>
-
-    <div id="signin">
-
-      <p class="center light">Don't have an account? <strong><a href="#" id="toggle_register">
-      Register</a></strong></p>
-</div>
 
 <hr> 
 
@@ -136,7 +68,7 @@ function stripeResponseHandler(status, response) {
           <div class="col-lg-4" style="width:105px;margin-top:-20px;">
           <p style="width:95px;">
           <%= label_tag :card_year, " "%>
-          <%=h text_field_tag :card_year, nil, name: nil, :class => ' form-control'  %></p></div>
+          <%=h text_field_tag :card_year, nil, name: nil, :class => 'datepicker form-control'  %></p></div>
           <div class="col-lg-4" style="width:85px;margin-top:-35px;">
           <p><%= label_tag :card_code, "CVV" %></p>
           <p style="width:72px;"><%=h text_field_tag :card_code, nil, name: nil, :class => "form-control"  %></p>
@@ -153,14 +85,10 @@ function stripeResponseHandler(status, response) {
     <p><%=@resource.student_waiver %></p>
   </div>
   
-  <%= check_box_tag "signed_waiver"%><p style="margin-left:20px;margin-top:-19px;">I have read and accept the conditions</p>  
+  <%= check_box_tag :signed_waiver%><p style="margin-left:20px;margin-top:-19px;">I have read and accept the conditions</p>  
 <% end %>
 
-  <%= check_box_tag "save_card"%><p style="margin-left:20px;margin-top:-19px;">save credit card info (<a>learn more</a>)</p>  
-  <%= hidden_field_tag "resource_id", @resource.id %>
-  <%= hidden_field_tag "resource_type", @resource.class.name %>
-
-<div class="form-actions center" style="padding-top:10px;margin-bottom:20px;">
+<div class="form-actions center" style="margin-bottom:20px;">
   <%= form.submit "Complete Purchase", :class => 'btn btn-submit btn-primary', :id => "new_student" %>
 </div>    
 

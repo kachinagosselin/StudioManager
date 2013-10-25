@@ -69,7 +69,11 @@ StudioManager::Application.routes.draw do
     end
     
     # Currently other method is used to access products - simplify?
-    resources :products
+    resources :products do
+        collection do
+        post :remote_purchase
+        end
+    end
     get 'reports/index'        => 'reports#index'
     resources :memberships
     resources :packages
@@ -112,7 +116,6 @@ StudioManager::Application.routes.draw do
     get 'personal_calendar' => 'home#calendar'
     get 'discover' => 'home#map'
     get 'classes' => 'home#events'
-
 
     get 'reports'        => 'reports#index'
     get 'reports#attendance'   => 'reports#attendance'
