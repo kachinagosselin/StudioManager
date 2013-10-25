@@ -42,19 +42,20 @@
           <p><%= label_tag :card_number, "Credit Card Number" %>
           <%=h text_field_tag :card_number, nil, name: nil, :class => "form-control"  %></p>
 
-         <div class="row">
-          <div class="col-lg-4">
-          <p><%= label_tag :card_code, "Security Code (CVV)" %>
-          <%=h text_field_tag :card_code, nil, name: nil, :class => "form-control"  %></p>
-          </div>
-          <div class="col-lg-4">
-          <p><%= label_tag :card_month, "Card Expiration" %></br>
-          <%=h text_field_tag :card_month, nil, name: nil, :class => 'datepicker form-control'  %></p>
-          </div>
-          <div class="col-lg-4">
-          <p style = "margin-top:5px;"><%= label_tag :card_year, " "%></br>
-          <%=h text_field_tag :card_year, nil, name: nil, :class => 'datepicker form-control'  %></p>
-          </div>
+          <p><%= label_tag :card_month, "Card Expiration" %></p>
+
+          <div class="row">
+          <div class="col-lg-4" style="width:100px;">
+          <p style="width:95px;"><%=h text_field_tag :card_month, nil, name: nil, :class => 'datepicker form-control', :width => "50px;"  %></p>
+          </div> 
+          <div class="col-lg-4" style="width:105px;margin-top:-20px;">
+          <p style="width:95px;">
+          <%= label_tag :card_year, " "%>
+          <%=h text_field_tag :card_year, nil, name: nil, :class => 'datepicker form-control'  %></p></div>
+          <div class="col-lg-4" style="width:85px;margin-top:-35px;">
+          <p><%= label_tag :card_code, "CVV" %></p>
+          <p style="width:72px;"><%=h text_field_tag :card_code, nil, name: nil, :class => "form-control"  %></p>
+        </div>
 
         </div>
         </div>
