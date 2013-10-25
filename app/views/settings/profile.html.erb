@@ -7,34 +7,37 @@
   <h3 class="page-title"> Extend Profile </h3>
 
 <hr>
-  <div class="row">
 <%= form_for(current_user.profile) do |p| %>
   <div class="form-group">
+  <div class="row">
   <div class="col-lg-6">
     <p><%= p.label :description %><br />
-    <%=h p.text_area :description, :class => "form-control", :rows => 5 %></p>  
-    <p class="help-block">Note: This will appear in your instructor profile.</p>
+    <%=h p.text_area :description, :class => "form-control", :rows => 8 %></p>  
   </div>
   <div class="col-lg-6">
     <%= p.fields_for :photo do |asset| %>
     <p><%= asset.label :image, "Profile Photo" %><br />
     <%= asset.file_field :image, :class => "form-control"%></p>  
     <% end %>
-    <p><b> Certification </b></br>
+    <p><%= p.label :Certification %><br />
     <%= p.text_field :certification, :class => "form-control"%></p>
     <% if !current_user.belongs_to_role?("professional", current_user) %>
     <%= check_box_tag "add_professional_role", "yes", false, :class => "form-control" %>
     <p style = "margin-top:-27px;margin-left:30px;"><b> Create account to manage my professional services </b></p>
     </div>
-    </div>
 
     <% else %>
     <%= p.check_box :is_not_available, :class => "form-control"%>
     <p style = "margin-top:-27px;margin-left:30px;"><b> I am not available to teach elsewhere at this time </b></p>
+    <p class="help-block">Note: This will remove you from our database of instructors for hire.</p>
   </div>
+</div>
 <hr>
+
+<div class="row">
 <div class="col-lg-12" id="availability_table">
-       <h4>Set Availability to Teach:</h4>
+       <h4>Set Your Availability</h4>
+       <hr>
     <table class="table table-condensed">
         <thead>
             <tr>
@@ -73,11 +76,12 @@
         </tbody>
     </table>  
 
-        <p class="help-block">Note: This will be used to indicate your availability in our instructor database.</p>
+        <p class="help-block">Note: This will be used to indicate your availability in our instructor database, as well as for potential students of your private practice and services.</p>
 
 <% end %>
 <%= p.submit "Update", :class =>"submit-button btn btn-primary pull-right"%>
-</div>     </div>
+</div>     
+</div>
 
 </div>
 <% end %>
