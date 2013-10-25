@@ -11,11 +11,10 @@ class CustomersController < ApplicationController
         @customer = @user.build_customer(:stripe_customer_token => @stripe_customer.id, :email => @user.email, :last_4_digits => params[:last_4_digits])
         respond_to do |format|
             if @customer.save
-                format.html { redirect_to :back, notice: 'Card successfully added.' }
+                format.html { redirect_to settings_billing_path(), notice: 'Card successfully added.' }
                 format.json { head :no_content }
                 else
-                @user.customer.destroy
-                format.html { redirect_to :back, alert: 'Card was unsuccessfully added.' }
+                format.html { redirect_to settings_billing_path(), alert: 'Card was unsuccessfully added.' }
                 format.json { render json: @message.errors, status: :unprocessable_entity }
             end 
         end
@@ -83,10 +82,10 @@ class CustomersController < ApplicationController
 
         respond_to do |format|
         if @customer.save && @customer.stripe_customer_token.present?
-            format.html { redirect_to :back, notice: 'Card successfully updated.' }
+            format.html { redirect_to settings_billing_path(), notice: 'Card successfully updated.' }
             format.json { head :no_content }
         else
-            format.html { render :back, alert: 'Card was unsuccessfully updated.' }
+            format.html { render settings_billing_path(), alert: 'Card was unsuccessfully updated.' }
             format.json { render json: @message.errors, status: :unprocessable_entity }
         end 
         end
