@@ -26,7 +26,6 @@ $(document).ready(function() {
      marker.serviceObject, 'click', (function(event, index) {
     return function(){
     	m = Gmaps.map.markers[index];
-    	alert(m.name);
      	document.getElementById('test').innerHTML = m.html;
      	$('#calendar').fullCalendar( 'addEventSource', m.events );
       }
