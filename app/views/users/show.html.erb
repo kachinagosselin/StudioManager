@@ -5,14 +5,18 @@
   <div class="col-lg-8 col-lg-offset-2">
   		<div class="row">
 		<div class="col-lg-3">
-			<%= image_tag @profile.photo.image.url(:medium), :class => "avatar" %></h3>
+			<div><%= image_tag @profile.photo.image.url(:medium), :class => "avatar"%></div>
+		</br>
+			<% if @profile.email %>Email: 
+			<a href="mailto:#{@profile.email}"><%= @profile.email%></a>
+			<a href="mailto:#{@profile.email}"><span class="glyphicon glyphicon-send" style="color:black;"></span></a>
+			<% end %>
+	 		<p>Phone: <%= @profile.phone if @profile.phone %></p>
 		</div>
 		<div class="col-lg-8">
 			<h3 class="page-title"><%= @profile.name %></h3>
 			<hr>
-			<p>Email: <%= @profile.email if @profile.email %></p>
-	 		<p>Phone: <%= @profile.phone if @profile.phone %></p>
-			<p><%= @profile.description if @profile.description %></p>
+			<p><%= @profile.description if @profile.description.present? %></p>
 			<% if @profile.studios.present? %>
 		</br>
 			<h5> Current Employment at: </h5>
