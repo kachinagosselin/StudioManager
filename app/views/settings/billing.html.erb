@@ -2,6 +2,18 @@
   <%= render 'layouts/nav/settings' %>
 <% end %>
 
+<script >
+$(document).ready(function() {
+
+  $("#new_card").hide();
+
+    $('#toggle_card').on('click', function () {
+        $("#new_card").show();
+    });
+
+});
+</script>
+
 <div class="col-lg-8 col-lg-offset-2">
 
 	<h3 class="page-title"> Billing Details</h3>
@@ -10,9 +22,18 @@
  <% if current_user.customer.present? %>
     <% if current_user.customer.last_4_digits.present? %>
 
-          <p class= "light">Credit card has been provided. Last four digits are: <%= current_user.customer.last_4_digits %></p>
+<div class="row">
+<div class="col-lg-8">
+<h4 class= "light">Credit card has been provided. Last four digits are: <%= current_user.customer.last_4_digits %></h4></div>
+<div class="col-lg-4">
+<p class="pull-right"><a href="#" id="toggle_card"><span class="glyphicon glyphicon-plus-sign" style="margin-top:4px;font-size:26px;"></span></a></p></div>
+</div>                          
+
+<hr>
   <% end %>
-       <%= render 'customers/add_card', :profile => current_user.profile, :customer => current_user.profile.customer %>  
+      <div id="new_card">
+       <%= render 'customers/add_card', :profile => current_user.profile, :customer => current_user.profile.customer %>
+       </div> 
   <% else %>
        <%= render 'customers/add_card', :profile => current_user.profile, :customer => current_user.profile.build_customer  %>  
 
