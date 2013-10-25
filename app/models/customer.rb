@@ -12,10 +12,10 @@ class Customer < ActiveRecord::Base
     end
 
     def packages
-        purchases.find_by(product_type: product_type).present?
+        purchases.find_by(product_type: "package").present?
     end
 
     def memberships
-        purchases.find_by(product_type: product_type).present?
+        purchases.find_by(product_type: "membership").present?
     end
 end

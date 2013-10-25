@@ -16,7 +16,7 @@
             <li><%= link_to 'Billing', settings_billing_path() %></li>
             <li><%= link_to 'Notifications', settings_notifications_path() %></li>
 
-            <% if !current_user.account.present? %>
+            <% if !current_user.customer.access_token.present? %>
     		<li><%= link_to 'Upgrade Services', settings_upgrade_path() %></li>
             <% end %>
     		<li><%= link_to 'Support', support_path() %></li>

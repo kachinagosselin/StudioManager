@@ -39,7 +39,7 @@ class Membership < ActiveRecord::Base
     end
     
     def create_plan(client)
-        membership_id = "#{self.name}-#{self.id}-#{self.created_at.to_i}"
+        membership_id = "#{self.name}-#{self.id}-#{self.resource_type}-#{self.resource_id}"
         stripe_membership = 
         Stripe::Plan.create({
                             :amount => self.price,
@@ -52,7 +52,7 @@ class Membership < ActiveRecord::Base
     end
 
     def stripe_id
-        return "#{self.name}-#{self.id}-#{self.created_at.to_i}"
+        return "#{self.name}-#{self.id}-#{self.resource_type}-#{self.resource_id}"
     end
 
     def client

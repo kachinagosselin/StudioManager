@@ -44,8 +44,8 @@ class StudentsController < ApplicationController
     @result = @search.first   # load all matching records
 
     if !@result.nil?
-       @student = Student.create!(:profile_id => @result.id, :resource_id => params[:resource_id], :signed_waiver => true, :resource_type => params[:resource_type])
-       redirect_to :back
+      @student = Student.create!(:profile_id => @result.id, :resource_id => params[:resource_id], :signed_waiver => true, :resource_type => params[:resource_type])
+      redirect_to :back
     else
       format.js
     end

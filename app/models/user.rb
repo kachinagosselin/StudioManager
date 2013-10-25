@@ -164,17 +164,24 @@ class User < ActiveRecord::Base
     end
     
     # Required to save customer of studio and/or indepedent professional
-    # options = {stripe_card_token, last_4_digits, studio, instructor}
+    # options = {stripe_card_token, last_4_digits}
     def save_as_customer!(client, options = {})
         if self.customer.present? && self.customer.stripe_customer_token.present?
-            stripe_customer = Stripe::Customer.create({description: "Customer of #{client.account.studio.name}: saved card information", card: self.customer.stripe_card_token, email: self.email}, client.customer.access_token)
-        elsif options[:last_4_digits].present?
-            stripe_customer = Stripe::Customer.create({description: "Customer of #{client.account.studio.name}: did not save card information - last 4 digits are #{options[:last_4_digits]}", card: stripe_card_token, email: self.email}, client.customer.access_token)
-            customer = self.build_customer(:stripe_customer_token => stripe_customer.id, :email => self.email)
+            stripe_customer = Stripe::Customer.create({description: "Customer of #{client.account.studio.name}: already stored card data", 
+                card: self.customer.stripe_card_token, email: self.email}, client.customer.access_token)
+        elsif !self.customer.present? && options[:stripe_card_token].present? && options[:last_4_digits].present?
+            stripe_customer = Stripe::Customer.create({description: "Customer of #{client.account.studio.name}: saved card information - last 4 digits are #{options[:last_4_digits]}", 
+                card: options[:stripe_card_token], email: self.email}, client.customer.access_token)
+            customer = self.profile.build_customer(:stripe_customer_token => stripe_customer.id, :email => self.email)
+            customer.save
+        elsif !self.customer.present? && options[:last_4_digits].present?
+            stripe_customer = Stripe::Customer.create({description: "Customer of #{client.name}: did not save card information - last 4 digits are #{options[:last_4_digits]}", 
+                email: self.email}, client.customer.access_token)
+            customer = self.profile.build_customer(:stripe_customer_token => stripe_customer.id, :email => self.email)
             customer.save
         else
             stripe_customer = Stripe::Customer.create({description: "Customer of #{client.account.studio.name}: card information not available", email: self.email}, client.customer.access_token)
-            customer = self.build_customer(:stripe_customer_token => stripe_customer.id, :email => self.email)
+            customer = self.profile.build_customer(:stripe_customer_token => stripe_customer.id, :email => self.email)
             customer.save
         end
     end
@@ -204,7 +211,7 @@ class User < ActiveRecord::Base
     
     def add_membership(client, membership)
         stripe_customer = Stripe::Customer.retrieve({:id => self.customer.stripe_customer_token}, client.customer.access_token)
-        stripe_customer.update_subscription(:plan => membership.name, :prorate => membership.prorate)
+        stripe_customer.update_subscription(:plan => membership.stripe_id, :prorate => membership.prorate)
         if membership.one_time_app == true
             stripe_customer.cancel_subscription(:at_period_end => true)
         end
