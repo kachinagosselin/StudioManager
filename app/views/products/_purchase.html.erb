@@ -1,3 +1,20 @@
+<script>    
+
+$(document).ready(function() {
+
+  $('#card_year').datetimepicker({
+        weekStart: 1,
+        todayBtn:  0,
+        autoclose: 1,
+        todayHighlight: 0,
+        minView: 4,
+        startView: 4,
+        forceParse: 0,
+        showMeridian: 1,
+    });
+});
+</script>
+
 <% @resource = current_user.active_role.resource %>
 
 <div style="width:300px;">
@@ -46,8 +63,8 @@
 
           <div class="row">
           <div class="col-lg-4" style="width:100px;">
-          <p style="width:95px;"><%=h text_field_tag :card_month, nil, name: nil, :class => 'datepicker form-control', :width => "50px;"  %></p>
-          </div> 
+          <p style="width:95px;"> <%= select_tag :card_month, options_for_select(MONTHS), {:class => "form-control"} %></p></div>
+
           <div class="col-lg-4" style="width:105px;margin-top:-20px;">
           <p style="width:95px;">
           <%= label_tag :card_year, " "%>
@@ -55,10 +72,25 @@
           <div class="col-lg-4" style="width:85px;margin-top:-35px;">
           <p><%= label_tag :card_code, "CVV" %></p>
           <p style="width:72px;"><%=h text_field_tag :card_code, nil, name: nil, :class => "form-control"  %></p>
-        </div>
+          </div><!-- end of row -->
 
         </div>
         </div>
+
+<hr>
+
+<% if @resource.student_waiver.present? %>
+  <h4><strong>Read and Sign Waiver </strong></h4>
+  <div class="well" style="height:200px;overflow-y:scroll;">
+    <p><%=@resource.student_waiver %></p>
+  </div>
+  
+  <%= check_box_tag :signed_waiver%><p style="margin-left:20px;margin-top:-19px;">I have read and accept the conditions</p>  
+<% end %>
+
+<div class="form-actions center" style="margin-bottom:20px;">
+  <%= form.submit "Complete Purchase", :class => 'btn btn-submit btn-primary', :id => "new_student" %>
+</div>    
 
 </div>
 <% end %>
