@@ -36,6 +36,7 @@ gem "therubyracer"
 gem "less-rails"
 gem "font-awesome-rails"
 gem "default_value_for"
+gem 'google-analytics-rails'
 
 group :development do
   gem 'better_errors'
