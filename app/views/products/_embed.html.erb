@@ -9,8 +9,8 @@
         <p class="light">To embed a purchase form into your website add the following code to your site: </p>
 
         <p class="code">
-          <% @resource = current_user.active_role.resource %>
-          <pre><code>&lt;script src="http://studiostaging.herokuapp.com/products/1.js"&gt;&lt;/script&gt;</code></pre>
+          <% script = "<script src='" + Rails.application.routes.url_helpers.products_url() + "/1.js'" + "></script>"%>
+          <pre><code><%= script %></code></pre>
         </p>
 
         <p class="light center"> Need more help? Read our  <a href="/support/docs#embed" >documentation</a>

@@ -1,7 +1,13 @@
 StudioManager::Application.routes.draw do
 
-  default_url_options :host => "studiostaging.herokuapp.com"
-
+  if Rails.env.development?
+        Rails.application.routes.default_url_options[:host] = 'localhost:3000' 
+  elsif Rails.env.staging?
+        Rails.application.routes.default_url_options[:host] = 'studiostaging.herokuapp.com' 
+  elsif Rails.env.production?
+        Rails.application.routes.default_url_options[:host] = 'studiomanager.herokuapp.com'
+  end
+  
   devise_for :views
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
  
