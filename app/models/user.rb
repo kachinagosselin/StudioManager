@@ -101,15 +101,22 @@ class User < ActiveRecord::Base
     end
     # Required to save customer associated with user
     def save_with_stripe_account(stripe_code) 
+        plan_id = "studio-manager" # Automatically assigns to $79 plan
+
         if !self.profile.customer.present?
-            plan_id = "studio-manager" # Automatically assigns to $79 plan
             stripe_customer = Stripe::Customer.create(description: "Create account through Stripe Connect", plan: plan_id, email: self.email)
             customer = self.profile.build_customer(:stripe_customer_token => stripe_customer.id, :email => self.email, :plan_id => plan_id, :quantity => 1)
             customer.save
+        else
+            stripe_customer = Stripe::Customer.retrieve(
+                                            self.customer.stripe_customer_token)
+            stripe_customer.update_subscription(:plan => plan_id, 
+                                            :prorate => false)
         end
         
         customer = self.profile.customer
-        params = ActiveSupport::JSON.decode(`curl -X POST https://connect.stripe.com/oauth/token -d client_secret=sk_test_I4Ci5lTRq3QtUQsejxMZBk71 -d code=#{stripe_code} -d grant_type=authorization_code`)
+        customer.plan_id = plan_id
+        params = ActiveSupport::JSON.decode(`curl -X POST https://connect.stripe.com/oauth/token -d client_secret=#{Stripe.api_key} -d code=#{stripe_code} -d grant_type=authorization_code`)
         customer.access_token = params['access_token']
         customer.refresh_token = params['refresh_token']
         customer.stripe_publishable_key = params['stripe_publishable_key']
@@ -117,7 +124,8 @@ class User < ActiveRecord::Base
         customer.save
         
         if !self.account.present?
-            self.create_account(:plan_id => plan_id, :user_id => self.id, :email => self.email)
+            account = self.create_account(:plan_id => plan_id, :user_id => self.id, :email => self.email)
+            account.save
         end
     end
     
