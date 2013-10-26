@@ -39,14 +39,12 @@ class Membership < ActiveRecord::Base
     end
     
     def create_plan(client)
-        membership_id = "#{self.name}-#{self.id}-#{self.resource_type}-#{self.resource_id}"
-        stripe_membership = 
-        Stripe::Plan.create({
+        stripe_membership = Stripe::Plan.create({
                             :amount => self.price,
                             :interval => self.interval,
                             :name => self.name,
                             :currency => 'usd',
-                            :id => membership_id
+                            :id => self.stripe_id
                             }, client.customer.access_token
                             )
     end
@@ -68,8 +66,7 @@ class Membership < ActiveRecord::Base
                                             customer.stripe_customer_token,
                                             client.customer.access_token)
         stripe_customer.update_subscription(:plan => self.stripe_id, 
-                                            :prorate => self.prorate, 
-                                            :application_fee_percent => 20)
+                                            :prorate => self.prorate)
         if self.one_time_app 
             stripe_customer.cancel_subscription(:at_period_end => true)
         end

@@ -102,7 +102,7 @@ class User < ActiveRecord::Base
     # Required to save customer associated with user
     def save_with_stripe_account(stripe_code) 
         if !self.profile.customer.present?
-            plan_id = 1 # Automatically assigns to free plan
+            plan_id = "studio-manager" # Automatically assigns to $79 plan
             stripe_customer = Stripe::Customer.create(description: "Create account through Stripe Connect", plan: plan_id, email: self.email)
             customer = self.profile.build_customer(:stripe_customer_token => stripe_customer.id, :email => self.email, :plan_id => plan_id, :quantity => 1)
             customer.save
@@ -121,6 +121,20 @@ class User < ActiveRecord::Base
         end
     end
     
+    def upgrade_account(plan_id)
+        stripe_customer = Stripe::Customer.retrieve(
+                                            self.customer.stripe_customer_token)
+        stripe_customer.update_subscription(:plan => plan_id, 
+                                            :prorate => true)
+   
+
+        if !self.account.present?
+            self.create_account(:plan_id => plan_id, :user_id => self.id, :email => self.email)
+        else 
+            self.account.update_attribute(:plan_id => plan_id)
+        end
+    end
+
     # Methods required to mark user as attended 
     def attends(event)
         self.registered_events.find(:event_id => event.id).update_attributes(:attended => true)

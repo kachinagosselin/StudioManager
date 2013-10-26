@@ -15,10 +15,17 @@ class StudiosController < ApplicationController
     end
     
     def create
+        if current_user.active_role.name == "admin"
+        @studio = Studio.create!(params[:studio])
+        else
         @studio = current_user.account.build_studio(params[:studio])
+        end
+
         respond_to do |format|
             if @studio.save
+                if !current_user.active_role.name == "admin"
                 current_user.assign_role("owner", @studio)
+                end
                 format.html { redirect_to :back, notice: 'Studio was successfully created.' }
                 format.json { head :no_content }
             else

@@ -48,7 +48,7 @@ document.getElementById("studio_state").classList.add('form-control');
     <hr>
     <%= render 'locations/form', :studio => studio %>
       <% studio.locations.each do |loc| %>
-        <% if loc == studio.locations.first %>
+        <% if loc.address != studio.address %>
           <p class="light" style="margin-left:20px;">
             <strong><%= loc.gmaps4rails_address %></strong></h3>
         <% end %>
