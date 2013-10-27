@@ -54,7 +54,7 @@ $(document).ready(function() {
 					<p> It's as simple as 1-2-3</p>
 				</li>
 
-				<li> <strong><a href="#start" onclick="hidealldivs(); showdiv('start')">Student Services</a></strong>
+				<li> <strong><a href="#student" onclick="hidealldivs(); showdiv('student')">Student Services</a></strong>
 					<p> We're all students</p>
 				</li>
 
@@ -62,9 +62,33 @@ $(document).ready(function() {
 					<p> a.k.a. learn about Stripe</p>
 				</li>
 
-				<li> <strong><a href="#start" onclick="hidealldivs(); showdiv('start')">Manage your Calendar</a></strong>
+                <li> <strong><a href="#studio" onclick="hidealldivs(); showdiv('studio')">Add your Studio</a></strong>
+                    <p> Unlimited locations </p>
+                </li>
+
+                <li> <strong><a href="#roster" onclick="hidealldivs(); showdiv('roster')">Staff and Student Roster</a></strong>
+                    <p> Even search for instructors to hire </p>
+                </li>
+
+				<li> <strong><a href="#calendar" onclick="hidealldivs(); showdiv('calendar')">Manage your Calendar</a></strong>
 					<p> Create events for students </p>
 				</li>
+
+                <li> <strong><a href="#products" onclick="hidealldivs(); showdiv('products')">Offer Custom Products</a></strong>
+                    <p> Memberships and packages</p>
+                </li>
+
+                <li> <strong><a href="#embed" onclick="hidealldivs(); showdiv('embed')">Embed Widgets into your Website</a></strong>
+                    <p> Purchase forms, classes and calendars </p>
+                </li>
+
+                <li> <strong><a href="#checkin" onclick="hidealldivs(); showdiv('checkin')">Autonomous Check In </a></strong>
+                    <p> Students can checkin without staff </p>
+                </li>
+
+                <li> <strong><a href="#reports" onclick="hidealldivs(); showdiv('reports')">Reports</a></strong>
+                    <p> Studio stats at a glance </p>
+                </li>
 
 				<li> <strong><a href="#faq" onclick="hidealldivs(); showdiv('faq')">FAQ</a></strong>
 					<p> Have questions? Find answers.</p>
@@ -130,11 +154,39 @@ $(document).ready(function() {
 			</div>
 </div>
 
+<div class="docs" id="student">
+        <h3 class="page-title">Student Services</h3>
+        <hr>
+            <p class="light"> Our software is uniquely positioned to serve students as well as studio owners. Keep checking back here to see new offerings!
+            </p>
+
+            <hr>
+            <h4>Manage your Personal Calendar</h4>
+            <p class="light"> We provide a place for you to get access to your calendar of classes - across studios - at a single glance. 
+            </p>
+
+            <hr>
+            <h4>Discover Studios and Classes</h4>
+            <p class="light"> Use our map to find studios and see what products they offer. Redirect to their homepage to check out what they have to offer or enable one-click purchases.
+            </p>
+
+            <p class="light"> Don't ever miss out again! Search through our directory classes to find out what's available. Filter by what's close and within your interests, but also don't forget to explore to discover the hidden gems in your neighborhood.
+            </p>
+
+            <hr>
+            <h4>SMS Notifications</h4>
+            <p class="light"> Never forget a class. Choose to get notified before your registered classes. </br>Opt-in to recieve updates when new classes, products and deals become available! 
+            </p>
+
+            <hr>
+            <p class="light center"><strong>Note: </strong> You will need to enter your credit card information under billing in settings to be able to make purchases from our site. Saving your credit card information is a one-step process that means you'll never have to take out your card to make purchases again.
+            </p>
+</div>
 
 <div class="docs" id="stripe">
         <h3 class="page-title">Stripe Connect Integration</h3>
         <hr>
-            <p class="light"> You may not have heard about Stripe yet, but it's important that you do. It's the future of online payment processing - fast, secure, versatile and designed to be user friendly.
+            <p class="light"> You may not have heard about Stripe yet, but it's important that you do. It's the future of online payment processing - fast, secure, versatile.
             </p>
 
             <p> Yes, I know that you're more familiar with Paypal, but that doesn't mean it's better. Trust us.
@@ -162,6 +214,168 @@ $(document).ready(function() {
 
             <p class="light"> If you are a studio owner your work is not yet done. Now that your account has been activated you need to create a studio to manage your students and services. Don't worry if your studio doesn't have an official location but do note that you have to register a studio to manage staff. Otherwise continue with your independent professional account. It will meet all your needs, and if it doesn't you can contact us. </p>
 
+</div>
+
+<div class="docs" id="studio">
+        <h3 class="page-title">Add a Studio to your Account</h3>
+        <hr>
+            <p class="light"> Studio Manager is designed to provide as many of it's services without adding a studio as possible. This way it can serve the independent professional as well as the established studio. 
+            </p>
+
+            <p class="light"> If you run a business where you need to manage staff and instructors in addition to students we recommend you add a studio location. In fact add as many locations as you want - we don't charge extra. Each location will be displayed on our map for students to discover. 
+            </p>
+</div>
+
+<div class="docs" id="roster">
+        <h3 class="page-title">Staff and Student Roster</h3>
+        <hr>
+            <p class="light"> Your studio depends on the people that walk in and out it's doors. Some of those people are instructors, others are staff and students.</p>
+
+            <p class="light"> 
+            You need a place to keep track of them all.
+            </p>
+
+            <p class="light"> This is a place where you can search for student profiles, view their latest purchases, remaining credits and registered classes. It'll be your go to place when registering new students from your studio or dealing with complaints and requests.
+            </p>
+
+            <hr>
+            <h3> Seeking to hire? </h3> 
+            <p class="light">We keep track of independent professionals in your industry available for hire. You can find this <a>database</a> from your Staff page. 
+            </p>
+</div>
+
+<div class="docs" id="calendar">
+        <h3 class="page-title">Calendar Management</h3>
+        <hr>
+            <p class="light"> The calendar tool is something that we are rather excited about. It's the foundation of our services and your business.
+            </p>
+
+            <hr>
+            <h3 class="page-title">Create One Time or Recurring Events</h3>
+            <p class="light"> It's a straightforward process - add a name, description, start and end time. If you own a studio select a location from one of your available options or else enter a new address to host events from a remote location (good for retreats or if you co-host events with other companies). Select dates to generate repeating events.
+            </p>
+
+            <p class="light"><strong>Note: </strong> If you're a studio owner you'll notice that you have to create profiles for each of your instructors or invite them to use the site before creating classes. It's a quick painfree process that requires you going to your Staff page.
+
+            <hr>
+            <h3 class="page-title">Special Workshops and Series</h3>
+            <p class="light"> Some events are held on a regular basis and students with memberships have unlimited access to them. Other events are special workshops or series to which normal memberships do not apply - or are associates with packages for class series. 
+            </p>
+
+            <p class="light"> It's important to us that we allow you to handle each of these edge cases. You can navigate to the manage page to determine which product offerings apply to your unique events - if any.  
+            </p>
+
+            <hr>
+            <h3 class="page-title">Embed into your Website</h3>
+            <p class="light"> We offer numerous tools to embed calendars and events into your website. Check them out <a href="#embed">here</a>. 
+            </p>
+
+            <hr>
+            <p class="light center">Eventually we hope to provide the option for independent professionals (and the studios they work at) to have students </br> register for personal training/massage sessions. This is something that we are looking to build in the near future.
+            </p>
+</div>
+
+<div class="docs" id="products">
+        <h3 class="page-title">Create Products</h3>
+        <hr>
+            <p class="light"> Whether an independent professional or studio owner, we allow you to create memberships and packages - sweet and simple.
+            </p>
+
+            <hr>
+            <h3 class="page-title">Unlimited Memberships</h3>
+            <p class="light"> Memberships can be applied to regular classes. They are for your loyal repeat customers. You can choose to offer prorated memberships, and select to have memberships automatically recur or last one billing cycle.
+            </p>
+
+            <hr>
+            <h3 class="page-title">Class Packages</h3>
+            <p class="light">Packages give students class credits that are spent when they register classes. They can expire within a certain timeframe after purchase, on a specific date or not at all.
+            </p>
+
+            <hr>
+            <h3 class="page-title">Custom Offerings</h3>
+            <p class="light">There are many opportunities to create classes and products that apply to a specific set of events. Discounts for certification programs, special offers for class series. For these you can create products and use our tool to select which events they apply to...
+            </p>
+</div>
+
+<div class="docs" id="embed">
+        <h3 class="page-title">Host our Services on your Site</h3>
+        <hr>
+            <p class="light"> It's not our goal at <strong>Studio Manager</strong> to steal any of your students from your site.
+            </p>
+
+            <p class="light"> We've designed special widgets, which you can embed in your website, that will allow your students to make purchases, browse classes and register without ever requiring them to leave your homepage. 
+            </p>
+
+            <hr>
+            <div class="numberCircle">1</div>
+            <div style="margin-left:45px;margin-right:45px;margin-top:-36px;">
+            <h3 class="page-title">Purchase Form</h3>
+            <p class="light"> List all of your memberships and packages in one simple form to enable purchases from your website.
+            </p> 
+            </div>           
+
+            <hr>
+            <div class="numberCircle">2</div>
+            <div style="margin-left:45px;margin-right:45px;margin-top:-36px;">
+            <h3 class="page-title">Weekly Schedule</h3>
+            <p class="light"> The traditional list of classes by week view is available. You can even enable students to register with one click.
+            </p> 
+            </div>   
+
+            <hr>
+            <div class="numberCircle">3</div>
+            <div style="margin-left:45px;margin-right:45px;margin-top:-36px;">
+            <h3 class="page-title">Calendar View</h3>
+            <p class="light"> If you prefer the aesthetic of a calendar view you can use this tool. It will allow students to search month, week or day.
+            </p>
+            </div> 
+
+            <hr>
+            <h3 class="page-title">Automatically Record New Students</h3>
+            <p class="light"> Whenever a student makes a purchase or registers for a class from your website they are automatically added to your student roster with information about their purchase and the registration list for the class.
+            </p>
+</div>
+
+<div class="docs" id="checkin">
+        <h3 class="page-title">The Registration - Checkin Process</h3>
+        <hr>
+            <p class="light"> So your students have registered for your event from your website or have an unlimited membership. Now you want to have them all checkin so that you can have an accurate attendance record. Take some of the weight off your shoulders and have your students do some of the heavy lifting themselves.
+            </p>
+
+            <hr>
+            <div class="numberCircle">1</div>
+            <div style="margin-left:45px;margin-right:45px;margin-top:-36px;">
+            <h3 class="page-title">Completely autonomous</h3>            
+            <p class="light"> Students that have purchases one of your products and registered for the class will be automatically registered as attended and notified of their remaining credits or membership expiration date. That's it. In less than a sec they're done checking in.
+            </p></div>
+
+            <hr>
+            <div class="numberCircle">2</div>
+            <div style="margin-left:45px;margin-right:45px;margin-top:-36px;">
+            <h3 class="page-title">Purchase on the spot</h3>   
+            <p class="light"> Students that have registered for the class but not paid yet will be directed to complete their purchase on the spot or else request support from your staff.
+            </p></div>
+
+            <hr>
+            <div class="numberCircle">3</div>
+            <div style="margin-left:45px;margin-right:45px;margin-top:-36px;">
+            <h3 class="page-title">Requires staff support</h3>   
+            <p class="light"> Your staff can manually walk students through the registration and purchase process before checking them into the class. This can happen concurrently with students checking themselves in allowing your staff to add new students without slowing down the line.
+            </p></d>
+</div>
+
+<div class="docs" id="reports">
+        <h3 class="page-title">Opps! We got a little ahead of ourselves.</h3>
+        <hr>
+            <p> Studio Manager is a young new startup. We're being tried and tested right now by users like you, and it's your feedback that is going into designing our software and it's services. We're happy to answer your questions, we just haven't received that many as of yet.
+            </p>
+
+            <p> If you have a burning question or comment - we're happy to chat with you. Just drop us a line and we'll be in touch. 
+            </p>
+
+            <hr>
+            <p class="light center"><strong>StudioManager</strong> is built and designed by one lone yogi, Kachina Gosselin. </br>To learn more about the company and its roots <a>click here</a>
+            </p>
 </div>
 
 <div class="docs" id="faq">
