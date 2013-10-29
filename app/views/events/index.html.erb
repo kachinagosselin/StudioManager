@@ -15,26 +15,6 @@ $(document).ready(function() {
 
 });
 
- $(function() {
-    $('#event_location_id').autocomplete({
-            minLength: 2,
-            source: '#{current_user.active_role.resource.locations}',
-            focus: function(event, ui) {
-                $('#event_location_id').val(ui.item.current_user.active_role.resource.locations.name);
-                return false;
-            },
-            select: function(event, ui) {
-                $('#event_location_id').val(ui.item.current_user.active_role.resource.locations.name);
-                return false;
-            }
-        })
-
-        .data( "autocomplete" )._renderItem = function( ul, item ) {
-            return $( "<li></li>" )
-                .data( "item.autocomplete", item )
-                .append( "<a>" + item.current_user.active_role.resource.locations.name + "</a>" )
-                .appendTo( ul );
-        };
 });
 </script>
 

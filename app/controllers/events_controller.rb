@@ -62,6 +62,26 @@ class EventsController < ApplicationController
         end
     end
     
+    def change_date
+        @class_name = params[:resource_type]
+        @object = params[:resource_type].constantize
+        @resource = @object.find(params[:resource_id])
+        @viewing = params[:datetime].to_datetime
+        
+        if params[:function] == "prev"
+        @date = @viewing.at_beginning_of_week - 7
+        elsif params[:function] == "next"
+        @date = @viewing.at_beginning_of_week + 7
+        elsif params[:function] == "current"
+        @date = Date.today
+        end
+        @events = @resource.events.all
+
+        respond_to do |format|
+        format.js
+        end
+    end
+
     def purchase
         @event = Event.find(params[:id])
         @account = Account.find(@studio.account_id)

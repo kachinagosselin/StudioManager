@@ -111,4 +111,9 @@ class UsersController < ApplicationController
     def _embed
         @user = User.find(params[:id])
     end
+
+    def week_view
+        @user = User.find(params[:id])
+        @events = @user.events
+    end
 end

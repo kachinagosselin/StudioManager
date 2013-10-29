@@ -35,6 +35,8 @@ StudioManager::Application.routes.draw do
     match '/events/:id/remove_registration/:profile_id' => 'events#remove_registration', :controller => 'events', :action => 'remove_registration', :via => [:get], :as => 'remove_registration_event_user'
     match '/events/:id/checkin/:profile_id' => 'events#add_attendance', :controller => 'events', :action => 'add_attendance', :via => [:get], :as => 'add_attendance_event_user'
 
+    match ':resource_type/:resource_id/events/:datetime/:function' => 'events#change_date', :controller => 'events', :action => 'change_date', :via => [:get], :as => 'change_date'
+
     
   authenticated :user do
     root :to => 'home#index'
@@ -110,11 +112,17 @@ StudioManager::Application.routes.draw do
             get :registered_events, :attended_events, :purchases
             get :students
             get :history
+            get :calendar
+            get :week_view
             get :set_map_view
         end
     end 
     
     resources :studios do
+        member do
+            get :calendar
+            get :week_view
+        end
         resources :locations
     end
 

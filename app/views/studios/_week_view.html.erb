@@ -1,0 +1,60 @@
+
+
+<script> 
+$(document).ready(function() {
+    // page is now ready, initialize the calendar...
+
+});
+</script>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+              <th>Start Time</th>
+              <th>Title</th>
+              <th>Location</th>
+              <th>Sub</th>
+              <th>Instructor</th>
+              <th>Cost</th>
+              <th>Duration</th>
+              <th></th>
+            </tr>       
+        </thead>
+        <tbody>
+
+          <% if !@events.present? %>
+          <div class="zero" style="z-index: 0;">
+            <div class=""></div>
+            <div class="box box-rounded box-inset">
+              <div class="box-content">
+                <h3 class="center">Here</h3><!-- Originally h6 -->
+                <div class="col-lg-10 col-lg-offset-1">
+                <p class="light">This is where you can create events for your students. When you create an event it will be automatically added to your embeddable calendar and added to the searchable database for students.</p>
+                <p class="light">To create an event click the plus icon at the end of the table columns. </p>
+                <p class="light">Add the event name, description, price, location, start and end time. 
+                  <% if current_user.active_role.resource_type == "Studio" && !current_user.active_role.resource.staff.present?%> <strong>Make sure to add instructors to your studio before continuing!</strong><% end %> </p>
+
+                <p class="light">Select the checkbox if you do not want unlimited memberships or package credits to apply to this event. Click on the Manage link to take care of managing applicable coupons for events.</p>
+
+                  </div>
+              </div>
+            </div>
+          </div>
+          <% else %>
+
+
+            <% @events.each do |event| %>
+              <tr>
+
+              <td><%= event.start_time %></td>
+              <td><%= event.day_of_week %> <%= event.date_condensed %></td>
+              <td><%= link_to event.title, event.custom_url if event.custom_url.present? %></td>
+              <td><%= event.location %></td>
+              <td><%= event.instructor %></td>
+              <td><%= event.cost %></td>
+              <td><%= event.duration %></td>
+              <% end %>
+              </tr>
+            <% end %>
+        </tbody>
+    </table>

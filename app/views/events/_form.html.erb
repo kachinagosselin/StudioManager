@@ -32,8 +32,8 @@
             <%= f.select "instructor_id", content_tag(:option,'select instructor...',:value=>"") +options_from_collection_for_select(current_user.active_role.resource.staff, "id", "name" ), :required => true, :class => "form-control" %></p> 
 
         <% elsif current_user.active_role.name == "professional" %>
-            <p><%= f.label :location_id, "Location" %><br />
-            <%=h f.text_field :location_id, :class => "form-control" %></p>
+            <p><%= f.label :address, "Location" %><br />
+            <%=h f.text_field :address, :class => "form-control" %></p>
 
             <%= f.label :instructor_id, "Class Instructor: "%><span> <%= current_user.name %></span>
             <%= f.hidden_field :instructor_id, :value => current_user.id %>

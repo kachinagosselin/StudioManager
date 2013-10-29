@@ -180,6 +180,11 @@ class StudiosController < ApplicationController
         @studio = Studio.find(params[:id])
     end
 
+    def _week_view
+        @studio = Studio.find(params[:id])
+        @events = Studio.events
+    end
+
     def destroy
         @studio = Studio.find(params[:id])
         @studio.destroy

@@ -5,7 +5,7 @@ class Event < ActiveRecord::Base
     has_many :registered_events
     has_many :students, foreign_key: "user_id", :through => :registered_events, :source => :user
     attr_accessible :studio_id, :description, :end_at, :instructor_id, :start_at, :title, :registered_events, :registered_events_attributes, 
-    :archive, :price, :resource_type, :resource_id, :custom_url, :canceled, :location_id
+    :archive, :price, :resource_type, :resource_id, :custom_url, :canceled, :location_id, :address
     
     
     
@@ -24,7 +24,7 @@ class Event < ActiveRecord::Base
     end  
     
     scope :between, lambda {|start_time, end_time|  
-    {:conditions => ["? < start_at < ?", start_time, end_time] }  
+    {:conditions => ["start_at >= ? AND start_at < ?", start_time, end_time] }  
     }  
 
     scope :not_canceled, where(:canceled => false).order('events.start_at DESC')
@@ -134,7 +134,7 @@ class Event < ActiveRecord::Base
         if self.resource_type == "Studio"
             return Location.find(self.location_id).address
         else
-            return self.location_id
+            return self.address
         end
     end
 

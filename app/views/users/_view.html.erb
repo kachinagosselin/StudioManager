@@ -1,0 +1,47 @@
+  <p class="center"> <%= link_to "<< prev | ", change_date_path("User", 1, @date, "prev"), :id => "date", :remote => true %> <%= link_to "current", change_date_path("User",1, @date, "current"), :id => "date", :remote => true %> <%= link_to " | next >>", change_date_path("User",1, @date, "next"), :id => "date", :remote => true  %> </p> 
+
+    <table class="table table-striped">
+        <thead>
+            <tr class="active">
+              <th>Start Time</th>
+              <th>Title</th>
+              <th>Location</th>
+              <th>Class Instructor</th>
+              <th>Duration</th>
+              <th>Cost</th>
+              <th></th>
+            </tr>       
+        </thead>
+        <% (0..6).each do |n| %>
+        <% date = @date.beginning_of_week + n%>
+        <thead>
+            <tr>
+              <td><strong><%= date.strftime("%A") %></strong> <%= date.strftime("%b %e, %Y")%></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>       
+        </thead>
+        <tbody>
+            <% @resource.events.where('start_at BETWEEN ? AND ?', date.beginning_of_day, date.end_of_day).each do |event| %>
+              <tr>
+
+              <td class="light"><%= event.start_time %></td>
+              <% if event.custom_url.present? %>
+              <td><%= link_to event.title, "http://" + event.custom_url, :target=>"_blank"%></td>
+              <% else %>
+              <td><%= event.title %></td>
+              <% end %>
+              <td><%= event.location %></td>
+              <td><%= event.instructor %></td>
+              <td><%= event.duration %></td>
+              <td><%= event.cost %></td>
+              <td><!-- link_to "Register", "", :class => "btn btn-default btn-xs" --></td>
+              </tr>
+            <% end %>
+        </tbody>
+        <% end %>
+    </table>
