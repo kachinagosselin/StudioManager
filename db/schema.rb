@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131029192611) do
+ActiveRecord::Schema.define(:version => 20131030013921) do
 
   create_table "accounts", :force => true do |t|
     t.string   "plan_id"
@@ -117,6 +117,9 @@ ActiveRecord::Schema.define(:version => 20131029192611) do
     t.string   "address"
     t.string   "city"
     t.string   "state"
+    t.datetime "start_on"
+    t.string   "every"
+    t.datetime "end_on"
   end
 
   create_table "instructors", :force => true do |t|

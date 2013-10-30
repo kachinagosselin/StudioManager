@@ -37,6 +37,7 @@ gem "less-rails"
 gem "font-awesome-rails"
 gem "default_value_for"
 gem 'google-analytics-rails'
+gem "recurrence", :require => "recurrence/namespace"
 
 group :development do
   gem 'better_errors'
