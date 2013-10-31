@@ -92,6 +92,7 @@ class HomeController < ApplicationController
   def calendar
       if user_signed_in?
         @user_events = current_user.registered
+        @events = @user_events
       end
   end
 
@@ -180,7 +181,8 @@ class HomeController < ApplicationController
   end
 
   def events
-        @search = Event.upcoming.search(params[:search])
+        @search = Event.sorted.upcoming.search(params[:search])
+        @events = @search
   end
     
 end
