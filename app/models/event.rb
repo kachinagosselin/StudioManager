@@ -5,7 +5,7 @@ class Event < ActiveRecord::Base
     has_many :registered_events
     has_many :students, foreign_key: "user_id", :through => :registered_events, :source => :user
     attr_accessible :studio_id, :description, :end_at, :instructor_id, :start_at, :title, :registered_events, :registered_events_attributes, 
-    :archive, :price, :resource_type, :resource_id, :custom_url, :canceled, :location_id, :address
+    :archive, :price, :resource_type, :resource_id, :custom_url, :canceled, :location_id, :address, :start_on, :every, :end_on
     
     
     
@@ -27,12 +27,12 @@ class Event < ActiveRecord::Base
     {:conditions => ["start_at >= ? AND start_at < ?", start_time, end_time] }  
     }  
 
-    scope :not_canceled, where(:canceled => false).order('events.start_at DESC')
+    scope :not_canceled, where(:canceled => false).order('events.start_at ASC')
     scope :canceled, where(:canceled => true).order('events.start_at DESC')
 
     scope :past, not_canceled.where("start_at < ?", Time.now + 15.minutes).order('events.start_at DESC')
-    scope :upcoming, not_canceled.where("start_at >= ?", Time.now - 15.minutes).order('events.start_at DESC')
-    scope :sorted, order('events.created_at DESC')
+    scope :upcoming, not_canceled.where("start_at >= ?", Time.now - 15.minutes).order('events.start_at ASC')
+    scope :sorted, order('events.created_at ASC')
 
     scope :archived, past.joins(canceled)
 
@@ -186,7 +186,30 @@ class Event < ActiveRecord::Base
         if self.registered.count == 0 
             return "none"
         else
-            return "#{event.attendees.count} of #{event.registered.count}"
+            return "#{self.attendees.count} of #{self.registered.count}"
+        end
+    end
+
+    # Create recurring events
+    def generate_recurrences(options={})
+        options = {:every => every, :starts => start_on, :until => end_on}.merge(options)
+        options[:on] = case options[:every]
+        when 'year'
+            [options[:starts].month, options[:starts].day]
+        when 'week'
+            options[:starts].strftime('%A').downcase.to_sym
+        when 'day', 'month'
+            options[:starts].day
+        end
+        r = RecurrencePeriod.new(options).events
+
+        Event.transaction do
+            r.each do |p|
+                 new_event = self.dup
+                 new_event.start_at = p.to_datetime.in_time_zone(self.start_at.zone) + self.start_at.hour.hours + self.start_at.min.minutes
+                 new_event.end_at = p.to_datetime.in_time_zone(self.start_at.zone) + self.end_at.hour.hours + self.end_at.min.minutes
+                 new_event.save
+            end
         end
     end
 

@@ -210,6 +210,9 @@ GEM
     rake (10.1.0)
     rdoc (3.12.2)
       json (~> 1.4)
+    recurrence (1.2.0)
+      activesupport (>= 2.3.0)
+      i18n
     ref (1.0.5)
     rest-client (1.6.7)
       mime-types (>= 1.16)
@@ -306,6 +309,7 @@ DEPENDENCIES
   pg
   quiet_assets
   rails (= 3.2.13)
+  recurrence
   rmagick (= 2.12.0)
   rolify
   rspec-rails

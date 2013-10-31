@@ -24,16 +24,18 @@ class StudentsController < ApplicationController
     @result = @search.first   # load all matching records
 
     if !@result.nil?
-      @student = object.students.where(:profile_id => @result.id).first
+      @students = object.students
+      @student = @students.where(:id => @result.id)
       @student_present = @student.present?
       @payment = @result.customer.present?
       if @result.customer.present? && @result.customer.stripe_customer_token.present?
         @active = @result.active_membership(object)
-        @membership = @result.find_purchased(Membership).first
+        @membership = @result.find_purchased(object, Membership).first
       end
     end
       
     @profile_present = @result.present?
+    
     respond_to do |format|
       format.js
     end

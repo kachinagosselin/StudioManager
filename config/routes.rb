@@ -73,6 +73,8 @@ StudioManager::Application.routes.draw do
             get :add_registration
             post :new_registration
             get :register
+            get :remote_register
+            get :direct_register
         end
     end
     

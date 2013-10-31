@@ -137,7 +137,9 @@ class Profile < ActiveRecord::Base
     def convert_to_events(registered)
         events = []
         registered.each do |r|
-            events << Event.find(r.event_id)
+            if !Event.where(:id => r.event_id).blank?
+            events << Event.where(:id => r.event_id)
+            end
         end
         return events
     end

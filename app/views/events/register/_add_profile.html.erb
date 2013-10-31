@@ -1,0 +1,30 @@
+<script>
+$(document).ready(function() {
+
+});
+</script>
+
+<div class="modal-body">
+
+<!-- Takes name and email of new user - if matches profile else makes a new one. Creates a registration for event, marked as not paid for. Makes student of the event resource. -->
+
+<%= form_for 'profile', :url => remote_register_event_path(event), :method => :get do |p| %>
+<div class="form-group">
+<div class="row">
+    <p><%= p.label :name %><br />
+    <%=h p.text_field :name, :class => "form-control"%></p>
+    <p><%= p.label :email %><br />
+    <%=h p.email_field :email, :class => "form-control" %></p>
+  </div><!-- End of row -->
+</div><!-- End of form-group -->
+<%= hidden_field_tag "resource_type", event.resource.class.name %>
+<%= hidden_field_tag "resource_id", event.resource.id %>
+
+    </div><!-- End of body -->
+    <div class="modal-footer">
+    <div class="actions">
+        <a class="btn" data-dismiss="modal" href="#">Cancel</a>
+          <button type="submit" class="btn btn-primary">Register</button>
+        <% end %>
+    </div>     
+    </div>     

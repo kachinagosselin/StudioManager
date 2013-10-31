@@ -1,4 +1,5 @@
 class EventsController < ApplicationController
+     #Displays events for admin view
      def all        
         @search = Event.upcoming.search(params[:search])
         @events = @search.all   # load all matching records
@@ -62,12 +63,13 @@ class EventsController < ApplicationController
         end
     end
     
+    #Needed for custom calendar views
     def change_date
         @class_name = params[:resource_type]
         @object = params[:resource_type].constantize
         @resource = @object.find(params[:resource_id])
         @viewing = params[:datetime].to_datetime
-        
+
         if params[:function] == "prev"
         @date = @viewing.at_beginning_of_week - 7
         elsif params[:function] == "next"
@@ -82,6 +84,7 @@ class EventsController < ApplicationController
         end
     end
 
+    #Needed for embedding purchase form
     def purchase
         @event = Event.find(params[:id])
         @account = Account.find(@studio.account_id)
@@ -185,11 +188,45 @@ class EventsController < ApplicationController
             redirect_to :back, alert: 'User is not apart of our the system and must register a new account.'
         end
     end
+
+    def direct_register
+        @event = Event.find(params[:id])
+        @profile = Profile.find(params[:profile_id])
+        if @profile.register!(@event, false) 
+            redirect_to :back, notice: 'User was successfully added to class registration list.'
+        else
+            redirect_to :back, alert: 'User needs to speak with studio staff.'
+        end
+    end
+
+    def remote_register
+        @event = Event.find(params[:id])
+        @resource = params[:resource_type].constantize.find(params[:resource_id])
+        @profile = Profile.where(:email => params[:profile][:email]).first
+
+        Event.transaction do
+        if !@profile.present? 
+            @profile = Profile.create!(params[:profile])
+        end
+        
+        @student = @resource.students.where(:id => @profile.id)
+        if !@student.present?
+            Student.create!(:profile_id => @profile.id, :resource_id => @resource.id, :resource_type => @resource.class.name, :signed_waiver => false)
+        end
+
+        if @profile.register!(@event, false) 
+            redirect_to :back, notice: 'User was successfully added to class registration list.'
+        else
+            redirect_to :back, alert: 'User needs to speak with studio staff.'
+        end
+
+        end
+    end
     
+    #Archive events - can only destroy if there are no registered users
     def archive
         @resource = current_user.active_role.resource
         @search = @resource.events.archived.search(params[:search])
-
         @events = @search.all   # load all matching records          
 
         respond_to do |format|
@@ -203,8 +240,7 @@ class EventsController < ApplicationController
         @event.destroy
         
         respond_to do |format|  
-            format.html { redirect_to(events_url) }  
-            format.js   { render :nothing => true }  
+            format.html { redirect_to events_path }  
         end  
     end
 end
