@@ -35,7 +35,7 @@ class StudentsController < ApplicationController
     end
       
     @profile_present = @result.present?
-    d
+    
     respond_to do |format|
       format.js
     end

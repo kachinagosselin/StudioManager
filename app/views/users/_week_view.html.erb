@@ -59,7 +59,7 @@ $(document).ready(function() {
             </tr>       
         </thead>
         <tbody>
-            <% @user.events.where('start_at BETWEEN ? AND ?', date.beginning_of_day, date.end_of_day).each do |event| %>
+            <% @user.events.sorted.where('start_at BETWEEN ? AND ?', date.beginning_of_day, date.end_of_day).each do |event| %>
               <tr>
 
               <td class="light"><%= event.start_time %></td>
