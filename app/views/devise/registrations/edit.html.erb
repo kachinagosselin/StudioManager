@@ -28,7 +28,7 @@ $('#profile_is_not_available').click(function(){
         todayHighlight: 0,
         startView: 1,
         forceParse: 0,
-        showMeridian: 1,
+        showMeridian: 1
     });
 
     var phone = document.getElementById('user_profile_attributes_phone').value.toString();
@@ -54,9 +54,31 @@ $('#profile_is_not_available').click(function(){
         minView: 2,
         startView: 4,
         forceParse: 0,
-        showMeridian: 1
+        showMeridian: 1, 
+        pickTime: false, 
     });
+
+    var birthday = document.getElementById('birthday').value.toString();
+    date = new Date(birthday);
+    formatted_date = date.toLocaleDateString();
+    document.getElementById('birthday').value = formatted_date;
+
+$('#edit-user').submit(function(event) {
+    var phone = document.getElementById('user_profile_attributes_phone').value.toString();
+    var num = phone.replace(/\D/g,'');
+    document.getElementById('user_profile_attributes_phone').value = num;
+
+    var ecphone = document.getElementById('user_profile_attributes_emergency_contact_number').value.toString();
+    var contact = ecphone.replace(/\D/g,'');
+    document.getElementById('user_profile_attributes_emergency_contact_number').value = contact;
+
+    var birthday = document.getElementById('birthday').value.toString();
+    date = new Date(birthday);
+    document.getElementById('birthday').value = date;
+    });
+
 });
+
 
 </script>
 
@@ -70,7 +92,7 @@ $('#profile_is_not_available').click(function(){
 <h3> Account Details </h3>
 <hr>
 
-<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, :multipart => true}) do |f| %>
+<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, :multipart => true, :id => "edit-user"}) do |f| %>
   <%= f.fields_for :profile do |p| %>
   <%= devise_error_messages! %>
   <div class="row">
@@ -101,7 +123,16 @@ $('#profile_is_not_available').click(function(){
 
   <div class="form-group col-lg-6">
     <p><%= p.label :dob, "Date of Birth" %><br />
-    <%=h p.text_field :dob, 'data-date' => Date.today, :class => "form_datetime form-control", 'data-date-format'=>"M d yyyy", :id => "birthday"%></p>
+      <%if !current_user.profile.dob.present? %>
+    <%=h p.text_field :dob, 'data-date' => Date.today - 21.years, :class => "form_datetime form-control", 'data-date-format'=>"m/d/yyyy", :id => "birthday"%></p>   
+    <% else %>
+        <%=h p.text_field :dob, 'data-date' => current_user.profile.dob, :class => "form_datetime form-control", 'data-date-format'=>"m/d/yyyy", :id => "birthday"%></p>   
+    <% end %>
+    <!--
+    <span class="add-on">
+        <i class="glyphicon glyphicon-calendar"></i>
+    </span></p>
+    -->
 
     <p><%= p.label :phone %><br />
       <%=h p.telephone_field :phone, :class => "form-control" %></p>
@@ -136,7 +167,7 @@ $('#profile_is_not_available').click(function(){
     <div class="modal-footer">
     <div class="actions">
         <a class="btn" data-dismiss="modal" href="#">Cancel</a>
-          <button type="submit" class="btn btn-primary pull-right">Confirm</button>
+          <button type="submit" id="submit_button" class="btn btn-primary pull-right">Confirm</button>
     </div>     
     </div>     
 

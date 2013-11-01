@@ -48,6 +48,10 @@ class Profile < ActiveRecord::Base
         User.find(self.user_id)
         end
     end
+
+    def phonenumber=(phonenumber)
+        write_attribute(:phone, phonenumber.gsub(/\D/, ''))
+    end
     
     def location
         if self.state.present? && self.city.present?
