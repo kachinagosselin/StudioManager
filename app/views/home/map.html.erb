@@ -5,22 +5,6 @@
 <script> 
 $(document).ready(function() {
 
-  Gmaps.map.callback = function() {
-  for (var i = 0; i <  Gmaps.map.markers.length; ++i) {
-    marker = Gmaps.map.markers[i];
-    google.maps.event.addListener(
-     marker.serviceObject, 'click', (function(event, index) {
-    return function(){
-    	m = Gmaps.map.markers[index];
-     	document.getElementById('test').innerHTML = m.html;
-     	$('#calendar').fullCalendar( 'addEventSource', m.events );
-      }
-    })(marker,i));
-
-  }
-}
-
-
 	$('#calendar').fullCalendar({
 		defaultView: 'agendaWeek',
 		minTime: 6,
@@ -33,6 +17,21 @@ $(document).ready(function() {
           url: '/index.json',
         }],
 	});
+
+    Gmaps.map.callback = function() {
+  for (var i = 0; i <  Gmaps.map.markers.length; ++i) {
+    marker = Gmaps.map.markers[i];
+    google.maps.event.addListener(
+     marker.serviceObject, 'click', (function(event, index) {
+    return function(){
+      m = Gmaps.map.markers[index];
+      document.getElementById('test').innerHTML = m.html;
+      $('#calendar').fullCalendar( 'addEventSource', m.events );
+      }
+    })(marker,i));
+
+  }
+}
 
 });
 </script>

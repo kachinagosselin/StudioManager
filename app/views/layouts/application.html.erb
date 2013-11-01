@@ -10,10 +10,12 @@
     <!-- Bootstrap core CSS -->
     <%= csrf_meta_tag %>
     <%= stylesheet_link_tag "application", :media => "all" %>
+    <%= stylesheet_link_tag 'gmaps4rails' %>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc2/css/bootstrap-glyphicons.css">
 
     <%= javascript_include_tag "application", :media => "all" %>
     <%= javascript_include_tag "bootstrap.js" %>
+    <%= javascript_include_tag "fullcalendar.js" %>
     <%= javascript_include_tag "fullcalendar.js" %>
     <%= favicon_link_tag '/favicon.ico' %>
     <%= javascript_include_tag  "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" %>
@@ -49,6 +51,7 @@
     
     <footer>
       <%= render 'layouts/footer' %>
+      <%= yield :scripts %>
     </footer>
 
   </body>
