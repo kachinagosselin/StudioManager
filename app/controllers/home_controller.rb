@@ -99,7 +99,12 @@ class HomeController < ApplicationController
   def map
       if user_signed_in?
       @user = current_user
-      @json = Location.all.to_gmaps4rails do |location, marker|
+      @locations = Location.near(current_user.profile.address, 25).all
+      if !@locations.present?
+        @locations = Location.all
+      end
+
+      @json = @locations.to_gmaps4rails do |location, marker|
           studio = location.studio
           events = studio.events.as_json
         html = "<div class='row'>
