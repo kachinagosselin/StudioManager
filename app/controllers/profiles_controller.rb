@@ -57,6 +57,12 @@ class ProfilesController < ApplicationController
             params[:email].destroy
             end
         end
+
+        if @profile.photo.present?
+            @profile.photo.update_attributes(:image => params[:profile][:photo_attributes][:image])
+            params[:profile].delete :photo_attributes
+        end
+
         
         respond_to do |format|
             if @profile.update_attributes(params[:profile])

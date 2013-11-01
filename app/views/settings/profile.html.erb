@@ -1,3 +1,14 @@
+<script type="text/javascript">
+$(document).ready(function() {
+$('#profile_photo_attributes_image').change(function() {
+  var value = $(this).val();
+  value = value.replace("C:\\fakepath\\","");
+  alert(value);
+$('#image').val(value);
+});
+});
+</script>
+
 <% content_for :nav do %>
   <%= render 'layouts/nav/settings' %>
 <% end %>
@@ -12,23 +23,36 @@
   <div class="row">
   <div class="col-lg-6">
     <p><%= p.label :description %><br />
-    <%=h p.text_area :description, :class => "form-control", :rows => 8 %></p>  
+    <%=h p.text_area :description, :class => "form-control", :rows => 7 %></p>  
   </div>
   <div class="col-lg-6">
     <%= p.fields_for :photo do |asset| %>
     <p><%= asset.label :image, "Profile Photo" %><br />
-    <%= asset.file_field :image, :class => "form-control"%></p>  
+    <%= asset.file_field :image, :style=>"display:none" %>
+      <div class="input-group">
+      <%= text_field_tag "image", "#{current_user.profile.photo.image_file_name}", :class => "form-control"%>
+        <span class="input-group-btn"><button type="button" class="btn btn-default" onclick="$('#profile_photo_attributes_image').click();">Browse</button><span>
+      </div>
+        </p>  
     <% end %>
     <p><%= p.label :Certification %><br />
     <%= p.text_field :certification, :class => "form-control"%></p>
     <% if !current_user.belongs_to_role?("professional", current_user) %>
+        <div class="checkbox">
+    <label>
     <%= check_box_tag "add_professional_role", "yes", false, :class => "form-control" %>
-    <p style = "margin-top:-27px;margin-left:30px;"><b> Create account to manage my professional services </b></p>
+    <p style="padding-top:3px;"><strong>Create account to manage my professional services</strong></p>
+    </label>
+    </div>
     </div>
 
     <% else %>
-    <%= p.check_box :is_not_available, :class => "form-control"%>
-    <p style = "margin-top:-27px;margin-left:30px;"><b> I am not available to teach elsewhere at this time </b></p>
+    <div class="checkbox">
+    <label>
+    <%= p.check_box :is_not_available %>
+    <p style="padding-top:3px;"><strong> I am not available to teach elsewhere at this time</strong></p>
+    </label>
+    </div>
     <p class="help-block">Note: This will remove you from our database of instructors for hire.</p>
   </div>
 </div>
