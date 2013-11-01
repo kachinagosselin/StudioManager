@@ -8,7 +8,7 @@
             <li><%= link_to 'Profile', settings_profile_path() %></li>
 
             <% if current_user.account.present? && !current_user.account.studio.present?%>
-            <li><%= link_to 'Add Studio', staff_index_path %></li>
+            <li><%= link_to 'Add Studio', settings_studio_path() %></li>
             <% elsif current_user.account.present? && current_user.account.studio.present?%>
             <li><%= link_to 'Studio', settings_studio_path() %></li>
             <% end %>
