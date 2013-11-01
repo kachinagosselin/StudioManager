@@ -59,6 +59,7 @@ $('#profile_is_not_available').click(function(){
     });
 
     var birthday = document.getElementById('birthday').value.toString();
+    birthday = birthday.replace(/-/g,"\/");
     date = new Date(birthday);
     formatted_date = date.toLocaleDateString();
     document.getElementById('birthday').value = formatted_date;
