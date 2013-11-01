@@ -12,11 +12,8 @@
  *= require_tree .
  *= require bootstrap
  *= require bootstrap_and_overrides
- *= require gmaps4rails
 
 */
-
-
 
 .content {
   width: 1170px;

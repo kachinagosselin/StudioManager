@@ -65,7 +65,7 @@ $('#edit_studio_<%= studio.id %>').submit(function(event) {
     <% end %>
 
   <div class="row">
-  <div class="col-lg-6">
+  <div class="col-lg-4">
       <% studio.locations.each do |loc| %>
         <% if loc.address != studio.address && loc.id.present?%>
           <p class="light" style="margin-left:20px;">
@@ -75,7 +75,10 @@ $('#edit_studio_<%= studio.id %>').submit(function(event) {
         <% end %>
       <% end %>
   </div>
-  <div class="col-lg-6">
+  <div class="col-lg-8">
+    <div id="map-container" style="height:420px !important">
+      <%= gmaps4rails(@json) %>
+    </div>
   </div>
   </div>
     <% end %>

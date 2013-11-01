@@ -12,6 +12,7 @@ class SettingsController < ApplicationController
 
   def studio
       @studio = current_user.account.studio
+      @json = @studio.locations.all.to_gmaps4rails
   end
   
   def billing
