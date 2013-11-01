@@ -1,4 +1,9 @@
-    <%= fields_for studio.locations.new do |p| %>
+<script>
+  $(document).ready(function() {
+    document.getElementById("location_state").classList.add('form-control');
+  });
+</script>
+
 <div class="form-group col-lg-12">
     <p><%= p.label :address %><br />
     <%=h p.text_field :address, :class => "form-control" %></p>
@@ -14,4 +19,3 @@
           </div>
       </div>
 </div>
-<% end %>

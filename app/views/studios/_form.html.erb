@@ -1,11 +1,25 @@
 <script>
 $(document).ready(function() {
 document.getElementById("studio_state").classList.add('form-control');
-});
+var phone = document.getElementById('studio_main_phone').value.toString();
+  if (phone != "" && phone != "0"){ 
+    number = "(" +phone.charAt(0)+phone.charAt(1)+phone.charAt(2)+ ") " 
+        +phone.charAt(3)+phone.charAt(4)+phone.charAt(5)+ "-" 
+        +phone.charAt(6)+phone.charAt(7)+phone.charAt(8)+phone.charAt(9)
+    document.getElementById('studio_main_phone').value = number;
+  }
+
+$('#edit_studio_<%= studio.id %>').submit(function(event) {
+    var phone = document.getElementById('studio_main_phone').value.toString();
+    var num = phone.replace(/\D/g,'');
+    document.getElementById('studio_main_phone').value = num;
+    });
+
+  });
 </script>
 
 <div class="row">
-<%= form_for(studio) do |s| %>
+<%= form_for studio do |s| %>
 
   <div class="form-group col-lg-6">
     <p><%=h s.label :name %><br />
@@ -46,13 +60,24 @@ document.getElementById("studio_state").classList.add('form-control');
     <hr>
     <h4 style="margin-left:20px;"> Add New Location </h4>
     <hr>
-    <%= render 'locations/form', :studio => studio %>
+    <%= fields_for studio.locations.new do |p| %>
+    <%= render 'locations/form', :studio => studio, :p => p %>
+    <% end %>
+
+  <div class="row">
+  <div class="col-lg-6">
       <% studio.locations.each do |loc| %>
-        <% if loc.address != studio.address %>
+        <% if loc.address != studio.address && loc.id.present?%>
           <p class="light" style="margin-left:20px;">
-            <strong><%= loc.gmaps4rails_address %></strong></h3>
+            <strong><%= loc.gmaps4rails_address %></strong>
+            <%= link_to raw("<span class=\"glyphicon glyphicon-remove\" style=\"font-size:18px;color:#999;\"></span>".html_safe), [studio, loc], method: :delete, data: { confirm: 'Are you sure? This action cannot be undone.' }, :id=>'delete_event', :remote => true, :class => "pull-right"  %>
+
         <% end %>
       <% end %>
+  </div>
+  <div class="col-lg-6">
+  </div>
+  </div>
     <% end %>
     <hr>
         <div class="form-actions">

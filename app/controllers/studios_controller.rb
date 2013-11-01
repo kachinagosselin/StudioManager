@@ -41,7 +41,7 @@ class StudiosController < ApplicationController
     
     def update
         @studio = Studio.find(params[:id])
-        if params[:location]
+        if !params[:location][:address].blank?
             @studio.locations.create!(params[:location])
         end
         respond_to do |format|

@@ -1,5 +1,9 @@
 <% content_for :nav do %>
+<% if current_user.active_role.name == "student" %>
   <%= render 'layouts/nav/student' %>
+<% else %>
+  <%= render 'layouts/nav/main' %>
+<% end %>
 <% end %>
 
   <div class="col-lg-9 col-lg-offset-2">
