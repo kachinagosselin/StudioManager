@@ -224,7 +224,7 @@ a:focus {
   margin-right: auto;
 
   /* Set width to your desired site width */
-  width: 1460px;
+  width: 100%;
   min-width:1460px;
   
 }
