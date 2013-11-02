@@ -4,7 +4,7 @@
     <%= f.password_field :password, :required => false, :placeholder => "password", :class => "form-control input-sm", :style => "width:100px;" %>
   </div>
 
-    <%= f.button :submit, "Sign in", :class => "btn btn-sm btn-default" %>
+    <%= f.button :submit, "Sign in", :class => "btn btn-default btn-sm " %>
                 <%= link_to 'Register', new_user_registration_path(),
         :class => 'btn btn-default btn-sm' ,  :data => {:toggle => "modal", :target => "#registerModal"} , :remote => true, :html => {:style => "margin-top:5px;"}%>
 

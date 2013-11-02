@@ -1,7 +1,5 @@
-# @start snippet
-require "twilio-ruby"
-
 class AppointmentreminderController < ApplicationController
+require 'twilio-ruby'
 
   # your Twilio authentication credentials
   ACCOUNT_SID = 'AC01c958af473d4bf154e554c1aadf681f'
@@ -22,21 +20,28 @@ class AppointmentreminderController < ApplicationController
         redirect_to :back, 'msg' => 'Invalid phone number'
       return
     end
+  
+    @client = Twilio::REST::Client.new ACCOUNT_SID, ACCOUNT_TOKEN
+    @client.account.sms.messages.create(
+      from: '+16173408703',
+      to: '+1'+ params['number'] +'',
+      body: 'Hey there!'
+    )
 
     # parameters sent to Twilio REST API
-    data = {
-      :from => CALLER_ID,
-      :to => params['number'],
-      :url => BASE_URL + '/reminder',
-    }
+    #data = {
+    #  :from => CALLER_ID,
+    #  :to => params['number'],
+    #  :url => BASE_URL + '/reminder',
+    #}
 
-    begin
-      client = Twilio::REST::Client.new(ACCOUNT_SID, ACCOUNT_TOKEN)
-      client.account.calls.create data
-    rescue StandardError => bang
-      redirect_to :back, 'msg' => "Error #{bang}"
-      return
-    end
+    #begin
+    #  client = Twilio::REST::Client.new(ACCOUNT_SID, ACCOUNT_TOKEN)
+    #  client.account.calls.create data
+    #rescue StandardError => bang
+    #  redirect_to :back, 'msg' => "Error #{bang}"
+    #  return
+    #end
 
     redirect_to :back, 'msg' => "Calling #{params['number']}..."
   end
