@@ -1,0 +1,18 @@
+        <h3><%= studio.name %> </h3>
+        <% @locations = studio.locations %>
+        <% if @locations.count == 1 %>
+            <p> Address: <%= studio.address %> <%= studio.city %>, <%= studio.state %> </p>
+        <% elsif @locations.count > 1 %>
+            <p> Located at the following addresses: </p>
+            <% @locations.each do |loc| %>
+            <p> <%= loc.address %> <%= loc.city %>, <%= loc.state %> </p>
+            <% end %>
+        <% end %>
+        
+        <% if studio.main_phone.present? %>
+            <p> Phone: <%= studio.main_phone %> </p>
+        <% end %>
+
+        <% if studio.website.present? %>
+            <p> Website: <%= link_to studio.website, studio.website %></p>
+        <% end %>
