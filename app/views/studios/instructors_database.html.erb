@@ -1,9 +1,9 @@
 
-  <%= render "layouts/sidebar" %>
-
-		<div class="col-lg-9" >
+<% content_for :nav do %>
+  <%= render 'layouts/nav/main' %>
+<% end %>
+<div class="col-lg-8 col-lg-offset-2" >
 	<h3> Database of Instructors </h3>
-		<div class="col-lg-8" style="margin-left:550px;margin-top:-40px;" >
 	<%= form_for @search_database, :url => instructors_database_path(), :html => {:method => :get, :id => "user_search_database"} do |f| %>
 		<div class="input-group">
       	<%= f.text_field :name_contains, :class => "form-control", :style=>"width:285px;"  %>
@@ -13,9 +13,7 @@
       	</span>
     	</div><!-- /input-group -->
 	<% end %>
-	</div>
-	</div>
-
+<hr>
 		<table class="table table-condensed">
 		    <thead>
 		        <tr>
@@ -47,4 +45,5 @@
 		    </tbody>
 		</table>
 
+</div>
 </div>

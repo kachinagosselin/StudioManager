@@ -1,3 +1,4 @@
+<% if user_signed_in? %>
 <% content_for :nav do %>
   <%= render "layouts/nav/#{current_user.active_role.name}" %>
 <% end %>
@@ -48,3 +49,54 @@ $(document).ready(function() {
 
 	</div>
 		
+<% else %>
+
+<% content_for :nav do %>
+  <%= render "layouts/nav/student" %>
+<% end %>
+
+<script> 
+$(document).ready(function() {
+
+    Gmaps.map.callback = function() {
+  for (var i = 0; i <  Gmaps.map.markers.length; ++i) {
+    marker = Gmaps.map.markers[i];
+    google.maps.event.addListener(
+     marker.serviceObject, 'click', (function(event, index) {
+    return function(){
+      m = Gmaps.map.markers[index];
+      document.getElementById('test').innerHTML = m.html;
+      $('#calendar').fullCalendar( 'addEventSource', m.events );
+      }
+    })(marker,i));
+
+  }
+}
+
+});
+</script>
+
+<div class="section bluebackground" style="height:580px;margin-top: -30px;display:none;">
+    <h1 class="center"> The best software for </br> managing your studio space </h1>
+    <p class="header-subscript center"> Our product is comprehensive, straighforward and versatile. </br> It will serve you as a studio manager or independent professional.</p>
+
+</div>
+
+<div style="height:620px;display:block;">
+  <div class="col-lg-10 col-lg-offset-1">
+    <h4 class="center">Search for Yoga Studios around the Country</h4>
+    <div id="map-container" style="height:550px;margin-top:10px;">
+    <%= gmaps4rails(@json) %>
+  </div>
+
+  <p class="center" style="margin-top:5px;"> Didn't find your studio? <a href="mailto:?subject=You're Invited To Studio Manager"> Send an Invite </a> so they can sign up for our services! </p>
+
+
+  </div>
+
+
+</div>
+
+<div class="navbar navbar-inverse" style="color:black;border-radius:0px !important;margin-bottom:0px;padding-bottom:0px;height:50px;"  id="learn"></div>
+
+<% end %>

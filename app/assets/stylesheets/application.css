@@ -150,8 +150,6 @@ border-radius: 5px;
 
 .section {
 width: 100%;
-overflow-y: visible;
-overflow-x: visible;
 color: white;
 }
 
@@ -191,18 +189,15 @@ font-weight: 300;
 text-align:center;}
 
 .beigebackground {
-height: 626px;
 background-color: #f3efde;
-color:black;
 }
 
 .bluebackground {
-height: 550px;
 background-color: #395a6f;
+color:black;
 }
 
 .footer {
-height: 350px;
 background-color: #253C4A;
 }
 

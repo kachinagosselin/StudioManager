@@ -1,20 +1,19 @@
-
-<% if user_signed_in? %>
 <nav class="main-nav">
 	<div class="container">
-        <% if current_user.active_role.name == "student"%>
         <ul>
             <li><%= link_to raw("<span class=\"glyphicon glyphicon-home\"></span>".html_safe), root_path %></li>
             <li><%= link_to 'About', about_path %></li>
+            <% if user_signed_in? && current_user.active_role.name == "student"%>
             <li><%= link_to 'Personal Calendar', personal_calendar_path %></li>
+            <% end %>
             <li><%= link_to 'Discover Studios', discover_path %></li>
+            <% if user_signed_in? && current_user.active_role.name == "student"%>
             <li><%= link_to 'Find Classes', classes_path %></li>
             <li><%= link_to 'History', history_user_path(current_user) %></li>
+            <% end %>
             <li><%= link_to 'Support', support_path %></li>
         </ul>
-		<% end %>
 	</div>
 </nav>
-<% end %>
 
 			

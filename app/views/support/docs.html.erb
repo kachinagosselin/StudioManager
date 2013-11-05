@@ -30,6 +30,12 @@ $(document).ready(function() {
     }
 </script>
 
+<% if !user_signed_in? %>
+<% content_for :nav do %>
+  <%= render 'layouts/nav/student' %>
+<% end %>
+<% end %>
+
 <% content_for :nav do %>
   <%= render 'layouts/nav/settings' %>
 <% end %>
