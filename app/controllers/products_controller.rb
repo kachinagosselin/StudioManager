@@ -4,6 +4,7 @@ class ProductsController < ApplicationController
         @resource = current_user.active_role.resource
         @memberships = @resource.memberships
         @packages = @resource.packages    
+        @services = @resource.services    
     end
 
     def show

@@ -116,4 +116,8 @@ class UsersController < ApplicationController
         @user = User.find(params[:id])
         @events = @user.events
     end
+
+    def services
+        @user = User.find(params[:id])
+    end
 end

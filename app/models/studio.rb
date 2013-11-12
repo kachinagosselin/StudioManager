@@ -66,7 +66,11 @@ class Studio < ActiveRecord::Base
     def packages 
         Package.where(:resource_type => "Studio").where(:resource_id => self.id)
     end
-    
+
+    def services 
+        Service.where(:resource_type => "Studio").where(:resource_id => self.id)
+    end
+
     def students 
         Profile.joins(:students).where(["students.resource_id = ? AND students.resource_type = ?", self.id, "Studio"])
     end

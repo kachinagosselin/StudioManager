@@ -1,3 +1,9 @@
+GIT
+  remote: https://github.com/albertopq/jquery_datepicker
+  revision: 667c0720eb37f2b2096b65dd5afc5b74740cd756
+  specs:
+    jquery_datepicker (0.4)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -306,6 +312,7 @@ DEPENDENCIES
   googlecharts
   heroku
   jquery-rails
+  jquery_datepicker!
   launchy
   mandrill-api
   meta_search

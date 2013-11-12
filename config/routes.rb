@@ -87,6 +87,7 @@ StudioManager::Application.routes.draw do
     get 'reports/index'        => 'reports#index'
     resources :memberships
     resources :packages
+    resources :services
     resources :charges
     resources :coupons
     resources :staff
@@ -116,6 +117,7 @@ StudioManager::Application.routes.draw do
             get :history
             get :calendar
             get :week_view
+            get :services
             get :set_map_view
         end
     end 

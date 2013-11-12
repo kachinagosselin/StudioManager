@@ -175,6 +175,10 @@ class User < ActiveRecord::Base
     def packages
         Package.where(:resource_type => "User").where(:resource_id => self.profile.id)
     end
+
+    def services
+        Service.where(:resource_type => "User").where(:resource_id => self.profile.id)
+    end
     
     def coupons
         Coupon.where(:resource_type => "User").where(:resource_id => self.profile.id)

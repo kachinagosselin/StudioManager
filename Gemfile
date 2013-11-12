@@ -37,6 +37,7 @@ gem "font-awesome-rails"
 gem "default_value_for"
 gem 'google-analytics-rails'
 gem "recurrence", :require => "recurrence/namespace"
+gem 'jquery_datepicker', :git => 'https://github.com/albertopq/jquery_datepicker'
 
 group :development do
   gem 'better_errors'

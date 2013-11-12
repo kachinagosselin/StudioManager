@@ -41,7 +41,7 @@
 <% end %>
 <div class="col-lg-8 col-lg-offset-2">
 <div>
-	<% if !@memberships.present? && !@packages.present?%>
+	<% if !@memberships.present? && !@packages.present? && !@services.present?%>
 				          <div class="zero" style="z-index:0;display:block;">
 				            <div class=""></div>
 				            <div class="box box-rounded box-inset">
@@ -123,10 +123,44 @@
 <hr>
 	 <p class="center"><%= link_to 'Embed Purchase Form', '',  :data => {:toggle => "modal", :target => "#embedPurchase"}, :class => "btn btn-default", :remote => true %></p>
 
+</br>	
+<hr>
+<h3 class="page-title">Private Services</h3>
+<hr>
+
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Duration</th>  
+				<th>Price</th>
+				<th></th>
+                <th><%= link_to raw("<span class=\"glyphicon glyphicon-plus-sign\" style=\"font-size:18px;\"></span>".html_safe), '',  :data => {:toggle => "modal", :target => "#newModalService"} , :remote => true %></th>                          
+			</tr>
+		</thead>
+		<tbody>
+			<% @services.each do |service| %>
+			<tr>
+
+				<td><%= service.name %></td> 
+				<td><%= service.duration%> mins</td>
+				<td><%= service.format_price%></td>						
+				<td><%= link_to 'Edit', edit_service_path(service),  :data => {:toggle => "modal", :target => "#editModalService#{ service.id}"}, :remote => true, :class => 'btn btn-default btn-xs' %>	</td>
+ 				<%= render :partial => 'services/edit', :locals => {:service => service}%>
+                <td><%= link_to raw("<span class=\"glyphicon glyphicon-remove\" style=\"font-size:18px;color:#999;\"></span>".html_safe), [service], method: :delete, data: { confirm: 'Are you sure? This action cannot be undone.' }, :remote => true  %></td>
+			</tr>
+			<% end %>
+		</tbody>
+	</table>
+
+<hr>
+	<p class="center"><%= link_to 'Embed Booking Form', '',  :data => {:toggle => "modal", :target => "#embedBooking"}, :class => "btn btn-default", :remote => true %></p>
 </div>
 
 <div>
  		<%= render 'memberships/new' %>
  		<%= render 'packages/new' %>
+ 		<%= render 'services/new' %>
     	<%= render 'products/embed'%>
+    	<%= render 'products/services/embed'%>
 </div>
