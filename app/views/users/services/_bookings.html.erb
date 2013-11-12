@@ -1,0 +1,52 @@
+<script type="text/javascript">
+var date = new Date();
+var m = date.getMonth(), d = date.getDate(), y = date.getFullYear();
+ 
+jQuery(function($) { 
+  $( "#datepicker" ).datepicker( {
+        minDate: new Date(y, m, d),
+        dateFormat: 'mm-dd-yy',
+        beforeShowDay: enableAllTheseDays,
+        onSelect: function(date) {
+          $("#display-times").value = date;
+            alert(date);
+        }
+  }); 
+});
+
+// Enable a list of dates
+var enabledDays = getDates(new Date(), new Date().addDays(365));
+function enableAllTheseDays(date) {
+    var m = date.getMonth(), d = date.getDate(), y = date.getFullYear();
+    for (i = 0; i < enabledDays.length; i++) {
+        if($.inArray((m+1) + '-' + d + '-' + y,enabledDays) != -1) {
+            return [true];
+        }
+    }
+    return [false];
+}
+
+</script>
+
+    <table class="table table-striped">
+        <thead>
+            <tr class="active">
+              <th>Name</th>
+              <th>Duration</th>
+              <th>Cost</th>
+              <th></th>
+            </tr>       
+        </thead>
+        <tbody>
+            <% @user.services.each do |service| %>
+              <tr>
+
+              <td class="light"><%= service.name %></td>
+              <td><%= service.duration %></td>
+              <td><%= service.format_price %></td>
+              <td><%= link_to "Book", '',  :data => {:toggle => "modal", :target => "#bookModal#{service.id}"} , :remote => true, :class => "btn btn-default btn-xs" %></td>
+              <%= render :partial => 'products/services/purchase', :locals => {:service => Service.find(1)}%>
+              </tr>
+            <% end %>
+        </tbody>
+    </table>

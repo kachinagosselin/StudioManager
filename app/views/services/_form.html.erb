@@ -1,0 +1,27 @@
+    <div class="modal-body">
+    <%= form_for(service, :html => { :id => "add_service", :class => 'form-horizontal'} ) do |f| %>
+        <div class="form-group">
+          <%= f.label :name %>
+            <%=h f.text_field :name, :class => "form-control" %>
+            <%= f.hidden_field :resource_type, :value => current_user.active_role.resource_type %>
+            <%= f.hidden_field :resource_id, :value => current_user.active_role.resource_id %>
+            <div class="row">
+                <div class="col-lg-6">
+                </div>
+                <div class="col-lg-6">
+                <%= f.label :price %>
+                <%=h f.text_field :price, :class => "form-control"%>
+                <%= f.label :duration %>
+                <%= f.text_field :duration, :class => "form-control" %>
+                </div>
+
+            </div><!-- End of row -->
+        </div><!-- End of form group -->
+    </div><!-- End of body -->
+    <div class="modal-footer">
+    <div class="actions">
+        <a class="btn" data-dismiss="modal" href="#">Cancel</a>
+          <button type="submit" id="add_membership" class="btn btn-primary">Submit</button>
+        <% end %>
+    </div>     
+    </div>     

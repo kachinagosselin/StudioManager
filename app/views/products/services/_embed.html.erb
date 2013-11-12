@@ -1,0 +1,21 @@
+  <div class="modal fade" id="embedBooking" tabindex="-1" role="dialog" aria-labelledby="embedBookingLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden=true>&times;</button>
+        <h4 class="modal-title">Add Booking Form to your Website</h4>
+      </div>
+      <div class="modal-body">
+        <p class="light">To embed a booking form into your website add the following code to your site: </p>
+
+        <p class="code">
+          <% script = "<script src='" + Rails.application.routes.url_helpers.products_url() + "/services/1.js'" + "></script>"%>
+          <pre><code><%= script %></code></pre>
+        </p>
+
+        <p class="light center"> Need more help? Read our  <a href="/support/docs#embed" >documentation</a>
+        </p>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
