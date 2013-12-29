@@ -1,0 +1,42 @@
+<script> 
+$(document).ready(function() {
+
+  $('.form_datetime').datetimepicker({
+    weekStart: 1,
+    autoclose: 1,
+    maxView: 3,
+    startView: 2,
+    forceParse: 0,
+    showMeridian: 1
+  });
+
+});
+
+</script>
+<%= form_for Session.new, :as => :event, :url => { :controller => "events", :action => "create"} do |f| %>
+
+<div class="form-group">
+  <%= hidden_field_tag "type", "Session" %>
+  <%= f.hidden_field :resource_type, :value => "User" %>
+  <%= f.hidden_field :resource_id, :value => current_user.id %>
+  <div class="row">
+    <div class="col-lg-6">
+      <p><%= f.label :start_at, "Start Time" %><br />
+        <%=h f.text_field :start_at, 'data-date' => Date.today, :class => "form_datetime form-control", :type => "text"%>
+      </p>
+    </div>
+    <div class="col-lg-6">
+
+      <p><%= f.label :end_at, "End Time" %><br />
+        <%=h f.text_field :end_at, 'data-date' => Date.today, :class => "form_datetime form-control", :type => "text"%>
+      </p>
+    </div>
+
+  </div><!-- End of row -->
+  <p>
+    <%=h f.text_area :description, 'data-date' => Date.today, :class => "form_datetime form-control", :type => "text", :rows => "10" %>
+  </p>
+
+</div><!-- End of form group -->
+<button type="submit" class="btn btn-primary pull-right">Submit</button>
+<% end %> 

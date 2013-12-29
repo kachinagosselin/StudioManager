@@ -1,97 +1,97 @@
 <script>
-  $(document).ready(function(){
+$(document).ready(function(){
 	document.getElementById('membership_interval').classList.add('form-control');
 	document.getElementById('package_interval').classList.add('form-control');
 
-  	var raw_package_price = document.getElementById('package_price').value/100;
-    var raw_membership_price = document.getElementById('membership_price').value/100;
+	var raw_package_price = document.getElementById('package_price').value/100;
+	var raw_membership_price = document.getElementById('membership_price').value/100;
 
-   if (raw_package_price != ""){
-    var formated_package_price = '$' + raw_package_price;
-    document.getElementById('package_price').value = formated_package_price;
-    }
+	if (raw_package_price != ""){
+		var formated_package_price = '$' + raw_package_price;
+		document.getElementById('package_price').value = formated_package_price;
+	}
 
-    if (raw_membership_price != ""){
-    var formated_membership_price = '$' + raw_membership_price;
-    document.getElementById('membership_price').value = formated_membership_price;
-    }
+	if (raw_membership_price != ""){
+		var formated_membership_price = '$' + raw_membership_price;
+		document.getElementById('membership_price').value = formated_membership_price;
+	}
 
-    $("#add_package").submit(function(event) {
-            $('.submit-button').attr("disabled", "disabled");
-    var price_string = document.getElementById('package_price').value.replace(/[A-Za-z$-,-]/g, "").replace(/[^\d\.\-\ ]/g, '');
-    var price_int = Number(price_string)*100;
-    document.getElementById('package_price').value = price_int;
-            $('#add_package').get(0).submit();
+	$("#add_package").submit(function(event) {
+		$('.submit-button').attr("disabled", "disabled");
+		var price_string = document.getElementById('package_price').value.replace(/[A-Za-z$-,-]/g, "").replace(/[^\d\.\-\ ]/g, '');
+		var price_int = Number(price_string)*100;
+		document.getElementById('package_price').value = price_int;
+		$('#add_package').get(0).submit();
 
-    });
+	});
 
-    $("#add_membership").submit(function(event) {
-            $('.submit-button').attr("disabled", "disabled");
-    var price_string = document.getElementById('membership_price').value.replace(/[A-Za-z$-,-]/g, "").replace(/[^\d\.\-\ ]/g, '');
-    var price_int = Number(price_string)*100;
-    document.getElementById('membership_price').value = price_int;
-            $('#add_membership').get(0).submit();
+	$("#add_membership").submit(function(event) {
+		$('.submit-button').attr("disabled", "disabled");
+		var price_string = document.getElementById('membership_price').value.replace(/[A-Za-z$-,-]/g, "").replace(/[^\d\.\-\ ]/g, '');
+		var price_int = Number(price_string)*100;
+		document.getElementById('membership_price').value = price_int;
+		$('#add_membership').get(0).submit();
 
-    });
+	});
 });
 </script>
 
 <% content_for :nav do %>
-  <%= render 'layouts/nav/main' %>
+<%= render 'layouts/nav/main' %>
 <% end %>
 <div class="col-lg-8 col-lg-offset-2">
-<div>
-	<% if !@memberships.present? && !@packages.present? && !@services.present?%>
-				          <div class="zero" style="z-index:0;display:block;">
-				            <div class=""></div>
-				            <div class="box box-rounded box-inset">
-				              <div class="box-content">
-				                <h3 class="center">Add Product Offerings for Your Students</h3><!-- Originally h6 -->
-				                <div class="col-lg-10 col-lg-offset-1">
-				                <p class="light">You can create a variety of memberships and packages, automatically renewed or as one-time purchases, for your students to purchase. </p>
-				                <p class="light"><strong> Memberships: </strong> Allow students to have unlimited access to your regularly scheduled events. They do not apply to workshops.</p>
-				                <p class="light"><strong> Packages: </strong> Provide the student with a limited number of class credits which can be applied to regular classes. They may have an expiration.</p>
-				                <p class="light">You can create memberships and packages by clicking the plus sign at the end of their respective tables.</p>
-				                <p class="light">Your products will be displayed to users when they are browsing our interactive map and on your studio homepage. To enable students to purchase from your website click the button at the bottom of the page.</p>
-				                  </div>
-				              </div>
-				            </div>
-				          </div>
-				          <% end %>
-
-				          <h3 class="page-title"> Unlimited Memberships</h3>
-				<table class="table table-hover">
-				    <thead>
-				        <tr>
-				          <th>Title</th>
-				          <th>Price</th>  
-				          <th>Billing Frequency</th>
-				          <th>Subscription Type</th>                        
-				          <th>Trial Period</th>
-              			  <th><%= link_to raw("<span class=\"glyphicon glyphicon-plus-sign\" style=\"font-size:18px;\"></span>".html_safe), '',  :data => {:toggle => "modal", :target => "#newModalMembership"} , :remote => true %></th>                          
-				        </tr>
-				    </thead>
-				    <tbody>
-
-				        <% @memberships.each do |membership| %>
-				        	<tr>
-				        		<td><%= membership.title %></td>
-				        		<td><%= membership.format_price%></td>
-				        		<td><%= membership.billing_frequency%></td>	
-				        		<td><%= membership.type %></td>					
-				        		<td><%= membership.trial_period %></td>
-                				<td><%= link_to raw("<span class=\"glyphicon glyphicon-remove\" style=\"font-size:18px;color:#999;\"></span>".html_safe), [membership], method: :delete, data: { confirm: 'Are you sure? This action cannot be undone.' }, :id=>'delete_event', :remote => true  %></td>
-				        	</tr>
-				        <% end %>
-				    </tbody>
-				</table>
+	<div>
+		<% if !@memberships.present? && !@packages.present? && !@services.present?%>
+		<div class="zero" style="z-index:0;display:block;">
+			<div class=""></div>
+			<div class="box box-rounded box-inset">
+				<div class="box-content">
+					<h3 class="center">Add Product Offerings for Your Students</h3><!-- Originally h6 -->
+					<div class="col-lg-10 col-lg-offset-1">
+						<p class="light">You can create a variety of memberships and packages, automatically renewed or as one-time purchases, for your students to purchase. </p>
+						<p class="light"><strong> Memberships: </strong> Allow students to have unlimited access to your regularly scheduled events. They do not apply to workshops.</p>
+						<p class="light"><strong> Packages: </strong> Provide the student with a limited number of class credits which can be applied to regular classes. They may have an expiration.</p>
+						<p class="light">You can create memberships and packages by clicking the plus sign at the end of their respective tables.</p>
+						<p class="light">Your products will be displayed to users when they are browsing our interactive map and on your studio homepage. To enable students to purchase from your website click the button at the bottom of the page.</p>
+					</div>
+				</div>
 			</div>
-<div>
+		</div>
+		<% end %>
 
-</br>	
-<hr>
-<h3 class="page-title">Class Packages</h3>
-<hr>
+		<h3 class="page-title"> Unlimited Memberships</h3>
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th>Title</th>
+					<th>Price</th>  
+					<th>Billing Frequency</th>
+					<th>Subscription Type</th>                        
+					<th>Trial Period</th>
+					<th><%= link_to raw("<span class=\"glyphicon glyphicon-plus-sign\" style=\"font-size:18px;\"></span>".html_safe), '',  :data => {:toggle => "modal", :target => "#newModalMembership"} , :remote => true %></th>                          
+				</tr>
+			</thead>
+			<tbody>
+
+				<% @memberships.each do |membership| %>
+				<tr>
+					<td><%= membership.title %></td>
+					<td><%= membership.format_price%></td>
+					<td><%= membership.billing_frequency%></td>	
+					<td><%= membership.type %></td>					
+					<td><%= membership.trial_period %></td>
+					<td><%= link_to raw("<span class=\"glyphicon glyphicon-remove\" style=\"font-size:18px;color:#999;\"></span>".html_safe), [membership], method: :delete, data: { confirm: 'Are you sure? This action cannot be undone.' }, :id=>'delete_event', :remote => true  %></td>
+				</tr>
+				<% end %>
+			</tbody>
+		</table>
+	</div>
+	<div>
+
+	</br>	
+	<hr>
+	<h3 class="page-title">Class Packages</h3>
+	<hr>
 
 	<table class="table table-hover">
 		<thead>
@@ -101,7 +101,7 @@
 				<th>Expiration</th>
 				<th>Price</th>
 				<th> </th>
-                <th><%= link_to raw("<span class=\"glyphicon glyphicon-plus-sign\" style=\"font-size:18px;\"></span>".html_safe), '',  :data => {:toggle => "modal", :target => "#newModalPackage"} , :remote => true %></th>                          
+				<th><%= link_to raw("<span class=\"glyphicon glyphicon-plus-sign\" style=\"font-size:18px;\"></span>".html_safe), '',  :data => {:toggle => "modal", :target => "#newModalPackage"} , :remote => true %></th>                          
 			</tr>
 		</thead>
 		<tbody>
@@ -113,54 +113,54 @@
 				<td><%= package.expiration%></td>						
 				<td><%= package.format_price%></td>		        		
 				<td><%= link_to 'Edit', edit_package_path(package),  :data => {:toggle => "modal", :target => "#editModalPackage#{ package.id}"}, :remote => true, :class => 'btn btn-default btn-xs' %>	</td>
- 				<%= render :partial => 'packages/edit', :locals => {:package => package}%>
-                <td><%= link_to raw("<span class=\"glyphicon glyphicon-remove\" style=\"font-size:18px;color:#999;\"></span>".html_safe), [package], method: :delete, data: { confirm: 'Are you sure? This action cannot be undone.' }, :remote => true  %></td>
+				<%= render :partial => 'packages/edit', :locals => {:package => package}%>
+				<td><%= link_to raw("<span class=\"glyphicon glyphicon-remove\" style=\"font-size:18px;color:#999;\"></span>".html_safe), [package], method: :delete, data: { confirm: 'Are you sure? This action cannot be undone.' }, :remote => true  %></td>
 			</tr>
 			<% end %>
 		</tbody>
 	</table>
 
-<hr>
-	 <p class="center"><%= link_to 'Embed Purchase Form', '',  :data => {:toggle => "modal", :target => "#embedPurchase"}, :class => "btn btn-default", :remote => true %></p>
+	<hr>
+	<p class="center"><%= link_to 'Embed Purchase Form', '',  :data => {:toggle => "modal", :target => "#embedPurchase"}, :class => "btn btn-default", :remote => true %></p>
 
 </br>	
 <hr>
 <h3 class="page-title">Private Services</h3>
 <hr>
 
-	<table class="table table-hover">
-		<thead>
-			<tr>
-				<th>Name</th>
-				<th>Duration</th>  
-				<th>Price</th>
-				<th></th>
-                <th><%= link_to raw("<span class=\"glyphicon glyphicon-plus-sign\" style=\"font-size:18px;\"></span>".html_safe), '',  :data => {:toggle => "modal", :target => "#newModalService"} , :remote => true %></th>                          
-			</tr>
-		</thead>
-		<tbody>
-			<% @services.each do |service| %>
-			<tr>
+<table class="table table-hover">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Duration</th>  
+			<th>Price</th>
+			<th></th>
+			<th><%= link_to raw("<span class=\"glyphicon glyphicon-plus-sign\" style=\"font-size:18px;\"></span>".html_safe), '',  :data => {:toggle => "modal", :target => "#newModalService"} , :remote => true %></th>                          
+		</tr>
+	</thead>
+	<tbody>
+		<% @services.each do |service| %>
+		<tr>
 
-				<td><%= service.name %></td> 
-				<td><%= service.duration%> mins</td>
-				<td><%= service.format_price%></td>						
-				<td><%= link_to 'Edit', edit_service_path(service),  :data => {:toggle => "modal", :target => "#editModalService#{ service.id}"}, :remote => true, :class => 'btn btn-default btn-xs' %>	</td>
- 				<%= render :partial => 'services/edit', :locals => {:service => service}%>
-                <td><%= link_to raw("<span class=\"glyphicon glyphicon-remove\" style=\"font-size:18px;color:#999;\"></span>".html_safe), [service], method: :delete, data: { confirm: 'Are you sure? This action cannot be undone.' }, :remote => true  %></td>
-			</tr>
-			<% end %>
-		</tbody>
-	</table>
+			<td><%= service.name %></td> 
+			<td><%= service.duration%> mins</td>
+			<td><%= service.format_price%></td>						
+			<td><%= link_to 'Edit', edit_service_path(service),  :data => {:toggle => "modal", :target => "#editModalService#{ service.id}"}, :remote => true, :class => 'btn btn-default btn-xs' %>	</td>
+			<%= render :partial => 'services/edit', :locals => {:service => service}%>
+			<td><%= link_to raw("<span class=\"glyphicon glyphicon-remove\" style=\"font-size:18px;color:#999;\"></span>".html_safe), [service], method: :delete, data: { confirm: 'Are you sure? This action cannot be undone.' }, :remote => true  %></td>
+		</tr>
+		<% end %>
+	</tbody>
+</table>
 
 <hr>
-	<p class="center"><%= link_to 'Embed Booking Form', '',  :data => {:toggle => "modal", :target => "#embedBooking"}, :class => "btn btn-default", :remote => true %></p>
+<p class="center"><%= link_to 'Embed Booking Form', '',  :data => {:toggle => "modal", :target => "#embedBooking"}, :class => "btn btn-default", :remote => true %></p>
 </div>
 
 <div>
- 		<%= render 'memberships/new' %>
- 		<%= render 'packages/new' %>
- 		<%= render 'services/new' %>
-    	<%= render 'products/embed'%>
-    	<%= render 'products/services/embed'%>
+	<%= render 'memberships/new' %>
+	<%= render 'packages/new' %>
+	<%= render 'services/new' %>
+	<%= render 'products/embed'%>
+	<%= render 'products/services/embed'%>
 </div>

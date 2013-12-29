@@ -1,0 +1,4 @@
+class Class < Event
+
+
+end

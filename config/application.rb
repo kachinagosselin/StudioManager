@@ -11,27 +11,28 @@ end
 
 module StudioManager
   class Application < Rails::Application
+    config.autoload_paths += %W(#{config.root}/app/models/events)
 
     # don't generate RSpec tests for views and helpers
     config.generators do |g|
-      
+
       g.test_framework :rspec, fixture: true
       g.fixture_replacement :factory_girl, dir: 'spec/factories'
       
       
       g.view_specs false
       g.helper_specs false
-    end
-    
-    config.action_mailer.smtp_settings = {
-        :address => 'smtp.mandrillapp.com',
-        :port => '2525',
-        :domain => 'heroku.com',
-        :user_name => ENV['MANDRILL_USERNAME'],
-        :password => ENV['MANDRILL_APIKEY']
-    }
-    
-    ActionMailer::Base.delivery_method = :smtp
+  end
+
+  config.action_mailer.smtp_settings = {
+    :address => 'smtp.mandrillapp.com',
+    :port => '2525',
+    :domain => 'heroku.com',
+    :user_name => ENV['MANDRILL_USERNAME'],
+    :password => ENV['MANDRILL_APIKEY']
+}
+
+ActionMailer::Base.delivery_method = :smtp
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
@@ -89,5 +90,5 @@ module StudioManager
     
     config.time_zone = 'Pacific Time (US & Canada)' 
     config.active_record.default_timezone = :local
-  end
+end
 end

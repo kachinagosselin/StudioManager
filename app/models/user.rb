@@ -11,7 +11,8 @@ class User < ActiveRecord::Base
   has_one :profile
     
   has_many :teaching_events, foreign_key: "instructor_id", :through => :events, :source => :event
-
+  has_many :sessions
+   
   accepts_nested_attributes_for :profile
 
   # Setup accessible (or protected) attributes for your model

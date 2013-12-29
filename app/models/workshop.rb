@@ -1,0 +1,4 @@
+class Workshop < Event
+
+
+end

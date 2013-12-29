@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 ruby '1.9.3'
 gem 'rails', '3.2.13'
+gem 'rake', '10.1.1'
 gem 'pg'
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
@@ -38,6 +39,7 @@ gem "default_value_for"
 gem 'google-analytics-rails'
 gem "recurrence", :require => "recurrence/namespace"
 gem 'jquery_datepicker', :git => 'https://github.com/albertopq/jquery_datepicker'
+gem 'delayed_job_active_record'
 
 group :development do
   gem 'better_errors'

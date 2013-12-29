@@ -1,64 +1,73 @@
-
-
-  <div class="modal fade" id="bookModal1" tabindex="-1" role="dialog" aria-labelledby="newModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">Book <%= service.name %> for <%= service.format_price %> </h4>
-      </div>
-    <div class="modal-body">
-    	            	<div class="row">
-    		<div class="col-lg-10 col-lg-offset-1">
-            	<div id="datepicker"></div>
-            	<hr>
-            	<% @sessions = ["11am", "12am"] %>
-					<div class="col-lg-4">
-		            	<div class="panel panel-info" style="margin-bottom:5px;">
-		  					<div class="panel-heading"><strong>Morning</strong></div>
-						</div>
-
-						<% @sessions.each do |session| %>
-		            	<div class="btn panel panel-info" style="padding:0px 6px 0px;width:100%;margin-bottom:5px;">
-							<div class="panel-body" > <%= session %>
-								<span class="glyphicon glyphicon-chevron-right"></span></div>
-						</div>
-						<% end %>
-
-					</div>
-
-					<div class="col-lg-4">
-		            	<div class="panel panel-info" style="margin-bottom:5px;">
-		  					<div class="panel-heading"><strong>Afternoon</strong></div>
-						</div>
-
-						<% @sessions.each do |session| %>
-		            	<div class="btn panel panel-info" style="padding:0px 6px 0px;width:100%;margin-bottom:5px;">
-							<div class="panel-body" > <%= session %>
-								<span class="glyphicon glyphicon-chevron-right"></span></div>
-						</div>
-						<% end %>
-
-					</div>
-
-					<div class="col-lg-4">
-		            	<div class="panel panel-info" style="margin-bottom:5px;">
-		  					<div class="panel-heading"><strong>Evening</strong></div>
-						</div>
-
-						<% @sessions.each do |session| %>
-		            	<div class="btn panel panel-info" style="padding:0px 6px 0px;width:100%;margin-bottom:5px;">
-							<div class="panel-body" > <%= session %>
-								<span class="glyphicon glyphicon-chevron-right"></span></div>
-						</div>
-						<% end %>
-
-					</div>
-				</div>
+<div class="modal fade" id="bookModal1" tabindex="-1" role="dialog" aria-labelledby="newModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title">Book <%= service.name %> for <%= service.format_price %> </h4>
 			</div>
-    </div><!-- End of body -->  
- 	
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+
+			<div class="modal-body">
+				<div id="display-times"> </div>
+
+				<div class="row">
+					<div class="col-lg-10 col-lg-offset-1">
+						<div id="datepicker"></div>
+						<hr>
+						<% @sessions = ["12:00pm", "1:00pm"] %>
+						<div class="col-lg-4">
+							<div class="panel panel-info" style="margin-bottom:5px;">
+								<div class="panel-heading"><strong>Morning</strong></div>
+							</div>
+
+							<% @sessions.each do |session| %>
+							<div class="btn panel panel-info" style="padding:0px 6px 0px;width:100%;margin-bottom:5px;">
+								<div class="panel-body" > <%= session %>
+									<span class="glyphicon glyphicon-chevron-right"></span></div>
+								</div>
+								<% end %>
+
+							</div>
+
+							<div class="col-lg-4">
+								<div class="panel panel-info" style="margin-bottom:5px;">
+									<div class="panel-heading"><strong>Afternoon</strong></div>
+								</div>
+
+								<% @sessions.each do |session| %>
+								<div class="btn panel panel-info" style="padding:0px 6px 0px;width:100%;margin-bottom:5px;">
+									<div class="panel-body" > <%= session %>
+										<span class="glyphicon glyphicon-chevron-right"></span></div>
+									</div>
+									<% end %>
+
+								</div>
+
+								<div class="col-lg-4">
+									<div class="panel panel-info" style="margin-bottom:5px;">
+										<div class="panel-heading"><strong>Evening</strong></div>
+									</div>
+
+									<% @sessions.each do |session| %>
+									<div class="btn panel panel-info" style="padding:0px 6px 0px;width:100%;margin-bottom:5px;">
+										<div class="panel-body" > <%= session %>
+											<span class="glyphicon glyphicon-chevron-right"></span></div>
+										</div>
+										<% end %>
+
+									</div>
+								</div>
+							</div>
+							<hr>
+
+							<div id="complete-purchase">
+								<%= hidden_field_tag :name %>
+								<%= text_field_tag "phone number" %>
+
+							</div>
+						</div><!-- End of body -->  
+
+					</div><!-- /.modal-content -->
+				</div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
 

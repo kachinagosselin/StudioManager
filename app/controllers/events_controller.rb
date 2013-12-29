@@ -42,8 +42,8 @@ class EventsController < ApplicationController
     end
 
     def create
-        @event = Event.create(params[:event])
-        
+       @event = params[:type].constantize.create(params[:event])
+
         if @event.save
             redirect_to :back
         end 

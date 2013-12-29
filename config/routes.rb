@@ -1,18 +1,19 @@
 StudioManager::Application.routes.draw do
 
   if Rails.env.development?
-        Rails.application.routes.default_url_options[:host] = 'localhost:3000' 
-  elsif Rails.env.staging?
-        Rails.application.routes.default_url_options[:host] = 'studiostaging.herokuapp.com' 
-  elsif Rails.env.production?
-        Rails.application.routes.default_url_options[:host] = 'studiomanager.herokuapp.com'
-  end
-  
-  devise_for :views
-  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
- 
+    Rails.application.routes.default_url_options[:host] = 'localhost:3000' 
+elsif Rails.env.staging?
+    Rails.application.routes.default_url_options[:host] = 'studiostaging.herokuapp.com' 
+elsif Rails.env.production?
+    Rails.application.routes.default_url_options[:host] = 'studiomanager.herokuapp.com'
+end
+
+devise_for :views
+devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
+
+resources :mailings, :member => { :deliver => :post }
     #Check In Classes in Studio
-   
+
     #Check In Classes in Studio
     match 'events/:event_id/checkin/' => 'events#checkin', :controller => 'events', :action => 'checkin', :via => [:get], :as => 'checkin'
     match 'events/:event_id/checkin/remote' => 'events#checkin_remote', :controller => 'events', :action => 'checkin_remote', :via => [:post], :as => 'checkin_remote'
@@ -22,7 +23,7 @@ StudioManager::Application.routes.draw do
     #Studio and professional calendars
     match 'calendar(/:year(/:month))' => 'calendar#index', :as => 'calendar', :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
    # match 'users/:user_id/calendar(/:year(/:month))' => 'calendar#professional_index', :as => 'professional_calendar', :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
-    
+
     #match '/studios/:id/create_for_client(/:user_id)' => 'customers#create_for_client', :controller => 'customers', :action => 'create_for_client', :via => [:post], :as => 'new_client_customer'
     #match '/studios/:id/new_customer' => 'customers#new_customer', :controller => 'customers', :action => 'new_customer', :via => [:get], :as => 'new_customer'
     match '/instructors/' => 'studios#instructors_database', :controller => 'studios', :action => 'instructors_database', :via => [:get], :as => 'instructors_database'
@@ -38,10 +39,10 @@ StudioManager::Application.routes.draw do
     match ':resource_type/:resource_id/events/:datetime/:function' => 'events#change_date', :controller => 'events', :action => 'change_date', :via => [:get], :as => 'change_date'
 
     
-  authenticated :user do
-    root :to => 'home#index'
-  end
-  root :to => "home#index"
+    authenticated :user do
+        root :to => 'home#index'
+    end
+    root :to => "home#index"
     get :index, :controller => "home", :action => "index"
     
     devise_scope :user do
@@ -67,6 +68,10 @@ StudioManager::Application.routes.draw do
             get :archive
             get :manage
         end
+        resources :sessions, :controller => "events", :type => "Session"
+        resources :workshops, :controller => "events", :type => "Workshop"
+        resources :classes, :controller => "events", :type => "Class"
+
         
         member do
             get :checkin  
@@ -81,7 +86,7 @@ StudioManager::Application.routes.draw do
     # Currently other method is used to access products - simplify?
     resources :products do
         collection do
-        post :remote_purchase
+            post :remote_purchase
         end
     end
     get 'reports/index'        => 'reports#index'
@@ -106,14 +111,14 @@ StudioManager::Application.routes.draw do
             end
         end
         resources :accounts
-        
+        resources :students
+
         collection do
             get :search
         end
         
         member do
             get :registered_events, :attended_events, :purchases
-            get :students
             get :history
             get :calendar
             get :week_view
@@ -138,7 +143,7 @@ StudioManager::Application.routes.draw do
     get 'reports'        => 'reports#index'
     get 'reports#attendance'   => 'reports#attendance'
     get 'reports#revenue'   => 'reports#revenue'
-  
+
     get 'settings/profile' => 'settings#profile'
     get 'settings/studio' => 'settings#studio'
     get 'settings/billing' => 'settings#billing'

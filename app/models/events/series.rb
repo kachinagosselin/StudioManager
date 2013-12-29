@@ -1,0 +1,4 @@
+class Series < Event
+
+
+end

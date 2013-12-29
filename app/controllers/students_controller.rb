@@ -8,7 +8,10 @@ class StudentsController < ApplicationController
   end
     
   def show
-
+    @student = Student.find(params[:id])
+    @profile = Profile.find(@student.profile_id)
+    @past_sessions =  Session.past.all
+    @future_sessions = Session.all
   end
   
   def search

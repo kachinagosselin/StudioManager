@@ -4,24 +4,26 @@
 	<div class="container">
 		<ul>
 			<li><%= link_to raw("<span class=\"glyphicon glyphicon-home\"></span>".html_safe), root_path() %></li>
-    		<li><%= link_to 'Account Settings', edit_user_registration_path() %></li>
-            <li><%= link_to 'Profile', settings_profile_path() %></li>
+          <li><%= link_to 'Account Settings', edit_user_registration_path() %></li>
+          <li><%= link_to 'Profile', settings_profile_path() %></li>
 
-            <% if current_user.account.present? && !current_user.account.studio.present?%>
-            <li><%= link_to 'Add Studio', settings_studio_path() %></li>
-            <% elsif current_user.account.present? && current_user.account.studio.present?%>
-            <li><%= link_to 'Studio', settings_studio_path() %></li>
-            <% end %>
+          <% if current_user.account.present? && !current_user.account.studio.present?%>
+          <li><%= link_to 'Add Studio', settings_studio_path() %></li>
+          <% elsif current_user.account.present? && current_user.account.studio.present?%>
+          <li><%= link_to 'Studio', settings_studio_path() %></li>
+          <% end %>
 
-            <li><%= link_to 'Billing', settings_billing_path() %></li>
+          <li><%= link_to 'Billing', settings_billing_path() %></li>
+            <!--
             <li><%= link_to 'Notifications', settings_notifications_path() %></li>
-            <% if current_user.customer.present? && !current_user.customer.access_token.present? %>
-     		<li><%= link_to 'Upgrade Services', settings_upgrade_path() %></li>
-            <% end %>
-    		<li><%= link_to 'Support', support_path() %></li>
-		</ul>
-	</div>
+        -->
+        <% if current_user.customer.present? && !current_user.customer.access_token.present? %>
+        <li><%= link_to 'Upgrade Services', settings_upgrade_path() %></li>
+        <% end %>
+        <li><%= link_to 'Support', support_path() %></li>
+    </ul>
+</div>
 </nav>
 <% end %>
 
-			
+

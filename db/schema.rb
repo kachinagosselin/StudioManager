@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131107032714) do
+ActiveRecord::Schema.define(:version => 20131229034833) do
 
   create_table "accounts", :force => true do |t|
     t.string   "plan_id"
@@ -97,6 +97,22 @@ ActiveRecord::Schema.define(:version => 20131107032714) do
     t.integer  "profile_id"
   end
 
+  create_table "delayed_jobs", :force => true do |t|
+    t.integer  "priority",   :default => 0, :null => false
+    t.integer  "attempts",   :default => 0, :null => false
+    t.text     "handler",                   :null => false
+    t.text     "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string   "locked_by"
+    t.string   "queue"
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
+  end
+
+  add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
+
   create_table "events", :force => true do |t|
     t.datetime "start_at"
     t.datetime "end_at"
@@ -120,6 +136,7 @@ ActiveRecord::Schema.define(:version => 20131107032714) do
     t.datetime "start_on"
     t.string   "every"
     t.datetime "end_on"
+    t.string   "type"
   end
 
   create_table "instructors", :force => true do |t|
@@ -147,6 +164,14 @@ ActiveRecord::Schema.define(:version => 20131107032714) do
   end
 
   add_index "locations", ["studio_id"], :name => "index_locations_on_studio_id"
+
+  create_table "mailings", :force => true do |t|
+    t.string   "subject"
+    t.text     "content"
+    t.datetime "delivered_at"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
 
   create_table "memberships", :force => true do |t|
     t.integer  "studio_id"
@@ -282,6 +307,20 @@ ActiveRecord::Schema.define(:version => 20131107032714) do
     t.integer  "duration"
     t.string   "resource_type"
     t.integer  "resource_id"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  create_table "sessions", :force => true do |t|
+    t.integer  "profile_id"
+    t.integer  "resource_id"
+    t.string   "resource_type"
+    t.datetime "start_at"
+    t.datetime "end_at"
+    t.text     "note"
+    t.boolean  "canceled"
+    t.boolean  "reschedule"
+    t.boolean  "no_show"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
   end
