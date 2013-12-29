@@ -39,7 +39,7 @@ $(document).ready(function(){
 <% content_for :nav do %>
 <%= render 'layouts/nav/main' %>
 <% end %>
-<div class="col-lg-8 col-lg-offset-2">
+<div class="col-xs-8 col-xs-offset-2">
 	<div>
 		<% if !@memberships.present? && !@packages.present? && !@services.present?%>
 		<div class="zero" style="z-index:0;display:block;">
@@ -47,7 +47,7 @@ $(document).ready(function(){
 			<div class="box box-rounded box-inset">
 				<div class="box-content">
 					<h3 class="center">Add Product Offerings for Your Students</h3><!-- Originally h6 -->
-					<div class="col-lg-10 col-lg-offset-1">
+					<div class="col-xs-10 col-xs-offset-1">
 						<p class="light">You can create a variety of memberships and packages, automatically renewed or as one-time purchases, for your students to purchase. </p>
 						<p class="light"><strong> Memberships: </strong> Allow students to have unlimited access to your regularly scheduled events. They do not apply to workshops.</p>
 						<p class="light"><strong> Packages: </strong> Provide the student with a limited number of class credits which can be applied to regular classes. They may have an expiration.</p>

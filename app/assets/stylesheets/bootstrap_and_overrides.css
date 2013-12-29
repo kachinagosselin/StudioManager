@@ -8,7 +8,6 @@
 
 body { padding-top: 50px;padding-bottom:0px;}
 
-
 body {
 	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 	font-size: 13px;
@@ -16,6 +15,10 @@ body {
 	color: #333;
 }
 
+.container-non-responsive {
+	width: 1600px !important;
+	min-width:1600px !important;
+}
 /* Gradient circles of different colors for client sidebar */
 .circle {
   border-radius: 50%;

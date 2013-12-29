@@ -98,7 +98,7 @@ function stripeResponseHandler(status, response) {
 </script>
 
 <%= render "layouts/sidebar" %>
-<div class="col-lg-10">
+<div class="col-xs-10">
 -->
 <!-- This section is for editing the main details for the user. It also includes main fields borrowed from the profile object. Filling out this section of the form requires confirming with your password
 <h3> Personal Details </h3>
@@ -108,7 +108,7 @@ function stripeResponseHandler(status, response) {
   <%= f.fields_for :profile do |p| %>
   <%= devise_error_messages! %>
   <div class="row">
-    <div class="form-group col-lg-6">
+    <div class="form-group col-xs-6">
     <p><%= f.label :name %><br />
     <%=h f.text_field :name, :class => "form-control"%></p>
     <p><%= f.label :email %><br />
@@ -117,11 +117,11 @@ function stripeResponseHandler(status, response) {
     <%=h p.text_field :address, :class => "form-control" %></p>
       
       <div class="row">
-          <div class="form-group col-lg-8">
+          <div class="form-group col-xs-8">
             <p><%= p.label :city %><br />
               <%=h p.text_field :city, :class => "form-control" %></p>  
           </div>
-          <div class="form-group col-lg-4">
+          <div class="form-group col-xs-4">
             <p><%= p.label :state %><br />
               <%= p.select :state, STATES, {:class => "form-control"} %></p>
 
@@ -133,7 +133,7 @@ function stripeResponseHandler(status, response) {
       <%=h f.password_field :password, :autocomplete => "off", :class => "form-control"%></p>
     </div>
 
-  <div class="form-group col-lg-6">
+  <div class="form-group col-xs-6">
     <p><%= p.label :dob, "Date of Birth" %><br />
     <%=h p.text_field :dob, 'data-date' => Date.today, :class => "form_datetime form-control", 'data-date-format'=>"M d yyyy", :id => "birthday"%></p>
 
@@ -189,12 +189,12 @@ function stripeResponseHandler(status, response) {
     <div class="row">
   <div class="form-group">
   <div class="row">
-  <div class="col-lg-6">
+  <div class="col-xs-6">
     <p><%= p.label :description %><br />
     <%=h p.text_area :description, :class => "form-control", :rows => 5 %></p>  
     <p class="help-block">Note: This will appear in your instructor profile.</p>
   </div>
-  <div class="col-lg-6">
+  <div class="col-xs-6">
     <%= p.fields_for :photo do |asset| %>
     <p><%= asset.label :image, "Profile Photo" %><br />
     <%= asset.file_field :image, :class => "form-control"%></p>  

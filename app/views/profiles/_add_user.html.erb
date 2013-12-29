@@ -37,7 +37,7 @@ document.getElementById("user_profile_attributes_state").classList.add('form-con
 <%= form_for(Profile.new) do |f| %>
   <%= devise_error_messages! %>
   <div class="row">
-    <div class="form-group col-lg-6">
+    <div class="form-group col-xs-6">
     <p><%= f.label :name %><br />
     <%=h f.text_field :name, :class => "form-control"%></p>
     <p><%= f.label :email %><br />
@@ -46,11 +46,11 @@ document.getElementById("user_profile_attributes_state").classList.add('form-con
     <%=h p.text_field :address, :class => "form-control" %></p>
       
       <div class="row">
-          <div class="form-group col-lg-8">
+          <div class="form-group col-xs-8">
             <p><%= p.label :city %><br />
               <%=h p.text_field :city, :class => "form-control" %></p>  
           </div>
-          <div class="form-group col-lg-4">
+          <div class="form-group col-xs-4">
             <p><%= p.label :state %><br />
               <%= p.select :state, STATES, {:class => "form-control"} %></p>
 
@@ -58,7 +58,7 @@ document.getElementById("user_profile_attributes_state").classList.add('form-con
       </div>
     </div>
 
-  <div class="form-group col-lg-6">
+  <div class="form-group col-xs-6">
     <p><%= p.label :dob, "Date of Birth" %><br />
     <%=h p.text_field :dob, 'data-date' => Date.today, :class => "form_datetime form-control", 'data-date-format'=>"M d yyyy", :type => "text"%></p>
 

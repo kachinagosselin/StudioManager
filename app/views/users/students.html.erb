@@ -1,12 +1,12 @@
   <%= render "layouts/sidebar" %>
 
-<div class="col-lg-6" >
+<div class="col-xs-6" >
 	<h3> Students of <%= current_user.name %></h3>
 		<p style="margin-top:-32px;margin-left:325px;">
 			<%= link_to '+ add new', new_user_membership_path(current_user),  
 				:data => {:toggle => "modal", :target => "#addStudent"} , :remote => true, :html => {:style => "margin-top:5px;"}%></p>
 </div>
-<div class="col-lg-6" style="margin-top:20px;" >
+<div class="col-xs-6" style="margin-top:20px;" >
 	<%= form_for @search, :url => students_user_path(@professional), :html => {:method => :get} do |f| %>
 		<div class="input-group">
       	<%= f.text_field :name_or_email_contains, :class => "form-control"  %>

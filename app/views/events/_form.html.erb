@@ -4,7 +4,7 @@
 <div class="form-group">   
 <%= form_for([local_assigns[:event]], :html => {:class => 'form-horizontal'}) do |f| %>
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-xs-6">
         <p><%= f.label :title %></br>
         <%= f.text_field :title, :as => :string, :input_html => { :style => 'width: 330px'}, :class => "form-control"  %></p>
         <p><%= f.label :description %></br>
@@ -15,7 +15,7 @@
             <%= f.hidden_field :resource_type, :value => current_user.active_role.resource_type %>
             <%= f.hidden_field :resource_id, :value => current_user.active_role.resource_id %>
 
-        <div class="col-lg-6">
+        <div class="col-xs-6">
         <p><%= f.label :start_at, "Start Time" %><br />
         <%=h f.text_field :start_at, 'data-date' => Date.today, :class => "form_datetime form-control", :type => "text"%></p>
         <p><%= f.label :end_at, "End Time" %><br />

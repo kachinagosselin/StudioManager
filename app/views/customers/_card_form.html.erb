@@ -19,15 +19,15 @@ $(document).ready(function() {
 <%=h text_field_tag :card_number, nil, name: nil, :class => "form-control"%></p>
           
   <div class="row">
-    <div class="col-lg-4">
+    <div class="col-xs-4">
     <p><%= label_tag :card_code, "Security Code (CVV)" %></br>
     <%=h text_field_tag :card_code, nil, name: nil, :class => "form-control"%></p></div>
           
-    <div class="col-lg-4">
+    <div class="col-xs-4">
     <p><%= label_tag :card_month, "Card Expiration" %></br>
     <%= select_tag :card_month, options_for_select(MONTHS), {:class => "form-control"} %></p></div>
           
-    <div class="col-lg-4">
+    <div class="col-xs-4">
     <p style ="margin-top:5px;"><%= label_tag :card_year, " " %></br>
     <%=h text_field_tag :card_year, nil, name: nil, :class => 'datepicker form-control', :id => 'card_year', 'data-date-format'=>"yyyy"  %></p></div>
   </div>

@@ -1,5 +1,4 @@
-class Session < Event
-	has_one :user
+class Group < Event
 
 def self.inherited(child)
   child.instance_eval do

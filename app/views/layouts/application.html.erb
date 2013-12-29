@@ -2,7 +2,6 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -31,6 +30,8 @@
   <body>
 
     <div class="navbar navbar-inverse navbar-fixed-top" style="height:50px;">
+      <span><%= link_to "Studio Manager", root_path, class: "navbar-brand"%> <%= yield(:path) %></span>
+
       <div class="container" style="height:50px;">
         <div class="navbar-header">
 
@@ -43,7 +44,7 @@
     <%= yield(:nav) %> 
       <%= yield(:sidebar) %>
 
-    <div class="container-non-responsive">
+    <div class="false">
       <%= yield %>
     </div>
     

@@ -10,59 +10,63 @@ class EventsController < ApplicationController
         respond_to do |format|
               format.html # index.html.erb
               format.json { render json: @events.as_json }
-        end
-    end
+          end
+      end
 
-    def index        
+      def index        
         @resource = current_user.active_role.resource
         @search = @resource.events.upcoming.search(params[:search])
-          
+
         @events = @search.all   # load all matching records
         respond_to do |format|
               format.html # index.html.erb
               format.json { render json: @events.as_json }
-        end
-    end
+          end
+      end
 
-    def show
+      def show
         @event = Event.find(params[:id])
 
         if @event.resource_type == "Studio"
-        @object = Studio.find(@event.resource_id)
+            @object = Studio.find(@event.resource_id)
         elsif @event.resource_type == "User"
-        @object = User.find(@event.resource_id)
+            @object = User.find(@event.resource_id)
         end
 
         @registered = Profile.find_registered(@event)
         if @event.instructor_id.present?
-        @professional = User.find(@event.instructor_id)
+            @professional = User.find(@event.instructor_id)
         else
-        @studio = @event.studio
+            @studio = @event.studio
         end
     end
 
     def create
-       @event = params[:type].constantize.create(params[:event])
+        if params[:type]
+         @event = params[:type].constantize.create(params[:event])
+     else
+         @event = Event.create(params[:event])
+     end
 
-        if @event.save
-            redirect_to :back
-        end 
-    end
-    
-    def update
-        @event = Event.find(params[:id])
-        
-        respond_to do |format|
-            if @event.update_attributes(params[:event])
-                format.html { redirect_to :back, notice: 'Event was successfully updated.' }
-                format.json { head :no_content }
-                else
-                format.html { redirect_to :back }
-                format.json { render json: @message.errors, status: :unprocessable_entity }
-            end
+     if @event.save
+        redirect_to :back
+    end 
+end
+
+def update
+    @event = Event.find(params[:id])
+
+    respond_to do |format|
+        if @event.update_attributes(params[:event])
+            format.html { redirect_to :back, notice: 'Event was successfully updated.' }
+            format.json { head :no_content }
+        else
+            format.html { redirect_to :back }
+            format.json { render json: @message.errors, status: :unprocessable_entity }
         end
     end
-    
+end
+
     #Needed for custom calendar views
     def change_date
         @class_name = params[:resource_type]
@@ -71,16 +75,16 @@ class EventsController < ApplicationController
         @viewing = params[:datetime].to_datetime
 
         if params[:function] == "prev"
-        @date = @viewing.at_beginning_of_week - 7
+            @date = @viewing.at_beginning_of_week - 7
         elsif params[:function] == "next"
-        @date = @viewing.at_beginning_of_week + 7
+            @date = @viewing.at_beginning_of_week + 7
         elsif params[:function] == "current"
-        @date = Date.today
+            @date = Date.today
         end
         @events = @resource.events.all
 
         respond_to do |format|
-        format.js
+            format.js
         end
     end
 
@@ -91,12 +95,12 @@ class EventsController < ApplicationController
         @client = @account.user
         @user = current_user
         @stripe_charge = Stripe::Charge.create({
-                                               :amount => 1600,
-                                               :currency => "usd",
-                                               :card => @user.customer.stripe_customer_token,
-                                               :description => "Charge to test purchase of class"
-                                               }, @client.customer.access_token
-                                                 )
+         :amount => 1600,
+         :currency => "usd",
+         :card => @user.customer.stripe_customer_token,
+         :description => "Charge to test purchase of class"
+         }, @client.customer.access_token
+         )
         # Registers an event, does not checkin user
         @profile = @user.profile
         @profile.register!(@event, false)
@@ -126,7 +130,7 @@ class EventsController < ApplicationController
         @event = Event.find(params[:id])
         @profile = Profile.find(params[:profile_id])
         if !@profile.has_been_canceled?(@event)
-        @profile.attend!(@event)
+            @profile.attend!(@event)
         end
         redirect_to :back
     end
@@ -184,7 +188,7 @@ class EventsController < ApplicationController
                 @profile.add_role :student, @professional
             end    
             redirect_to :back, notice: 'User was successfully added to class registration list.'
-            else
+        else
             redirect_to :back, alert: 'User is not apart of our the system and must register a new account.'
         end
     end
@@ -205,20 +209,20 @@ class EventsController < ApplicationController
         @profile = Profile.where(:email => params[:profile][:email]).first
 
         Event.transaction do
-        if !@profile.present? 
-            @profile = Profile.create!(params[:profile])
-        end
-        
-        @student = @resource.students.where(:id => @profile.id)
-        if !@student.present?
-            Student.create!(:profile_id => @profile.id, :resource_id => @resource.id, :resource_type => @resource.class.name, :signed_waiver => false)
-        end
+            if !@profile.present? 
+                @profile = Profile.create!(params[:profile])
+            end
 
-        if @profile.register!(@event, false) 
-            redirect_to :back, notice: 'User was successfully added to class registration list.'
-        else
-            redirect_to :back, alert: 'User needs to speak with studio staff.'
-        end
+            @student = @resource.students.where(:id => @profile.id)
+            if !@student.present?
+                Student.create!(:profile_id => @profile.id, :resource_id => @resource.id, :resource_type => @resource.class.name, :signed_waiver => false)
+            end
+
+            if @profile.register!(@event, false) 
+                redirect_to :back, notice: 'User was successfully added to class registration list.'
+            else
+                redirect_to :back, alert: 'User needs to speak with studio staff.'
+            end
 
         end
     end
@@ -227,15 +231,15 @@ class EventsController < ApplicationController
     def archive
         @resource = current_user.active_role.resource
         @search = @resource.events.archived.search(params[:search])
-        @events = @search.all   # load all matching records          
+        @events = @search.where(:type => "Group").all   # load all matching records          
 
         respond_to do |format|
               format.html # index.html.erb
               format.json { render json: @events.as_json }
-        end
-    end
-    
-    def destroy
+          end
+      end
+
+      def destroy
         @event = Event.find(params[:id])
         @event.destroy
         

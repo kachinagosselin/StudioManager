@@ -68,15 +68,15 @@ function stripeResponseHandler(status, response) {
           <%= text_field_tag :card_number, nil, name: nil, :class => "form-control"  %>
  
          <div class="row">
-          <div class="form-group col-lg-4">
+          <div class="form-group col-xs-4">
           <%= label_tag :card_code, "Security Code (CVV)" %>
           <%= text_field_tag :card_code, nil, name: nil, :class => "form-control"  %>
           </div>
-          <div class="form-group col-lg-4">
+          <div class="form-group col-xs-4">
           <%= label_tag :card_month, "Card Expiration" %>
           <%= text_field_tag :card_month, nil, name: nil, :class => 'datepicker form-control'  %>
           </div>
-          <div class="form-group col-lg-4">
+          <div class="form-group col-xs-4">
           <%= label_tag :card_year, " " %>
           <%= text_field_tag :card_year, nil, name: nil, :class => 'datepicker form-control'  %>
           </div>

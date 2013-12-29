@@ -4,16 +4,16 @@
   });
 </script>
 
-<div class="form-group col-lg-12">
+<div class="form-group col-xs-12">
     <p><%= p.label :address %><br />
     <%=h p.text_field :address, :class => "form-control" %></p>
       
       <div class="row">
-          <div class="form-group col-lg-8">
+          <div class="form-group col-xs-8">
             <p><%= p.label :city %><br />
               <%=h p.text_field :city, :class => "form-control" %></p>  
           </div>
-          <div class="form-group col-lg-4">
+          <div class="form-group col-xs-4">
             <p><%= p.label :state %><br />
               <%= p.select :state, STATES, {:class => "form-control"} %></p>
           </div>

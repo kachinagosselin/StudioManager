@@ -6,29 +6,29 @@
             <%= f.hidden_field :resource_type, :value => current_user.active_role.resource_type %>
             <%= f.hidden_field :resource_id, :value => current_user.active_role.resource_id %>
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-xs-6">
                 <%= f.label :price %>
                 <%=h f.text_field :price, :class => "form-control"%>
                 <%= f.label :interval_count, "Billing Frequency" %>
                 <div class="row">
-                <div class="col-lg-6">
+                <div class="col-xs-6">
                 <%= f.number_field :interval_count, :class => "form-control" %>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-xs-6">
                 <%= f.select :interval, STRIPE_INTERVALS, :html => {:id => "membership_interval_select"} %></p>
                 </div>
                 </div>
                 </div>
 
-                <div class="col-lg-6">
+                <div class="col-xs-6">
                 <%= f.label :trial_period_days %>
                 <%= f.number_field :trial_period_days, :class => "form-control"%>
                 <div class="row" style="margin-top:25px;">
-                <div class="col-lg-6">
+                <div class="col-xs-6">
                 <%= f.label :one_time_app, "One Time" %>
                 <%= f.check_box :one_time_app%>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-xs-6">
                 <%= f.label :prorate %>
                 <%= f.check_box :prorate%>
                 </div>

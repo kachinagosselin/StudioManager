@@ -2,7 +2,7 @@
 <% content_for :nav do %>
   <%= render 'layouts/nav/main' %>
 <% end %>
-<div class="col-lg-8 col-lg-offset-2" >
+<div class="col-xs-8 col-xs-offset-2" >
 	<h3> Database of Instructors </h3>
 	<%= form_for @search_database, :url => instructors_database_path(), :html => {:method => :get, :id => "user_search_database"} do |f| %>
 		<div class="input-group">

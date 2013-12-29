@@ -1,0 +1,27 @@
+<div class="modal fade" id="editModal<%= session.id%>" tabindex="-1" role="dialog" aria-labelledby="editModalLabel<%= session.id%>" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden=true>&times;</button>
+				<h4 class="modal-title">Edit Session</h4>
+			</div>
+
+			<%= form_for session, :as => :event, :url => { :controller => "events", :action => "edit"} do |f| %>
+
+			<div class="modal-body">
+
+				<%= render :partial => 'sessions/form', :locals => { :form => f }%>
+			</div>
+
+
+			<div class="modal-footer">
+				<div class="actions">
+					<a class="btn" data-dismiss="modal" href="#">Cancel</a>
+					<button type="submit" class="btn btn-primary">Submit</button>
+				</div>     
+			</div>     
+			<% end %>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

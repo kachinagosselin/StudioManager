@@ -87,7 +87,7 @@ $('#edit-user').submit(function(event) {
   <%= render 'layouts/nav/settings' %>
 <% end %>
 
-<div class="col-lg-8 col-lg-offset-2">
+<div class="col-xs-8 col-xs-offset-2">
 
 <!-- This section is for editing the main details for the user. It also includes main fields borrowed from the profile object. Filling out this section of the form requires confirming with your password -->
 <h3> Account Details </h3>
@@ -97,7 +97,7 @@ $('#edit-user').submit(function(event) {
   <%= f.fields_for :profile do |p| %>
   <%= devise_error_messages! %>
   <div class="row">
-    <div class="form-group col-lg-6">
+    <div class="form-group col-xs-6">
     <p><%= f.label :name %><br />
     <%=h f.text_field :name, :class => "form-control"%></p>
     <p><%= f.label :email %><br />
@@ -106,11 +106,11 @@ $('#edit-user').submit(function(event) {
     <%=h p.text_field :address, :class => "form-control" %></p>
       
       <div class="row">
-          <div class="form-group col-lg-8">
+          <div class="form-group col-xs-8">
             <p><%= p.label :city %><br />
               <%=h p.text_field :city, :class => "form-control" %></p>  
           </div>
-          <div class="form-group col-lg-4">
+          <div class="form-group col-xs-4">
             <p><%= p.label :state %><br />
               <%= p.select :state, STATES, {:class => "form-control"} %></p>
 
@@ -122,7 +122,7 @@ $('#edit-user').submit(function(event) {
       <%=h f.password_field :password, :autocomplete => "off", :class => "form-control"%></p>
     </div>
 
-  <div class="form-group col-lg-6">
+  <div class="form-group col-xs-6">
     <p><%= p.label :dob, "Date of Birth" %><br />
       <%if !current_user.profile.dob.present? %>
     <%=h p.text_field :dob, 'data-date' => Date.today - 21.years, :class => "form_datetime form-control", 'data-date-format'=>"m/d/yyyy", :id => "birthday"%></p>   

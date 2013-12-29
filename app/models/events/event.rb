@@ -23,7 +23,7 @@ class Event < ActiveRecord::Base
     end  
     
     scope :between, lambda {|start_time, end_time|  
-    {:conditions => ["start_at >= ? AND start_at < ?", start_time, end_time] }  
+        {:conditions => ["start_at >= ? AND start_at < ?", start_time, end_time] }  
     }  
 
     scope :not_canceled, where(:canceled => [false, nil]).order('events.start_at ASC')
@@ -42,7 +42,7 @@ class Event < ActiveRecord::Base
     scope :last_month, past.where("start_at < ?", Time.now - 1.month).order('events.start_at DESC')
 
     def self.format_date(date_time)  
-    Time.at(date_time.to_i).to_formatted_s(:long_ordinal) 
+        Time.at(date_time.to_i).to_formatted_s(:long_ordinal) 
     end
 
     def day_of_week
@@ -139,7 +139,7 @@ class Event < ActiveRecord::Base
 
     def cost
         if self.price.present?
-        return "$#{self.price}"
+            return "$#{self.price}"
         end
     end
 
@@ -204,12 +204,25 @@ class Event < ActiveRecord::Base
 
         Event.transaction do
             r.each do |p|
-                 new_event = self.dup
-                 new_event.start_at = p.to_datetime.in_time_zone(self.start_at.zone) + self.start_at.hour.hours + self.start_at.min.minutes
-                 new_event.end_at = p.to_datetime.in_time_zone(self.start_at.zone) + self.end_at.hour.hours + self.end_at.min.minutes
-                 new_event.save
-            end
-        end
-    end
+               new_event = self.dup
+               new_event.start_at = p.to_datetime.in_time_zone(self.start_at.zone) + self.start_at.hour.hours + self.start_at.min.minutes
+               new_event.end_at = p.to_datetime.in_time_zone(self.start_at.zone) + self.end_at.hour.hours + self.end_at.min.minutes
+               new_event.save
+           end
+       end
+   end
 
+   def self.select_options
+      descendants.map{ |c| c.to_s }.sort
+  end
+  @child_classes = []
+
+  def self.inherited(child)
+      @child_classes << child
+  super # important!
+end
+
+def self.child_classes
+  @child_classes
+end
 end

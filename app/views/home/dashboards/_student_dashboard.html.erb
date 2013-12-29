@@ -51,7 +51,7 @@ $(document).ready(function() {
 });
 </script>
 
-  <div class="col-lg-10 col-lg-offset-1">
+  <div class="col-xs-10 col-xs-offset-1">
   	<%= link_to "Toggle Map", set_map_view_user_path(current_user), method: :get, :remote => true, :class=>"toggle pull-right", :style=>"margin-top:30px;"%>
   	<%= hidden_field_tag "hide_map", "#{current_user.profile.hide_map}" %>
 
@@ -63,7 +63,7 @@ $(document).ready(function() {
 	</div>
 </div>
 
-  <div class="col-lg-8 col-lg-offset-2">
+  <div class="col-xs-8 col-xs-offset-2">
 	<div id="test"></div>
 
 	<div class="panel panel-primary">

@@ -68,10 +68,6 @@ resources :mailings, :member => { :deliver => :post }
             get :archive
             get :manage
         end
-        resources :sessions, :controller => "events", :type => "Session"
-        resources :workshops, :controller => "events", :type => "Workshop"
-        resources :classes, :controller => "events", :type => "Class"
-
         
         member do
             get :checkin  
@@ -83,6 +79,10 @@ resources :mailings, :member => { :deliver => :post }
         end
     end
     
+    resources :sessions, :controller => "events", :type => "Session"
+    resources :workshops, :controller => "events", :type => "Workshop"
+    resources :groups, :controller => "events", :type => "Group"
+
     # Currently other method is used to access products - simplify?
     resources :products do
         collection do

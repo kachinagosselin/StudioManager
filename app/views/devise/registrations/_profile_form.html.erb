@@ -1,12 +1,12 @@
 <%= form_for([@user, @user.profile]) do |p| %>
 <div class="form-group">
 <div class="row">
-  <div class="col-lg-6">
+  <div class="col-xs-6">
     <p><%= p.label :description %><br />
     <%=h p.text_area :description, :class => "form-control", :cols => 20, :rows => 10 %></p>  
     <p class="help-block">Note: This will appear in your profile.</p>
   </div>
-  <div class="col-lg-6">
+  <div class="col-xs-6">
     </br><p><b> Certification </b></p></br>
     <%= p.check_box :is_certified, :class => "form-control"%>
     <p style = "margin-top:-26px;margin-left:30px;"><b> Is certified? </b></p>

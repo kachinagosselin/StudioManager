@@ -1,11 +1,12 @@
 <script type="text/javascript">
 $(document).ready(function() {
+ var elements = document.getElementsByClassName(" undefined"); // or:
+ var html = "\<strong class=\"count\"\>7\</strong\>";
+ $("#new_session").hide();
 
-  $("#new_session").hide();
-
-  $('#toggle').on('click', function () {
-    $("#new_session").toggle();
-  });
+ $('#toggle').on('click', function () {
+  $("#new_session").toggle();
+});
 
 });
 
@@ -26,13 +27,23 @@ jQuery(function($) {
 
 // Enable a list of dates
 var enabledDays = [];
-for (i = 0; i < 19; i++) {
-  var currentDate = new Date()
-  var day = currentDate.getDate() + i;
-  var month = currentDate.getMonth() + 1 ;
-  var year = currentDate.getFullYear();
+
+for (i = 0; i < 30; i++) {
+  var currentDate = new Date();
+  var someDate = addDays(currentDate, i);
+
+  var day = someDate.getDate();
+  var month = someDate.getMonth() + 1 ;
+  var year = someDate.getFullYear();
+
   var my_date = ""+ month+"-"+day+"-"+year + "";
   enabledDays.push(my_date);
+}
+
+function addDays (date, num) {
+  var value = date.valueOf();
+  value += 86400000 * num;
+  return new Date(value);
 }
 
 function enableAllTheseDays(date) {
@@ -55,45 +66,53 @@ function enableAllTheseDays(date) {
 <%= render 'layouts/sidebar' %>
 <% end %>
 
-<div class="col-lg-7 col-lg-offset-2">
-	<div class="well">  
-    <strong class="count">7</strong>
-    <div class="row">
-     <div class="col-lg-3">
-      <%= image_tag @profile.photo.image.url(:medium), :class => "img-circle" %>
-      <p class="center"> Contact after <%= @past_sessions.first.start_at + 7.days %> date </p>
-      <p class="center"> Contact method: </br> 617-610-1988 </p>
+<div class="col-xs-7 col-xs-offset-2">
+ <div class="well">  
+  <div class="row">
+   <div class="col-xs-3">
+    <%= image_tag @profile.photo.image.url(:medium), :width => "100%", :class => "img-circle" %>
+    <p class="center"> Contact after <%= (@past_sessions.first.start_at + 7.days).strftime("%b %e, %Y") %> </p>
+    <p class="center"> Contact method: </br> 617-610-1988 </p>
 
-      <p class="center"> Next session scheduled on <%= @past_sessions.first.start_at + 7.days  %>  </p>
+    <p class="center"> Next session scheduled </br> <%= (@past_sessions.first.start_at + 7.days).strftime("%b %e") %> at <%= (@past_sessions.first.start_at + 7.days).strftime("%l:%M %P")  %>  </p>
 
-      <p class="center"> Total of <%= @past_sessions.count %> sessions </p>
-      <p class="center"> Avg of <%= @student.frequency(@past_sessions) %></p>
-    </div>
-    <div class="col-lg-7">
-      <h2><%= @profile.name %><a href="#" id="toggle" class="pull-right"><span class="glyphicon glyphicon-plus-sign" style="margin-top:-4px;font-size:26px;"></span></a></h2>
-      <div id="new_session">
+    <p class="center"> Total of <%= @past_sessions.count %> sessions </p>
+    <p class="center"> Avg of <%= @student.frequency(@past_sessions) %></p>
+    <p class="center"><a> edit details </a></p>
 
-        <%= render "sessions/form" %>
-      </br>
-    </div>
-    <hr style="border-top:1px solid #000">
-    <% if @past_sessions.count == 0 %>
-    <p class="center"> This client does not have a record of past sessions.  </p>
-    <% else %>
-    <% @past_sessions.each do |session| %>
-    <hr>
-    <a href="#" class="pull-right"><span class="glyphicon glyphicon-minus-sign" style="margin-top:-4px;font-size:16px;"></span></a>
-    <p>Start At: <%= session.start_at %></p>
-    <p>Duration: <%= session.duration %></p>
-    <p><%= session.description if session.description%></p>
-    <% end %>
-    <% end %>
   </div>
+  <div class="col-xs-7">
+    <h2><%= @profile.name %><a href="#" id="toggle" class="pull-right"><span class="glyphicon glyphicon-plus-sign" style="margin-top:-4px;font-size:26px;"></span></a></h2>
+    <div id="new_session">
+
+      <%= form_for Session.new, :as => :event, :url => { :controller => "events", :action => "create"} do |f| %>
+
+      <%= render "sessions/form", :form => f  %>
+      <button type="submit" class="btn btn-primary pull-right">Submit</button>
+      <% end %>
+    </br>
+  </div>
+  <hr style="border-top:1px solid #000">
+  <% if @past_sessions.count == 0 %>
+  <p class="center"> This client does not have a record of past sessions.  </p>
+  <% else %>
+  <% @past_sessions.each do |session| %>
+  <hr>
+  <%= link_to raw("<span class=\"glyphicon glyphicon-minus-sign\" style=\"margin-top:-4px;font-size:16px;\"></span>".html_safe),edit_event_path(session), :class=>"pull-right", :data => {:toggle => "modal", :target => "#editModal#{session.id}"}, :remote => true %> 
+
+  <%= render :partial => 'sessions/edit', :locals => {:session => session}%>
+
+  <p>Start At: <%= session.start_time %></p>
+  <p>Duration: <%= session.duration %></p>
+  <p><%= session.description if session.description%></p>
+  <% end %>
+  <% end %>
+</div>
 </div>
 </div>
 </div>
 
-<div class="col-lg-3">
+<div class="col-xs-3">
 	<div class="well">  
 		This is where notifications will popup.
 	</div>

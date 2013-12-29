@@ -23,7 +23,7 @@ document.getElementById("package_expires_at").classList.add('form-control');
             <%= f.hidden_field :resource_type, :value => current_user.active_role.resource_type %>
             <%= f.hidden_field :resource_id, :value => current_user.active_role.resource_id %>
                 <div class="row">
-                <div class="col-lg-4">
+                <div class="col-xs-4">
                 <p><%= f.label :quantity %><br />
                 <%= f.number_field :quantity, :class => "form-control" %></p>
 
@@ -31,7 +31,7 @@ document.getElementById("package_expires_at").classList.add('form-control');
                 <%=h f.text_field :expires_at, 'data-date' => Date.today, :class => "form_datetime form-control", 'data-date-format'=>"M d yyyy", :type => "text"%></p>
                 </div>
 
-                <div class="col-lg-4">
+                <div class="col-xs-4">
                 <p><%= f.label :price %><br />
                 <%= f.text_field :price, :class => "form-control"%></p>
 
@@ -39,7 +39,7 @@ document.getElementById("package_expires_at").classList.add('form-control');
                 <%= f.number_field :interval_count, :class => "form-control" %>
                 </div>
 
-                <div class="col-lg-4">
+                <div class="col-xs-4">
                     <p><%= f.label :percent_off %><br />
                     <%= f.number_field :percent_off, :class => "form-control"%></p>
  
