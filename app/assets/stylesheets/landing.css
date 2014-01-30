@@ -1,0 +1,125 @@
+
+#landing #signup {
+  font-size: 1rem;
+  font-weight: 700;
+  color: white;
+  background: none;
+  text-decoration: none;
+  padding: .5rem 1.5rem;
+  line-height: 2rem;
+  border: 1px solid white;
+  -webkit-border-radius: .25rem;
+  -moz-border-radius: .25rem;
+  border-radius: .25rem;
+}
+
+#landing #signup:hover{
+  background:white;
+  color:#555459 !important;
+  text-shadow:none;
+  text-decoration:none
+}
+
+#nav p {
+  color:white;
+  font-size: 0.8rem;
+  line-height: 1rem;
+  margin: 10px;
+}
+
+#landing-nav {
+  margin-top: -40px;
+}
+
+body#landing {
+  background-image: url(http://bit.ly/ZoYaLK);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  text-align: center;
+  min-height: 672px;
+}
+section#landing-content {
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  padding-bottom: 2rem;
+  color: white;
+}
+
+#landing-content h1 {
+  display: block;
+  font-size: 5em;
+  -webkit-margin-before: 0.67em;
+  -webkit-margin-after: 0.67em;
+  -webkit-margin-start: 0px;
+  -webkit-margin-end: 0px;
+  font-weight: bold;
+}
+
+#landing-content p {
+  font-size: 1.5rem;
+  line-height: 2.25rem;
+  color: white;
+  font-weight: 500;
+  margin: 1rem 0;
+}
+
+#landing-content .fade-box{
+  padding: 1rem 1.3rem;
+  margin: 0 auto;
+  display: inline-block;
+  text-align: center;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  width: auto;
+  -webkit-border-radius: .5rem;
+  -moz-border-radius: .5rem;
+  border-radius: .5rem;
+  background: rgba(0,0,0,0.5);
+}
+
+#landing-content p.faded {
+  color: #ba9;
+  font-weight: 500;
+  margin: .25rem .25rem .4rem .25rem;
+  font-size: 1.25rem;
+  line-height: 1.5rem;
+}
+
+#landing-content input[type="text"], input[type="email"], input[type="password"] {
+  padding: .75rem;
+  background: white;
+  border: 0;
+  -webkit-border-radius: .25rem;
+  -moz-border-radius: .25rem;
+  border-radius: .25rem;
+  margin: .5rem .25rem;
+  color: #555459;
+  font-weight: 700;
+  font-size: 1.1rem;
+  font-family: 'Lato',sans-serif;
+  -webkit-appearance: none;
+  vertical-align: bottom;
+  height: 48px;
+  width: 300px;
+}
+
+#landing-content input[type="submit"] {
+  background: #439fe0;
+  color: white;
+  font-weight: 700;
+  padding: .75rem 2rem !important;
+  text-shadow: 0 1px 1px black;
+  text-shadow: 0 1px 1px rgba(0,0,0,0.5);
+  border-bottom: 2px solid #194ba3;
+  cursor: pointer;
+  width: auto;
+  border: 0;
+  -webkit-border-radius: .25rem;
+  -moz-border-radius: .25rem;
+  border-radius: .25rem;
+  margin: .5rem .25rem;
+  font-size: 1.1rem;
+  font-family: 'Lato',sans-serif;
+  -webkit-appearance: none;
+  vertical-align: bottom;
+  height: 48px;
+}

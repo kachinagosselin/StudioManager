@@ -1,6 +1,8 @@
+<!-- Rendering the settings navigation -->
 <% content_for :nav do %>
   <%= render 'layouts/nav/settings' %>
 <% end %>
+
 
 <div class="col-xs-8 col-xs-offset-2">
 
@@ -8,6 +10,7 @@
 	<hr>
 
     <p> Activating your account allows you to be able to manage your calendar, memberships and students. </p>
+	<!-- Rendering Stripe button -->
     <%= render "devise/registrations/stripe_button" %>
 
 </div>

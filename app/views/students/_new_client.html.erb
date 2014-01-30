@@ -1,0 +1,91 @@
+<script>
+$(document).ready(function() {
+  // Default show the create new profile area
+  $("#create_profile_area").show();
+$("#profile[state]")
+
+  // Hide all other sections for the moment
+  $("#product-display").hide();
+  $("#payment-details").hide();
+  $('#profile_search').bind('ajax:success', function() { 
+    alert("Success!");
+  });  
+
+});
+</script>
+
+<div class="modal" id="addStudent" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3 class="modal-title">Add New Client</h3>
+      </div>
+
+      <div class="modal-body">
+
+        <%= form_for(Profile.new) do |p| %>
+        <div class="form-group">
+          <div class="row">
+            <div class="col-xs-12">
+              <p><%= p.label :name %><br />
+                <%=h p.text_field :name, :class => "form-control"%>
+              </p>
+              <p><%= p.label :email %><br />
+                <%=h p.email_field :email, :class => "form-control" %>
+              </p>
+
+              <!-- Collect client address -->
+              <p><%= p.label :address %><br />
+                <%=h p.text_field :address, :class => "form-control" %>
+              </p>
+
+              <div class="row">
+                <div class="col-xs-8">
+                  <p><%= p.label :city %><br />
+                    <%=h p.text_field :city, :class => "form-control" %>
+                  </p>  
+                </div>
+                <div class="col-xs-4">
+                  <p><%= p.label :state %><br />
+                    <%= p.select :state, STATES, {:class => "form-control"} %>
+                  </p>
+                </div>
+              </div>
+
+
+              <p><%= p.label :dob, "Date of Birth" %><br />
+                <%=h p.text_field :dob, 'data-date' => Date.today, :class => "form_datetime form-control", 'data-date-format'=>"M d yyyy", :type => "text"%></p>
+
+                <p><%= p.label :phone %><br />
+                  <%=h p.telephone_field :phone, :class => "form-control" %>
+                </p>
+
+                <p><%= p.label :emergency_contact_name %><br />
+                  <%=h p.text_field :emergency_contact_name, :class => "form-control"%>
+                </p>
+
+                <p><%= p.label :emergency_contact_number %><br />
+                  <%=h p.text_field :emergency_contact_number, :class => "form-control"%>
+                </p>
+
+              </div><!-- End of row -->
+            </div><!-- End of form-group -->
+            
+            <%= hidden_field_tag "private", "student" %>
+            <%= hidden_field_tag "resource", current_user.active_role.resource %>
+
+          </div><!-- End of body -->
+
+          <div class="modal-footer">
+            <div class="actions">
+              <a class="btn" data-dismiss="modal" href="#">Cancel</a>
+              <button type="submit" class="btn btn-primary">Submit</button>
+              <% end %>
+            </div>     
+          </div>     
+
+        </div><!-- End of collapseable -->
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

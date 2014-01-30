@@ -1,50 +1,46 @@
-<div style="height:100%;width:245px;margin-left:10px;margin-top:-60px;background-color:#353739;position:fixed"> 
-  <div id="sidebar-header" style="background-color:#222;height:45px;">
-      <form>
-      <span><input type="text" id="dark" class="search rounded" placeholder="Search..." style="margin-left:10px;margin-top:5px;"></span>
+<div class="sidebar-container"> 
+  <div id="sidebar-header">
+    <!-- Have text to describe contents and add new client button --> 
+
+    <!-- Have a search form by name of client --> 
+    <form>
+      <span>
+        <input type="text" id="client-search" class="search rounded" placeholder="Search..."></input>
+      </span>
     </form>
   </div>
 
-    <!--
-    <span class="glyphicon glyphicon-search" style="position:relative;margin-left:20px;margin-top:20px;"></span>
+  <!-- Have a link to see all students --> 
+  <%= link_to "view all", user_students_path(current_user), :style => "margin-left:100px" %>
+  <!-- Have a link to add new client --> 
+  <%= link_to raw("<span class=\"glyphicon glyphicon-plus-sign\" style=\"font-size:11px;\"></span>".html_safe), '',  :data => {:toggle => "modal", :target => "#addStudent"} , :remote => true %>                         
 
-  <div class="dropdown">
-    <button class="btn dropdown-toggle sr-only" type="button" id="dropdownMenu1" data-toggle="dropdown">
-      Dropdown
-      <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-      <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
-      <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
-      <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
-      <li role="presentation" class="divider"></li>
-      <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
-    </ul>
+
+  <!-- For each student create a description box linking to their private profile -->
+  <% @current_user.students.all.each do |profile| %>
+  <% student = Student.where(:profile_id => profile.id).first %>
+
+  <div class="sidebar-list-element">
+   <div class="col-xs-3">
+     <%= image_tag profile.photo.image.url(:medium), :class => "img-circle", :style=>"width:45px;"%>
+   </div>
+
+   <div class="col-xs-7" id="client-descriptor">
+     <span id="client-name"><%= link_to profile.name, user_student_path(current_user, student) %></span> </br>
+
+     <!-- Add next notification-->
+     <span id="client-next"><%= student.next_notification %> </span>
+   </div>
+
+   <div class="col-xs-1">
+    <div id="orange" class="circle" style="margin-top: 18px;"></div>
   </div>
--->
-<% @student = Student.find(19) %>
-<% @profile = Profile.find(@student.profile_id) %>
-
-<!-- For each student create a description box linking to their private profile -->
-<% (1..3).each do |e| %>
-<div class="sidebar-list-element">
- <div class="col-xs-3">
-   <%= image_tag @profile.photo.image.url(:medium), :class => "img-circle", :style=>"width:45px;"%>
- </div>
-
- <div class="col-xs-7" style="margin-top:5px;">
-   <span style="color:#fff;"><%= link_to @profile.name, user_student_path(current_user, @student) %></span> </br>
-   <span style="color:#cbccce;"> next visit 12/14 </span>
- </div>
-
- <div class="col-xs-1">
-  <div id="orange" class="circle" style="margin-top: 18px;"></div>
-</div>
 </div>
 
 <hr class="style-four" style= "margin-top:5px; margin-bottom:5px;">
 <% end %>
 
-<%= link_to "view all", user_students_path(current_user), :style => "margin-left:100px" %>
-
 </div>
+
+<%= render :partial => 'students/new_client'%>
+

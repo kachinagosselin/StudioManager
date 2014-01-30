@@ -1,69 +1,82 @@
 <script type="text/javascript">
 $(document).ready(function() {
-$('#profile_photo_attributes_image').change(function() {
-  var value = $(this).val();
-  value = value.replace("C:\\fakepath\\","");
-  alert(value);
-$('#image').val(value);
-});
+  $('#profile_photo_attributes_image').change(function() {
+    var value = $(this).val();
+    value = value.replace("C:\\fakepath\\","");
+    alert(value);
+    $('#image').val(value);
+  });
 });
 </script>
 
+<!-- Rendering the settings navigation -->
 <% content_for :nav do %>
-  <%= render 'layouts/nav/settings' %>
+<%= render 'layouts/nav/settings' %>
 <% end %>
 
 <div class="col-xs-8 col-xs-offset-2">
-
   <h3 class="page-title"> Extend Profile </h3>
+  <hr>
 
-<hr>
-<%= form_for(current_user.profile) do |p| %>
+  <!-- Create form for a user profile -->
+  <%= form_for(current_user.profile) do |p| %>
   <div class="form-group">
-  <div class="row">
-  <div class="col-xs-6">
-    <p><%= p.label :description %><br />
-    <%=h p.text_area :description, :class => "form-control", :rows => 7 %></p>  
-  </div>
-  <div class="col-xs-6">
-    <%= p.fields_for :photo do |asset| %>
-    <p><%= asset.label :image, "Profile Photo" %><br />
-    <%= asset.file_field :image, :style=>"display:none" %>
-      <div class="input-group">
-      <%= text_field_tag "image", "#{current_user.profile.photo.image_file_name}", :class => "form-control"%>
-        <span class="input-group-btn"><button type="button" class="btn btn-default" onclick="$('#profile_photo_attributes_image').click();">Browse</button><span>
-      </div>
+    <div class="row">
+
+      <div class="col-xs-6">
+        <p><%= p.label :description %><br />
+          <%=h p.text_area :description, :class => "form-control", :rows => 7 %>
         </p>  
-    <% end %>
-    <p><%= p.label :Certification %><br />
-    <%= p.text_field :certification, :class => "form-control"%></p>
-    <% if !current_user.belongs_to_role?("professional", current_user) %>
-        <div class="checkbox">
-    <label>
-    <%= check_box_tag "add_professional_role", "yes", false, :class => "form-control" %>
-    <p style="padding-top:3px;"><strong>Create account to manage my professional services</strong></p>
-    </label>
-    </div>
-    </div>
+      </div>
 
-    <% else %>
-    <div class="checkbox">
-    <label>
-    <%= p.check_box :is_not_available %>
-    <p style="padding-top:3px;"><strong> I am not available to teach elsewhere at this time</strong></p>
-    </label>
-    </div>
-    <p class="help-block">Note: This will remove you from our database of instructors for hire.</p>
-  </div>
-</div>
-<hr>
+      <!-- Add section for images, made a nice browse bar -->
+      <div class="col-xs-6">
+        <%= p.fields_for :photo do |asset| %>
+        <p><%= asset.label :image, "Profile Photo" %><br />
+          <%= asset.file_field :image, :style=>"display:none" %>
+          <div class="input-group">
+            <%= text_field_tag "image", "#{current_user.profile.photo.image_file_name}", :class => "form-control"%>
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default" onclick="$('#profile_photo_attributes_image').click();">Browse</button>
+              <span>
+              </div>
+            </p>  
+            <% end %>
 
-<div class="row">
-<div class="col-xs-12" id="availability_table">
-       <h4>Set Your Availability</h4>
-       <hr>
-    <table class="table table-condensed">
-        <thead>
+            <p><%= p.label :Certification %><br />
+              <%= p.text_field :certification, :class => "form-control"%>
+            </p>
+
+            <!-- Allow user to specify themselves as a professional -->
+            <% if !current_user.belongs_to_role?("professional", current_user) %>
+            <div class="checkbox">
+              <label>
+                <%= check_box_tag "add_professional_role", "yes", false, :class => "form-control" %>
+                <p style="padding-top:3px;"><strong>Create account to manage my professional services</strong></p>
+              </label>
+            </div>
+          </div>
+
+          <% else %>
+          <!-- If user is a professional allow them to set general availability MAY HIDE FOR BETA -->
+          <div class="checkbox">
+            <label>
+              <%= p.check_box :is_not_available %>
+              <p style="padding-top:3px;"><strong> I am not available to teach elsewhere at this time</strong></p>
+            </label>
+          </div>
+          <p class="help-block">Note: This will remove you from our database of instructors for hire.</p>
+        </div>
+      </div>
+      <hr>
+
+      <!-- Form to set availability -->
+      <div class="row">
+        <div class="col-xs-12" id="availability_table">
+         <h4>Set Your Availability</h4>
+         <hr>
+         <table class="table table-condensed">
+          <thead>
             <tr>
               <th></th>
               <th>Monday</th>
@@ -74,38 +87,36 @@ $('#image').val(value);
               <th>Saturday</th>
               <th>Sunday</th>
             </tr>       
-        </thead>
-        <tbody>
-              <tr id ="start_availability">
+          </thead>
+          <tbody>
+            <!-- Add a row for start availability -->
+            <tr id ="start_availability">
               <td>Starting</td>
-                <% current_user.profile.availabilities.each do |availability| %>
-                <%= p.fields_for :availability_attributes, availability do |a| %>
+              <% current_user.profile.availabilities.each do |availability| %>
+              <%= p.fields_for :availability_attributes, availability do |a| %>
               <td><%= a.text_field :start_at, :class => "form_datetime schedule form-control", 'data-date-format'=>"H:ii p", :name => "profile[availability_attributes][" + availability.day_of_week.to_s + "][start_at]" %></td>
-                <% end %>
-                <% end %>
-              </tr>
+              <% end %>
+              <% end %>
+            </tr>
 
-              <tr id ="end_availability">
+            <!-- Add a row for end availability -->
+            <tr id ="end_availability">
               <td>Ending</td>
-                <% current_user.profile.availabilities.each do |availability| %>
-                <%= p.fields_for :availability_attributes, availability do |a| %>
+              <% current_user.profile.availabilities.each do |availability| %>
+              <%= p.fields_for :availability_attributes, availability do |a| %>
               <td><%= a.text_field :end_at, :class => "form_datetime schedule form-control", 'data-date-format'=>"H:ii p", :name => "profile[availability_attributes][" + availability.day_of_week.to_s + "][end_at]" %></td>
-                <% end %>
-                <% end %>
-              </tr>
-
-              </tr>
-
-
+              <% end %>
+              <% end %>
+            </tr>
+          </tr>
         </tbody>
-    </table>  
+      </table>  
 
-        <p class="help-block">Note: This will be used to indicate your availability in our instructor database, as well as for potential students of your private practice and services.</p>
-
-<% end %>
-<%= p.submit "Update", :class =>"submit-button btn btn-primary pull-right"%>
-</div>     
-</div>
+      <p class="help-block">Note: This will be used to indicate your availability in our instructor database, as well as for potential students of your private practice and services.</p>
+      <% end %>
+      <%= p.submit "Update", :class =>"submit-button btn btn-primary pull-right"%>
+    </div>     
+  </div>
 
 </div>
 <% end %>

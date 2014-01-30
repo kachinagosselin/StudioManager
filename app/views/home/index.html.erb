@@ -3,11 +3,7 @@
 <%= javascript_include_tag "fullcalendar.js" %>
 
 <% if user_signed_in? %>
-	<% if current_user.active_role.name == "staff" || current_user.active_role.name == "owner"%>
-	<%= render "home/dashboards/studio_dashboard" %>
-	<% else %>
 	<%= render "home/dashboards/#{current_user.active_role.name}_dashboard" %>
-	<% end %>
 <% else %>
 	<%= render 'landing_page' %>
 <% end %>

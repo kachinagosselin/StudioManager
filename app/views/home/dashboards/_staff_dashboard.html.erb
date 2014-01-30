@@ -1,0 +1,60 @@
+<% content_for :nav do %>
+  <%= render 'layouts/nav/main' %>
+<% end %>
+
+  <div class="col-xs-8 col-xs-offset-2">
+	<% if !current_user.account.present? %>
+
+
+<div class="zero">
+  <div class=""></div>
+  <div class="box box-rounded box-inset">
+    <div class="box-content">
+      <h3>Welcome to Your Studio Manager</h3><!-- Originally h6 -->
+      <div class="col-xs-8">
+      <p class="nm">To to use our full suite of services you need to register an account. There are a few steps to this process.</p>
+      </br>
+      <p> First add your credit card to start your free 14 day trial.</p>
+      <p> Next select either a professional or studio account.</br>
+        and connect your account to Stripe. Finally, once that is complete add in the details of your studio.</p>
+      </div>
+      <div class="col-xs-4 fr" style="margin-top:-135px;margin-left:20px;">
+      <%= link_to 'Create an Account', new_user_account_path(current_user.id),
+        :class => 'btn btn-primary btn-tall' ,  :data => {:toggle => "modal", :target => "#accountModal"} , :remote => true%>
+        </div>
+    </div>
+  </div>
+</div>
+
+
+         		<%= render 'accounts/new' %>
+    <% else %>
+     <% if !current_user.account.studio.present? %>
+    	 <%= link_to 'Create a Studio', edit_user_registration_path(), class: 'btn btn-mini', style: 'margin-top:-3px;' %>
+    <% else %>
+    <script> 
+$(document).ready(function() {
+    //NOTE that I am selecting on a class here
+
+$('#calendar').fullCalendar({
+  	defaultView: 'agendaDay',
+	header: {
+  	left: 'prev',
+  	center: '',
+  	right: 'next'
+	},
+    eventSources: [{
+          url: '<%= events_path() %>',
+        }],
+});
+});
+</script>
+    <% end %>
+    <% end %>
+
+
+      <h3>Schedule for this Afternoon</h3>
+  <div class="divider-horizontal-regular" style="margin-bottom:0px"></div>
+  <div id='dashboard-cal'>
+      <div id='calendar'></div>
+  </div>

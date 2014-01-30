@@ -1,38 +1,27 @@
-<% content_for :nav do %>
-  <%= render "layouts/nav/student" %>
-<% end %>
-
 <script> 
 $(document).ready(function() {
-
-    Gmaps.map.callback = function() {
-  for (var i = 0; i <  Gmaps.map.markers.length; ++i) {
-    marker = Gmaps.map.markers[i];
-    google.maps.event.addListener(
-     marker.serviceObject, 'click', (function(event, index) {
-    return function(){
-      m = Gmaps.map.markers[index];
-      document.getElementById('test').innerHTML = m.html;
-      $('#calendar').fullCalendar( 'addEventSource', m.events );
-      }
-    })(marker,i));
-
-  }
-}
-
+  document.getElementsByTagName('body')[0].id="landing"
 });
+
+function toggleID(id){
+  $(id).toggle();
+}
 </script>
 
-<div class="section" style="background-color: #395a6f;height:620px;margin-top:-15px;display:block;">
-  <div class="col-xs-10 col-xs-offset-1">
-		<h1 class="center"> The best software for </br> managing your studio space </h1>
-		<p class="header-subscript center"> Our product is comprehensive, straighforward and versatile. </br> It will serve you as a studio manager or independent professional.</p>
+<section id="landing-content">   
+
+  <h1 style="padding-top:50px">Let's get more personal</h1>
+  <div class="fade-box">
+
+    <p>
+      Do you hate the way business tools treat your customers like strangers? </br>
+      You're not alone. We understand you need personalized tools. </br>
+      WuWei provides client, event and payment management so you can grow.
+    </p>
 
 
+    <%= render "devise/registrations/beta" %>
+
+    <p class="faded"> Wuwei is in limited beta release. Sign up to get an invitation. </p>
   </div>
-
-
-</div>
-
-<div class="navbar navbar-inverse" style="color:black;border-radius:0px !important;margin-bottom:0px;padding-bottom:0px;height:50px;"  id="learn"></div>
-
+</section>

@@ -28,4 +28,13 @@ class Student < ActiveRecord::Base
 
 		return string
 	end
+
+	# Get student's last paid session
+
+	# Get student's next scheduled session
+
+	# Return string notifying approx date of next visit
+	def next_notification
+	return "next visit 12/14"
+	end
 end
