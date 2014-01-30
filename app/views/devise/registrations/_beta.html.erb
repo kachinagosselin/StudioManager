@@ -1,6 +1,10 @@
   <%= form_for("user", :url => user_registration_path, :html => {:class => 'form-vertical' }) do |form| %>
   <%= form.text_field :name, :placeholder => "Your Name", :autofocus => true, :required => true, :id => "user_name_register"%>
-  <%= form.text_field :email, :placeholder => "Email Address", :required => true, :id => "user_email_register"%>  
-  <%= form.submit "Sign up", :class => 'btn btn-submit btn-primary' %>
+  <%= form.text_field :email, :placeholder => "Email Address", :required => true, :id => "user_email_register"%> </br>
+    <%= form.password_field :password, :placeholder => "Password", :required => true, :id => "user_password_register"%>
+  <%= form.password_field :password_confirmation, :placeholder => "Password Confirmation", :required => true, :id => "user_passwordconfirm_register"%>
+</br>
+  <%= form.submit "Sign up", :class => 'btn btn-submit btn-primary', :style => "width:300px;"%>
   <% end %>
   
+
